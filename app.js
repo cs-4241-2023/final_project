@@ -21,8 +21,19 @@ let collectionName = ""
 const initDatabase = async () => {
     await dbClient.connect();
     collection = await dbClient.db(dbname).collection(collectionName);
+    if(collection !== null) {
+        return 0;
+    } else {
+        return -1;
+    }
 }
-initDatabase().then(() => console.log("Connecting to database..."));
+initDatabase().then((result) => {
+    if(result === 0) {
+        console.log("Connected to database");
+    } else {
+        console.error("Unable to connect to database")
+    }
+});
 
 
 
