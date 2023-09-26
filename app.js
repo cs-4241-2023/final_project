@@ -16,22 +16,18 @@ const url =
 
 const dbClient = new MongoClient(url);
 
-// TODO: Add more connections as need
-let collection = null;
-
-// TODO: Add more db names and collection names as needed
-let dbname = "RendezViewDatabase";
-let collectionName = "TestCollection"
+let usersCollection = null;
 
 const initDatabase = async () => {
     await dbClient.connect();
-    collection = await dbClient.db(dbname).collection(collectionName);
-    if(collection !== null) {
+    usersCollection = await dbClient.db( "RendezViewDatabase").collection("Users");
+    if(usersCollection !== null) {
         return 0;
     } else {
         return -1;
     }
 }
+
 initDatabase().then((result) => {
     if(result === 0) {
         console.log("Connected to database");
@@ -41,7 +37,7 @@ initDatabase().then((result) => {
 });
 
 app.use((request, response, next)  => {
-    if(collection !== null) {
+    if(usersCollection !== null) {
         next();
     } else {
         response.sendStatus(503); // send 503 on database disconnect
@@ -54,5 +50,9 @@ app.use(cookie({
     keys: ["key1", "key2"]
 }));
 
+app.get("/get-users", async (request, response) => {
+    let result = await usersCollection.find({}).toArray();
+    response.send(result)
+});
 
-
+app.listen(3000); // listen on port 3000
