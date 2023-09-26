@@ -1,7 +1,7 @@
-import express from "express"
+import express, {request, response} from "express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
-import env from "dotenv"
+import "dotenv"
 
 const app = express();
 
@@ -14,7 +14,11 @@ const url =
     process.env.DB_HOST;
 
 const dbClient = new MongoClient(url);
+
+// TODO: Add more connections as need
 let collection = null;
+
+// TODO: Add more db names and collection names as needed
 let dbname = "";
 let collectionName = ""
 
@@ -34,6 +38,20 @@ initDatabase().then((result) => {
         console.error("Unable to connect to database")
     }
 });
+
+app.use((request, response, next)  => {
+    if(collection !== null) {
+        next();
+    } else {
+        response.sendStatus(503); // send 503 on database disconnect
+    }
+});
+
+app.use(express.json());
+app.use(cookie({
+    name: "session",
+    keys: ["key1", "key2"]
+}));
 
 
 
