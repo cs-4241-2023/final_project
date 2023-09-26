@@ -1,17 +1,18 @@
 import express, {request, response} from "express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
-import "dotenv"
-
+import env from "dotenv"
 const app = express();
+
+env.config();
 
 const url =
     "mongodb+srv://" +
-    process.env.DB_USERNAME +
+    process.env.MONGO_USER +
     ":" +
-    process.env.DB_PASSWORD +
+    process.env.MONGO_PASSWORD +
     "@" +
-    process.env.DB_HOST;
+    process.env.MONGO_HOST;
 
 const dbClient = new MongoClient(url);
 
@@ -19,8 +20,8 @@ const dbClient = new MongoClient(url);
 let collection = null;
 
 // TODO: Add more db names and collection names as needed
-let dbname = "";
-let collectionName = ""
+let dbname = "RendezViewDatabase";
+let collectionName = "TestCollection"
 
 const initDatabase = async () => {
     await dbClient.connect();
