@@ -7,13 +7,7 @@ const app = express();
 
 env.config();
 
-const url =
-    "mongodb+srv://" +
-    process.env.MONGO_USER +
-    ":" +
-    process.env.MONGO_PASSWORD +
-    "@" +
-    process.env.MONGO_HOST;
+const url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}`;
 
 const dbClient = new MongoClient(url);
 
@@ -56,4 +50,4 @@ app.get("/get-users", async (request, response) => {
     response.send(result)
 });
 
-ViteExpress.listen(app, 3000)
+ViteExpress.listen(app, parseInt(process.env.PORT))
