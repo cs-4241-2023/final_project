@@ -1,4 +1,5 @@
 import express, {request, response} from "express"
+import ViteExpress from "vite-express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
 import env from "dotenv"
@@ -55,4 +56,4 @@ app.get("/get-users", async (request, response) => {
     response.send(result)
 });
 
-app.listen(3000); // listen on port 3000
+ViteExpress.listen(app, 3000)
