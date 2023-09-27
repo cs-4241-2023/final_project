@@ -1,4 +1,4 @@
-# RendezView
+# RendezView by: Samuel Karkache, Brandon Vuong, Randy Huang, Sameer Desai 
 
 ## Improved Scheduling for Project Work
 
