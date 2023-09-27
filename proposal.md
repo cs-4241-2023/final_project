@@ -12,12 +12,12 @@ We will use React as our main frontend framework as well as the Canvas API in or
 
 Key technologies and libraries:
 
-Vite
-React
-Canvas API
-Node
-Express
-MongoDB
-[WordsAPI](https://www.wordsapi.com/)
-[NaturalNode](https://github.com/NaturalNode/natural)
-[wordnet-db](https://github.com/moos/wordnet-db)
+- Vite
+- React
+- Canvas API
+- Node
+- Express
+- MongoDB
+- [WordsAPI](https://www.wordsapi.com/)
+- [NaturalNode](https://github.com/NaturalNode/natural)
+- [wordnet-db](https://github.com/moos/wordnet-db)
