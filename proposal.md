@@ -14,11 +14,11 @@ We have 2 ideas, we want to get your feedback on which will be more doable in th
 2. WAVRunner: A spin-off of the popular platformer game, Geometry Dash, where instead of a player completing pre-generated levels, they can upload an audio file of their choice.
 - Based on that audio file, we will use libraries meant for audio metadata extraction to procedurally generate obstacles in a linear course.
     - Tech Stack / Libaries:
-        a.  Stack:
-            1. React
-        b.  Audio Info Extraction
-            1. Meyda
-            2. Essentia
+        - Stack:
+            - React
+        - Audio Info Extraction
+            - Meyda
+            - Essentia
 - Size limits would be enforced to ensure the quality of play is maintained, and those limitations would be enforced based on the mode of upload.
     - For audio extracted from a YouTube video link
         - Rely on YouTube's API to check the length against a pre-defined maximum.
