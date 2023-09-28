@@ -5,7 +5,7 @@ For your final project, you'll implement a web application that exhibits underst
 This project should provide an opportunity to both be creative and to pursue individual research and learning goals.
 
 ## General description
-Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material:
+Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material: 
 
 - Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
 - Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
@@ -13,7 +13,7 @@ Your project should consist of a complete Web application, exhibiting facets of 
 - A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) The video should be posted on YouTube or some other accessible video hosting service. Make sure your video is less than five minutes, but long enough to successfully  explain your project and show it in action. There is no minimum video length.
 
 ## Project ideation
-Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have impact, either artistically, politically, or in terms of productivity. 
+Our stakeholders include college students who wish to have a collaborative calendar to keep up with events and connect socially. 
 
 ### Deliverables
 
