@@ -10,7 +10,7 @@ app.use(express.json()); // requests with json data
 
 // Connect to mongodb
 require('dotenv').config({ path: __dirname+'/.env' });
-const uri = "mongodb+srv://anselychang:" + process.env.MONGODB_PASSWORD + "@ansel.musopg0.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://" + process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD + "@cluster0.rddihge.mongodb.net/?retryWrites=true&w=majority";
 console.log(uri);
 mongoose.connect(uri, { 
   useNewUrlParser: true, 
