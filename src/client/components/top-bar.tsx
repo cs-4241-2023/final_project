@@ -10,9 +10,6 @@ background-color: ${COLOR_THEME.TOPBAR};
 color: white;
 height: 80px;
 width: 100%; // Ensure it spans the entire width of the viewport
-position: fixed; // Keep it at the top regardless of scrolling
-top: 0; // Position it at the top of the viewport
-left: 0; // Align it to the left of the viewport
 box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
 z-index: 1000; // Ensure it stacks on top of other elements
 `;
