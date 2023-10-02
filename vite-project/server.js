@@ -16,13 +16,7 @@ headliningartists: [{artist: 'Limp Bizkit', setlist: ['My Generation', 'Counterf
 supportingartists: [{artist: 'Taylor Swift', setlist: ['Love Story', 'You Belong With Me']}]}}
 */
 
-const user = {username: 'john', password: 'pw', 
-musictour: {tourname: 'Judgement Day', 
-tourduration: 50, 
-tourlocations: [{country: 'US', state: 'New York', venue: 'Madison Square Garden', date: '12-20-2023'}],
-targetaudiences: [{agerange: '15-30', favoritegenres: ['Rock', 'Pop']}],
-headliningartists: [{artist: 'Limp Bizkit', setlist: ['My Generation', 'Counterfeit']}],
-supportingartists: [{artist: 'Taylor Swift', setlist: ['Love Story', 'You Belong With Me']}]}}
+let user = {}
 
 app.get('/read', (req, res) => res.json(user))
 
