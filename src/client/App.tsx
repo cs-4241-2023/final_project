@@ -3,7 +3,6 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import TopBar from "./components/main-layout";
 import styled from "styled-components";
-import Content from "./components/content";
 import MainLayout from "./components/main-layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HabitPage from "./components/habit-page/habit-page";
@@ -24,7 +23,7 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/habit/:profile" element={<MainLayout content={<HabitPage />} />} />
+          <Route path="/habit/:habitID" element={<MainLayout content={<HabitPage />} />} />
           <Route path="/home" element={<MainLayout content={<HomePage />} />} />
           <Route path="*" element={<LoginPage />} />
         </Routes>

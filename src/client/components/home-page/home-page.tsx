@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-const profiles = ["Adam", "Bob", "Charlie"]
+const habits = ["Habit 1", "Habit 2", "Habit 3"]
 
 const HomePage: FC = () => {
 
@@ -10,7 +10,7 @@ const HomePage: FC = () => {
         <p>Home Page</p>
         
         {
-            profiles.map((profile) => (<p><Link to={"/habit/"+profile}>{profile}</Link></p>))
+            habits.map((habit) => (<p><Link to={"/habit/"+habit}>{habit}</Link></p>))
         }
     </>
 };

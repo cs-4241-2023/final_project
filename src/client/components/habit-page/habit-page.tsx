@@ -4,11 +4,11 @@ import { Link, useParams } from "react-router-dom";
 
 const HabitPage: FC = () => {
 
-    const { profile } = useParams();
+    const { habitID } = useParams();
 
     return <>
-    <p>Habit Page for: {profile}</p>
-    <Link to="/">Home</Link>
+    <p>Habit Page for: {habitID}</p>
+    <Link to="/home">Home</Link>
     </>
 }
     
