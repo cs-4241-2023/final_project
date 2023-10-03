@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-import { COLOR_THEME } from '../color-theme';
+import { Title } from './css-components/title';
+import { COLOR_THEME, FONT_THEME } from '../themes';
 
 const TopBar = styled.div`
 display: flex;
@@ -14,10 +15,6 @@ box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
 z-index: 1000; // Ensure it stacks on top of other elements
 `;
 
-const Title = styled.h1`
-  font-size: 60px;
-  font-family: 'Road Rage';
-`;
 
 const ContentContainer = styled.div`
   flex-grow: 1; // Allow this component to grow and occupy the available space
@@ -34,7 +31,6 @@ interface MainLayoutProps {
 const MainLayout: FC<MainLayoutProps> = ({ content }) => (
   <>
     <TopBar>
-      <link href='https://fonts.googleapis.com/css?family=Road Rage' rel='stylesheet'></link>
       <Title>DailyDive</Title>
     </TopBar>
     <ContentContainer>

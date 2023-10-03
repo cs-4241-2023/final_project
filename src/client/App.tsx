@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HabitPage from "./components/habit-page/habit-page";
 import LoginPage from "./components/login-page/login-page";
 import HomePage from "./components/home-page/home-page";
+import { AuthType } from "./models/enums";
 
 const AppContainer = styled.div`
   display: flex;
@@ -25,7 +26,8 @@ function App() {
         <Routes>
           <Route path="/habit/:habitID" element={<MainLayout content={<HabitPage />} />} />
           <Route path="/home" element={<MainLayout content={<HomePage />} />} />
-          <Route path="*" element={<LoginPage />} />
+          <Route path="/register" element={<LoginPage authType={AuthType.SIGNUP}/>} />
+          <Route path="*" element={<LoginPage authType={AuthType.LOGIN}/>} />
         </Routes>
       </BrowserRouter>
       
