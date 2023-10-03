@@ -1,8 +1,6 @@
+import mongoose, { Schema } from "mongoose";
+
 // Schema for a DailyDive user
-
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
 const userSchema = new Schema({
     username: {
         type: String,
@@ -12,7 +10,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    totalLoggedDays: {
+        type: Number,
+        required: true,
+    },
 });
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+export default User;
