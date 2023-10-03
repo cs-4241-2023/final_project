@@ -1,9 +1,14 @@
 import { useState } from "react";
 
 import reactLogo from "./assets/react.svg";
-import TopBar from "./components/top-bar";
+import TopBar from "./components/main-layout";
 import styled from "styled-components";
 import Content from "./components/content";
+import MainLayout from "./components/main-layout";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HabitPage from "./components/habit-page/habit-page";
+import LoginPage from "./components/login-page/login-page";
+import HomePage from "./components/home-page/home-page";
 
 const AppContainer = styled.div`
   display: flex;
@@ -16,8 +21,15 @@ function App() {
 
   return (
     <AppContainer>
-      <TopBar title="DailyDive"/>
-      <Content>tesasdfsdfdsfsdfsdfst</Content>
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/habit/:profile" element={<MainLayout content={<HabitPage />} />} />
+          <Route path="/home" element={<MainLayout content={<HomePage />} />} />
+          <Route path="*" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+      
     </AppContainer>
   );
 }

@@ -5,7 +5,7 @@ import { COLOR_THEME } from '../color-theme';
 import HomePage from './home-page/home-page';
 import HabitPage from './habit-page/habit-page';
 
-const Container = styled.div`
+const ContentContainer = styled.div`
   flex-grow: 1; // Allow this component to grow and occupy the available space
   overflow-y: auto; // Add scroll if content overflows
   width: 100%;
