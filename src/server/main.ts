@@ -21,6 +21,8 @@ const auth = new Authentication(app, database);
 async function parseUserHabit(includeOutcomes: boolean, userID: string, habitID: string, currentDay: Day): Promise<UserHabit> {
   let userHabit = new UserHabit();
 
+  userHabit.name = "Test Habit";
+
   return userHabit;
 }
 
@@ -36,7 +38,8 @@ async function parseUserInfo(userID: string, currentDay: Day): Promise<UserInfo>
 
   userInfo.percentSuccessWeek = -1; // TODO: calculate this
 
-  userInfo.percentSuccessLifetime = user.successes / (user.successes + user.fails);
+  let sum = user.totalSuccesses + user.totalFails;
+  userInfo.percentSuccessLifetime = (sum === 0) ? 0 : (user.totalSuccesses / sum);
   
   return userInfo;
 }

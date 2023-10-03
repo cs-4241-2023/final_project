@@ -1,11 +1,12 @@
 import express, { Express } from "express";
 import session, { SessionOptions } from "express-session";
 import { Database } from "./database";
+import mongoose from "mongoose";
 
 // Declare that the session will contain a username
 declare module 'express-session' {
     interface SessionData {
-      username?: string;
+      userID?: mongoose.Types.ObjectId;
     }
   }
 
@@ -41,7 +42,7 @@ export class Authentication {
             }
         
             console.log('User logged in successfully');
-            req.session.username = username; // store username in session
+            req.session.userID = user._id; // store userID in session
             return {status: 200, message: 'User loged in successfully'};
         
           } catch (error) {
@@ -62,8 +63,8 @@ export class Authentication {
             }
         
             console.log('Creating new user');
-            await this.database.createUser(username, password);
-            req.session.username = username; // store username in session
+            let userID = await this.database.createUser(username, password);
+            req.session.userID = userID; // store userID in session
             return {status: 200, message: 'User created successfully'};
         
           } catch (error) {
@@ -85,11 +86,11 @@ export class Authentication {
     }
 
     public isLoggedIn(req: express.Request): boolean {
-        return req.session.username !== undefined;
+        return req.session.userID !== undefined;
     }
 
-    public getUsername(req: express.Request): string | undefined {
-        return req.session.username;
+    public getUsername(req: express.Request): mongoose.Types.ObjectId | undefined {
+        return req.session.userID;
     }
 
 }

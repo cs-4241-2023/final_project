@@ -27,21 +27,53 @@ export class Database {
     }
 
     public async getUserByUsername(username: string): Promise<{
+        _id: mongoose.Types.ObjectId,
         username: string,
         password: string,
-        successes: number,
-        fails: number,
+        totalSuccesses: number,
+        totalFails: number,
         totalLoggedDays: number} | null> {
         return await DBUser.findOne({ username });
     }
 
-    public async createUser(username: string, password: string) {
+    public async createUser(username: string, password: string): Promise<mongoose.Types.ObjectId> {
         const user = new DBUser({ username, password, totalLoggedDays: 0 });
         await user.save();
+        return user._id;
     }
 
+    // get habit name and description by habitID
+    public async getHabitByID(habitID: mongoose.Types.ObjectId): Promise<{
+        name: string,
+        description: string } | null>
+    {
+        const record = await DBHabit.findOne({ _id: habitID });
+
+        if (record === null) throw new Error("Habit not found");
+        else return { name: record.name, description: record.description };
+    }
+
+    // return a list of HabitIDs for a given user
+    public async getAllHabitsForUser(userID: mongoose.Types.ObjectId): Promise<mongoose.Types.ObjectId[]> {
+        const records = await DBUserHabit.find({ userID: userID });
+        return records.map(record => record.habitID);
+    }
+
+    // get habit stats for a user by userID and habitID
+    public async getUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId): Promise<{
+        totalSuccesses: number,
+        totalFails: number,
+        numLoggedDays: number } | null>
+    {
+        const record = await DBUserHabit.findOne({ userID: userID, habitID: habitID });
+
+        if (record === null) throw new Error("UserHabit not found");
+        else return { totalSuccesses: record.totalSuccesses, totalFails: record.totalFails, numLoggedDays: record.numLoggedDays };
+    }
+
+
     // return the current outcome for a habit on a given day
-    public async findHabitOutcomeOnDay(userID: string, habitID: string, day: Day): Promise<Outcome> {
+    public async findHabitOutcomeOnDay(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day): Promise<Outcome> {
         const record = await DBHabitOutcome.findOne({
             userID: userID,
             habitID: habitID,
@@ -55,7 +87,7 @@ export class Database {
     }
 
     // how many total outcomes across ALL of a user's habits on a given day
-    public async howManyHabitsLoggedOnDay(userID: string, day: Day): Promise<number> {
+    public async howManyHabitsLoggedOnDay(userID: mongoose.Types.ObjectId, day: Day): Promise<number> {
         const records = await DBHabitOutcome.find({
             userID: userID,
             year: day.year,
@@ -67,7 +99,7 @@ export class Database {
     }
 
     // delete the outcome for a habit on a given day without updating statistics
-    private async _deleteHabitOutcomeOnDay(userID: string, habitID: string, day: Day) {
+    private async _deleteHabitOutcomeOnDay(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day) {
         const result = await DBHabitOutcome.findOneAndDelete({
             userID: userID,
             habitID: habitID,
@@ -80,7 +112,7 @@ export class Database {
     }
 
     // set the outcome for a habit on a given day without updating statistics
-    private async _setHabitOutcomeOnDay(userID: string, habitID: string, day: Day, outcome: Outcome) {
+    private async _setHabitOutcomeOnDay(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day, outcome: Outcome) {
 
         if (outcome === Outcome.NONE) throw new Error("Outcome cannot be NONE");
 
@@ -100,7 +132,7 @@ export class Database {
     // update totalSuccesses/totalFails in UserInfo/UserHabit
     // update numLoggedDays in UserInfo/UserHabit IF new day
 
-    public async setHabitOutcome(userID: string, habitID: string, day: Day, outcome: Outcome) {
+    public async setHabitOutcome(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day, outcome: Outcome) {
 
         const prevOutcome = await this.findHabitOutcomeOnDay(userID, habitID, day);
         if (prevOutcome === outcome) return; // no change
