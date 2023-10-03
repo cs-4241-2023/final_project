@@ -29,13 +29,23 @@ font-size: 20px;
 `
 
 interface TextFieldProps {
-  inputID: string;
+  value: string,
+  setValue: (value: string) => void;
   placeholder: string;
   hideText: boolean;
 }
 
-const TextField: FC<TextFieldProps> = ({ inputID, placeholder, hideText }) => (
-  <Input type={hideText ? "password" : "text"} id={inputID} placeholder={placeholder} />
-);
+function TextField({value, setValue, placeholder, hideText}: TextFieldProps) {
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
+    };
+
+    return <Input
+                type={hideText ? "password" : "text"}
+                placeholder={placeholder}
+                value={value} onChange={handleChange}
+                 />
+}
 
 export default TextField;

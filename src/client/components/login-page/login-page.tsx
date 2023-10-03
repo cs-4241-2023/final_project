@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthType } from "../../models/enums";
 import styled from "styled-components";
 import TextField from "./text-field";
@@ -7,13 +7,14 @@ import TextField from "./text-field";
 import "./login-page.css"
 import { Title } from "../css-components/title";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
+import React from "react";
+import { fetchServer } from "../../scripts/fetch-server";
 
 const SubmitButton = styled.button`
 background-color: ${COLOR_THEME.LOGIN_BACKGROUND};
 border: 3px solid ${COLOR_THEME.TEXT};
 color: ${COLOR_THEME.TEXT};
 font-family: ${FONT_THEME.BUTTON_FONT};
-top-margin: 2vh;
 `
 
 const LoginStyle = styled.div`
@@ -40,6 +41,12 @@ font-family: ${FONT_THEME.BUTTON_FONT};
 color: ${COLOR_THEME.TEXT};
 `
 
+const Message = styled.p`
+color: red;
+line-height: 0;
+font-size: 12px;
+`
+
 const Spacer = styled.div`
 
 `
@@ -53,16 +60,40 @@ interface LoginProps {
 }
 
 
+
+
+
 const LoginPage: FC<LoginProps> = ({ authType }) => {
+
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    const [error, setError] = React.useState("");
+
+    const onSubmit = async () => {
+
+        const response = await fetchServer(authType === AuthType.LOGIN ? "/login" : "/signup", {username: username, password: password});
+        
+        if (response.status === 200) { // sucessful login, go to home page
+            useNavigate()('/home');
+
+        } else { // display error message
+            setError(response.content.message);
+        }
+    };
+
 
     return <LoginStyle>
         <Spacer style={{height: "15vh"}}/>
         <section id = "welcomeText"><h1>{authType === AuthType.LOGIN ? "Your motivation begins here." : "Create your DailyDive Account!"}</h1></section>
         <Spacer style={{height: "15vh"}}/>
         <LoginBody>
-            <TextField inputID="username" placeholder="Username" hideText={false}></TextField>
-            <TextField inputID="password" placeholder="Password" hideText={authType === AuthType.LOGIN}></TextField>
-            <SubmitButton id = "submit">{authType === AuthType.LOGIN ? "Login" : "Create Account"}</SubmitButton>
+            <TextField value={username} setValue={setUsername} placeholder="Username" hideText={false}></TextField>
+            <div>
+                <TextField value={password} setValue={setPassword} placeholder="Password" hideText={authType === AuthType.LOGIN}></TextField>
+                <Message>{error}</Message>
+            </div>
+            <SubmitButton id = "submit" onClick={onSubmit} >{authType === AuthType.LOGIN ? "Login" : "Create Account"}</SubmitButton>
             <Link to={authType === AuthType.LOGIN ? "/register" : "/"} id="switchAuth"><LinkText>{authType === AuthType.LOGIN ? "Or create an account..." : "Already a user? Log in."}</LinkText></Link>
         </LoginBody>
         <Spacer style={{height: "20vh"}}/>
