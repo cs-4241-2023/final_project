@@ -21,3 +21,15 @@ export class UserInfo {
     percentSuccessLifetime?: number = -1;
     habits: UserHabit[] = [];
 }
+
+export class Day {
+    year: number = -1;
+    month: number = -1;
+    day: number = -1;
+    
+    constructor(year: number, month: number, day: number) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+}
