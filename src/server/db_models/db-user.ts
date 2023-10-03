@@ -10,6 +10,14 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    totalSuccesses: {
+        type: Number,
+        required: true,
+    },
+    totalFails: {
+        type: Number,
+        required: true,
+    },
     totalLoggedDays: {
         type: Number,
         required: true,

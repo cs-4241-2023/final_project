@@ -25,7 +25,12 @@ export class Database {
         );
     }
 
-    public async getUserByUsername(username: string): Promise<{username: string, password: string, totalLoggedDays: number} | null> {
+    public async getUserByUsername(username: string): Promise<{
+        username: string,
+        password: string,
+        successes: number,
+        fails: number,
+        totalLoggedDays: number} | null> {
         return await User.findOne({ username });
     }
 

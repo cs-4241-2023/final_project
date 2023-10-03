@@ -1,23 +1,23 @@
 export class HabitOutcome {
-    year?: number;
-    month?: number;
-    day?: number;
-    isSuccess?: boolean;
+    year: number = -1;
+    month: number = -1;
+    day: number = -1;
+    isSuccess: boolean = false;
 }
 
 export class UserHabit {
-    name?: string;
-    description?: string;
-    numLoggedDays?: number;
-    percentSuccessWeek?: number;
-    percentSuccessLifetime?: number;
-    outcomes?: HabitOutcome[];
+    name: string = "[Error]";
+    description: string = "[Error]";
+    numLoggedDays: number = -1;
+    percentSuccessWeek: number = -1;
+    percentSuccessLifetime: number = -1;
+    outcomes: HabitOutcome[] = [];
 }
 
 export class UserInfo {
-    username?: string;
-    numLoggedDays?: number;
-    percentSuccessWeek?: number;
-    percentSuccessLifetime?: number;
-    habits?: UserHabit[];
+    username: string = "[Error]";
+    numLoggedDays: number = -1;
+    percentSuccessWeek: number = -1;
+    percentSuccessLifetime?: number = -1;
+    habits: UserHabit[] = [];
 }

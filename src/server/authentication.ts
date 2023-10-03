@@ -71,4 +71,25 @@ export class Authentication {
           }
     }
 
+    public logout(req: express.Request, res: express.Response): Promise<{ status: number; message: string }> {
+        return new Promise((resolve, reject) => {
+            req.session.destroy((err) => {
+                if (err) {
+                    reject({ status: 500, message: 'Internal Server Error' });
+                    return;
+                }
+                res.clearCookie('sid');
+                resolve({ status: 200, message: 'User logged out successfully' });
+            });
+        });
+    }
+
+    public isLoggedIn(req: express.Request): boolean {
+        return req.session.username !== undefined;
+    }
+
+    public getUsername(req: express.Request): string | undefined {
+        return req.session.username;
+    }
+
 }

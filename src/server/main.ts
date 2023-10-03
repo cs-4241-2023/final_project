@@ -2,7 +2,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { UserInfo } from "./models";
+import { UserHabit, UserInfo } from "./models";
 import { Authentication } from "./authentication";
 import { Database } from "./database";
 
@@ -20,14 +20,27 @@ const database = new Database();
 
 const auth = new Authentication(app, database);
 
+async function parseUserHabit(includeOutcomes: boolean): Promise<UserHabit> {
+  let userHabit = new UserHabit();
 
+  return userHabit;
+}
 
-function parseUserInfo(userID: string, currentYear: number, currentMonth: number, currentDay: number): UserInfo {
-  let result = new UserInfo();
+async function parseUserInfo(userID: string, currentYear: number, currentMonth: number, currentDay: number): UserInfo {
+  let userInfo = new UserInfo();
 
+  const user = (await database.getUserByUsername(userID));
 
+  if (user === null) throw new Error("User not found");
+
+  userInfo.username = user.username;
+  userInfo.numLoggedDays = user.totalLoggedDays;
+
+  userInfo.percentSuccessWeek = -1; // TODO: calculate this
+
+  userInfo.percentSuccessLifetime = user.successes / (user.successes + user.fails);
   
-  return result;
+  return userInfo;
 }
 
 
