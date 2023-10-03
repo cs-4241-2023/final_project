@@ -13,6 +13,7 @@ background-color: ${COLOR_THEME.LOGIN_BACKGROUND};
 border: 3px solid ${COLOR_THEME.TEXT};
 color: ${COLOR_THEME.TEXT};
 font-family: ${FONT_THEME.BUTTON_FONT};
+top-margin: 2vh;
 `
 
 const LoginStyle = styled.div`
