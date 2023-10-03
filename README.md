@@ -1,3 +1,5 @@
+To run with auto server reloading, run 'npm run express'
+
 # Final Project
 *Due October 13th (final day of the term)*
 
