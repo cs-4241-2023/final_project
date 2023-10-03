@@ -12,5 +12,5 @@ const habitSchema = new Schema({
     },
 });
 
-const Habit = mongoose.model('Habit', habitSchema);
-export default Habit;
+const DBHabit = mongoose.model('DBHabit', habitSchema);
+export default DBHabit;

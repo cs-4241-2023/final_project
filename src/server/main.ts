@@ -41,18 +41,33 @@ async function parseUserInfo(userID: string, currentDay: Day): Promise<UserInfo>
   return userInfo;
 }
 
-app.get("/login", (req, res) => {
+app.post("/login", async (req, res) => {
 
-  auth.login(req.body.username, req.body.password, req, res).then((result) => {
-    res.status(result.status).json({message: result.message});
-  });
+  const result = await auth.login(req.body.username, req.body.password, req, res);
+  res.status(result.status).json({message: result.message});
+
 });
 
-app.get("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
 
-  auth.signup(req.body.username, req.body.password, req, res).then((result) => {
-    res.status(result.status).json({message: result.message});
-  });
+  const result = await auth.signup(req.body.username, req.body.password, req, res);
+  res.status(result.status).json({message: result.message});
+  
+});
+
+app.post("/habitoutcome", async (req, res) => {
+
+  if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
+    res.redirect('/');
+    return;
+  }
+
+  const data = req.body;
+  const {userID, habitID, year, month, day, outcome} = data;
+
+  await database.setHabitOutcome(userID, habitID, new Day(year, month, day), outcome);
+  res.status(200).json({message: "Habit outcome set successfully"});
+
 });
 
 
@@ -83,6 +98,7 @@ app.get("/userhabit", (req, res) => {
   let output = parseUserHabit(true, userID, habitID, new Day(currentYear, currentMonth, currentDay));
   res.status(200).json(output);
 });
+
 
 database.connect(username!, password!, () => 
   ViteExpress.listen(app, 3000, () => console.log("Server is listening on port 3000..."))

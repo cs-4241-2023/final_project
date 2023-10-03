@@ -31,5 +31,5 @@ const habitOutcomeSchema = new Schema({
 
 });
 
-const HabitOutcome = mongoose.model('HabitOutcome', habitOutcomeSchema);
-export default HabitOutcome;
+const DBHabitOutcome = mongoose.model('DBHabitOutcome', habitOutcomeSchema);
+export default DBHabitOutcome;
