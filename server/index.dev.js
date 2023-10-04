@@ -1,8 +1,13 @@
 const express = require('express');
 const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 const { createServer: createViteServer } = require('vite');
 const dotenv = require('dotenv');
 const path = require('path');
+
+const { storageService } = require('./services/storage.service');
 
 dotenv.config();
 
@@ -17,6 +22,52 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+    async (username, password, done) => {
+        const user = await storageService.findUserByUsername(username);
+        if (!user) {
+            return done(null, false, { message: 'User not found' });
+        }
+        const isValidPassword = bcrypt.compareSync(password, user.hashedPassword);
+        if (!isValidPassword) {
+            return done(null, false, { message: 'Invalid password' });
+        }
+        return done(null, user);
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user._id);
+});
+
+passport.deserializeUser(async (id, done) => {
+    const user = await storageService.findUserById(id);
+    done(null, user);
+});
+
+app.post('/login', passport.authenticate('local'), (req, res) => {
+    res.json(req.user);
+});
+
+app.post('/register', async (req, res) => {
+    const { username, password, confirmPassword } = req.body;
+    if (password !== confirmPassword) {
+        return res.status(400).send('Passwords do not match');
+    }
+    const existingUser = await storageService.findUserByUsername(username);
+    if (existingUser) {
+        return res.status(400).send('Username already taken');
+    }
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const user = await storageService.createUser(username, hashedPassword);
+    req.login(user, err => {
+        if (err) { return res.status(500).send(err.message); }
+        return res.json(user);
+    });
+});
 
 
 async function createViteServerMiddleware() {

@@ -42,33 +42,6 @@ class StorageService {
         const user = await db.collection('users').findOne({ _id: new ObjectId(id) });
         return user;
     }
-
-    async createTask(taskData) {
-        const db = this.client.db(db_name);
-        const result = await db.collection('tasks').insertOne(taskData);
-
-        const newTask = await db.collection('tasks').findOne({ _id: result.insertedId });
-        return newTask
-    }
-
-    async getTasks(userId) {
-        const db = this.client.db(db_name);
-        const tasks = await db.collection('tasks').find({ userId: new ObjectId(userId) }).toArray();
-        return tasks;
-    }
-
-    async updateTask(taskId, taskData) {
-        const db = this.client.db(db_name);
-        await db.collection('tasks').updateOne({ _id: new ObjectId(taskId) }, { $set: taskData });
-        const updatedTask = await db.collection('tasks').findOne({ _id: new ObjectId(taskId) });
-        return updatedTask;
-    }
-
-    async deleteTask(taskId) {
-        const db = this.client.db(db_name);
-        const result = await db.collection('tasks').deleteOne({ _id: new ObjectId(taskId) });
-        return result.deletedCount; // This will be 1 if the deletion was successful, and 0 otherwise.
-    }
 }
 
 module.exports = { storageService: new StorageService() };
