@@ -1,6 +1,9 @@
 import "./css/App.css";
+import React from "react";
 
 function App() {
+
+  const [collectionData, setCollectionData] = React.useState([]);
 
   async function getCurrentCollection(collectionName) {
     let result = await fetch("/get-collection", {
@@ -10,9 +13,10 @@ function App() {
     });
     if(result.status !== 404) {
       let data = await result.json();
-      console.log(data)
+      setCollectionData(data)
     } else {
       console.log("404: Collection Not Found!")
+      setCollectionData([])
     }
   }
 

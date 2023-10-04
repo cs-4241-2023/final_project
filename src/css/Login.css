@@ -1,0 +1,20 @@
+input {
+    display: block;
+    width: 30%;
+    margin: 10px 35%;
+}
+
+input[type="text"], input[type="password"] {
+    font-family: Consolas, serif;
+    padding: 10px;
+    border-radius: 10px;
+    outline: solid transparent;
+    box-shadow: none;
+    border: none;
+    transition: 0.3s;
+}
+
+input[type="text"]:hover, input[type="password"]:hover {
+    outline: solid #535bf2;
+}
+
