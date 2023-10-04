@@ -50,10 +50,10 @@ app.get("/get-users", async (request, response) => {
     response.send(result)
 });
 
-app.get("/get-collection", async (request, response) => {
+app.post("/get-collection", async (request, response) => {
     let requestedCollection = null;
     allCollections.forEach(collection => {
-       if(collection.namespace === `RendezViewDatabase${request.body.requestedCollection}`) {
+       if(collection.namespace === `RendezViewDatabase.${request.body.requestedCollection}`) {
            requestedCollection = collection;
        }
    })
@@ -62,7 +62,6 @@ app.get("/get-collection", async (request, response) => {
         let data = await requestedCollection.find({}).toArray();
         response.writeHead(200, {"Content-Type": "application/json"});
         response.end(JSON.stringify(data));
-
     } else {
         response.sendStatus(404);
     }
