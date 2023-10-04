@@ -54,12 +54,94 @@ app.use((req, res, next) => {
   }
 })
 
-app.post('/userCreation', async (req, res) => {
+//User data operations and helper functions:
 
+//Server-side form validation for username and password
+
+function userInputHasMissingField(un, pw) {
+  if(un.trim().length === 0 || pw.trim().length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function getFirstIndexOfWhiteSpaceInString(inputString) { //The indexOf() method returns the position of the first occurrence of a value in a string.
+  return inputString.indexOf(' ')
+}
+
+function userInputHasWhiteSpace(un, pw) {
+  if(getFirstIndexOfWhiteSpaceInString(un) >= 0 || getFirstIndexOfWhiteSpaceInString(pw) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function verifyUniqueUsername(newUsername, users) { //
+  
+  let duplicateUsernameCounter = 0
+  
+  console.log(users)
+  console.log(newUsername)
+  console.log(typeof(users))
+
+  if(users.length !== 0) {
+    users.forEach(u => {
+      if(u.usern === newUsername) {
+        duplicateUsernameCounter++
+      }
+    })
+  }
+  
+  console.log(duplicateUsernameCounter)
+
+  return duplicateUsernameCounter
+}
+
+app.post('/userCreation', async (req, res) => {
+  const allUsers = await collection.find({}, {usern: 1, _id: 0}).toArray() 
+  
+  if(userInputHasMissingField(req.body.username, req.body.password)) {
+    return res.end("MissingInformation")
+  }
+  else if(userInputHasWhiteSpace(req.body.username, req.body.password)) {
+    return res.end("WhitespacePresent")
+  }
+  else if(verifyUniqueUsername(req.body.username, allUsers) === 0) { 
+    await collection.insertOne({usern: req.body.username, passw: req.body.password}) 
+    return res.status(201).end("SuccessfulUserCreation")
+  } else {
+      return res.end("UsernameAlreadyExists")
+  }
 })
 
 app.post('/userLogin', async (req, res) => {
   
+  if(userInputHasMissingField(req.body.username, req.body.password)) {
+    return res.end(JSON.stringify("MissingInformation"))
+  }
+  else if(userInputHasWhiteSpace(req.body.username, req.body.password)) {
+    return res.end("WhitespacePresent")
+  } else {
+    userData = await collection.find({usern: req.body.username}).toArray()
+
+    if(typeof userData !== undefined && userData.length === 0) {
+      return res.status(404).end("UserNotFound")
+    }
+
+    try {
+      if(await bcrypt.compare(req.body.password, userData[0].passw)) { //prevents timing attacks
+        req.session.login = true
+        return res.end("SuccessfulUserAuthentication.")
+      } else {
+        req.session.login = false
+        return res.end("IncorrectPassword")
+      }
+    } catch {
+      return res.status(500).end("InternalServerError")
+    }
+  }
 })
 
 ViteExpress.listen(app, 3000)

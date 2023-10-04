@@ -6,14 +6,14 @@ function userCreation() {
     const newUsernameInputRef = useRef() //The returned object will persist for the full lifetime of the component.
     const newPasswordInputRef = useRef()
 
+    const userCreationFeedbackDivision = document.getElementById("userCreationFeedbackInfo")
+    const userCreationFeedbackDivisionParagraph = document.createElement("p")
+
     //Use fetch await for form validation
     //Use bcrypt client-side before sending data to server
 
     async function handleCreateAccountSubmit(event) {
         event.preventDefault()
-        
-        const userCreationFeedbackDivision = document.getElementById("userCreationFeedbackInfo")
-        const userCreationFeedbackDivisionParagraph = document.createElement('p')
 
         const newUsername = newUsernameInputRef.current.value
         const newPassword = newPasswordInputRef.current.value
@@ -23,7 +23,18 @@ function userCreation() {
                 userCreationFeedbackDivision.removeChild(userCreationFeedbackDivisionParagraph)
             }
     
-            userCreationFeedbackDivisionParagraph.innerText = message
+            if(message === "EncryptionError") {
+                userCreationFeedbackDivisionParagraph.innerText = "There was an encryption error that prevented the creation of a new account for you."
+            } else if(message === "MissingInformation") {
+                userCreationFeedbackDivisionParagraph.innerText = "The new account information you submitted cannot be saved. There is missing information in at least one input field."
+            } else if(message === "WhitespacePresent") {
+                userCreationFeedbackDivisionParagraph.innerText = "The new account information you submitted cannot be saved. Both the username and password cannot contain any whitespace."
+            } else if(message === "SuccessfulUserCreation") {
+                userCreationFeedbackDivisionParagraph.innerText = "Your account has been successfully created. Now login with your new username and password to access Fantasy Music Tour Builder functionality."
+            } else if(message === "UsernameAlreadyExists") {
+                userCreationFeedbackDivisionParagraph.innerText = "Your account could not be created as there is already a Fantasy Music Tour Builder user with the same username as the one you entered. Choose a different username."
+            }
+            
             userCreationFeedbackDivision.appendChild(userCreationFeedbackDivisionParagraph)
             userCreationFeedbackDivisionParagraph.setAttribute("id", "userCreationFeedbackDivisionParagraphPresent")
         }
@@ -44,10 +55,10 @@ function userCreation() {
                 }) 
             })
             
-            const feedback = await response.json() //Here, JSON is parsed to produce a JavaScript object
-            displayUserCreationFeedback(JSON.stringify(feedback))
+            const serverMessage = await response.json() //Here, JSON is parsed to produce a JavaScript object
+            displayUserCreationFeedback(JSON.stringify(serverMessage))
         } catch {
-            displayUserCreationFeedback("There was an encryption error that prevented the creation of a new account for you")
+            displayUserCreationFeedback("EncryptionError")
         }
     }
 
