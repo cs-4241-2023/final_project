@@ -1,21 +1,21 @@
-import express, {request, response} from "express"
+import express from "express"
 import ViteExpress from "vite-express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
 import env from "dotenv"
 const app = express();
-
 env.config();
 
 const url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}`;
-
 const dbClient = new MongoClient(url);
 
-let usersCollection = null;
+let usersCollection = null
+let allCollections = null;
 
 const initDatabase = async () => {
     await dbClient.connect();
     usersCollection = await dbClient.db( "RendezViewDatabase").collection("Users");
+    allCollections = await dbClient.db("RendezViewDatabase").collections();
     if(usersCollection !== null) {
         return 0;
     } else {
