@@ -1,9 +1,17 @@
-# Final Project
-## Project Proposal
+## Webware Final Project
 
-**Group Members** : Nicole Burgess, Juliana Porto, Julie Vieira
+Webware Final Project
+[https://webware-finalproject-nicole-juliana-julie.glitch.me/](https://webware-finalproject-nicole-juliana-julie.glitch.me/)
 
-While discussing ideas for the final project, our group decided to move forward with a game application. In this game, the user will be able to create an account and associated virtual pet. The premise behind this game is that the pet has a specified number of life points and the user begins with a minimal number of coins. The pet’s life points will assume the role described by the dynamic behavior requirement and deplete in time. To restore the lifestyle point value, the user will have to purchase actions and items. If the life points of a pet reaches 0, then the pet will die and be removed from the user’s account. The user may redeem coins by completing tasks, such as through a clicker. In addition, if time allows towards the end of the project, the group plans to implement a feature where one user may assist another user with tasks, therefore mutually benefiting both parties. The user who initiates this interaction will receive a predetermined number of coins from helping another user, while the other user’s pet will see their life points increase.
-To design the application, there will be various different types of user input and accessible fields. For example, to create a pet a user will be able to input the pet name into a text field and select a pet type (dog, cat, turtle, etc.) using a dropdown feature. All other components requiring user interaction will be buttons that we will make accessible through only keyboard input. Furthermore, additional elements we can include in the HTML are aria-labels and fields such as “for” which are accessible for individuals utilizing screen readers. A contrast mode can be implemented which will alter the colors displayed on the screen according to the user’s preferences as well.
-While our group members do not have much experience with React, we do plan to learn this architecture through A4. If all group members are comfortable with the use of React by the end of the current assignment, it will be implemented into features such as updating the user’s coins and pet’s life points when these tasks and interactions commence. However, to begin the project, the group plans to utilize a configuration for the user accounts similar to what was implemented in A3 using HTML, CSS, and Javascript for the front end, Express as the middleware, and MongoDB for database storage. In the event that React is used, this will take the place of the HTML and CSS programming completed through Glitch. To implement user authentication, we will attempt to implement some added features onto the basic requirements from A3, such as using an encryption service for the password and looking into how to store and retrieve the data associated with a specific user more efficiently.
+Meet the <b>Name of our pet game</b>!
 
+First, login to your account or create a new account.
+
+Next...
+
+To accomplish this:
+
+- A `Server` was created using Express.
+- There is persistent data storage between server sessions using the mongodb node.js library.
+- The [sakura](https://oxal.org/projects/sakura/) CSS class-less framework was used for the bulk of styling. Additional CSS overriding was used to achieve Design Achievement 1 (see below).
+- User logins are verified using a table in the mongodb database that stores all usernames and passwords.
