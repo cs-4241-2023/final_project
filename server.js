@@ -2,10 +2,11 @@ const express = require("express");
 const fs = require("fs");
 const mime = require('mime');
 const app = express();
+const dotenv = require('dotenv')
+dotenv.config();
 const PORT = 3000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const { env } = require('node:process');
-const client = new MongoClient("mongodb+srv://tuckeremmette:KF53pGOy1jk6ndka@trcluster.yvdst08.mongodb.net/?retryWrites=true&w=majority");
+const client = new MongoClient(process.env.DB_CONNECTION);
 
 async function run() {
   try {
@@ -24,11 +25,11 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-    sendFile(res, "login.html");
+    sendFile(res, "./pages/login.html");
 })
 
 app.get("/login.html", (req, res) =>{
-    sendFile(res, "login.html");
+    sendFile(res, "./pages/login.html");
 })
 
 const sendFile = function( response, filename ) {
