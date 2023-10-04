@@ -1,5 +1,4 @@
 import "./css/App.css";
-import { collectionData, setCollectionData } from "./hooks/MongoDB"
 import React from "react";
 
 function App() {
