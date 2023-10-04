@@ -1,4 +1,4 @@
-import express from "express"
+import express, {response} from "express"
 import ViteExpress from "vite-express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
@@ -16,7 +16,7 @@ const initDatabase = async () => {
     await dbClient.connect();
     usersCollection = await dbClient.db( "RendezViewDatabase").collection("Users");
     allCollections = await dbClient.db("RendezViewDatabase").collections();
-    if(usersCollection !== null) {
+    if(usersCollection !== null && allCollections !== null) {
         return 0;
     } else {
         return -1;
@@ -48,6 +48,24 @@ app.use(cookie({
 app.get("/get-users", async (request, response) => {
     let result = await usersCollection.find({}).toArray();
     response.send(result)
+});
+
+app.get("/get-collection", async (request, response) => {
+    let requestedCollection = null;
+    allCollections.forEach(collection => {
+       if(collection.namespace === `RendezViewDatabase${request.body.requestedCollection}`) {
+           requestedCollection = collection;
+       }
+   })
+
+    if(requestedCollection !== null) {
+        let data = await requestedCollection.find({}).toArray();
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end(JSON.stringify(data));
+
+    } else {
+        response.sendStatus(404);
+    }
 });
 
 ViteExpress.listen(app, parseInt(process.env.PORT))
