@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { Bio } from '../types/bio.types';
+import { Create } from '../types/create.types';
 
 
-class BioService {
-    async send(data: Bio) {
+class CreateService {
+
+    async saveData(data: Create) {
         try {
             const response = await axios.post('/add', data);
             return response.data;
@@ -13,4 +14,4 @@ class BioService {
     }
 }
 
-export const bioService = new BioService();
+export const createService = new CreateService();

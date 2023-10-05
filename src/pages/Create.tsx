@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Bio from "../components/Bio"
 import Build from "../components/Build"
 
-import { bioService } from '../services/bio.service';
+import { createService } from '../services/create.service';
 
 const CreatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -15,7 +15,6 @@ const CreatePage: React.FC = () => {
     const [skills, setSkills] = useState('');
     const [food, setFood] = useState('');
     const [slogan, setSlogan] = useState('');
-    const [error, setError] = useState('');
 	const [viewing, setViewing] = useState("build");
     const [color, setColor] = useState("");
     const [face, setFace] = useState("");
@@ -50,26 +49,26 @@ const CreatePage: React.FC = () => {
         }
     }
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const saveCharacter = async function() {
         try {
-          await bioService.send({ name, skills, food, slogan });
-        } catch (error) {
-          setError((error as Error).message);
+          await createService.saveData({color, face, hat, shirt, name, skills, food, slogan});
+        } catch (error: any) {
+            console.error("An unexpected error happened when saving the character:", error);
         }
       };
 
     return (
         <div className="splash-container">
             <h1>Create Your Character!</h1>
-			{viewing === "bio" && <Bio name={name} setName={setName} 
+			{viewing === "Bio" && <Bio name={name} setName={setName} 
             skills={skills} setSkills={setSkills} 
             food={food} setFood={setFood}
-            slogan={slogan} setSlogan={setSlogan}
-            handleSubmit={handleSubmit}></Bio>}
-			{viewing === "build" && <Build color={color} face={face} hat={hat} shirt={shirt} updateActive={updateActiveBuild}></Build>}
+            slogan={slogan} setSlogan={setSlogan}></Bio>}
+			{viewing === "Build" && <Build color={color} face={face} hat={hat} shirt={shirt} updateActive={updateActiveBuild}></Build>}
             <button className="cta-button" onClick={() => { navigate("/dashboard") }}>Back</button>
-			<button className="cta-button" onClick={() => { setViewing(viewing === "build" ? "bio" : "build") }}>{viewing === "build" ? "bio" : "build"}</button>
+			<button className="cta-button" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</button>
+            <button className="cta-button" onClick={() => { saveCharacter }}>Save</button>
+            <button className="cta-button">Export</button>
         </div>
     );
 };
