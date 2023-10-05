@@ -3,14 +3,29 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const user = process.env.MONGODB_USER;
-const password = process.env.MONGODB_PASS;
-const host = process.env.MONGODB_HOST;
+const clusterUrl = process.env.MONGODB_URL;
 const db_name = process.env.MONGODB_DB_NAME;
+let uri;
 
-const uri = `mongodb+srv://${user}:${password}@${host}/test?retryWrites=true&w=majority`;
+if (process.env.MONGODB_x509_CERT) {
+    const clientPEMFile = encodeURIComponent(process.env.MONGODB_x509_CERT);
+    const authMechanism = "MONGODB-X509";
+    uri =
+        `mongodb+srv://${clusterUrl}/?authMechanism=${authMechanism}&tls=true&tlsCertificateKeyFile=${clientPEMFile}`;
+}
+else {
+    const username = encodeURIComponent(process.env.MONGODB_USER);
+    const password = encodeURIComponent(process.env.MONGODB_PASS);
+    const authMechanism = "DEFAULT";
+    uri =
+        `mongodb+srv://${username}:${password}@${clusterUrl}/?authMechanism=${authMechanism}`;
+}
 
 class StorageService {
+    Collection = {
+        USER: "users",
+    }
+
     constructor() {
         this.client = new MongoClient(uri);
         this.client.connect().catch(err => {
@@ -20,7 +35,12 @@ class StorageService {
 
     async createUser(username, hashedPassword) {
         const db = this.client.db(db_name);
-        const result = await db.collection('users').insertOne({ username, hashedPassword });
+        const result = await db.collection(
+            this.Collection.USER
+        ).insertOne({
+            username,
+            hashedPassword
+        });
         if (!result.insertedId) {
             throw new Error('User creation failed');
         }
@@ -33,13 +53,21 @@ class StorageService {
 
     async findUserByUsername(username) {
         const db = this.client.db(db_name);
-        const user = await db.collection('users').findOne({ username });
+        const user = await db.collection(
+            this.Collection.USER
+        ).findOne({
+            username
+        });
         return user;
     }
 
     async findUserById(id) {
         const db = this.client.db(db_name);
-        const user = await db.collection('users').findOne({ _id: new ObjectId(id) });
+        const user = await db.collection(
+            this.Collection.USER
+        ).findOne({
+            _id: new ObjectId(id)
+        });
         return user;
     }
 }
