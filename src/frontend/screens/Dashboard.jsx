@@ -4,12 +4,14 @@ import "../css/Dashboard.css"
 function Dashboard() {
     const [groupHTML, setGroupHTML] = React.useState([]);
     const [addGroupPage, setAddGroupPage] = React.useState(<></>);
-    const [collectionName, setCollectionName] = React.useState("TestUserCollection"); // TODO: This needs to be set based on the user
+    const [collectionName, setCollectionName] = React.useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
     const [dataChanged, setDataChanged] = React.useState(false);
 
     React.useEffect( () => {
         getCurrentCollection(collectionName).then((data) => {
+
             let groupArr = []
+
             data.forEach((group) => {
                 let listItems = []
                 group.groupUsers.split(",").forEach((user) => {
@@ -26,9 +28,7 @@ function Dashboard() {
                                 <button className={"group-btn"} type={"submit"} onClick={() => {
                                     // TODO: Switch to group page
                                 }}>Go To Group Page</button>
-                                <button className={"delete-btn"} type={"submit"} onClick={() => {
-                                    // TODO: Switch to group page
-                                }}>Delete Group</button>
+                                <button className={"delete-btn"} type={"submit"} onClick={(e) => deleteGroup(e, group._id)}>Delete Group</button>
                             </div>
                     );
                     setGroupHTML(groupArr);
@@ -87,10 +87,20 @@ function Dashboard() {
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
             });
-
             setDataChanged(true);
             setAddGroupPage(<></>)
         }
+    }
+
+    async function deleteGroup(e, assignmentID) {
+        e.preventDefault();
+
+        await fetch("/delete-group", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({collection: collectionName, _id: assignmentID })
+        });
+        setDataChanged(true);
     }
 
     return <>

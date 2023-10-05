@@ -84,6 +84,24 @@ app.post("/add-group", async (request, response) => {
 
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify({}));
-})
+});
+
+app.delete("/delete-group", (request, response) => {
+
+    let requestedCollection = null;
+    allCollections.forEach(collection => {
+        if (collection.namespace === `RendezViewDatabase.${request.body.collection}`) {
+            requestedCollection = collection;
+        }
+    });
+
+    console.log("Delete Request for ID: " + request.body._id)
+
+    requestedCollection.deleteOne({
+        _id: new ObjectId(request.body._id)
+    });
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify({result: "Success", message: ""}));
+});
 
 ViteExpress.listen(app, parseInt(process.env.PORT))
