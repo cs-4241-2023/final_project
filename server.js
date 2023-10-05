@@ -1,6 +1,12 @@
 const express = require('express'),
-  app = express()
+	app = express(),
+	server = require('http').createServer(app),
+	SocketServer = require('./network.js'),
+	network = new SocketServer(server),
+	port = process.env.PORT || 3000
 
 app.use( express.static( 'public' ) )
 
-app.listen( process.env.PORT || 3000 )
+server.listen(port, function() {
+	console.log(`Express listening on port ${port}`)
+})
