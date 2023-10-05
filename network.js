@@ -7,7 +7,7 @@ class SocketServer {
 		this.#io = new Server(httpServer)
 		console.log('Socket.IO running')
 
-		this.#io.on('connection', this.#onConnection)
+		this.#io.on('connection', onConnection)
 	}
 
 	/**
@@ -18,10 +18,20 @@ class SocketServer {
 	broadcast(messageName, object) {
 		this.#io.emit(messageName, object)
 	}
+}
 
-	#onConnection(socket) {
-		socket.emit('hello', {message: 'a new client connected'})
-	}
+const onConnection = function(socket) {
+	socket.emit('setID', socket.id)
+	console.log('Connect:', socket.id)
+
+	//console.log(this)
+	socket.on('movement', onMovement)
+}
+
+const onMovement = function(obj) {
+	let id = obj.id
+	let msg = obj.msg
+	console.log('Movement:', id, msg)
 }
 
 module.exports = SocketServer
