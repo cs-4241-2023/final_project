@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import "../styles/splash.css"
+import "../styles/create.css"
 import { useNavigate } from 'react-router-dom';
 
 import Bio from "../components/Bio"
@@ -65,10 +66,12 @@ const CreatePage: React.FC = () => {
             food={food} setFood={setFood}
             slogan={slogan} setSlogan={setSlogan}></Bio>}
 			{viewing === "Build" && <Build color={color} face={face} hat={hat} shirt={shirt} updateActive={updateActiveBuild}></Build>}
-            <button className="cta-button" onClick={() => { navigate("/dashboard") }}>Back</button>
-			<button className="cta-button" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</button>
-            <button className="cta-button" onClick={() => { saveCharacter }}>Save</button>
-            <button className="cta-button">Export</button>
+            <div className="buttoncontainer">
+                <button className="cta-button" onClick={() => { navigate("/dashboard") }}>Back</button>
+                <button className="cta-button" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</button>
+                <button className="cta-button" onClick={() => { saveCharacter }}>Save</button>
+                <button className="cta-button">Export</button>
+            </div>
         </div>
     );
 };
