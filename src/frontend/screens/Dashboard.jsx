@@ -4,21 +4,19 @@ import "../css/Dashboard.css"
 function Dashboard() {
     const [groupHTML, setGroupHTML] = React.useState([]);
     const [addGroupPage, setAddGroupPage] = React.useState(<></>);
+    const [collectionName, setCollectionName] = React.useState("TestUserCollection"); // TODO: This needs to be set based on the user
+    const [dataChanged, setDataChanged] = React.useState(false);
 
     React.useEffect( () => {
-        getCurrentCollection("TestUserCollection").then((data) => {
+        getCurrentCollection(collectionName).then((data) => {
             let groupArr = []
-                data.forEach((group) => {
+            data.forEach((group) => {
+                let listItems = []
+                group.groupUsers.split(",").forEach((user) => {
+                    listItems.push(<li key={listItems.length}>{user.trim()}</li>);
+                });
 
-                    let listItems = []
-
-                    group.groupUsers.split(",").forEach((user) => {
-                        listItems.push(
-                            <li key={listItems.length}>{user.trim()}</li>
-                        )
-                    });
-
-                    groupArr.push(
+                groupArr.push(
                             <div className={"group"} key={groupArr.length}>
                                 <h3>{group.groupName}</h3>
                                 <p>{group.groupDescription}</p>
@@ -31,12 +29,13 @@ function Dashboard() {
                             </div>
                     );
                     setGroupHTML(groupArr);
+                    setDataChanged(false);
                 });
             }
         );
-    }, []);
+    }, [dataChanged]);
 
-    async function getCurrentCollection(collectionName) {
+    async function getCurrentCollection() {
         let result = await fetch("/get-collection", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -70,16 +69,21 @@ function Dashboard() {
 
         let form = e.target.elements;
 
-        let groupJSON = {
+        let groupJSON = JSON.stringify({
+            collection: collectionName,
             groupName: form.groupName.value,
             groupDescription: form.groupDescription.value,
             groupUsers: form.groupUsers.value
-        }
+        });
 
-        console.log(groupJSON)
+        let result = await fetch("/add-group", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: groupJSON
+        });
+        setDataChanged(true);
+        setAddGroupPage(<></>)
     }
-
-
 
     return <>
         <button className={"profile-btn"} type={"submit"} onClick={() => {

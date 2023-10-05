@@ -56,7 +56,7 @@ app.post("/get-collection", async (request, response) => {
        if(collection.namespace === `RendezViewDatabase.${request.body.requestedCollection}`) {
            requestedCollection = collection;
        }
-   })
+   });
 
     if(requestedCollection !== null) {
         let data = await requestedCollection.find({}).toArray();
@@ -67,8 +67,23 @@ app.post("/get-collection", async (request, response) => {
     }
 });
 
-app.post("/add-group", (request, response) => {
+app.post("/add-group", async (request, response) => {
 
+    let requestedCollection = null;
+    allCollections.forEach(collection => {
+        if (collection.namespace === `RendezViewDatabase.${request.body.collection}`) {
+            requestedCollection = collection;
+        }
+    });
+
+    await requestedCollection.insertOne({
+        groupName: request.body.groupName,
+        groupDescription: request.body.groupDescription,
+        groupUsers: request.body.groupUsers
+    });
+
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify({}));
 })
 
 ViteExpress.listen(app, parseInt(process.env.PORT))
