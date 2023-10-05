@@ -4,6 +4,36 @@ import "../css/Dashboard.css"
 function Dashboard() {
 
     const [collectionData, setCollectionData] = React.useState([]);
+    const [groupHTML, setGroupHTML] = React.useState([]);
+
+    React.useEffect( () => {
+        getCurrentCollection("TestUserCollection").then((data) => {
+            let groupArr = []
+                data.forEach((group) => {
+
+                    let listItems = []
+
+                    group.groupUsers.split(",").forEach((user) => {
+                        listItems.push(
+                            <li key={listItems.length}>{user.trim()}</li>
+                        )
+                    });
+
+                    groupArr.push(
+                            <div className={"group"} key={groupArr.length}>
+                                <h3>{group.groupName}</h3>
+                                <p>{group.groupDescription}</p>
+                                <ul>
+                                    {listItems}
+                                </ul>
+                                <button className={"edit-btn"} type={"submit"}>Edit</button>
+                            </div>
+                    );
+                    setGroupHTML(groupArr);
+                });
+            }
+        );
+    }, []);
 
     async function getCurrentCollection(collectionName) {
         let result = await fetch("/get-collection", {
@@ -12,13 +42,13 @@ function Dashboard() {
             body: JSON.stringify({ requestedCollection: collectionName }),
         });
         if (result.status !== 404) {
-            let data = await result.json();
-            setCollectionData(data);
+            return await result.json();
         } else {
             console.log("404: Collection Not Found!");
-            setCollectionData([]);
+            return [];
         }
     }
+
 
     return <>
         <button className={"profile-btn"} type={"submit"}>Profile/Settings</button>
@@ -29,30 +59,9 @@ function Dashboard() {
 
         <main>
             <div className={"group-container"}>
-                <h2>Groups</h2>
-                <div className={"group"}>
-                    <h3>MQP</h3>
-                    <ul>
-                        <li>Samuel Karkache</li>
-                        <li>Brandon Vuong</li>
-                    </ul>
-                </div>
-
-                <div className={"group"}>
-                    <h3>MQP</h3>
-                    <p>Project Group for MQP. We are doing a CS project.</p>
-                    <ul>
-                        <li>Samuel Karkache</li>
-                        <li>Brandon Vuong</li>
-                    </ul>
-                    <button className={"edit-btn"} type={"submit"}>Edit</button>
-                </div>
+                {groupHTML}
             </div>
         </main>
-
-
-
-
     </>
 }
 
