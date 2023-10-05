@@ -2,9 +2,8 @@ import React from "react";
 import "../css/Dashboard.css"
 
 function Dashboard() {
-
-    const [collectionData, setCollectionData] = React.useState([]);
     const [groupHTML, setGroupHTML] = React.useState([]);
+    const [addGroupPage, setAddGroupPage] = React.useState(<></>);
 
     React.useEffect( () => {
         getCurrentCollection("TestUserCollection").then((data) => {
@@ -26,7 +25,9 @@ function Dashboard() {
                                 <ul>
                                     {listItems}
                                 </ul>
-                                <button className={"edit-btn"} type={"submit"}>Edit</button>
+                                <button className={"edit-btn"} type={"submit"} onClick={() => {
+                                    // TODO: Switch to group page
+                                }}>Edit</button>
                             </div>
                     );
                     setGroupHTML(groupArr);
@@ -49,18 +50,52 @@ function Dashboard() {
         }
     }
 
+    async function showNewGroupPage() {
+        setAddGroupPage(
+            <div className={"add-group-page"}>
+                <h2>Add a Group</h2>
+                <form onSubmit={(e) => addGroup(e)}>
+                    <input id={"groupName"} type={"text"} placeholder={"group name"}/>
+                    <input id={"groupDescription"} type={"text"} placeholder={"group description"}/>
+                    <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"}/>
+                    <button onClick={()=> {setAddGroupPage(<></>)}}>Cancel</button>
+                    <button type={"submit"}>Submit</button>
+                </form>
+            </div>
+        )
+    }
+
+    async function addGroup(e) {
+        e.preventDefault()
+
+        let form = e.target.elements;
+
+        let groupJSON = {
+            groupName: form.groupName.value,
+            groupDescription: form.groupDescription.value,
+            groupUsers: form.groupUsers.value
+        }
+
+        console.log(groupJSON)
+    }
+
+
 
     return <>
-        <button className={"profile-btn"} type={"submit"}>Profile/Settings</button>
+        <button className={"profile-btn"} type={"submit"} onClick={() => {
+            // TODO: Switch to accounts page
+        }}>Profile/Settings</button>
         <header>
             <h1>RendezView Dashboard</h1>
             <p>Welcome to RendezView. Please select an existing group or create a new one.</p>
         </header>
 
         <main>
+            {addGroupPage}
             <div className={"group-container"}>
-                {groupHTML}
+                 {groupHTML}
             </div>
+            <button className={"add-group-btn"} type={"submit"} onClick={() => showNewGroupPage()}>Create New Group</button>
         </main>
     </>
 }

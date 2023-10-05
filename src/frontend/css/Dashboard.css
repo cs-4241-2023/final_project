@@ -27,7 +27,7 @@ header h1, .profile-btn {
     font-weight: bold;
 }
 
-.profile-btn:hover, .edit-btn:hover {
+.profile-btn:hover, .edit-btn:hover, .add-group-btn:hover {
     border: solid #535bf2;
 }
 
@@ -78,5 +78,40 @@ main {
     font-weight: bold;
     border: solid transparent;
     padding: 10px;
+}
+
+.add-group-btn {
+    margin: 10px;
+    float: right;
+    transition: 0.4s;
+    background-color: #BB86F3;
+    color: #121212;
+    font-weight: bold;
+    border: solid transparent;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.add-group-page {
+    color: white;
+    background-color: #1F1A24;
+    margin: 15px;
+    z-index: 1;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.add-group-page input {
+    margin: 5px;
+    padding: 10px;
+    border: transparent;
+    border-radius: 10px;
+}
+
+.add-group-page button {
+    margin: 5px;
+    border: solid transparent;
+    border-radius: 10px;
 }
 

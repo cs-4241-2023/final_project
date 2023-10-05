@@ -1,4 +1,4 @@
-import express, {response} from "express"
+import express from "express"
 import ViteExpress from "vite-express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
@@ -66,5 +66,9 @@ app.post("/get-collection", async (request, response) => {
         response.sendStatus(404);
     }
 });
+
+app.post("/add-group", (request, response) => {
+
+})
 
 ViteExpress.listen(app, parseInt(process.env.PORT))
