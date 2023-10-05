@@ -37,7 +37,14 @@ export class Database {
     }
 
     public async createUser(username: string, password: string): Promise<mongoose.Types.ObjectId> {
-        const user = new DBUser({ username, password, totalLoggedDays: 0 });
+        const user = new DBUser({ 
+            username: username,
+            password: password,
+            totalSuccesses: 0, 
+            totalFails: 0,
+            totalLoggedDays: 0
+        });
+        console.log("creating", user);
         await user.save();
         return user._id;
     }

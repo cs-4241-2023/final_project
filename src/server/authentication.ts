@@ -64,6 +64,7 @@ export class Authentication {
         
             console.log('Creating new user');
             let userID = await this.database.createUser(username, password);
+            console.log('User created successfully', userID);
             req.session.userID = userID; // store userID in session
             return {status: 200, message: 'User created successfully'};
         

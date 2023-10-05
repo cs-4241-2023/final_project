@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 import reactLogo from "./assets/react.svg";
-import TopBar from "./components/main-layout";
+import TopBar from "./components/main-layout/main-layout";
 import styled from "styled-components";
-import MainLayout from "./components/main-layout";
+import MainLayout from "./components/main-layout/main-layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HabitPage from "./components/habit-page/habit-page";
 import LoginPage from "./components/login-page/login-page";
 import HomePage from "./components/home-page/home-page";
+import { AuthType } from "./models/enums";
 
 const AppContainer = styled.div`
   display: flex;
@@ -18,14 +19,17 @@ const AppContainer = styled.div`
 
 function App() {
 
+  const [username, setUsername] = useState<string>("[Unknown]");
+
   return (
     <AppContainer>
 
       <BrowserRouter>
         <Routes>
-          <Route path="/habit/:habitID" element={<MainLayout content={<HabitPage />} />} />
-          <Route path="/home" element={<MainLayout content={<HomePage />} />} />
-          <Route path="*" element={<LoginPage />} />
+          <Route path="/habit/:habitID" element={<MainLayout username={username} content={<HabitPage />} />} />
+          <Route path="/home" element={<MainLayout username={username} content={<HomePage />} />} />
+          <Route path="/register" element={<LoginPage authType={AuthType.SIGNUP}/>} />
+          <Route path="*" element={<LoginPage authType={AuthType.LOGIN}/>} />
         </Routes>
       </BrowserRouter>
       
