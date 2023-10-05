@@ -3,32 +3,34 @@
  * A singleton class that helps manage the Socket.IO connection with the server.
  * Use SocketNetwork.getConnection() to use this class.
  */
-class SocketNetwork {
+class NetworkManager {
 
-	static #SocketNetwork
+	static #instance
 	static #isInternalConstructing
 	static getConnection() {
 		// Only ever creates one instance of this class
-		if(SocketNetwork.#SocketNetwork == undefined) {
-			SocketNetwork.#isInternalConstructing = true
-			SocketNetwork.#SocketNetwork = new SocketNetwork()
+		if(NetworkManager.#instance == undefined) {
+			NetworkManager.#isInternalConstructing = true
+			NetworkManager.#instance = new NetworkManager()
 		}
-		return SocketNetwork.#SocketNetwork
+		return NetworkManager.#instance
 	}
 
 	#socket
 	constructor() {
 		// Prevents outside construction to ensure singleton
-		if (!SocketNetwork.#isInternalConstructing) {
-			throw new TypeError("SocketNetwork is not constructable");
+		if (!NetworkManager.#isInternalConstructing) {
+			throw new TypeError("NetworkManager is not constructable");
 		}
-		SocketNetwork.#isInternalConstructing = false;
+		NetworkManager.#isInternalConstructing = false;
 
 		// Class initialization start
 		this.#socket = io()
 		this.#socket.on('setID', function(msg) {
 			this.id = msg
 		})
+
+		this.#socket.on('spawn', (playerID) => spawnRemotePlayer(playerID))
 	}
 
 	/**

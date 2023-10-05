@@ -1,5 +1,15 @@
-const network = SocketNetwork.getConnection()
+const network = NetworkManager.getConnection()
 const SPEED = 300
+
+const remotePlayers = {}
+const spawnRemotePlayer = function(playerID) {
+	remotePlayers['playerID'] = add([
+		sprite("puffle-red"),
+		pos(80, 40),
+		area(),
+		body(),
+	])
+}
 
 kaboom({
 	background: [0, 0, 0],
@@ -9,8 +19,7 @@ kaboom({
 	debug: true,
 });
 
-
-// load a sprite called "bean"
+// load the red puffle sprite
 loadSprite("puffle-red", "../sprites/puffle-red.png")
 
 // compose the player game object from multiple components and add it to the game
@@ -21,10 +30,12 @@ const puffle = add([
 	body(),
 ])
 
+/*
 add([
 	pos(0, 0),
 	circle(16),
 ])
+*/
 
 // press w to move up
 onKeyDown("w", () => {

@@ -22,6 +22,7 @@ class SocketServer {
 
 const onConnection = function(socket) {
 	socket.emit('setID', socket.id)
+	socket.broadcast.emit('spawn', socket.id)
 	console.log('Connect:', socket.id)
 
 	//console.log(this)
