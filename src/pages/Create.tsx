@@ -17,6 +17,38 @@ const CreatePage: React.FC = () => {
     const [slogan, setSlogan] = useState('');
     const [error, setError] = useState('');
 	const [viewing, setViewing] = useState("build");
+    const [color, setColor] = useState("");
+    const [face, setFace] = useState("");
+    const [hat, setHat] = useState("");
+    const [shirt, setShirt] = useState("");
+
+    let updateActiveBuild = (option: any, url: any) => {
+        if (option === "color") {
+            if (url === color) {
+                setColor("");
+            } else {
+                setColor(url);
+            }
+        } else if (option === "face") {
+            if (url === face) {
+                setFace("");
+            } else {
+                setFace(url);
+            }
+        } else if (option === "hat") {
+            if (url === hat) {
+                setHat("");
+            } else {
+                setHat(url);
+            }
+        } else if (option === "shirt") {
+            if (url === shirt) {
+                setShirt("");
+            } else {
+                setShirt(url);
+            }
+        }
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,8 +67,7 @@ const CreatePage: React.FC = () => {
             food={food} setFood={setFood}
             slogan={slogan} setSlogan={setSlogan}
             handleSubmit={handleSubmit}></Bio>}
-
-			{viewing === "build" && <Build></Build>}
+			{viewing === "build" && <Build color={color} face={face} hat={hat} shirt={shirt} updateActive={updateActiveBuild}></Build>}
             <button className="cta-button" onClick={() => { navigate("/dashboard") }}>Back</button>
 			<button className="cta-button" onClick={() => { setViewing(viewing === "build" ? "bio" : "build") }}>{viewing === "build" ? "bio" : "build"}</button>
         </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Bio: React.FC = props => {
+const Bio: React.FC<any> = (props: any) => {
 
     return (
       <>
         <h2>Write Your Bio Here!</h2>
         <form className="bio-form" onSubmit={props.handleSubmit}>
-          <div class="bio">
+          <div className="bio">
              <label>Name</label>
              <input
               id="name"
@@ -35,7 +35,7 @@ const Bio: React.FC = props => {
               value={props.slogan} 
               onChange={(event) => props.setSlogan(event.target.value)}
               />
-             <div class="bio-button">
+             <div className="bio-button">
                <button type="submit">Submit</button>
              </div>
          </div>
