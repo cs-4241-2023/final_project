@@ -8,7 +8,7 @@ import "./login-page.css"
 import { Title } from "../css-components/title";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
 import React from "react";
-import { fetchServer } from "../../scripts/fetch-server";
+import { Method, fetchServer } from "../../scripts/fetch-server";
 
 const SubmitButton = styled.button`
 background-color: ${COLOR_THEME.LOGIN_BACKGROUND};
@@ -65,6 +65,8 @@ interface LoginProps {
 
 const LoginPage: FC<LoginProps> = ({ authType }) => {
 
+    const navigate = useNavigate();
+
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
 
@@ -72,12 +74,15 @@ const LoginPage: FC<LoginProps> = ({ authType }) => {
 
     const onSubmit = async () => {
 
-        const response = await fetchServer(authType === AuthType.LOGIN ? "/login" : "/signup", {username: username, password: password});
+        const response = await fetchServer(Method.POST, authType === AuthType.LOGIN ? "/login" : "/signup", {username: username, password: password});
+
         
         if (response.status === 200) { // sucessful login, go to home page
-            useNavigate()('/home');
+            console.log("Login successful, navigating to home page");
+            navigate('/home');
 
         } else { // display error message
+            console.log("Login failed, displaying error message");
             setError(response.content.message);
         }
     };

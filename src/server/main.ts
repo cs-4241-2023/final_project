@@ -61,7 +61,7 @@ app.post("/signup", async (req, res) => {
 app.post("/habitoutcome", async (req, res) => {
 
   if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
-    res.redirect('/');
+    res.status(401).json({message: "Not logged in"});
     return;
   }
 
@@ -77,7 +77,7 @@ app.post("/habitoutcome", async (req, res) => {
 app.get("/userinfo", (req, res) => {
 
   if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
-    res.redirect('/');
+    res.status(401).json({message: "Not logged in"});
     return;
   }
 
@@ -91,7 +91,7 @@ app.get("/userinfo", (req, res) => {
 app.get("/userhabit", (req, res) => {
 
   if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
-    res.redirect('/');
+    res.status(401).json({message: "Not logged in"});
     return;
   }
 
