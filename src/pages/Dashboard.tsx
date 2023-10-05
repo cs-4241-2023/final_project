@@ -9,7 +9,7 @@ const DashboardPage: React.FC = () => {
     return (
         <div className="splash-container">
             <h1>Dashboard :)</h1>
-            <button className="cta-button" onClick={() => { navigate("/build") }}>Create New</button>
+            <button className="cta-button" onClick={() => { navigate("/create") }}>Create New</button>
         </div>
     );
 };

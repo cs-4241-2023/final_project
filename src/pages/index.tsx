@@ -1,3 +1,3 @@
 export { default as AuthPage } from "./Auth";
-export { default as BuildPage } from "./Build";
+export { default as CreatePage } from "./Create";
 export { default as DashboardPage } from "./Dashboard"

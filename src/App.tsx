@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import DashboardPage from "./pages/Dashboard"
-import BuildPage from "./pages/Build"
+import CreatePage from "./pages/Create"
 import AuthPage from './pages/Auth';
 
 const App: React.FC = () => {
@@ -12,7 +12,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path='/' element={<AuthPage />} />
         <Route path='/dashboard' element={<DashboardPage />} />
-        <Route path='/build' element={<BuildPage />} />
+        <Route path='/create' element={<CreatePage />} />
       </Routes>
     </Router>
   );

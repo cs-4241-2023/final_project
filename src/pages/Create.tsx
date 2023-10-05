@@ -17,7 +17,7 @@ const BuildPage: React.FC = () => {
 			{viewing === "bio" && <Bio></Bio>}
 			{viewing === "build" && <Build></Build>}
             <button className="cta-button" onClick={() => { navigate("/dashboard") }}>Back</button>
-			<button className="cta-button" onClick={() => { setViewing(viewing === "build" ? "bio" : "build") }}>{viewing}</button>
+			<button className="cta-button" onClick={() => { setViewing(viewing === "build" ? "bio" : "build") }}>{viewing === "build" ? "bio" : "build"}</button>
         </div>
     );
 };
