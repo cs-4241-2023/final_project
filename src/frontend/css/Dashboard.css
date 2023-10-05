@@ -1,0 +1,82 @@
+html {
+    background-color: #121212;
+}
+
+header {
+    font-family: Calibri, serif;
+    width: 50%;
+    margin: 0 25%;
+    text-align: center;
+    color: white;
+}
+
+header h1, .profile-btn {
+    display: inline;
+}
+
+.profile-btn {
+    font-family: Consolas, serif;
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    border: solid transparent;
+    border-radius: 10px;
+    transition: 0.4s;
+    background-color: #BB86F3;
+    color: #121212;
+    font-weight: bold;
+}
+
+.profile-btn:hover, .edit-btn:hover {
+    border: solid #535bf2;
+}
+
+main {
+    font-family: Consolas, serif;
+    width: 50%;
+    margin: 5% 25%;
+}
+
+
+.group-container {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #1F1A24;
+    color: white;
+}
+.group-container h2 {
+    text-align: center;
+}
+
+.group {
+    margin: 15px;
+    position: relative;
+    border: solid #121212;
+    border-radius: 15px;
+}
+
+.group h3 {
+    margin: 10px;
+}
+
+.group p {
+    margin-left: 10px;
+}
+
+.group ul li {
+    margin: 5px;
+}
+
+.edit-btn {
+    display: inline;
+    margin-left: 92%;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: 0.4s;
+    background-color: #BB86F3;
+    color: #121212;
+    font-weight: bold;
+    border: solid transparent;
+    padding: 10px;
+}
+

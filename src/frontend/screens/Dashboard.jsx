@@ -1,6 +1,5 @@
 import React from "react";
 import "../css/Dashboard.css"
-import "../hooks/DashboardHooks.jsx"
 
 function Dashboard() {
 
@@ -22,6 +21,36 @@ function Dashboard() {
     }
 
     return <>
+        <button className={"profile-btn"} type={"submit"}>Profile/Settings</button>
+        <header>
+            <h1>RendezView Dashboard</h1>
+            <p>Welcome to RendezView. Please select an existing group or create a new one.</p>
+        </header>
+
+        <main>
+            <div className={"group-container"}>
+                <h2>Groups</h2>
+                <div className={"group"}>
+                    <h3>MQP</h3>
+                    <ul>
+                        <li>Samuel Karkache</li>
+                        <li>Brandon Vuong</li>
+                    </ul>
+                </div>
+
+                <div className={"group"}>
+                    <h3>MQP</h3>
+                    <p>Project Group for MQP. We are doing a CS project.</p>
+                    <ul>
+                        <li>Samuel Karkache</li>
+                        <li>Brandon Vuong</li>
+                    </ul>
+                    <button className={"edit-btn"} type={"submit"}>Edit</button>
+                </div>
+            </div>
+        </main>
+
+
 
 
     </>
