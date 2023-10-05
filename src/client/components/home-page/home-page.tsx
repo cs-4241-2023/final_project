@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchServerAuth } from "../../scripts/fetch-server";
+import { Method, fetchServerAuth } from "../../scripts/fetch-server";
 
 const habits = ["Habit 1", "Habit 2", "Habit 3"]
 
