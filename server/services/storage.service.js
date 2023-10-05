@@ -70,6 +70,36 @@ class StorageService {
         });
         return user;
     }
+    
+    async saveCharacter(color, face, hat, shirt, name, skills, food, slogan) {
+        const db = this.client.db(db_name);
+        const result = await db.collection(
+            this.Collection.USER
+        ).insertOne({
+            color,
+            face,
+            hat,
+            shirt,
+            name,
+            skills,
+            food,
+            slogan
+        });
+        if (!result.insertedId) {
+            throw new Error('Saving character failed');
+        }
+        return {
+            _id: result.insertedId,
+            color,
+            face,
+            hat,
+            shirt,
+            name,
+            skills,
+            food,
+            slogan
+        };
+    }
 }
 
 module.exports = { storageService: new StorageService() };

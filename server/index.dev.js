@@ -69,6 +69,15 @@ app.post('/register', async (req, res) => {
     });
 });
 
+app.post('/save', async (req, res) => {
+    const {color, face, hat, shirt, name, skills, food, slogan} = req.body
+    const character = await storageService.saveCharacter(color, face, hat, shirt, name, skills, food, slogan);
+    req.saveCharacter(character, err =>{
+            if(err) {return res.status(500).send(err.message); }
+            return res.json(user);
+         })
+    })
+
 
 async function createViteServerMiddleware() {
     const vite = await createViteServer({
@@ -90,6 +99,10 @@ async function createViteServerMiddleware() {
             console.error(e.stack);
             res.status(500).end(e.stack);
         }
+    });
+
+    app.post('/add', async (req, res) => {
+        
     });
 
     app.listen(server_port, () => {

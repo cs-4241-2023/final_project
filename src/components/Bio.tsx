@@ -4,7 +4,6 @@ const Bio: React.FC<any> = (props) => {
 
     return (
       <>
-        <h2>Write Your Bio Here!</h2>
         <form className="bio-form">
           <div className="bio">
              <label>Name</label>
