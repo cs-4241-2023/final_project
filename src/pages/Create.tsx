@@ -16,7 +16,7 @@ const CreatePage: React.FC = () => {
     const [skills, setSkills] = useState('');
     const [food, setFood] = useState('');
     const [slogan, setSlogan] = useState('');
-	const [viewing, setViewing] = useState("build");
+	const [viewing, setViewing] = useState("Build");
     const [color, setColor] = useState("");
     const [face, setFace] = useState("");
     const [hat, setHat] = useState("");

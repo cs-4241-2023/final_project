@@ -19,3 +19,7 @@
 .buttoncontainer:nth-child(4) {
     grid-area: button4;
 }
+
+.buttoncontainer button {
+	background-color: #EEE;
+}
