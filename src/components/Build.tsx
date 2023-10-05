@@ -58,8 +58,25 @@ const Build: React.FC<any> = (props) => {
             return;
         }
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'red';
-        ctx.fillRect(0, 0, 10, 10);
+        
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let colorImage = new Image();
+        colorImage.src = props.color;
+        ctx.drawImage(colorImage, 0, 0, 64, 64);
+
+        let faceImage = new Image();
+        faceImage.src = props.face;
+        ctx.drawImage(faceImage, 64, 0, 64, 64);
+
+        let hatImage = new Image();
+        hatImage.src = props.hat;
+        ctx.drawImage(hatImage, 128, 0, 64, 64);
+
+        let shirtImage = new Image();
+        shirtImage.src = props.shirt;
+        ctx.drawImage(shirtImage, 192, 0, 64, 64);
     })
 
     return (
