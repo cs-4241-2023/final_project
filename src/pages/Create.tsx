@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Bio from "../components/Bio"
 import Build from "../components/Build"
 
-const BuildPage: React.FC = () => {
+const CreatePage: React.FC = () => {
     const navigate = useNavigate();
 	const [viewing, setViewing] = useState("build");
 
@@ -22,4 +22,4 @@ const BuildPage: React.FC = () => {
     );
 };
 
-export default BuildPage;
+export default CreatePage;
