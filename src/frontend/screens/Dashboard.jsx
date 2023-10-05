@@ -23,12 +23,12 @@ function Dashboard() {
                                 <ul>
                                     {listItems}
                                 </ul>
-                                <button className={"edit-btn"} type={"submit"} onClick={() => {
+                                <button className={"group-btn"} type={"submit"} onClick={() => {
                                     // TODO: Switch to group page
-                                }}>Edit</button>
+                                }}>Go To Group Page</button>
                                 <button className={"delete-btn"} type={"submit"} onClick={() => {
                                     // TODO: Switch to group page
-                                }}>Delete</button>
+                                }}>Delete Group</button>
                             </div>
                     );
                     setGroupHTML(groupArr);
