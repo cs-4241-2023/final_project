@@ -19,13 +19,16 @@ app.use(cookieSession({
 //Application data structure:
 
 /*
-const user = {username: 'john', password: 'pw', 
-musictour: {tourname: 'Judgement Day', 
-tourduration: 50, 
-tourlocations: [{country: 'US', state: 'New York', venue: 'Madison Square Garden', date: '12-20-2023'}],
-targetaudiences: [{agerange: '15-30', favoritegenres: ['Rock', 'Pop']}],
-headliningartists: [{artist: 'Limp Bizkit', setlist: ['My Generation', 'Counterfeit']}],
-supportingartists: [{artist: 'Taylor Swift', setlist: ['Love Story', 'You Belong With Me']}]}}
+Simplified Data Structure - let's go with this:
+const user = {
+username: 'john',
+password: 'pw',
+musictour: 'Judgement Day', //Daniel
+tourduration: 50 days, //Adish
+tourcontinent: 'Europe', //Matthew
+targetaudience: '15-30', //Sean
+headliningartist: 'Limp Bizkit' //Sultan
+}
 */
 
 //Client-side rendered application using React. Server only functions to interact with the client via HTTP protocal.
@@ -103,16 +106,16 @@ app.post('/userCreation', async (req, res) => {
   const allUsers = await collection.find({}, {usern: 1, _id: 0}).toArray() 
   
   if(userInputHasMissingField(req.body.username, req.body.password)) {
-    return res.end("MissingInformation")
+    return res.end(JSON.stringify("MissingInformation"))
   }
   else if(userInputHasWhiteSpace(req.body.username, req.body.password)) {
-    return res.end("WhitespacePresent")
+    return res.end(JSON.stringify("WhitespacePresent"))
   }
   else if(verifyUniqueUsername(req.body.username, allUsers) === 0) { 
     await collection.insertOne({usern: req.body.username, passw: req.body.password}) 
-    return res.status(201).end("SuccessfulUserCreation")
+    return res.status(201).end(JSON.stringify("SuccessfulUserCreation"))
   } else {
-      return res.end("UsernameAlreadyExists")
+      return res.end(JSON.stringify("UsernameAlreadyExists"))
   }
 })
 
@@ -122,24 +125,24 @@ app.post('/userLogin', async (req, res) => {
     return res.end(JSON.stringify("MissingInformation"))
   }
   else if(userInputHasWhiteSpace(req.body.username, req.body.password)) {
-    return res.end("WhitespacePresent")
+    return res.end(JSON.stringify("WhitespacePresent"))
   } else {
     userData = await collection.find({usern: req.body.username}).toArray()
 
     if(typeof userData !== undefined && userData.length === 0) {
-      return res.status(404).end("UserNotFound")
+      return res.status(404).end(JSON.stringify("UserNotFound"))
     }
 
     try {
       if(await bcrypt.compare(req.body.password, userData[0].passw)) { //prevents timing attacks
         req.session.login = true
-        return res.end("SuccessfulUserAuthentication.")
+        return res.end(JSON.stringify("SuccessfulUserAuthentication."))
       } else {
         req.session.login = false
-        return res.end("IncorrectPassword")
+        return res.end(JSON.stringify("IncorrectPassword"))
       }
     } catch {
-      return res.status(500).end("InternalServerError")
+      return res.status(500).end(JSON.stringify("InternalServerError"))
     }
   }
 })
