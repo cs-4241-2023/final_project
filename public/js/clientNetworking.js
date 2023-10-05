@@ -30,7 +30,12 @@ class NetworkManager {
 			this.id = msg
 		})
 
-		this.#socket.on('spawn', (playerID) => spawnRemotePlayer(playerID))
+		this.#socket.on('spawn', (players) => {
+			players.forEach(id => spawnRemotePlayer(id))
+		})
+
+		this.#socket.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.msg))
+		this.#socket.on('kill', (id) => removeRemotePlayer(id))
 	}
 
 	/**

@@ -3,12 +3,19 @@ const SPEED = 300
 
 const remotePlayers = {}
 const spawnRemotePlayer = function(playerID) {
-	remotePlayers['playerID'] = add([
+	remotePlayers[playerID] = add([
 		sprite("puffle-red"),
-		pos(80, 40),
-		area(),
-		body(),
+		pos(80, 40)
 	])
+}
+
+const removeRemotePlayer = function(id) {
+	destroy(remotePlayers[id]) // removes player from kaboom
+	delete remotePlayers[id] // removes player from map
+}
+
+const moveRemotePlayer = function(id, vector) {
+	remotePlayers[id].move(vector.x, vector.y)
 }
 
 kaboom({
@@ -25,9 +32,7 @@ loadSprite("puffle-red", "../sprites/puffle-red.png")
 // compose the player game object from multiple components and add it to the game
 const puffle = add([
 	sprite("puffle-red"),
-	pos(80, 40),
-	area(),
-	body(),
+	pos(80, 40)
 ])
 
 /*

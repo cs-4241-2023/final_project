@@ -1,13 +1,15 @@
 const {Server} = require('socket.io')
 
-class SocketServer {
+const connectedPlayers = []
 
+class SocketServer {
 	#io
 	constructor(httpServer) {
 		this.#io = new Server(httpServer)
 		console.log('Socket.IO running')
 
 		this.#io.on('connection', onConnection)
+		this.#io.on('disconnect', onDisconnect)
 	}
 
 	/**
@@ -22,17 +24,20 @@ class SocketServer {
 
 const onConnection = function(socket) {
 	socket.emit('setID', socket.id)
-	socket.broadcast.emit('spawn', socket.id)
-	console.log('Connect:', socket.id)
+	socket.emit('spawn', connectedPlayers)
+	socket.broadcast.emit('spawn', [socket.id])
+	connectedPlayers.push(socket.id)
+	console.log('Connected:', connectedPlayers)
 
 	//console.log(this)
-	socket.on('movement', onMovement)
+	socket.on('movement', (obj) => socket.broadcast.emit('remoteMovement', obj))
 }
 
-const onMovement = function(obj) {
-	let id = obj.id
-	let msg = obj.msg
-	console.log('Movement:', id, msg)
+const onDisconnect = function(socket) {
+	socket.broadcast.emit('kill', socket.id)
+	idIndex = connectedPlayers.findIndex(element => element == socket.id)
+	connectedPlayers.splice(idIndex, 1)
+	console.log('Disconnected:', connectedPlayers)
 }
 
 module.exports = SocketServer
