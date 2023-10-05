@@ -10,33 +10,36 @@ header {
     color: white;
 }
 
+button {
+    font-family: Consolas, serif;
+    background-color: #BB86F3;
+    color: #121212;
+    font-weight: bolder;
+    border: solid transparent;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.4s;
+}
+
+button:hover {
+    border: solid #535bf2;
+}
+
 header h1, .profile-btn {
     display: inline;
 }
 
 .profile-btn {
-    font-family: Consolas, serif;
     float: left;
     margin: 10px;
-    padding: 10px;
-    border: solid transparent;
-    border-radius: 10px;
-    transition: 0.4s;
-    background-color: #BB86F3;
-    color: #121212;
-    font-weight: bold;
 }
 
-.profile-btn:hover, .edit-btn:hover, .add-group-btn:hover {
-    border: solid #535bf2;
-}
 
 main {
     font-family: Consolas, serif;
     width: 50%;
     margin: 5% 25%;
 }
-
 
 .group-container {
     padding: 5px;
@@ -67,17 +70,12 @@ main {
     margin: 5px;
 }
 
-.edit-btn {
-    display: inline;
-    margin-left: 92%;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    transition: 0.4s;
-    background-color: #BB86F3;
-    color: #121212;
-    font-weight: bold;
-    border: solid transparent;
-    padding: 10px;
+.edit-btn, .delete-btn {
+    margin: 10px;
+}
+
+.delete-btn:hover {
+    border: solid crimson;
 }
 
 .add-group-btn {

@@ -26,6 +26,9 @@ function Dashboard() {
                                 <button className={"edit-btn"} type={"submit"} onClick={() => {
                                     // TODO: Switch to group page
                                 }}>Edit</button>
+                                <button className={"delete-btn"} type={"submit"} onClick={() => {
+                                    // TODO: Switch to group page
+                                }}>Delete</button>
                             </div>
                     );
                     setGroupHTML(groupArr);
@@ -49,7 +52,8 @@ function Dashboard() {
         }
     }
 
-    async function showNewGroupPage() {
+    async function showNewGroupPage(e) {
+        e.preventDefault();
         setAddGroupPage(
             <div className={"add-group-page"}>
                 <h2>Add a Group</h2>
@@ -61,7 +65,7 @@ function Dashboard() {
                     <button type={"submit"}>Submit</button>
                 </form>
             </div>
-        )
+        );
     }
 
     async function addGroup(e) {
@@ -69,20 +73,24 @@ function Dashboard() {
 
         let form = e.target.elements;
 
-        let groupJSON = JSON.stringify({
-            collection: collectionName,
-            groupName: form.groupName.value,
-            groupDescription: form.groupDescription.value,
-            groupUsers: form.groupUsers.value
-        });
+        if(form.groupName.value === "" || form.groupDescription.value === "" || form.groupUsers.value === "") {
+            alert("One or more fields are empty");
+        } else {
+            let groupJSON = JSON.stringify({
+                collection: collectionName,
+                groupName: form.groupName.value,
+                groupDescription: form.groupDescription.value,
+                groupUsers: form.groupUsers.value
+            });
+            await fetch("/add-group", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: groupJSON
+            });
 
-        let result = await fetch("/add-group", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: groupJSON
-        });
-        setDataChanged(true);
-        setAddGroupPage(<></>)
+            setDataChanged(true);
+            setAddGroupPage(<></>)
+        }
     }
 
     return <>
@@ -99,7 +107,7 @@ function Dashboard() {
             <div className={"group-container"}>
                  {groupHTML}
             </div>
-            <button className={"add-group-btn"} type={"submit"} onClick={() => showNewGroupPage()}>Create New Group</button>
+            <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
         </main>
     </>
 }
