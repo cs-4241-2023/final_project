@@ -3,6 +3,7 @@ import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { getDateToday } from "../../scripts/date";
 import { UserHabit, UserInfo } from "../../../../models";
+import HabitListWidget from "./habit-list-widget"
 
 const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatch<React.SetStateAction<number>>) => {
     console.log("create habit");
@@ -70,6 +71,8 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
         {
             userInfo.habits.map((habit) => (<p><Link to={"/habit/"+habit.name}>{habit.name}</Link></p>))
         }
+
+        <HabitListWidget/>
         <button onClick ={() => createHabit(navigate, setUpdate)}>Create Habit</button>
 
     </>
