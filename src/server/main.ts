@@ -2,7 +2,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { Day, UserHabit, UserInfo } from "./models";
+import { Day, UserHabit, UserInfo } from "../../models";
 import { Authentication } from "./authentication";
 import { Database } from "./database";
 
@@ -40,6 +40,20 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
 
   let sum = user.totalSuccesses + user.totalFails;
   userInfo.percentSuccessLifetime = (sum === 0) ? 0 : (user.totalSuccesses / sum);
+
+  const habitIDs = await database.getAllHabitsForUser(userID);
+  const habits = [];
+
+  for (const habitID of habitIDs) {
+    const {name, description} = (await database.getHabitByID(habitID))!;
+    const {totalSuccesses, totalFails, numLoggedDays} = (await database.getUserHabit(userID, habitID))!;
+
+    const sum = totalSuccesses + totalFails;
+    const percentSuccessLifetime = (sum === 0) ? 0 : (totalSuccesses / sum);
+
+    habits.push(new UserHabit(name, description, numLoggedDays, -1, percentSuccessLifetime, []));
+  }
+  userInfo.habits = habits;
   
   return userInfo;
 }
@@ -71,6 +85,21 @@ app.post("/habitoutcome", async (req, res) => {
   await database.setHabitOutcome(userID, habitID, new Day(year, month, day), outcome);
   res.status(200).json({message: "Habit outcome set successfully"});
 
+});
+
+app.post("/createhabit", async (req, res) => {
+
+  if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
+    res.status(401).json({message: "Not logged in"});
+    return;
+  }
+
+  const data = req.body;
+  const {name} = data;
+
+  await database.createHabit(auth.getUserID(req)!, name);
+  res.status(200).json({message: "Habit created successfully"});
+  
 });
 
 
