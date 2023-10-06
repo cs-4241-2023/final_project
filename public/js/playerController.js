@@ -10,6 +10,7 @@ const spawnRemotePlayer = function(playerID) {
 }
 
 const removeRemotePlayer = function(id) {
+	console.log('Deleting:', id)
 	destroy(remotePlayers[id]) // removes player from kaboom
 	delete remotePlayers[id] // removes player from map
 }
