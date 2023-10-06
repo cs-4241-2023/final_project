@@ -90,7 +90,7 @@ export class Authentication {
         return req.session.userID !== undefined;
     }
 
-    public getUsername(req: express.Request): mongoose.Types.ObjectId | undefined {
+    public getUserID(req: express.Request): mongoose.Types.ObjectId | undefined {
         return req.session.userID;
     }
 

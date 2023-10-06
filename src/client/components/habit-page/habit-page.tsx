@@ -5,6 +5,8 @@ import { Link, useParams } from "react-router-dom";
 const HabitPage: FC = () => {
     const { habitID } = useParams();
 
+    // poll for server
+
     console.log("Habit Page", habitID);
 
     return <>
