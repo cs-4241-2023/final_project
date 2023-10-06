@@ -5,6 +5,7 @@ import { getDateToday } from "../../scripts/date";
 import { HabitOutcome, Outcome, UserHabit } from "../../../../models";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { Loading } from "../css-components/loading";
+import CalendarComponent from "./calendar";
 
 
 const HabitPage: FC = () => {
@@ -64,6 +65,8 @@ const HabitPage: FC = () => {
     <p>Percent Success Week: {userHabitInfo.percentSuccessWeek}</p>
     <p>Percent Success Lifetime: {userHabitInfo.percentSuccessLifetime}</p>
     <p>Outcomes: {userHabitInfo.outcomes.toString()}</p>
+
+    <CalendarComponent />
 
     </>
 }
