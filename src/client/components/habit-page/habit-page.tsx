@@ -1,3 +1,4 @@
+import HabitNavComponent from "./habit-nav";
 import { FC, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDateToday } from "../../scripts/date";
@@ -52,6 +53,7 @@ const HabitPage: FC = () => {
     if (userHabitInfo === undefined) return <Loading />
 
     return <>
+    <HabitNavComponent/>
     <p>Habit Page for: {habitID}</p>
     <Link to="/home">Home</Link>
 
