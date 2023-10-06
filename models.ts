@@ -20,6 +20,7 @@ export class HabitOutcome {
 }
 
 export class UserHabit {
+    idStr: string;
     name: string;
     description: string;
     currentStreak: number;
@@ -28,7 +29,8 @@ export class UserHabit {
     percentSuccessLifetime: number;
     outcomes: HabitOutcome[];
 
-    constructor(name: string = "", description: string = "", currentStreak: number = -1, numLoggedDays: number = -1, percentSuccessWeek: number = -1, percentSuccessLifetime: number = -1, outcomes: HabitOutcome[] = []) {
+    constructor(idStr: string, name: string = "", description: string = "", currentStreak: number = -1, numLoggedDays: number = -1, percentSuccessWeek: number = -1, percentSuccessLifetime: number = -1, outcomes: HabitOutcome[] = []) {
+        this.idStr = idStr;
         this.name = name;
         this.description = description;
         this.currentStreak = currentStreak;

@@ -7,13 +7,13 @@ import { Loading } from "../css-components/loading";
 
 
 const HabitPage: FC = () => {
-    const { habitID } = useParams();
+    const {habitID} = useParams();
 
     const navigate = useNavigate();
 
     const [update, setUpdate] = useState(0); // used to ask server for new data 
 
-    console.log("Habit Page");
+    console.log("Habit Page", habitID);
 
     const {year, month, day} = getDateToday();
     const params = {
@@ -38,12 +38,12 @@ const HabitPage: FC = () => {
                 return;
             }
 
-            const {name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomes} = response.content;
+            const {idStr, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomes} = response.content;
             const outcomesObj = (outcomes as any[]).map((outcome) => {
                 const outcomeEnum = outcome.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
                 return new HabitOutcome(outcome.year, outcome.month, outcome.day, outcomeEnum);
             });
-            setUserHabitInfo(new UserHabit(name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomesObj));
+            setUserHabitInfo(new UserHabit(idStr, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomesObj));
         }
 
         fetchResponse();

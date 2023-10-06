@@ -19,7 +19,7 @@ const database = new Database();
 const auth = new Authentication(app, database);
 
 async function parseUserHabit(includeOutcomes: boolean, userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserHabit | undefined> {
-  let userHabit = new UserHabit();
+  let userHabit = new UserHabit(habitID.toString());
   
   const habit = await database.getHabitByID(habitID);
   if (habit === undefined) {
@@ -73,7 +73,7 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
     const currentStreak = 0;
     const outcomes: HabitOutcome[] = [];
 
-    habits.push(new UserHabit(name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime, outcomes));
+    habits.push(new UserHabit(habitID.toString(), name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime, outcomes));
   }
   userInfo.habits = habits;
   
@@ -165,10 +165,15 @@ app.get("/userhabit", async (req, res) => {
     return;
   }
 
-  const data = req.body;
-  const {userIDStr, habitIDStr, currentYear, currentMonth, currentDay} = data;
+  const data = req.query;
+  console.log("recieved", data);
+  const {userIDStr, habitIDStr, currentYearStr, currentMonthStr, currentDayStr} = data;
   const userID = convertStrToUserID(req, userIDStr as (string | undefined));
   const habitID = convertStrToHabitID(habitIDStr as string);
+
+  const currentYear = parseInt(currentYearStr as string);
+  const currentMonth = parseInt(currentMonthStr as string);
+  const currentDay = parseInt(currentDayStr as string);
 
   let output = await parseUserHabit(true, userID, habitID, new Day(currentYear, currentMonth, currentDay));
   console.log(output);

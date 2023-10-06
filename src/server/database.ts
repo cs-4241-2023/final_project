@@ -70,6 +70,7 @@ export class Database {
         else return { name: record.name, description: record.description };
     }
 
+
     // return a list of HabitIDs for a given user
     public async getAllHabitsForUser(userID: mongoose.Types.ObjectId): Promise<mongoose.Types.ObjectId[]> {
         const records = await DBUserHabit.find({ userID: userID });
