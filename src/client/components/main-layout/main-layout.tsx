@@ -31,7 +31,7 @@ interface MainLayoutProps {
 const MainLayout: FC<MainLayoutProps> = ({ username, content }) => (
   <>
     <TopBar>
-      <TopBarLayout centerDiv={<Title>DailyDive</Title>} rightDiv={<UsernameLayout username={username} />} />
+      <TopBarLayout centerDiv={<Title style={{transform: "translateY(5px)"}}>DailyDive</Title>} rightDiv={<UsernameLayout username={username} />} />
     </TopBar>
     <ContentContainer>
       {content}
