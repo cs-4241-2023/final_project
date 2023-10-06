@@ -62,11 +62,11 @@ export class Database {
     // get habit name and description by habitID
     public async getHabitByID(habitID: mongoose.Types.ObjectId): Promise<{
         name: string,
-        description: string } | null>
+        description: string } | undefined>
     {
         const record = await DBHabit.findOne({ _id: habitID });
 
-        if (record === null) throw new Error("Habit not found");
+        if (record === null) return undefined;
         else return { name: record.name, description: record.description };
     }
 
@@ -80,11 +80,11 @@ export class Database {
     public async getUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId): Promise<{
         totalSuccesses: number,
         totalFails: number,
-        numLoggedDays: number } | null>
+        numLoggedDays: number } | undefined>
     {
         const record = await DBUserHabit.findOne({ userID: userID, habitID: habitID });
 
-        if (record === null) throw new Error("UserHabit not found");
+        if (record === null) return undefined;
         else return { totalSuccesses: record.totalSuccesses, totalFails: record.totalFails, numLoggedDays: record.numLoggedDays };
     }
 

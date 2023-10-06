@@ -32,6 +32,12 @@ const HabitPage: FC = () => {
             const response = verifyAuth(navigate, await fetchServer(Method.GET, "/userhabit", params));
             console.log(response);
 
+            // habit not found. redirect to home page
+            if (response.status === 404) {
+                navigate("/home");
+                return;
+            }
+
             const {name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomes} = response.content;
             const outcomesObj = (outcomes as any[]).map((outcome) => {
                 const outcomeEnum = outcome.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
