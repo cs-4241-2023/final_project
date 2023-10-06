@@ -115,6 +115,7 @@ function Dashboard() {
         </header>
 
         <main>
+            <h2>Tracked Groups</h2>
             {addGroupPage}
             <div className={"group-container"}>
                  {groupHTML}
