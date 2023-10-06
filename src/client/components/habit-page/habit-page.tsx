@@ -5,6 +5,7 @@ import { getDateToday } from "../../scripts/date";
 import { HabitOutcome, Outcome, UserHabit } from "../../../../models";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { Loading } from "../css-components/loading";
+import HabitInfoComponent from "./habit-info";
 
 
 const HabitPage: FC = () => {
@@ -54,6 +55,7 @@ const HabitPage: FC = () => {
 
     return <>
     <HabitNavComponent/>
+    <HabitInfoComponent habitInfo = {userHabitInfo}/>
     <p>Habit Page for: {habitID}</p>
     <Link to="/home">Home</Link>
 
