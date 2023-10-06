@@ -1,4 +1,3 @@
-// src/pages/auth/auth.tsx
 import React, { useState } from 'react';
 import { Login, Register } from '../components/auth';
 import { Button, Container, Paper, Box } from '@mui/material';

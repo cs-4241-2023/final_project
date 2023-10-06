@@ -1,4 +1,3 @@
-// src/components/auth/Register.tsx
 import React, { useState } from 'react';
 import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';

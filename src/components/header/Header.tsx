@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 import { FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import { LightMode, DarkMode, Logout } from '@mui/icons-material';
