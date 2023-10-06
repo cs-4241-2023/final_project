@@ -1,5 +1,4 @@
-import React, {useState, useRef} from 'react' //useRef provides references to component instances.
-import bcrypt from 'bcryptjs'
+import React, {useState, useEffect, useRef} from 'react' //useRef provides references to component instances.
 
 function userCreation() {
 
@@ -10,10 +9,30 @@ function userCreation() {
     //Use fetch await for form validation
     //Use bcrypt client-side before sending data to server
 
-    function setUserCreationFeedback(message) {
+    useEffect(() => {
+        console.log(userCreationFeedbackText)
+    }, [userCreationFeedbackText])
 
-        if(message === "EncryptionError") {
-            setUserCreationFeedbackText("There was an encryption error that prevented the creation of a new account for you.")
+
+    async function handleCreateAccountSubmit(event) {
+        event.preventDefault()
+
+        const newUsername = newUsernameInputRef.current.value
+        const newPassword = newPasswordInputRef.current.value  
+
+        const response = await fetch('/userCreation', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: newUsername,
+                password: newPassword
+            }) 
+        })
+            
+        const message = await response.text() //Here, we await a text response.
+            
+        if(message === "ServerError") {
+            setUserCreationFeedbackText("There was a server error that prevented the creation of a new account for you.")
         } else if(message === "MissingInformation") {
             setUserCreationFeedbackText("The new account information you submitted cannot be saved. There is missing information in at least one input field.")
         } else if(message === "WhitespacePresent") {
@@ -23,37 +42,6 @@ function userCreation() {
         } else if(message === "UsernameAlreadyExists") {
             setUserCreationFeedbackText("Your account could not be created as there is already a Fantasy Music Tour Builder user with the same username as the one you entered. Choose a different username.")
         }
-        
-        console.log(message)
-    }
-
-    async function handleCreateAccountSubmit(event) {
-        event.preventDefault()
-
-        const newUsername = newUsernameInputRef.current.value
-        const newPassword = newPasswordInputRef.current.value
-
-        try {
-            const salt = await bcrypt.genSalt(10) //A salt is a random data that is used as an additional input to a one-way function that hashes data
-            const hashedPassword = await bcrypt.hash(newPassword, salt)
-            
-            console.log(salt)
-            console.log(hashedPassword)
-
-            const response = await fetch('/userCreation', { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    username: newUsername,
-                    password: hashedPassword
-                }) 
-            })
-            
-            const serverMessage = await response.json() //Here, JSON is parsed to produce a JavaScript object
-            setUserCreationFeedback(JSON.stringify(serverMessage))
-        } catch {
-            setUserCreationFeedback("EncryptionError")
-        }
     }
 
     return (
@@ -61,7 +49,7 @@ function userCreation() {
             <h2>
                 Create New Account
             </h2>
-            <form onSubmit = {handleCreateAccountSubmit}>
+            <form>
                 <div>
                     <label htmlFor = "nun">Username</label>
                     <input type = "text" id = "nun" ref = {newUsernameInputRef} name = "newusername"/>
