@@ -25,6 +25,7 @@ function Dashboard() {
                                 <ul>
                                     {listItems}
                                 </ul>
+                                <p>Possible Group Meeting Times: {group.meetingTimes}</p>
                                 <button className={"group-btn"} type={"submit"} onClick={() => {
                                     // TODO: Switch to group page
                                 }}>Go To Group Page</button>
@@ -80,7 +81,8 @@ function Dashboard() {
                 collection: collectionName,
                 groupName: form.groupName.value,
                 groupDescription: form.groupDescription.value,
-                groupUsers: form.groupUsers.value
+                groupUsers: form.groupUsers.value,
+                meetingTimes: "TBD"
             });
             await fetch("/add-group", {
                 method: "POST",
