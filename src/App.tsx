@@ -1,21 +1,32 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-import DashboardPage from "./pages/Dashboard"
-import CreatePage from "./pages/Create"
-import AuthPage from './pages/Auth';
+// src/App.tsx
+import React, { useState, useEffect } from 'react';
+import Header from './components/header/Header';
+import Router from './Router'
 
 const App: React.FC = () => {
+    const [isDark, setIsDark] = useState(false);
 
-  return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<AuthPage />} />
-        <Route path='/dashboard' element={<DashboardPage />} />
-        <Route path='/create' element={<CreatePage />} />
-      </Routes>
-    </Router>
-  );
-}
+    const toggleTheme = () => {
+        setIsDark(!isDark);
+    };
 
-export default App
+    useEffect(() => {
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDark]);
+
+    return (
+        <div className="bg-background min-h-screen text-text">
+            <Header
+                isDark={isDark}
+                toggleTheme={toggleTheme}
+            />
+            <Router />
+        </div>
+    );
+};
+
+export default App;

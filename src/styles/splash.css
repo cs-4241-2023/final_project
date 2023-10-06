@@ -8,8 +8,6 @@
 }
 
 .logo svg {
-    border-color: var(--primary);
-    fill: var(--secondary);
 }
 
 .cta-button {
