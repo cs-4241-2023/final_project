@@ -2,6 +2,8 @@ const network = NetworkManager.getConnection()
 const SPEED = 300
 const SPAWN = {x: 80, y: 40}
 
+// -------------- Start Network Functions -----------------------
+
 const remotePlayers = {}
 const spawnRemotePlayer = function(id, positon) {
 	let x = positon.x || SPAWN.x
@@ -10,6 +12,7 @@ const spawnRemotePlayer = function(id, positon) {
 		sprite("puffle-red"),
 		pos(x, y)
 	])
+	readd(puffle) // ensure player character is always on top
 }
 
 const removeRemotePlayer = function(id) {
@@ -22,6 +25,8 @@ const moveRemotePlayer = function(id, vector) {
 	console.log(id, remotePlayers[id])
 	remotePlayers[id].moveTo(vector.x, vector.y)
 }
+
+// -------------- End NEtwork Functions -------------------------
 
 kaboom({
 	background: [0, 0, 0],
