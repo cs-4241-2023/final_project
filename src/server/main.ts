@@ -82,10 +82,11 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
 
 // if userIDStr is undefined, use the logged in user
 function convertStrToUserID(req: express.Request, userIDStr: string | undefined): mongoose.Types.ObjectId {
-  if (userIDStr === undefined) {
+  if (userIDStr === undefined || userIDStr === "undefined") {
     console.log("defaulting to logged in user");
     return auth.getUserID(req)!;
   } else {
+    console.log("converting", userIDStr, typeof userIDStr);
     return new mongoose.Types.ObjectId(userIDStr as string);
   }
 }
@@ -167,15 +168,22 @@ app.get("/userhabit", async (req, res) => {
 
   const data = req.query;
   console.log("recieved", data);
-  const {userIDStr, habitIDStr, currentYearStr, currentMonthStr, currentDayStr} = data;
-  const userID = convertStrToUserID(req, userIDStr as (string | undefined));
-  const habitID = convertStrToHabitID(habitIDStr as string);
+  const {userID, habitID, currentYearStr, currentMonthStr, currentDayStr} = data;
+
+  console.log("string userID", userID);
+  console.log("string habitID", habitID);
+
+  const userIDObj = convertStrToUserID(req, userID as (string | undefined));
+  const habitIDObj = convertStrToHabitID(habitID as string);
+
+  console.log("converted userID", userID, "to", userIDObj);
+  console.log("converted habitID", habitID, "to", habitIDObj);
 
   const currentYear = parseInt(currentYearStr as string);
   const currentMonth = parseInt(currentMonthStr as string);
   const currentDay = parseInt(currentDayStr as string);
 
-  let output = await parseUserHabit(true, userID, habitID, new Day(currentYear, currentMonth, currentDay));
+  let output = await parseUserHabit(true, userIDObj, habitIDObj, new Day(currentYear, currentMonth, currentDay));
   console.log(output);
 
   if (output === undefined) {
