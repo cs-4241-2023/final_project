@@ -9,7 +9,7 @@ color: ${COLOR_THEME.TEXT};
 line-height: 0;
 vertical-align: baseline;
 text-align: center;
-transform: translateY(8px);
+transform: translate(5px, 6px);
 `
 
 const LogoutButton = styled.button`
@@ -21,7 +21,7 @@ display: flex;
 flex-direction: row;
 align-items: center;
 justify-content: space-around;
-gap: 10px;
+gap: 0px;
 `
 
 interface UsernameLayoutProps {
@@ -32,7 +32,7 @@ const UsernameLayout: FC<UsernameLayoutProps> = ({ username }) => {
 return (
     <UsernameLayoutStyle>
         <UsernameText>{username}</UsernameText>
-        <LogoutButton><img src="/logout.png" width="20" height="20" /></LogoutButton>
+        <LogoutButton><img src="/logout.png" width="30" height="30" /></LogoutButton>
     </UsernameLayoutStyle>
     
 );
