@@ -88,12 +88,17 @@ function CalendarComponent() {
         const outcomes = [] as HabitOutcome[];
 
         let weekday = 0;
-        for (let day = 1; day <= numDaysInMonth; day++) {
+        while (true) {
+
+            let day = weekday - firstDay + 1;
+            // day is the month day. weekday % 7 === 0 on sunday
+
+            if (day > numDaysInMonth) break; // reached end of month
 
             // add week to calendar
             if (weekday % 7 === 0) newCalendar.push([] as (DayOutcome | undefined)[]);
 
-            if (day < firstDay+1) { // add blank day
+            if (day < 1) { // add blank day
                 newCalendar[newCalendar.length-1].push(undefined);
             } else {
                 // add normal day
@@ -101,6 +106,8 @@ function CalendarComponent() {
                 const outcome = getOutcomeOnDay(outcomes, day);
                 newCalendar[newCalendar.length-1].push(new DayOutcome(displayYear, displayMonth, day, outcome, isToday));
             }
+
+            weekday += 1;
         }
 
         setCalendar(newCalendar); // update calendar state to be displayed in UI
