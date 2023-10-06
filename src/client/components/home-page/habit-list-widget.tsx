@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
+import { NavigateFunction } from "react-router-dom";
 import styled from "styled-components";
 import CreateHabitButton from "./create-habit-button";
 // import "./home-page.css"
@@ -17,16 +18,17 @@ margin-right: 40px;
 margin-left: 40px;
 
 `
+interface HabitListWidgetProps {
+    setUpdate: React.Dispatch<React.SetStateAction<number>>;
+}
 
 
-
-function HabitListWidget(){
-
+function HabitListWidget({setUpdate}: HabitListWidgetProps){
 
     return(
         <BigWidgetStyle className = "rounded">
             {/* <h3>put habit nav buttons here</h3> */}
-            <CreateHabitButton />
+            <CreateHabitButton setUpdate={setUpdate} />
             {/* put button here, use a callback to call the createHabit function */}
         </BigWidgetStyle> 
 
