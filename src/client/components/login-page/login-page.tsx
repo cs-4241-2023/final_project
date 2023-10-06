@@ -15,6 +15,7 @@ background-color: ${COLOR_THEME.LOGIN_BACKGROUND};
 border: 3px solid ${COLOR_THEME.TEXT};
 color: ${COLOR_THEME.TEXT};
 font-family: ${FONT_THEME.BUTTON_FONT};
+border-radius: 10px;
 `
 
 const LoginStyle = styled.div`
@@ -43,8 +44,10 @@ color: ${COLOR_THEME.TEXT};
 
 const Message = styled.p`
 color: red;
-line-height: 0;
 font-size: 12px;
+line-height: 0px;
+margin-top: 12px;
+margin-bottom: 2px;
 `
 
 const Spacer = styled.div`
@@ -60,9 +63,6 @@ interface LoginProps {
 }
 
 
-
-
-
 const LoginPage: FC<LoginProps> = ({ authType }) => {
 
     const navigate = useNavigate();
@@ -70,7 +70,8 @@ const LoginPage: FC<LoginProps> = ({ authType }) => {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const [error, setError] = React.useState("");
+    const [error, setError] = React.useState("Filler");
+    const [showError, setShowError] = React.useState(false);
 
     const onSubmit = async () => {
 
@@ -84,6 +85,7 @@ const LoginPage: FC<LoginProps> = ({ authType }) => {
         } else { // display error message
             console.log("Login failed, displaying error message");
             setError(response.content.message);
+            setShowError(true);
         }
     };
 
@@ -96,7 +98,7 @@ const LoginPage: FC<LoginProps> = ({ authType }) => {
             <TextField value={username} setValue={setUsername} placeholder="Username" hideText={false}></TextField>
             <div>
                 <TextField value={password} setValue={setPassword} placeholder="Password" hideText={authType === AuthType.LOGIN}></TextField>
-                <Message>{error}</Message>
+                <Message style={{opacity: showError ? 1 : 0}}>{error}</Message>
             </div>
             <SubmitButton id = "submit" onClick={onSubmit} >{authType === AuthType.LOGIN ? "Login" : "Create Account"}</SubmitButton>
             <Link to={authType === AuthType.LOGIN ? "/register" : "/"} id="switchAuth"><LinkText>{authType === AuthType.LOGIN ? "Or create an account..." : "Already a user? Log in."}</LinkText></Link>
