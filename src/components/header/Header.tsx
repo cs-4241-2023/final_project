@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import { LightMode, DarkMode, Logout } from '@mui/icons-material';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Toolbar, Typography } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -31,12 +31,13 @@ const Header: FC<HeaderProps> = ({ isDark, toggleTheme }) => {
   return (
     <AppBar position="static">
       <Toolbar>
+        <Avatar alt='Website Icon' src='/src/assets/i-mama.png' />
         <Typography
           variant="h6"
           component="div"
           sx={{ flexGrow: 1 }}
         >
-          My Website
+          Build your character
         </Typography>
 
         {location.pathname !== '/' && (
