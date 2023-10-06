@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { getDateToday } from "../../scripts/date";
 
-const habits = ["Habit 1", "Habit 2", "Habit 3"]
+const testHabits = ["Habit 1", "Habit 2", "Habit 3"]
 
 interface HomePageProps {
     setUsername: (username: string) => void;
@@ -36,14 +36,20 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
     }, []);
 
     if (response === null) return <p>Loading...</p>
+    const {username, percentSuccessWeek, percentSuccessLifetime, numLoggedDays, habits} = response.content;
 
-    console.log(response);
+    setUsername(username);
     
     return <>
         <p>Home Page</p>
+        <p>Username: {username}</p>
+        <p>Percent Success This Week: {percentSuccessWeek}</p>
+        <p>Percent Success Lifetime: {percentSuccessLifetime}</p>
+        <p>Number of Logged Days: {numLoggedDays}</p>
+        <p>Habits: {habits.toString()}</p>
         
         {
-            habits.map((habit) => (<p><Link to={"/habit/"+habit}>{habit}</Link></p>))
+            testHabits.map((habit) => (<p><Link to={"/habit/"+habit}>{habit}</Link></p>))
         }
     </>
 };
