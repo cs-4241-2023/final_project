@@ -1,4 +1,4 @@
-import express, {response} from "express"
+import express from "express"
 import ViteExpress from "vite-express"
 import {MongoClient, ObjectId} from "mongodb"
 import cookie from "cookie-session"
@@ -56,7 +56,7 @@ app.post("/get-collection", async (request, response) => {
        if(collection.namespace === `RendezViewDatabase.${request.body.requestedCollection}`) {
            requestedCollection = collection;
        }
-   })
+   });
 
     if(requestedCollection !== null) {
         let data = await requestedCollection.find({}).toArray();
@@ -65,6 +65,44 @@ app.post("/get-collection", async (request, response) => {
     } else {
         response.sendStatus(404);
     }
+});
+
+app.post("/add-group", async (request, response) => {
+
+    let requestedCollection = null;
+    allCollections.forEach(collection => {
+        if (collection.namespace === `RendezViewDatabase.${request.body.collection}`) {
+            requestedCollection = collection;
+        }
+    });
+
+    await requestedCollection.insertOne({
+        groupName: request.body.groupName,
+        groupDescription: request.body.groupDescription,
+        groupUsers: request.body.groupUsers,
+        meetingTimes: "TBD"
+    });
+
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify({}));
+});
+
+app.delete("/delete-group", (request, response) => {
+
+    let requestedCollection = null;
+    allCollections.forEach(collection => {
+        if (collection.namespace === `RendezViewDatabase.${request.body.collection}`) {
+            requestedCollection = collection;
+        }
+    });
+
+    console.log("Delete Request for ID: " + request.body._id)
+
+    requestedCollection.deleteOne({
+        _id: new ObjectId(request.body._id)
+    });
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify({result: "Success", message: ""}));
 });
 
 ViteExpress.listen(app, parseInt(process.env.PORT))
