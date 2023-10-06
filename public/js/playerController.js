@@ -4,8 +4,8 @@ const SPAWN = {x: 80, y: 40}
 
 const remotePlayers = {}
 const spawnRemotePlayer = function(id, positon) {
-	let x = pos.x || SPAWN.x
-	let y = pos.y || SPAWN.y
+	let x = positon.x || SPAWN.x
+	let y = positon.y || SPAWN.y
 	remotePlayers[id] = add([
 		sprite("puffle-red"),
 		pos(x, y)
