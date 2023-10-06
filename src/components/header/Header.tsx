@@ -1,8 +1,10 @@
 // src/components/Header.tsx
 import { FC } from 'react';
 import IconButton from '@mui/material/IconButton';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { LightMode, DarkMode, Logout } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface HeaderProps {
   isDark: boolean;
@@ -10,26 +12,54 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ isDark, toggleTheme }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('/logout');
+      if (response.status === 200) {
+        navigate('/');
+      } else {
+        console.error('Logout failed:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   return (
-    <header className="p-4 text-text">
-      <div className="flex justify-between items-center">
-        <div
-          className=
-          "px-2 text-2xl border rounded-lg bg-primary font-bold">
+    <AppBar position="static">
+      <Toolbar>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+        >
           My Website
-        </div>
+        </Typography>
+
+        {location.pathname !== '/' && (
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="logout"
+            onClick={handleLogout}>
+            <Logout />
+          </IconButton>
+        )}
         <IconButton
-          color="primary"
-          aria-label="Toggle theme"
+          color="inherit"
           onClick={toggleTheme}
-          className="theme-toggle">
+          aria-label='toggle-theme'
+        >
           {isDark ?
-            <DarkModeIcon /> :
-            <LightModeIcon />
+            <LightMode /> :
+            <DarkMode />
           }
         </IconButton>
-      </div>
-    </header>
+      </Toolbar>
+    </AppBar>
   );
 };
 

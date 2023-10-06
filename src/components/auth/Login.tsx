@@ -1,6 +1,8 @@
+// src/components/auth/Login.tsx
 import React, { useState } from 'react';
 import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Alert } from '@mui/material';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -20,23 +22,30 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
+    <form onSubmit={handleSubmit}>
+      <TextField
+        label="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
+        variant="outlined"
+        fullWidth
+        margin="normal"
         required
       />
-      <input
+      <TextField
+        label="Password"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
+        variant="outlined"
+        fullWidth
+        margin="normal"
         required
       />
-      {error && <div className="error">{error}</div>}
-      <button type="submit">Login</button>
+      {error && <Alert severity="error">{error}</Alert>}
+      <Button type="submit" variant="contained" fullWidth>
+        Login
+      </Button>
     </form>
   );
 };

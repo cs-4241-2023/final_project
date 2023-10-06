@@ -1,6 +1,8 @@
+// src/components/auth/Register.tsx
 import React, { useState } from 'react';
 import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Alert } from '@mui/material';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -21,30 +23,40 @@ const Register: React.FC = () => {
   };
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
+    <form onSubmit={handleSubmit}>
+      <TextField
+        label="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
+        variant="outlined"
+        fullWidth
+        margin="normal"
         required
       />
-      <input
+      <TextField
+        label="Password"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
+        variant="outlined"
+        fullWidth
+        margin="normal"
         required
       />
-      <input
+      <TextField
+        label="Confirm Password"
         type="password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        placeholder="Confirm Password"
+        variant="outlined"
+        fullWidth
+        margin="normal"
         required
       />
-      {error && <div className="error">{error}</div>}
-      <button type="submit">Register</button>
+      {error && <Alert severity="error">{error}</Alert>}
+      <Button type="submit" variant="contained" fullWidth>
+        Register
+      </Button>
     </form>
   );
 };

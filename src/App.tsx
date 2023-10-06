@@ -1,32 +1,48 @@
-// src/App.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/header/Header';
-import Router from './Router'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import DashboardPage from "./pages/Dashboard"
+import CreatePage from "./pages/Create"
+import AuthPage from './pages/Auth';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { darkTheme, lightTheme } from './styles/theme';
+
+
 
 const App: React.FC = () => {
-    const [isDark, setIsDark] = useState(false);
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [isDark, setIsDark] = useState(
+    localStorage.getItem('theme') === 'dark' ? true : prefersDarkScheme
+  );
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
 
-    const toggleTheme = () => {
-        setIsDark(!isDark);
-    };
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  }, [isDark]);
 
-    useEffect(() => {
-        if (isDark) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [isDark]);
-
-    return (
-        <div className="bg-background min-h-screen text-text">
-            <Header
-                isDark={isDark}
-                toggleTheme={toggleTheme}
-            />
-            <Router />
-        </div>
-    );
+  return (
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Header
+          isDark={isDark}
+          toggleTheme={toggleTheme}
+        />
+        <Routes>
+          <Route path='/' element={<AuthPage />} />
+          <Route path='/dashboard' element={<DashboardPage />} />
+          <Route path='/create' element={<CreatePage />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
 };
 
 export default App;
