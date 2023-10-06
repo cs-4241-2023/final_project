@@ -31,7 +31,7 @@ const Header: FC<HeaderProps> = ({ isDark, toggleTheme }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Avatar alt='Website Icon' src='/src/assets/i-mama.png' />
+        <Avatar alt='Website Icon' src='/i-mama.png' />
         <Typography
           variant="h6"
           component="div"
