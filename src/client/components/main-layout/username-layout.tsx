@@ -27,7 +27,7 @@ const UsernameLayout: FC<UsernameLayoutProps> = ({ username }) => {
 return (
     <UsernameLayoutStyle>
         <UsernameText>{username}</UsernameText>
-        <button><img src="/logout.svg" width="10" height="10" /></button>
+        <button><img src="/logout.png" width="1em" height="1em" /></button>
     </UsernameLayoutStyle>
     
 );
