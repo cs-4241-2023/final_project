@@ -14,6 +14,5 @@
 .right {
     position: absolute;
     right: 10px;
-    left: auto;
     transform: translateY(16px); /* Centers vertically */
 }

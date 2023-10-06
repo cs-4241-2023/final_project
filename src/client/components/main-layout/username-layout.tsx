@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Method, fetchServer } from "../../scripts/fetch-server";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +31,7 @@ interface UsernameLayoutProps {
   }
   
 const UsernameLayout: FC<UsernameLayoutProps> = ({ username }) => {
-    
+
 
     const navigate = useNavigate();
     const onLogout = () => {
