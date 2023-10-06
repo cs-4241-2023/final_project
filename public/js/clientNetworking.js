@@ -1,4 +1,3 @@
-
 /**
  * A singleton class that helps manage the Socket.IO connection with the server.
  * Use SocketNetwork.getConnection() to use this class.
