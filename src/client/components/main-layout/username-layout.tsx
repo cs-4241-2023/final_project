@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
 import { FC } from "react";
+import { Method, fetchServer } from "../../scripts/fetch-server";
+import { useNavigate } from "react-router-dom";
 
 const UsernameText = styled.p`
 font-family: ${FONT_THEME.USERNAME_FONT};
@@ -29,10 +31,21 @@ interface UsernameLayoutProps {
   }
   
 const UsernameLayout: FC<UsernameLayoutProps> = ({ username }) => {
+    
+
+    const navigate = useNavigate();
+    const onLogout = () => {
+        console.log("logout");
+        fetchServer(Method.POST, "/logout").then((res) => {
+            navigate("/");
+        });
+        
+    }
+
 return (
     <UsernameLayoutStyle>
         <UsernameText>{username}</UsernameText>
-        <LogoutButton><img src="/logout.png" width="30" height="30" /></LogoutButton>
+        <LogoutButton onClick={onLogout}><img src="/logout.png" width="30" height="30" /></LogoutButton>
     </UsernameLayoutStyle>
     
 );

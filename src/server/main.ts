@@ -109,6 +109,13 @@ app.post("/signup", async (req, res) => {
   
 });
 
+app.post("/logout", async (req, res) => {
+
+  const result = await auth.logout(req, res);
+  res.status(result.status).json({message: result.message});
+  
+});
+
 app.post("/habitoutcome", async (req, res) => {
 
   if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
