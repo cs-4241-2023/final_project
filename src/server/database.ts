@@ -3,7 +3,7 @@ import DBUser from "./db_models/db-user";
 import DBHabit from "./db_models/db-habit";
 import DBHabitOutcome from "./db_models/db-habit-outcome";
 import DBUserHabit from "./db_models/db-user-habit";
-import { Outcome, Day } from "./models";
+import { Outcome, Day } from "../../models";
 
 export class Database {
     constructor() {
@@ -86,6 +86,18 @@ export class Database {
 
         if (record === null) throw new Error("UserHabit not found");
         else return { totalSuccesses: record.totalSuccesses, totalFails: record.totalFails, numLoggedDays: record.numLoggedDays };
+    }
+
+    // create new habit
+    public async createHabit(userID: mongoose.Types.ObjectId, name: string): Promise<mongoose.Types.ObjectId> {
+        const habit = new DBHabit({ name: name, description: "[Enter description here]"});
+        await habit.save();
+
+        // add user to habit
+        const userHabit = new DBUserHabit({ userID: userID, habitID: habit._id, totalSuccesses: 0, totalFails: 0, numLoggedDays: 0 });
+        await userHabit.save();
+
+        return habit._id;
     }
 
 

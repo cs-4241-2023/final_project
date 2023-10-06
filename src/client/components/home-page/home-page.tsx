@@ -1,9 +1,21 @@
-import { FC, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { FC, useEffect, useRef, useState } from "react";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { getDateToday } from "../../scripts/date";
+import { UserHabit, UserInfo } from "../../../../models";
 
-const testHabits = ["Habit 1", "Habit 2", "Habit 3"]
+const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatch<React.SetStateAction<number>>) => {
+    console.log("create habit");
+
+    const habitName = prompt("Enter habit name:");
+    if (habitName === null) return;
+
+    const response = verifyAuth(navigate, await fetchServer(Method.POST, "/createhabit", {name: habitName}));
+    console.log(response);
+
+    // refresh
+    setUpdate((update) => update + 1);
+};
 
 interface HomePageProps {
     setUsername: (username: string) => void;
@@ -12,6 +24,8 @@ interface HomePageProps {
 const HomePage: FC<HomePageProps> = ({ setUsername }) => {
 
     const navigate = useNavigate();
+
+    const [update, setUpdate] = useState(0); // used to ask server for new data 
 
     console.log("Home Page");
 
@@ -22,35 +36,42 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
          currentMonth: month,
          currentDay: day,
     }
-    console.log("send", params);
 
-    const [response, setResponse] = useState<any>(null);
+    const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
 
     useEffect(() => {
 
         const fetchResponse = async () => {
-            setResponse(verifyAuth(navigate, await fetchServer(Method.GET, "/userinfo", params)));
+            const response = verifyAuth(navigate, await fetchServer(Method.GET, "/userinfo", params));
+            console.log(response);
+
+            const {username, percentSuccessWeek, percentSuccessLifetime, numLoggedDays, habits} = response.content;
+            const habitsObj = (habits as any[]).map((habit) => {
+                return new UserHabit(habit.name, habit.description, habit.numLoggedDays, habit.percentSuccessWeek, habit.percentSuccessLifetime)
+            });
+            setUserInfo(new UserInfo(username, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, habitsObj));
         }
 
         fetchResponse();
-    }, []);
+    }, [update]);
 
-    if (response === null) return <p>Loading...</p>
-    const {username, percentSuccessWeek, percentSuccessLifetime, numLoggedDays, habits} = response.content;
+    if (userInfo === undefined) return <p>Loading...</p>
 
-    setUsername(username);
+    setUsername(userInfo.username);
     
     return <>
         <p>Home Page</p>
-        <p>Username: {username}</p>
-        <p>Percent Success This Week: {percentSuccessWeek}</p>
-        <p>Percent Success Lifetime: {percentSuccessLifetime}</p>
-        <p>Number of Logged Days: {numLoggedDays}</p>
-        <p>Habits: {habits.toString()}</p>
+        <p>Username: {userInfo.username}</p>
+        <p>Percent Success This Week: {userInfo.percentSuccessWeek}</p>
+        <p>Percent Success Lifetime: {userInfo.percentSuccessLifetime}</p>
+        <p>Number of Logged Days: {userInfo.numLoggedDays}</p>
+        <p>Habits: {userInfo.habits.toString()}</p>
         
         {
-            testHabits.map((habit) => (<p><Link to={"/habit/"+habit}>{habit}</Link></p>))
+            userInfo.habits.map((habit) => (<p><Link to={"/habit/"+habit.name}>{habit.name}</Link></p>))
         }
+        <button onClick ={() => createHabit(navigate, setUpdate)}>Create Habit</button>
+
     </>
 };
   
