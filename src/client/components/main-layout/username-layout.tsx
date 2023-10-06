@@ -6,9 +6,14 @@ const UsernameText = styled.p`
 font-family: ${FONT_THEME.USERNAME_FONT};
 font-size: 20px;
 color: ${COLOR_THEME.TEXT};
-display: flex;
-justify-content: center;
-align-items: center;
+line-height: 0;
+vertical-align: baseline;
+text-align: center;
+transform: translateY(8px);
+`
+
+const LogoutButton = styled.button`
+background-color: transparent;
 `
 
 const UsernameLayoutStyle = styled.div`
@@ -27,7 +32,7 @@ const UsernameLayout: FC<UsernameLayoutProps> = ({ username }) => {
 return (
     <UsernameLayoutStyle>
         <UsernameText>{username}</UsernameText>
-        <button><img src="/logout.png" width="1em" height="1em" /></button>
+        <LogoutButton><img src="/logout.png" width="20" height="20" /></LogoutButton>
     </UsernameLayoutStyle>
     
 );
