@@ -7,13 +7,16 @@ import CreatePage from "./pages/Create"
 import AuthPage from './pages/Auth';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { darkTheme, lightTheme } from './styles/theme';
+import { ThemeType } from './types/app.type';
 
-
+const themeKey = 'theme';
 
 const App: React.FC = () => {
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [isDark, setIsDark] = useState(
-    localStorage.getItem('theme') === 'dark' ? true : prefersDarkScheme
+    localStorage.getItem(themeKey) === null ?
+      prefersDarkScheme :
+      localStorage.getItem(themeKey) === ThemeType.DARK
   );
   const toggleTheme = () => {
     setIsDark(!isDark);
@@ -21,10 +24,11 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isDark) {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.setAttribute('data-theme', ThemeType.DARK);
     } else {
-      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.setAttribute('data-theme', ThemeType.LIGHT);
     }
+    localStorage.setItem(themeKey, isDark ? ThemeType.DARK : ThemeType.LIGHT);
   }, [isDark]);
 
   return (
