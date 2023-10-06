@@ -2,7 +2,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { Day, UserHabit, UserInfo } from "../../models";
+import { Day, Outcome, UserHabit, UserInfo } from "../../models";
 import { Authentication } from "./authentication";
 import { Database } from "./database";
 
@@ -51,7 +51,11 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
     const sum = totalSuccesses + totalFails;
     const percentSuccessLifetime = (sum === 0) ? 0 : (totalSuccesses / sum);
 
-    habits.push(new UserHabit(name, description, numLoggedDays, -1, percentSuccessLifetime, []));
+    // TODO: calculate these
+    const currentStreak = 0;
+    const outcomes: Outcome[] = [];
+
+    habits.push(new UserHabit(name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime, outcomes));
   }
   userInfo.habits = habits;
   

@@ -3,6 +3,7 @@ import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { getDateToday } from "../../scripts/date";
 import { UserHabit, UserInfo } from "../../../../models";
+import { Loading } from "../css-components/loading";
 
 const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatch<React.SetStateAction<number>>) => {
     console.log("create habit");
@@ -47,7 +48,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
 
             const {username, percentSuccessWeek, percentSuccessLifetime, numLoggedDays, habits} = response.content;
             const habitsObj = (habits as any[]).map((habit) => {
-                return new UserHabit(habit.name, habit.description, habit.numLoggedDays, habit.percentSuccessWeek, habit.percentSuccessLifetime)
+                return new UserHabit(habit.name, habit.description, habit.currentStreak, habit.numLoggedDays, habit.percentSuccessWeek, habit.percentSuccessLifetime)
             });
             setUserInfo(new UserInfo(username, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, habitsObj));
         }
@@ -55,7 +56,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
         fetchResponse();
     }, [update]);
 
-    if (userInfo === undefined) return <p>Loading...</p>
+    if (userInfo === undefined) return <Loading />
 
     setUsername(userInfo.username);
     
