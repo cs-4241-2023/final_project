@@ -25,12 +25,21 @@ class NetworkManager {
 
 		// Class initialization start
 		this.#socket = io()
-		this.#socket.on('setID', function(msg) {
-			this.id = msg
+		this.#socket.on('setID', function(newID) {
+			this.id = newID
+			this.emit('movement', {id: newID, msg: puffle.pos})
 		})
 
 		this.#socket.on('spawn', (players) => {
-			players.forEach(id => spawnRemotePlayer(id))
+			for (const [id, pos] of Object.entries(players)) {
+				spawnRemotePlayer(id, pos)
+			}
+		})
+
+		this.#socket.on('setPositions', (players) => {
+			for (const [id, pos] of Object.entries(players)) {
+				setRemotePosition(id, pos)
+			}
 		})
 
 		this.#socket.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.msg))

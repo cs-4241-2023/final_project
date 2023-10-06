@@ -1,7 +1,7 @@
 const {Server} = require('socket.io')
 
 let io = undefined
-const connectedPlayers = []
+const connectedPlayers = {}
 
 class SocketServer {
 
@@ -23,19 +23,28 @@ class SocketServer {
 }
 
 const onConnection = function(socket) {
+	socket.on('movement', (obj) => {
+		socket.broadcast.emit('remoteMovement', obj)
+		connectedPlayers[obj.id] = obj.msg
+	})
+
 	socket.emit('setID', socket.id)
 	socket.emit('spawn', connectedPlayers)
-	socket.broadcast.emit('spawn', [socket.id])
-	connectedPlayers.push(socket.id)
+
+	let newObj = {}
+	newObj[socket.id] = {}
+	socket.broadcast.emit('spawn', newObj)
 	
+	connectedPlayers[socket.id] = {}
+
 	console.log('User Connected:', connectedPlayers)
 
 	//console.log(this)
-	socket.on('movement', (obj) => socket.broadcast.emit('remoteMovement', obj))
+	
+
 	socket.on('disconnect', (reason) => {
 		io.emit('kill', socket.id)
-		idIndex = connectedPlayers.findIndex(element => element === socket.id)
-		connectedPlayers.splice(idIndex, 1)
+		delete connectedPlayers[socket.id]
 		console.log('User Disconnected:', connectedPlayers)
 	})
 }

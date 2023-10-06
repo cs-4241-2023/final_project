@@ -1,11 +1,14 @@
 const network = NetworkManager.getConnection()
 const SPEED = 300
+const SPAWN = {x: 80, y: 40}
 
 const remotePlayers = {}
-const spawnRemotePlayer = function(playerID) {
-	remotePlayers[playerID] = add([
+const spawnRemotePlayer = function(id, positon) {
+	let x = pos.x || SPAWN.x
+	let y = pos.y || SPAWN.y
+	remotePlayers[id] = add([
 		sprite("puffle-red"),
-		pos(80, 40)
+		pos(x, y)
 	])
 }
 
@@ -16,7 +19,8 @@ const removeRemotePlayer = function(id) {
 }
 
 const moveRemotePlayer = function(id, vector) {
-	remotePlayers[id].move(vector.x, vector.y)
+	console.log(id, remotePlayers[id])
+	remotePlayers[id].moveTo(vector.x, vector.y)
 }
 
 kaboom({
@@ -33,7 +37,7 @@ loadSprite("puffle-red", "../sprites/puffle-red.png")
 // compose the player game object from multiple components and add it to the game
 const puffle = add([
 	sprite("puffle-red"),
-	pos(80, 40)
+	pos(SPAWN.x, SPAWN.y)
 ])
 
 /*
@@ -46,23 +50,23 @@ add([
 // press w to move up
 onKeyDown("w", () => {
 	puffle.move(0, -SPEED)
-	network.sendMessage('movement', {x: 0, y: -SPEED})
+	network.sendMessage('movement', puffle.pos)
 })
 
 // press s to move down
 onKeyDown("s", () => {
 	puffle.move(0, SPEED)
-	network.sendMessage('movement', {x: 0, y: SPEED})
+	network.sendMessage('movement', puffle.pos)
 })
 
 // press a to move down
 onKeyDown("a", () => {
 	puffle.move(-SPEED, 0)
-	network.sendMessage('movement', {x: -SPEED, y: 0})
+	network.sendMessage('movement', puffle.pos)
 })
 
 // press d to move down
 onKeyDown("d", () => {
 	puffle.move(SPEED, 0)
-	network.sendMessage('movement', {x: SPEED, y: 0})
+	network.sendMessage('movement', puffle.pos)
 })
