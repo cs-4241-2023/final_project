@@ -79,7 +79,8 @@ app.post("/add-group", async (request, response) => {
     await requestedCollection.insertOne({
         groupName: request.body.groupName,
         groupDescription: request.body.groupDescription,
-        groupUsers: request.body.groupUsers
+        groupUsers: request.body.groupUsers,
+        meetingTimes: "TBD"
     });
 
     response.writeHead(200, {"Content-Type": "application/json"});
