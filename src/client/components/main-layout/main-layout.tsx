@@ -9,6 +9,7 @@ const TopBar = styled.div`
 background-color: ${COLOR_THEME.TOPBAR};
 color: white;
 height: 80px;
+display: absolute;
 width: 100%; // Ensure it spans the entire width of the viewport
 box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
 z-index: 1000; // Ensure it stacks on top of other elements
@@ -19,6 +20,8 @@ const ContentContainer = styled.div`
   overflow-y: auto; // Add scroll if content overflows
   width: 100%;
   left: 0;
+  height: 100vh-80px;
+  display:absolute;
   background-color: ${COLOR_THEME.BACKGROUND};
 `;
 
