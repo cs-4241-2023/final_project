@@ -26,10 +26,10 @@ async function parseUserHabit(includeOutcomes: boolean, userID: string, habitID:
   return userHabit;
 }
 
-async function parseUserInfo(userID: string, currentDay: Day): Promise<UserInfo> {
+async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserInfo> {
   let userInfo = new UserInfo();
 
-  const user = (await database.getUserByUsername(userID));
+  const user = (await database.getUserByID(userID));
 
   if (user === null) throw new Error("User not found");
 
@@ -74,21 +74,33 @@ app.post("/habitoutcome", async (req, res) => {
 });
 
 
-app.get("/userinfo", (req, res) => {
+app.get("/userinfo", async (req, res) => {
 
   if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
     res.status(401).json({message: "Not logged in"});
     return;
   }
 
-  const data = req.body;
-  const {userID, currentYear, currentMonth, currentDay} = data;
+  const data = req.query;
+  let {userIDStr, currentYearStr, currentMonthStr, currentDayStr} = data;
 
-  let output = parseUserInfo(userID, new Day(currentYear, currentMonth, currentDay));
+  let userID: mongoose.Types.ObjectId;
+  if (userIDStr === undefined) {
+    console.log("defaulting to logged in user");
+    userID = auth.getUserID(req)!;
+  } else {
+    userID = new mongoose.Types.ObjectId(userIDStr as string);
+  }
+
+  const currentYear = parseInt(currentYearStr as string);
+  const currentMonth = parseInt(currentMonthStr as string);
+  const currentDay = parseInt(currentDayStr as string);
+
+  let output = await parseUserInfo(userID, new Day(currentYear, currentMonth, currentDay));
   res.status(200).json(output);
 });
 
-app.get("/userhabit", (req, res) => {
+app.get("/userhabit", async (req, res) => {
 
   if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
     res.status(401).json({message: "Not logged in"});
@@ -98,7 +110,7 @@ app.get("/userhabit", (req, res) => {
   const data = req.body;
   const {userID, habitID, currentYear, currentMonth, currentDay} = data;
 
-  let output = parseUserHabit(true, userID, habitID, new Day(currentYear, currentMonth, currentDay));
+  let output = await parseUserHabit(true, userID, habitID, new Day(currentYear, currentMonth, currentDay));
   res.status(200).json(output);
 });
 

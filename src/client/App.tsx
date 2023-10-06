@@ -27,7 +27,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/habit/:habitID" element={<MainLayout username={username} content={<HabitPage />} />} />
-          <Route path="/home" element={<MainLayout username={username} content={<HomePage />} />} />
+          <Route path="/home" element={<MainLayout username={username} content={<HomePage setUsername={setUsername} />} />} />
           <Route path="/register" element={<LoginPage authType={AuthType.SIGNUP}/>} />
           <Route path="*" element={<LoginPage authType={AuthType.LOGIN}/>} />
         </Routes>

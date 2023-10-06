@@ -26,6 +26,16 @@ export class Database {
         );
     }
 
+    public async getUserByID(userID: mongoose.Types.ObjectId): Promise<{
+        _id: mongoose.Types.ObjectId,
+        username: string,
+        password: string,
+        totalSuccesses: number,
+        totalFails: number,
+        totalLoggedDays: number} | null> {
+        return await DBUser.findOne({ _id : userID });
+    }
+
     public async getUserByUsername(username: string): Promise<{
         _id: mongoose.Types.ObjectId,
         username: string,
@@ -33,7 +43,7 @@ export class Database {
         totalSuccesses: number,
         totalFails: number,
         totalLoggedDays: number} | null> {
-        return await DBUser.findOne({ username });
+        return await DBUser.findOne({ username : username });
     }
 
     public async createUser(username: string, password: string): Promise<mongoose.Types.ObjectId> {
