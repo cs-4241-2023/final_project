@@ -7,7 +7,7 @@ function Dashboard() {
     const [collectionName, setCollectionName] = React.useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
     const [dataChanged, setDataChanged] = React.useState(false);
 
-    React.useEffect( () => {
+    React.useEffect(() => {
         getCurrentCollection(collectionName).then((data) => {
 
             let groupArr = []
@@ -19,23 +19,23 @@ function Dashboard() {
                 });
 
                 groupArr.push(
-                            <div className={"group"} key={groupArr.length}>
-                                <h3>{group.groupName}</h3>
-                                <p>{group.groupDescription}</p>
-                                <ul>
-                                    {listItems}
-                                </ul>
-                                <p>Possible Group Meeting Times: {group.meetingTimes}</p>
-                                <button className={"group-btn"} type={"submit"} onClick={() => {
-                                    // TODO: Switch to group page
-                                }}>Go To Group Page</button>
-                                <button className={"delete-btn"} type={"submit"} onClick={(e) => deleteGroup(e, group._id)}>Delete Group</button>
-                            </div>
-                    );
-                    setGroupHTML(groupArr);
-                    setDataChanged(false);
-                });
-            }
+                    <div className={"group"} key={groupArr.length}>
+                        <h3>{group.groupName}</h3>
+                        <p>{group.groupDescription}</p>
+                        <ul>
+                            {listItems}
+                        </ul>
+                        <p>Possible Group Meeting Times: {group.meetingTimes}</p>
+                        <button className={"group-btn"} type={"submit"} onClick={() => {
+                            // TODO: Switch to group page
+                        }}>Go To Group Page</button>
+                        <button className={"delete-btn"} type={"submit"} onClick={(e) => deleteGroup(e, group._id)}>Delete Group</button>
+                    </div>
+                );
+                setGroupHTML(groupArr);
+                setDataChanged(false);
+            });
+        }
         );
     }, [dataChanged]);
 
@@ -59,10 +59,10 @@ function Dashboard() {
             <div className={"add-group-page"}>
                 <h2>Add a Group</h2>
                 <form onSubmit={(e) => addGroup(e)}>
-                    <input id={"groupName"} type={"text"} placeholder={"group name"}/>
-                    <input id={"groupDescription"} type={"text"} placeholder={"group description"}/>
-                    <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"}/>
-                    <button onClick={()=> {setAddGroupPage(<></>)}}>Cancel</button>
+                    <input id={"groupName"} type={"text"} placeholder={"group name"} />
+                    <input id={"groupDescription"} type={"text"} placeholder={"group description"} />
+                    <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"} />
+                    <button onClick={() => { setAddGroupPage(<></>) }}>Cancel</button>
                     <button type={"submit"}>Submit</button>
                 </form>
             </div>
@@ -74,7 +74,7 @@ function Dashboard() {
 
         let form = e.target.elements;
 
-        if(form.groupName.value === "" || form.groupDescription.value === "" || form.groupUsers.value === "") {
+        if (!form.groupName.value || !form.groupDescription.value || !form.groupUsers.value) {
             alert("One or more fields are empty");
         } else {
             let groupJSON = JSON.stringify({
@@ -100,7 +100,7 @@ function Dashboard() {
         await fetch("/delete-group", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({collection: collectionName, _id: assignmentID })
+            body: JSON.stringify({ collection: collectionName, _id: assignmentID })
         });
         setDataChanged(true);
     }
@@ -118,7 +118,7 @@ function Dashboard() {
             <h2>Tracked Groups</h2>
             {addGroupPage}
             <div className={"group-container"}>
-                 {groupHTML}
+                {groupHTML}
             </div>
             <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
         </main>
