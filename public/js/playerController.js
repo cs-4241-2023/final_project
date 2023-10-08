@@ -43,9 +43,7 @@ let layers = {
 	"ui": 2,
 }
 
-// load the red puffle sprite
 loadSprite("puffle-red", "../sprites/puffle-red.png")
-
 
 scene("lobby", () => {
 
@@ -55,7 +53,6 @@ scene("lobby", () => {
 		abandoned: new Vec2(724, 300),
 	}
 
-	loadSprite("puffle-red", "../sprites/puffle-red.png")
 	loadSprite("vista", "../background/vista.png")
 	loadSprite("dojo", "../background_interactables/dojoBuilding.png")
 	loadSprite("abandoned", "../background_interactables/abandonedBuilding.png")
