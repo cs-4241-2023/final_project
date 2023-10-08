@@ -23,19 +23,19 @@ class SocketServer {
 }
 
 const onConnection = function(socket) {
-	socket.on('changeScene', (sceneName) => {
+	socket.on('changeScene', (state) => {
 		const socketEntry = connectedPlayers[socket.id]
 
 		socket.leave(connectedPlayers[socket.id].room)
 		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
 
-		socketEntry.room = sceneName
-		socketEntry.pos = {}
+		socketEntry.room = state.scene
+		socketEntry.pos = state.pos
 
 		let newObj = {}
 		newObj[socket.id] = socketEntry.pos
-		socket.broadcast.in(sceneName).emit('spawn', newObj)
-		socket.join(sceneName)
+		socket.broadcast.in(state.scene).emit('spawn', newObj)
+		socket.join(state.scene)
 
 		for(const [id, obj] of Object.entries(connectedPlayers)) {
 			const player = {}
@@ -58,7 +58,7 @@ const onConnection = function(socket) {
 		console.log('User Disconnected:', connectedPlayers)
 	})
 	
-	
+
 	connectedPlayers[socket.id] = { pos: {}, room: '' }
 	console.log('User Connected:', connectedPlayers)
 }

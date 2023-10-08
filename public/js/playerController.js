@@ -1,8 +1,8 @@
 import sendNetworkMessage from "./clientNetworking.js";
 
-//const network = NetworkManager.getConnection()
 const SPEED = 2
-const SPAWN = { x: 80, y: 40 }
+const LOBBY_SPAWN = { x: 80, y: 40 }
+const DOJO_SPAWN = { x: 380, y: 415 }
 
 kaboom({
 	background: [0, 0, 0],
@@ -39,7 +39,7 @@ scene("lobby", () => {
 	// compose the player game object from multiple components and add it to the game
 	const player = add([
 		sprite("puffle-red"),
-		pos(SPAWN.x, SPAWN.y),
+		pos(LOBBY_SPAWN.x, LOBBY_SPAWN.y),
 		z(layers.game),
 		scale(0.5, 0.5),
 		anchor("center"),
@@ -115,7 +115,7 @@ scene("lobby", () => {
 				sendNetworkMessage('movement', player.pos)
 			}, easings.easeOutSine).then(() => {
 				go("dojo")
-				sendNetworkMessage('changeScene', 'dojo')
+				sendNetworkMessage('changeScene', { scene: 'dojo', pos: DOJO_SPAWN })
 			})
 	})
 
@@ -130,7 +130,7 @@ scene("dojo", () => {
 		2: new Vec2(675, 580),
 		3: new Vec2(590, 520),
 	}
-	const DOOR_LOCATION = new Vec2(380, 335)
+	const DOOR_LOCATION = new Vec2(DOJO_SPAWN.x, DOJO_SPAWN.y - 80)
 
 	loadSprite("dojo-mat", "../background_interactables/mat.png")
 	loadSprite("background-dojo", "../background/dojo.png")
@@ -145,7 +145,7 @@ scene("dojo", () => {
 
 	const player = add([
 		sprite("puffle-red"),
-		pos(DOOR_LOCATION.x, DOOR_LOCATION.y + 80),
+		pos(DOJO_SPAWN.x, DOJO_SPAWN.y),
 		z(layers.game),
 		scale(0.5, 0.5),
 		anchor("center"),
@@ -173,8 +173,7 @@ scene("dojo", () => {
 			curTween = tween(player.pos, new Vec2(mousePos().x, MAX_HEIGHT), SPEED, (p) => {
 				player.pos = p
 				sendNetworkMessage('movement', player.pos)
-			}
-				, easings.easeOutSine)
+			}, easings.easeOutSine)
 		}
 
 	})
@@ -191,7 +190,7 @@ scene("dojo", () => {
 				sendNetworkMessage('movement', player.pos)
 			}, easings.easeOutSine).then(() => {
 				go("lobby")
-				sendNetworkMessage('changeScene', 'lobby')
+				sendNetworkMessage('changeScene', { scene: 'lobby', pos: LOBBY_SPAWN })
 			})
 	})
 
@@ -238,4 +237,4 @@ scene("dojo", () => {
 })
 
 go("lobby")
-sendNetworkMessage('changeScene', 'lobby')
+sendNetworkMessage('changeScene', { scene: 'lobby', pos: LOBBY_SPAWN })
