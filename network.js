@@ -24,8 +24,17 @@ class SocketServer {
 
 const onConnection = function(socket) {
 	socket.on('movement', (obj) => {
-		socket.broadcast.emit('remoteMovement', obj)
-		connectedPlayers[obj.id] = obj.msg
+		socket.in(connectedPlayers[socket.id].room).emit('remoteMovement', obj)
+		connectedPlayers[obj.id].pos = obj.msg
+	})
+	socket.on('changeScene', (obj) => {
+		socket.leave(connectedPlayers[socket.id].room)
+		connectedPlayers[socket.id].room = obj.msg
+	})
+	socket.on('disconnect', (reason) => {
+		io.emit('kill', socket.id)
+		delete connectedPlayers[socket.id]
+		console.log('User Disconnected:', connectedPlayers)
 	})
 
 	socket.emit('setID', socket.id)
@@ -35,18 +44,10 @@ const onConnection = function(socket) {
 	newObj[socket.id] = {}
 	socket.broadcast.emit('spawn', newObj)
 	
-	connectedPlayers[socket.id] = {}
+	connectedPlayers[socket.id] = { pos: {}, room: 'lobby' }
+	socket.join('lobby')
 
 	console.log('User Connected:', connectedPlayers)
-
-	//console.log(this)
-	
-
-	socket.on('disconnect', (reason) => {
-		io.emit('kill', socket.id)
-		delete connectedPlayers[socket.id]
-		console.log('User Disconnected:', connectedPlayers)
-	})
 }
 
 module.exports = SocketServer

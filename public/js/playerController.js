@@ -26,7 +26,7 @@ const moveRemotePlayer = function(id, vector) {
 	remotePlayers[id].moveTo(vector.x, vector.y)
 }
 
-// -------------- End NEtwork Functions -------------------------
+// -------------- End Network Functions -------------------------
 
 kaboom({
 	background: [0, 0, 0],
