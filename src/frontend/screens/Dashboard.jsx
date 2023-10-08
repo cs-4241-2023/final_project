@@ -1,5 +1,4 @@
 import React from "react";
-import "../css/Dashboard.css"
 
 function Dashboard() {
     const [groupHTML, setGroupHTML] = React.useState([]);
@@ -109,7 +108,7 @@ function Dashboard() {
         <button className={"profile-btn"} type={"submit"} onClick={() => {
             // TODO: Switch to accounts page
         }}>Profile/Settings</button>
-        <header>
+        <header className="dashboard--header">
             <h1>RendezView Dashboard</h1>
             <p>Welcome to RendezView. Please select an existing group or create a new one.</p>
         </header>

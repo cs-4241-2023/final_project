@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../css/Login.css"
 
 function Login(props) {
     const { setLoggedIn } = props;
@@ -34,9 +33,6 @@ function Login(props) {
 
     function handleLogin(e) {
         e.preventDefault();
-
-        console.log("Username:", username)
-        console.log("Password:", password)
 
         fetch("/login", {
             method: "POST",
