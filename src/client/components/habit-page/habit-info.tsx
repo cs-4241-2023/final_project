@@ -22,7 +22,7 @@ margin: 10px;
 
 const HabitTitleStyle = styled.h1
 `
-padding-left: 8px;
+padding-left: 10px;
 display: inline-block;
 margin-right: 15px;
 transform: translateY(5px);
@@ -45,7 +45,7 @@ const HabitDescriptionStyle = styled.div
 `
 cursor: pointer;
 width: fit-content;
-padding: 8px;
+padding-left: 10px;
 transition: background-color 0.3s;
 
 &:hover {
@@ -53,11 +53,17 @@ transition: background-color 0.3s;
 }
 `
 
-const EditableDescription = styled.textarea`
-  width: 100%;
-  resize: none;
-  margin-left: 8px;
-  `;
+const EditableDescription = styled.textarea
+`
+width: 100%;
+resize: none;
+margin-left: 8px;
+`
+const HabitInfoRightSide = styled.div
+`
+padding-right: 10px;
+`
+
 
 const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
     const [isDescriptionEditing, setDescriptionEditing] = useState(false);
@@ -93,6 +99,12 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
                 )}
             </div>
             <div>
+                <HabitInfoRightSide className="h3">
+                    {habitInfo.numLoggedDays} days
+                </HabitInfoRightSide>
+                <HabitInfoRightSide className="h3">
+                    {habitInfo.percentSuccessLifetime}%
+                </HabitInfoRightSide>
             </div> 
         </MainDivStyle>
     )

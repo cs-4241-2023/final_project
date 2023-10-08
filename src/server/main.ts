@@ -41,7 +41,7 @@ async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose
   userHabit.percentSuccessWeek = -1; // TODO: calculate this
 
   let sum = habitInfo.totalSuccesses + habitInfo.totalFails;
-  userHabit.percentSuccessLifetime = (sum === 0) ? 0 : (habitInfo.totalSuccesses / sum);
+  userHabit.percentSuccessLifetime = (sum === 0) ? 0 : +(((habitInfo.totalSuccesses / sum) * 100).toFixed(2));
 
   return userHabit;
 }
@@ -59,7 +59,7 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
   userInfo.percentSuccessWeek = -1; // TODO: calculate this
 
   let sum = user.totalSuccesses + user.totalFails;
-  userInfo.percentSuccessLifetime = (sum === 0) ? 0 : (user.totalSuccesses / sum);
+  userInfo.percentSuccessLifetime = (sum === 0) ? 0 : +(((user.totalSuccesses / sum) * 100).toFixed(2));
 
   const habitIDs = await database.getAllHabitsForUser(userID);
   const habits = [];
@@ -69,7 +69,7 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
     const {totalSuccesses, totalFails, numLoggedDays} = (await database.getUserHabit(userID, habitID))!;
 
     const sum = totalSuccesses + totalFails;
-    const percentSuccessLifetime = (sum === 0) ? 0 : (totalSuccesses / sum);
+    const percentSuccessLifetime = (sum === 0) ? 0 : +(((totalSuccesses / sum) * 100).toFixed(2));
 
     // TODO: calculate these
     const currentStreak = 0;
