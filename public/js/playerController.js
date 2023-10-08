@@ -2,7 +2,7 @@ import sendNetworkMessage from "./clientNetworking.js";
 
 //const network = NetworkManager.getConnection()
 const SPEED = 2
-export const SPAWN = { x: 80, y: 40 }
+const SPAWN = { x: 80, y: 40 }
 
 kaboom({
 	background: [0, 0, 0],
@@ -92,8 +92,6 @@ scene("lobby", () => {
 	let curTween = null
 	//movement
 	onMousePress("right", () => {
-
-
 		if (curTween) {
 			curTween.cancel()
 		}
@@ -103,7 +101,6 @@ scene("lobby", () => {
 				player.pos = p
 				sendNetworkMessage('movement', player.pos)
 			}, easings.easeOutSine)
-
 	})
 
 	//interact
@@ -116,21 +113,24 @@ scene("lobby", () => {
 			(p) => {
 				player.pos = p
 				sendNetworkMessage('movement', player.pos)
-			}, easings.easeOutSine).then(() => go("dojo"))
+			}, easings.easeOutSine).then(() => {
+				go("dojo")
+				sendNetworkMessage('changeScene', 'dojo')
+			})
 	})
 
 })
 
 scene("dojo", () => {
 
-	let MAX_HEIGHT = 400
-	let MAT_LOCATION = {
+	const MAX_HEIGHT = 400
+	const MAT_LOCATION = {
 		0: new Vec2(300, 580),
 		1: new Vec2(400, 520),
 		2: new Vec2(675, 580),
 		3: new Vec2(590, 520),
 	}
-	let DOOR_LOCATION = new Vec2(380, 335)
+	const DOOR_LOCATION = new Vec2(380, 335)
 
 	loadSprite("dojo-mat", "../background_interactables/mat.png")
 	loadSprite("background-dojo", "../background/dojo.png")
@@ -189,7 +189,10 @@ scene("dojo", () => {
 			(p) => {
 				player.pos = p
 				sendNetworkMessage('movement', player.pos)
-			}, easings.easeOutSine).then(() => go("lobby"))
+			}, easings.easeOutSine).then(() => {
+				go("lobby")
+				sendNetworkMessage('changeScene', 'lobby')
+			})
 	})
 
 	function spawnInteractables() {
@@ -235,3 +238,4 @@ scene("dojo", () => {
 })
 
 go("lobby")
+sendNetworkMessage('changeScene', 'lobby')

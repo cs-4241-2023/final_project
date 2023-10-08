@@ -23,30 +23,43 @@ class SocketServer {
 }
 
 const onConnection = function(socket) {
-	socket.on('movement', (obj) => {
-		socket.in(connectedPlayers[socket.id].room).emit('remoteMovement', obj)
-		connectedPlayers[obj.id].pos = obj.msg
-	})
-	socket.on('changeScene', (obj) => {
+	socket.on('changeScene', (sceneName) => {
+		const socketEntry = connectedPlayers[socket.id]
+
 		socket.leave(connectedPlayers[socket.id].room)
-		connectedPlayers[socket.id].room = obj.msg
+		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
+
+		socketEntry.room = sceneName
+		socketEntry.pos = {}
+
+		let newObj = {}
+		newObj[socket.id] = socketEntry.pos
+		socket.broadcast.in(sceneName).emit('spawn', newObj)
+		socket.join(sceneName)
+
+		for(const [id, obj] of Object.entries(connectedPlayers)) {
+			const player = {}
+			player[id] = obj.pos
+			if((obj.room === socketEntry.room) && (id !== socket.id)) {
+				socket.emit('spawn', player)
+			}
+		}
 	})
+	
+	socket.on('movement', (pos) => {
+		const socketEntry = connectedPlayers[socket.id]
+		socket.broadcast.in(socketEntry.room).emit('remoteMovement', { id: socket.id, pos })
+		socketEntry.pos = pos
+	})
+
 	socket.on('disconnect', (reason) => {
-		io.emit('kill', socket.id)
+		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
 		delete connectedPlayers[socket.id]
 		console.log('User Disconnected:', connectedPlayers)
 	})
-
-	socket.emit('setID', socket.id)
-	socket.emit('spawn', connectedPlayers)
-
-	let newObj = {}
-	newObj[socket.id] = {}
-	socket.broadcast.emit('spawn', newObj)
 	
-	connectedPlayers[socket.id] = { pos: {}, room: 'lobby' }
-	socket.join('lobby')
-
+	
+	connectedPlayers[socket.id] = { pos: {}, room: '' }
 	console.log('User Connected:', connectedPlayers)
 }
 

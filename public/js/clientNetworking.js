@@ -1,10 +1,8 @@
-import { SPAWN } from "./playerController.js"
-
 // Socket Initialization
 const network = io()
 network.on('setID', function(newID) {
-	this.id = newID
-	this.emit('movement', {id: newID, msg: SPAWN})
+	//this.id = newID
+	//this.emit('movement', {id: newID, msg: SPAWN})
 })
 
 network.on('spawn', (players) => {
@@ -19,7 +17,7 @@ network.on('setPositions', (players) => {
 	}
 })
 
-network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.msg))
+network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
 network.on('kill', (id) => removeRemotePlayer(id))
 
 
@@ -30,8 +28,8 @@ network.on('kill', (id) => removeRemotePlayer(id))
   * @param {string} messageName The name of this message. This serves as a simple indicator about the type of message that you are sending.
   * @param {object} object The object that will be send to clients.
   */
-function sendNetworkMessage(messageName, object) {
-	network.emit(messageName, {id: network.id, msg: object})
+const sendNetworkMessage = function(messageName, object) {
+	network.emit(messageName, object)
 }
 
 
@@ -40,12 +38,13 @@ function sendNetworkMessage(messageName, object) {
 
 const remotePlayers = {}
 const spawnRemotePlayer = function (id, positon) {
-	let x = positon.x || SPAWN.x
-	let y = positon.y || SPAWN.y
+	let x = positon.x //|| SPAWN.x
+	let y = positon.y //|| SPAWN.y
 	remotePlayers[id] = add([
 		sprite("puffle-red"),
 		pos(x, y),
-		scale(0.5, 0.5)
+		scale(0.5, 0.5),
+		anchor("center"),
 	])
 }
 
@@ -56,7 +55,6 @@ const removeRemotePlayer = function (id) {
 }
 
 const moveRemotePlayer = function (id, vector) {
-	console.log(id, remotePlayers[id])
 	remotePlayers[id].moveTo(vector.x, vector.y)
 }
 
