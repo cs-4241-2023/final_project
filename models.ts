@@ -26,18 +26,24 @@ export class UserHabit {
     description: string;
     currentStreak: number;
     numLoggedDays: number;
-    percentSuccessWeek: number;
+    numSuccessesWeek: number;
     percentSuccessLifetime: number;
+    numLoggedDaysWeek: number;
 
-    constructor(userID: string, habitID: string, name: string = "", description: string = "", currentStreak: number = -1, numLoggedDays: number = -1, percentSuccessWeek: number = -1, percentSuccessLifetime: number = -1) {
+    constructor(userID: string, habitID: string, name: string = "", description: string = "", currentStreak: number = -1, numLoggedDays: number = -1, numSuccessesWeek: number = -1, percentSuccessLifetime: number = -1, numLoggedDaysWeek: number = -1) {
         this.userID = userID;
         this.habitID = habitID;
         this.name = name;
         this.description = description;
         this.currentStreak = currentStreak;
         this.numLoggedDays = numLoggedDays;
-        this.percentSuccessWeek = percentSuccessWeek;
+        this.numSuccessesWeek = numSuccessesWeek;
         this.percentSuccessLifetime = percentSuccessLifetime;
+        this.numLoggedDaysWeek = numLoggedDaysWeek;
+    }
+
+    get percentSuccessWeek(): number {
+        return (this.numLoggedDaysWeek === 0) ? 0 : (this.numSuccessesWeek / this.numLoggedDaysWeek);
     }
 
 }
