@@ -44,6 +44,20 @@ function getMonthString(month: number) {
     }
 }
 
+// return -1 if dateA is before dateB, 0 if equal, 1 if after
+function compareDates(yearA: number, monthA: number, dayA: number, yearB: number, monthB: number, dayB: number) {
+    if (yearA < yearB) return -1;
+    if (yearA > yearB) return 1;
+
+    if (monthA < monthB) return -1;
+    if (monthA > monthB) return 1;
+
+    if (dayA < dayB) return -1;
+    if (dayA > dayB) return 1;
+
+    return 0;
+}
+
 async function fetchHabitOutcomes(userID: string, habitID: string, year: number, month: number): Promise<HabitOutcome[]> {
 
     const params = {
@@ -67,7 +81,7 @@ async function fetchHabitOutcomes(userID: string, habitID: string, year: number,
 }
 
 class DayOutcome {
-    constructor(public year: number, public month: number, public day: number, public outcome: Outcome, public isToday: boolean) {}
+    constructor(public year: number, public month: number, public day: number, public outcome: Outcome, public today: number) {}
 };
 
 interface CalendarComponentProps {
@@ -131,9 +145,9 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
                     newCalendar[newCalendar.length-1].push(undefined);
                 } else {
                     // add normal day
-                    const isToday = day === dateToday.day && displayMonth === dateToday.month && displayYear === dateToday.year;
+                    const today = compareDates(displayYear, displayMonth, day, dateToday.year, dateToday.month, dateToday.day);
                     const outcome = getOutcomeOnDay(outcomes, day);
-                    newCalendar[newCalendar.length-1].push(new DayOutcome(displayYear, displayMonth, day, outcome, isToday));
+                    newCalendar[newCalendar.length-1].push(new DayOutcome(displayYear, displayMonth, day, outcome, today));
                 }
 
                 weekday += 1;
@@ -171,17 +185,17 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
                             week.map((day) => {
                                 let text = -1;
                                 let outcome = Outcome.NONE;
-                                let isToday = false;
+                                let today = -1;
                                 if (day !== undefined) {
                                     text = day.day;
                                     outcome = day.outcome;
-                                    isToday = day.isToday;
+                                    today = day.today;
                                 }
 
                                 return <td><CalendarCellComponent
                                     habitID={habitID}
                                     year={displayYear} month={displayMonth} day={text}
-                                    outcome={outcome} isToday={isToday}
+                                    outcome={outcome} today={today}
                                     setUpdate={setUpdate} /></td>
                             })
                         }

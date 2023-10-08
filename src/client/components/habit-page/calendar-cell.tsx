@@ -7,30 +7,44 @@ import { COLOR_THEME } from "../../themes";
 import { Method, fetchServer } from "../../scripts/fetch-server";
 import { set } from "mongoose";
 
-const Cell = styled.div`
-  width: 40px;
-  height: 40px;
+type CellProps = {
+    color: string;
+    disableHover?: boolean;
+  };
+
+const Cell = styled.div<CellProps>`
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; 
+  border-radius: 15px; 
   font-size: 16px;
+  margin: 2px;
   background-color: ${(props) => props.color};
 
-  &:hover {
-    background-color: ${(props) => darken(0.05, props.color!)};
-  }
+  cursor: ${(props) => props.disableHover ? 'default' : 'pointer'}; // setting the cursor
+
+  ${(props) => !props.disableHover && `
+    &:hover {
+      background-color: ${darken(0.05, props.color!)};
+    }
+  `}
 
 `
 
 const CellText = styled.p`
-    font-size: 16px;
+    font-size: 30px;
     font-weight: bold;
     color: white;
+    line-height: 1;
+    transform: translateY(7px);
 `
 
 const CellTextU = styled(CellText)`
-    text-decoration: underline;
+    border: 3px solid white;
+    padding: 10px;
+    border-radius: 100%;
 `   
 
 interface CellComponentProps {
@@ -39,11 +53,14 @@ interface CellComponentProps {
     month: number,
     day: number,
     outcome: Outcome,
-    isToday: boolean,
+    today: number, // -1 is before today, 0 is today, 1 is after
     setUpdate: React.Dispatch<React.SetStateAction<number>>,
 }
 
-function getColor(outcome: Outcome): string {
+function getColor(outcome: Outcome, today: number): string {
+
+    if (today > 0) return COLOR_THEME.OUTCOME_FUTURE;
+
     if (outcome === Outcome.SUCCESS) {
         return COLOR_THEME.OUTCOME_SUCCESS;
     } else if (outcome === Outcome.FAIL) {
@@ -54,7 +71,7 @@ function getColor(outcome: Outcome): string {
 }
 
 // for an empty cell, set day = -1 to make it invisible
-const CalendarCellComponent: FC<CellComponentProps> = ({habitID, year, month, day, outcome, isToday, setUpdate}) => {
+const CalendarCellComponent: FC<CellComponentProps> = ({habitID, year, month, day, outcome, today, setUpdate}) => {
 
     const [myOutcome, setMyOutcome] = useState<Outcome>(outcome);
 
@@ -86,9 +103,9 @@ const CalendarCellComponent: FC<CellComponentProps> = ({habitID, year, month, da
 
     }
 
-    const CellTextStyle = isToday ? CellTextU : CellText;
+    const CellTextStyle = (today === 0) ? CellTextU : CellText;
     
-    return <Cell onClick={onClick} style={{opacity : day === -1 ? 0 : 1}} color={getColor(myOutcome)}><CellTextStyle>{day}</CellTextStyle></Cell>
+    return <Cell disableHover={today > 0} onClick={today > 0 ? undefined : onClick} style={{opacity : day === -1 ? 0 : 1}} color={getColor(myOutcome, today)}><CellTextStyle>{day}</CellTextStyle></Cell>
 };
 
 export default CalendarCellComponent;
