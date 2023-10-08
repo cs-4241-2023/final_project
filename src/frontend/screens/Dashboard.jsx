@@ -110,24 +110,24 @@ function Dashboard() {
 
     return (<>
         <Header />
-            <main>
-                {selectedGroup ? (
-                    <div className={"group-container"}>
-                        {selectedGroup}
-                        <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>Back</button>
-                    </div>
-                ) : (
-                    <div>
+        <main>
+            {selectedGroup ? (
+                <div className={"group-container"}>
+                    {selectedGroup}
+                    <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>Back</button>
+                </div>
+            ) : (
+                <div>
 
-                        <h2>Tracked Groups</h2>
-                        {addGroupPage}
-                        <div className={"group-container"}>
-                            {groups}
-                        </div>
-                        <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+                    <h2>Tracked Groups</h2>
+                    {addGroupPage}
+                    <div className={"group-container"}>
+                        {groups}
                     </div>
-                )}
-            </main>
+                    <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+                </div>
+            )}
+        </main>
     </>
     )
 }
