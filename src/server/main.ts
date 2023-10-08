@@ -18,7 +18,35 @@ const password = process.env.MONGODB_PASSWORD;
 const database = new Database();
 const auth = new Authentication(app, database);
 
+async function getStreakFor(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<number> {
+  let streak = 0;
+
+  while (true) {
+    const outcome = await database.findHabitOutcomeOnDay(userID, habitID, currentDay);
+    if (outcome !== Outcome.SUCCESS) break;
+    streak++;
+    currentDay = currentDay.previous();
+  }
+  return streak;
+}
+
+async function getWeekSuccess(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<number> {
+  let successes = 0;
+  let loggedDays = 0;
+
+  for (let i = 0; i < 7; i++) {
+    const outcome = await database.findHabitOutcomeOnDay(userID, habitID, currentDay);
+    if (outcome === Outcome.SUCCESS) successes++;
+    if (outcome !== Outcome.NONE) loggedDays++;
+    currentDay = currentDay.previous();
+  }
+  return (loggedDays === 0) ? 0 : (successes / loggedDays);
+}
+
 async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserHabit | undefined> {
+
+  console.log("parseUserHabit", userID, habitID, currentDay);
+
   let userHabit = new UserHabit(userID.toString(), habitID.toString());
   
   const habit = await database.getHabitByID(habitID);
@@ -37,8 +65,8 @@ async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose
   userHabit.description = habit.description;
   userHabit.numLoggedDays = habitInfo.numLoggedDays;
 
-  userHabit.currentStreak = -1; // TODO: calculate this
-  userHabit.percentSuccessWeek = -1; // TODO: calculate this
+  userHabit.currentStreak = await getStreakFor(userID, habitID, currentDay);
+  userHabit.percentSuccessWeek = await getWeekSuccess(userID, habitID, currentDay);
 
   let sum = habitInfo.totalSuccesses + habitInfo.totalFails;
   userHabit.percentSuccessLifetime = (sum === 0) ? 0 : (habitInfo.totalSuccesses / sum);
@@ -175,18 +203,18 @@ app.get("/userhabit", async (req, res) => {
   }
 
   const data = req.query;
-  const {userID, habitID, currentYearStr, currentMonthStr, currentDayStr} = data;
+  const {userID, habitID, currentYear, currentMonth, currentDay} = data;
 
   console.log("userhabit", data);
 
   const userIDObj = convertStrToUserID(req, userID as (string | undefined));
   const habitIDObj = convertStrToHabitID(habitID as string);
 
-  const currentYear = parseInt(currentYearStr as string);
-  const currentMonth = parseInt(currentMonthStr as string);
-  const currentDay = parseInt(currentDayStr as string);
+  const currentYearObj = parseInt(currentYear as string);
+  const currentMonthObj = parseInt(currentMonth as string);
+  const currentDayObj = parseInt(currentDay as string);
 
-  let output = await parseUserHabit(userIDObj, habitIDObj, new Day(currentYear, currentMonth, currentDay));
+  let output = await parseUserHabit(userIDObj, habitIDObj, new Day(currentYearObj, currentMonthObj, currentDayObj));
   console.log(output);
 
   if (output === undefined) {

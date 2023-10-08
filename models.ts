@@ -69,4 +69,11 @@ export class Day {
         this.month = month;
         this.day = day;
     }
+
+    previous(): Day {
+        let date = new Date(this.year, this.month, this.day);
+        date.setDate(date.getDate() - 1);
+        return new Day(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
 }
