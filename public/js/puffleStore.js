@@ -6,6 +6,7 @@ kaboom({
 	debug: true,});
 
 const START = {x: 20, y: 40};
+const puffleList = [];
 
 scene("puffle_store", () => {
     //Load puffle sprites
@@ -21,21 +22,47 @@ scene("puffle_store", () => {
     let xOffset = START.x;
     for (let i = 0; i < puffleSprites.length; i++) {
         const { sprite, price } = puffleSprites[i];
-        displayPuffleWithPrice(xOffset, sprite.split(".")[0], price);
+        let puffle = displayPuffleWithPrice(xOffset, sprite.split(".")[0], price);
+        puffleList.push(puffle);
         xOffset = xOffset + 250;
     }
+
+    onMousePress(() => {
+        const mousePosition = mousePos();
+        for (let i = 0; i < puffleList.length; i++) {
+            if (mousePosition.x >= puffleList[i].puffle.pos.x && mousePosition.x <= puffleList[i].puffle.pos.x + puffleList[i].puffle.width && mousePosition.y >= puffleList[i].puffle.pos.y && mousePosition.y <= puffleList[i].puffle.pos.y + puffleList[i].puffle.height) {
+                puffleList[i].puffle.onClick();
+            }
+        }
+    })
 });
 
 function displayPuffleWithPrice(xPos, puffleSprite, price) {
-    const puffle = add([sprite(puffleSprite), pos(xPos, START.y)]);
-    puffle.layer = "ui";
+    const puffle = add([sprite(puffleSprite), pos(xPos, START.y)], area(), z(2));
 
     const priceTag = add([
         text(`$${price}`, 12),
         pos(xPos, puffle.pos.y - puffle.height),
-        color(0, 0, 0)
+        color(0, 0, 0),
+        z(2)
     ]);
-    priceTag.layer = "ui";
+
+    puffle.onClick = async function() {
+        const body = JSON.stringify({ _id: "6522f7a13b601563446db64b", puffleName: puffleSprite, price: price});
+        const postResponse = await fetch('/purchase', {
+            method: 'POST',
+            body
+        });
+
+        const text = await postResponse.text();
+        console.log(text);
+        const result = JSON.parse(text);
+        if (result.status === 1) {
+            priceTag.text = "Purchased";
+        }
+    }
+
+    return { puffle: puffle, priceTag: priceTag };
 }
 
 go("puffle_store");
