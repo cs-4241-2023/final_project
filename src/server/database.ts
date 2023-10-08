@@ -3,7 +3,7 @@ import DBUser from "./db_models/db-user";
 import DBHabit from "./db_models/db-habit";
 import DBHabitOutcome from "./db_models/db-habit-outcome";
 import DBUserHabit from "./db_models/db-user-habit";
-import { Outcome, Day } from "../../models";
+import { Outcome, Day, HabitOutcome } from "../../models";
 
 export class Database {
     constructor() {
@@ -111,7 +111,7 @@ export class Database {
             month: day.month,
             day: day.day
         });
-
+        console.log("Found:", record);
         if (record === null) return Outcome.NONE;
         else return record.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
     }
@@ -128,6 +128,22 @@ export class Database {
         return records.length;
     }
 
+    public async getOutcomesForMonth(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, year: number, month: number): Promise<HabitOutcome[]> {
+        const records = await DBHabitOutcome.find({
+            userID: userID,
+            habitID: habitID,
+            year: year,
+            month: month
+        });
+
+        const outcomes: HabitOutcome[] = [];
+        for (const record of records) {
+            const outcome = record.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
+            outcomes.push(new HabitOutcome(record.year, record.month, record.day, outcome));
+        }
+        return outcomes;
+    }
+
     // delete the outcome for a habit on a given day without updating statistics
     private async _deleteHabitOutcomeOnDay(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day) {
         const result = await DBHabitOutcome.findOneAndDelete({
@@ -139,6 +155,7 @@ export class Database {
           });
 
         if (result === null) throw new Error("No record found");
+        console.log("Deleted:", result)
     }
 
     // set the outcome for a habit on a given day without updating statistics
@@ -146,15 +163,25 @@ export class Database {
 
         if (outcome === Outcome.NONE) throw new Error("Outcome cannot be NONE");
 
-        const record = new DBHabitOutcome({
+        // Define filter for finding the record
+        const filter = {
             userID: userID,
             habitID: habitID,
             year: day.year,
             month: day.month,
-            day: day.day,
+            day: day.day
+        };
+
+        // Define the update
+        const update = {
             isSuccess: outcome === Outcome.SUCCESS
+        };
+
+        // Use findOneAndUpdate with the upsert option set to true
+        await DBHabitOutcome.findOneAndUpdate(filter, update, {
+            new: true,      // If you want to return the updated object (otherwise it returns the original by default)
+            upsert: true    // This creates the object if it doesn't exist
         });
-        await record.save();
     }
 
 
@@ -165,7 +192,11 @@ export class Database {
     public async setHabitOutcome(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day, outcome: Outcome) {
 
         const prevOutcome = await this.findHabitOutcomeOnDay(userID, habitID, day);
+
+        console.log("Previous:", prevOutcome, "New:", outcome);
+
         if (prevOutcome === outcome) return; // no change
+        
 
         // calculate whether to increment/decrement successes/fails
         let successDelta = 0;
@@ -200,7 +231,7 @@ export class Database {
                 { $inc: { totalSuccesses: successDelta, totalFails: failDelta } }
             );
             await DBUser.updateOne(
-                { username: userID },
+                { _id: userID },
                 { $inc: { totalSuccesses: successDelta, totalFails: failDelta } }
             );
         }
@@ -216,7 +247,7 @@ export class Database {
         // increment/decrement numLoggedDays in UserInfo
         if (userDaysLoggedDelta !== 0) {
             await DBUser.updateOne(
-                { username: userID },
+                { _id: userID },
                 { $inc: { totalLoggedDays: userDaysLoggedDelta } }
             );
         }

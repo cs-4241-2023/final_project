@@ -18,8 +18,8 @@ const password = process.env.MONGODB_PASSWORD;
 const database = new Database();
 const auth = new Authentication(app, database);
 
-async function parseUserHabit(includeOutcomes: boolean, userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserHabit | undefined> {
-  let userHabit = new UserHabit(habitID.toString());
+async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserHabit | undefined> {
+  let userHabit = new UserHabit(userID.toString(), habitID.toString());
   
   const habit = await database.getHabitByID(habitID);
   if (habit === undefined) {
@@ -39,7 +39,9 @@ async function parseUserHabit(includeOutcomes: boolean, userID: mongoose.Types.O
 
   userHabit.currentStreak = -1; // TODO: calculate this
   userHabit.percentSuccessWeek = -1; // TODO: calculate this
-  userHabit.percentSuccessLifetime = -1; // TODO: calculate this
+
+  let sum = habitInfo.totalSuccesses + habitInfo.totalFails;
+  userHabit.percentSuccessLifetime = (sum === 0) ? 0 : (habitInfo.totalSuccesses / sum);
 
   return userHabit;
 }
@@ -71,9 +73,8 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
 
     // TODO: calculate these
     const currentStreak = 0;
-    const outcomes: HabitOutcome[] = [];
 
-    habits.push(new UserHabit(habitID.toString(), name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime, outcomes));
+    habits.push(new UserHabit(userID.toString(), habitID.toString(), name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime));
   }
   userInfo.habits = habits;
   
@@ -83,10 +84,8 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
 // if userIDStr is undefined, use the logged in user
 function convertStrToUserID(req: express.Request, userIDStr: string | undefined): mongoose.Types.ObjectId {
   if (userIDStr === undefined || userIDStr === "undefined") {
-    console.log("defaulting to logged in user");
     return auth.getUserID(req)!;
   } else {
-    console.log("converting", userIDStr, typeof userIDStr);
     return new mongoose.Types.ObjectId(userIDStr as string);
   }
 }
@@ -124,9 +123,11 @@ app.post("/habitoutcome", async (req, res) => {
   }
 
   const data = req.body;
-  const {userID, habitID, year, month, day, outcome} = data;
+  const {habitID, year, month, day, outcome} = data;
 
-  await database.setHabitOutcome(userID, habitID, new Day(year, month, day), outcome);
+  console.log("habitOutcome", data);
+
+  await database.setHabitOutcome(auth.getUserID(req)!, habitID, new Day(year, month, day), outcome);
   res.status(200).json({message: "Habit outcome set successfully"});
 
 });
@@ -174,23 +175,18 @@ app.get("/userhabit", async (req, res) => {
   }
 
   const data = req.query;
-  console.log("recieved", data);
   const {userID, habitID, currentYearStr, currentMonthStr, currentDayStr} = data;
 
-  console.log("string userID", userID);
-  console.log("string habitID", habitID);
+  console.log("userhabit", data);
 
   const userIDObj = convertStrToUserID(req, userID as (string | undefined));
   const habitIDObj = convertStrToHabitID(habitID as string);
-
-  console.log("converted userID", userID, "to", userIDObj);
-  console.log("converted habitID", habitID, "to", habitIDObj);
 
   const currentYear = parseInt(currentYearStr as string);
   const currentMonth = parseInt(currentMonthStr as string);
   const currentDay = parseInt(currentDayStr as string);
 
-  let output = await parseUserHabit(true, userIDObj, habitIDObj, new Day(currentYear, currentMonth, currentDay));
+  let output = await parseUserHabit(userIDObj, habitIDObj, new Day(currentYear, currentMonth, currentDay));
   console.log(output);
 
   if (output === undefined) {
@@ -199,6 +195,30 @@ app.get("/userhabit", async (req, res) => {
   }
 
   res.status(200).json(output);
+});
+
+app.get("/outcomes", async (req, res) => {
+
+  if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
+    res.status(401).json({message: "Not logged in"});
+    return;
+  }
+
+  const data = req.query;
+  const {userID, habitID, year, month} = data;
+
+  console.log("recieved outcomes req", data);
+
+  const userIDObj = convertStrToUserID(req, userID as (string | undefined));
+  const habitIDObj = convertStrToHabitID(habitID as string);
+  const intYear = parseInt(year as string);
+  const intMonth = parseInt(month as string);
+  const outcomes = await database.getOutcomesForMonth(userIDObj, habitIDObj, intYear, intMonth);
+
+  console.log("sending outcomes", outcomes);
+
+  res.status(200).json(outcomes);
+
 });
 
 
