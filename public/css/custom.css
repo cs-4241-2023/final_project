@@ -10,4 +10,5 @@ body {
 
 body > * {
 	margin: auto;
+	border: 1px black solid;
 }
