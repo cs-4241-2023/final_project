@@ -20,24 +20,24 @@ export class HabitOutcome {
 }
 
 export class UserHabit {
-    idStr: string;
+    userID: string;
+    habitID: string;
     name: string;
     description: string;
     currentStreak: number;
     numLoggedDays: number;
     percentSuccessWeek: number;
     percentSuccessLifetime: number;
-    outcomes: HabitOutcome[];
 
-    constructor(idStr: string, name: string = "", description: string = "", currentStreak: number = -1, numLoggedDays: number = -1, percentSuccessWeek: number = -1, percentSuccessLifetime: number = -1, outcomes: HabitOutcome[] = []) {
-        this.idStr = idStr;
+    constructor(userID: string, habitID: string, name: string = "", description: string = "", currentStreak: number = -1, numLoggedDays: number = -1, percentSuccessWeek: number = -1, percentSuccessLifetime: number = -1) {
+        this.userID = userID;
+        this.habitID = habitID;
         this.name = name;
         this.description = description;
         this.currentStreak = currentStreak;
         this.numLoggedDays = numLoggedDays;
         this.percentSuccessWeek = percentSuccessWeek;
         this.percentSuccessLifetime = percentSuccessLifetime;
-        this.outcomes = outcomes;
     }
 
 }

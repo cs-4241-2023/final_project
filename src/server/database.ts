@@ -3,7 +3,7 @@ import DBUser from "./db_models/db-user";
 import DBHabit from "./db_models/db-habit";
 import DBHabitOutcome from "./db_models/db-habit-outcome";
 import DBUserHabit from "./db_models/db-user-habit";
-import { Outcome, Day } from "../../models";
+import { Outcome, Day, HabitOutcome } from "../../models";
 
 export class Database {
     constructor() {
@@ -126,6 +126,22 @@ export class Database {
         });
 
         return records.length;
+    }
+
+    public async getOutcomesForMonth(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, year: number, month: number): Promise<HabitOutcome[]> {
+        const records = await DBHabitOutcome.find({
+            userID: userID,
+            habitID: habitID,
+            year: year,
+            month: month
+        });
+
+        const outcomes: HabitOutcome[] = [];
+        for (const record of records) {
+            const outcome = record.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
+            outcomes.push(new HabitOutcome(record.year, record.month, record.day, outcome));
+        }
+        return outcomes;
     }
 
     // delete the outcome for a habit on a given day without updating statistics

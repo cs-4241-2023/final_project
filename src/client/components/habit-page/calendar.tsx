@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { getDateToday } from "../../scripts/date";
 import { get } from "http";
 import { HabitOutcome, Outcome } from "../../../../models";
 import { Loading } from "../css-components/loading";
 import CalendarCellComponent from "./calendar-cell";
+import { Method, fetchServer } from "../../scripts/fetch-server";
 
 function getDaysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
@@ -43,11 +44,39 @@ function getMonthString(month: number) {
     }
 }
 
+async function fetchHabitOutcomes(userID: string, habitID: string, year: number, month: number): Promise<HabitOutcome[]> {
+
+    const params = {
+        userID: userID,
+        habitID: habitID,
+        year: year,
+        month: month,
+    }
+
+    const response = await fetchServer(Method.GET, "/outcomes", params);
+
+    console.log("/outcomes response:", response);
+
+    if (response.status === 404) {
+        console.log("unable to find outcomes for habitID:", habitID, "year:", year, "month:", month);
+        return [];
+    }
+
+    return response.content;
+
+}
+
 class DayOutcome {
     constructor(public year: number, public month: number, public day: number, public outcome: Outcome, public isToday: boolean) {}
 };
 
-function CalendarComponent() {
+interface CalendarComponentProps {
+    userID: string,
+    habitID: string,
+    setUpdate: React.Dispatch<React.SetStateAction<number>>,
+}
+
+const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpdate}) => {
 
     const dateToday = getDateToday();
 
@@ -85,32 +114,35 @@ function CalendarComponent() {
         const numDaysInMonth = getDaysInMonth(displayMonth, displayYear);
 
         // TODO: FETCH OUTCOMES FROM SERVER
-        const outcomes = [] as HabitOutcome[];
+        fetchHabitOutcomes(userID, habitID, displayYear, displayMonth).then((outcomes) => {
 
-        let weekday = 0;
-        while (true) {
+            let weekday = 0;
+            while (true) {
 
-            let day = weekday - firstDay + 1;
-            // day is the month day. weekday % 7 === 0 on sunday
+                let day = weekday - firstDay + 1;
+                // day is the month day. weekday % 7 === 0 on sunday
 
-            if (day > numDaysInMonth) break; // reached end of month
+                if (day > numDaysInMonth) break; // reached end of month
 
-            // add week to calendar
-            if (weekday % 7 === 0) newCalendar.push([] as (DayOutcome | undefined)[]);
+                // add week to calendar
+                if (weekday % 7 === 0) newCalendar.push([] as (DayOutcome | undefined)[]);
 
-            if (day < 1) { // add blank day
-                newCalendar[newCalendar.length-1].push(undefined);
-            } else {
-                // add normal day
-                const isToday = day === dateToday.day && displayMonth === dateToday.month && displayYear === dateToday.year;
-                const outcome = getOutcomeOnDay(outcomes, day);
-                newCalendar[newCalendar.length-1].push(new DayOutcome(displayYear, displayMonth, day, outcome, isToday));
+                if (day < 1) { // add blank day
+                    newCalendar[newCalendar.length-1].push(undefined);
+                } else {
+                    // add normal day
+                    const isToday = day === dateToday.day && displayMonth === dateToday.month && displayYear === dateToday.year;
+                    const outcome = getOutcomeOnDay(outcomes, day);
+                    newCalendar[newCalendar.length-1].push(new DayOutcome(displayYear, displayMonth, day, outcome, isToday));
+                }
+
+                weekday += 1;
             }
 
-            weekday += 1;
-        }
+            setCalendar(newCalendar); // update calendar state to be displayed in UI
+        });
 
-        setCalendar(newCalendar); // update calendar state to be displayed in UI
+        
 
     }, [displayYear, displayMonth]);
 
@@ -122,7 +154,7 @@ function CalendarComponent() {
         <p>Current Month: {getMonthString(displayMonth)}</p>
         <button onClick={goPreviousMonth}>Previous Month</button>
         <button onClick={goNextMonth}>Next Month</button>
-        <table>
+        <table><tbody>
             <tr>
                 <th>Sun</th>
                 <th>Mon</th>
@@ -146,13 +178,17 @@ function CalendarComponent() {
                                     isToday = day.isToday;
                                 }
 
-                                return <td><CalendarCellComponent day={text} outcome={outcome} isToday={isToday} /></td>
+                                return <td><CalendarCellComponent
+                                    habitID={habitID}
+                                    year={displayYear} month={displayMonth} day={text}
+                                    outcome={outcome} isToday={isToday}
+                                    setUpdate={setUpdate} /></td>
                             })
                         }
                     </tr>
                 })
             }
-        </table>
+        </tbody></table>
     </>
 
 
