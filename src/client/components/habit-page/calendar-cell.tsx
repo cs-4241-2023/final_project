@@ -61,20 +61,22 @@ const CalendarCellComponent: FC<CellComponentProps> = ({habitID, year, month, da
     const onClick = () => {
         console.log("clicked", day);
 
+        let newOutcome;
         if (myOutcome === Outcome.SUCCESS) {
-            setMyOutcome(Outcome.FAIL);
+            newOutcome = Outcome.FAIL;
         } else if (myOutcome === Outcome.FAIL) {
-            setMyOutcome(Outcome.NONE);
+            newOutcome = Outcome.NONE;
         } else {
-            setMyOutcome(Outcome.SUCCESS);
+            newOutcome = Outcome.SUCCESS;
         }
+        setMyOutcome(newOutcome);
 
         const params = {
             habitID: habitID,
             year: year, 
             month: month,
             day: day,
-            outcome: myOutcome as string,
+            outcome: newOutcome as string,
         }
 
         fetchServer(Method.POST, "/habitoutcome", params).then((res) => {

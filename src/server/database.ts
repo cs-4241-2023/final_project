@@ -111,7 +111,7 @@ export class Database {
             month: day.month,
             day: day.day
         });
-
+        console.log("Found:", record);
         if (record === null) return Outcome.NONE;
         else return record.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
     }
@@ -155,6 +155,7 @@ export class Database {
           });
 
         if (result === null) throw new Error("No record found");
+        console.log("Deleted:", result)
     }
 
     // set the outcome for a habit on a given day without updating statistics
@@ -162,15 +163,25 @@ export class Database {
 
         if (outcome === Outcome.NONE) throw new Error("Outcome cannot be NONE");
 
-        const record = new DBHabitOutcome({
+        // Define filter for finding the record
+        const filter = {
             userID: userID,
             habitID: habitID,
             year: day.year,
             month: day.month,
-            day: day.day,
+            day: day.day
+        };
+
+        // Define the update
+        const update = {
             isSuccess: outcome === Outcome.SUCCESS
+        };
+
+        // Use findOneAndUpdate with the upsert option set to true
+        await DBHabitOutcome.findOneAndUpdate(filter, update, {
+            new: true,      // If you want to return the updated object (otherwise it returns the original by default)
+            upsert: true    // This creates the object if it doesn't exist
         });
-        await record.save();
     }
 
 
@@ -181,7 +192,11 @@ export class Database {
     public async setHabitOutcome(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, day: Day, outcome: Outcome) {
 
         const prevOutcome = await this.findHabitOutcomeOnDay(userID, habitID, day);
+
+        console.log("Previous:", prevOutcome, "New:", outcome);
+
         if (prevOutcome === outcome) return; // no change
+        
 
         // calculate whether to increment/decrement successes/fails
         let successDelta = 0;
@@ -236,6 +251,8 @@ export class Database {
                 { $inc: { totalLoggedDays: userDaysLoggedDelta } }
             );
         }
+
+        console.log("Success delta:", successDelta, "Fail delta:", failDelta, "Habit days logged delta:", habitDaysLoggedDelta, "User days logged delta:", userDaysLoggedDelta);
 
     }
 
