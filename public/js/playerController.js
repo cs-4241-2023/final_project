@@ -1,27 +1,27 @@
 const network = NetworkManager.getConnection()
-const SPEED = 300
-const SPAWN = {x: 80, y: 40}
+const SPEED = 2
+const SPAWN = { x: 80, y: 40 }
 
 // -------------- Start Network Functions -----------------------
 
 const remotePlayers = {}
-const spawnRemotePlayer = function(id, positon) {
+const spawnRemotePlayer = function (id, positon) {
 	let x = positon.x || SPAWN.x
 	let y = positon.y || SPAWN.y
 	remotePlayers[id] = add([
 		sprite("puffle-red"),
-		pos(x, y)
+		pos(x, y),
+		scale(0.5, 0.5)
 	])
-	readd(puffle) // ensure player character is always on top
 }
 
-const removeRemotePlayer = function(id) {
+const removeRemotePlayer = function (id) {
 	console.log('Deleting:', id)
 	destroy(remotePlayers[id]) // removes player from kaboom
 	delete remotePlayers[id] // removes player from map
 }
 
-const moveRemotePlayer = function(id, vector) {
+const moveRemotePlayer = function (id, vector) {
 	console.log(id, remotePlayers[id])
 	remotePlayers[id].moveTo(vector.x, vector.y)
 }
@@ -36,42 +36,251 @@ kaboom({
 	debug: true,
 });
 
-// load the red puffle sprite
+//initialize layers
+let layers = {
+	"bg": -1,
+	"bg-obj": 0,
+	"game": 1,
+	"ui": 2,
+}
+
 loadSprite("puffle-red", "../sprites/puffle-red.png")
 
-// compose the player game object from multiple components and add it to the game
-const puffle = add([
-	sprite("puffle-red"),
-	pos(SPAWN.x, SPAWN.y)
-])
+scene("lobby", () => {
 
-/*
-add([
-	pos(0, 0),
-	circle(16),
-])
-*/
+	let BUILDING_LOCATIONS = {
+		puffleShop: new Vec2(300, 300),
+		dojo: new Vec2(512, 150),
+		abandoned: new Vec2(724, 300),
+	}
 
-// press w to move up
-onKeyDown("w", () => {
-	puffle.move(0, -SPEED)
-	network.sendMessage('movement', puffle.pos)
+	loadSprite("vista", "../background/vista.png")
+	loadSprite("dojo", "../background_interactables/dojoBuilding.png")
+	loadSprite("abandoned", "../background_interactables/abandonedBuilding.png")
+	loadSprite("puffleShop", "../background_interactables/puffleShop.png")
+
+
+	// compose the player game object from multiple components and add it to the game
+	const player = add([
+		sprite("puffle-red"),
+		pos(SPAWN.x, SPAWN.y),
+		z(layers.game),
+		scale(0.5, 0.5),
+		anchor("center"),
+	])
+
+	spawnBackground()
+
+	function spawnBackground() {
+		spawnVista()
+		spawnBuildings()
+	}
+
+	function spawnBuildings() {
+		add([
+			sprite("dojo"),
+			pos(BUILDING_LOCATIONS.dojo),
+			z(layers.bg),
+			anchor("center"),
+			area(),
+			"dojoBuilding",
+		])
+
+		add([
+			sprite("abandoned"),
+			pos(BUILDING_LOCATIONS.abandoned),
+			z(layers.bg),
+			anchor("center"),
+			area(),
+			"abandonedBuilding",
+		])
+
+		add([
+			sprite("puffleShop"),
+			pos(BUILDING_LOCATIONS.puffleShop),
+			z(layers.bg),
+			anchor("center"),
+			area(),
+			"puffleShop",
+		])
+	}
+
+	function spawnVista() {
+		add([
+			sprite("vista"),
+			pos(0, 0),
+			z(layers.bg),
+		])
+	}
+
+	let curTween = null
+	//movement
+	onMousePress("right", () => {
+
+
+		if (curTween) {
+			curTween.cancel()
+		}
+
+		curTween = tween(player.pos, mousePos(), SPEED,
+			(p) => {
+				player.pos = p
+				network.sendMessage('movement', player.pos)
+			}, easings.easeOutSine)
+
+	})
+
+	//interact
+	onClick("dojoBuilding", (building) => {
+		if (curTween) {
+			curTween.cancel()
+		}
+
+		curTween = tween(player.pos, mousePos(), SPEED,
+			(p) => {
+				player.pos = p
+				network.sendMessage('movement', player.pos)
+			}, easings.easeOutSine).then(() => go("dojo"))
+	})
+
+	/*
+
+	// press w to move up
+	onKeyDown("w", () => {
+		puffle.move(0, -SPEED)
+		network.sendMessage('movement', puffle.pos)
+	})
+
+	// press s to move down
+	onKeyDown("s", () => {
+		puffle.move(0, SPEED)
+		network.sendMessage('movement', puffle.pos)
+	})
+
+	// press a to move down
+	onKeyDown("a", () => {
+		puffle.move(-SPEED, 0)
+		network.sendMessage('movement', puffle.pos)
+	})
+
+	// press d to move down
+	onKeyDown("d", () => {
+		puffle.move(SPEED, 0)
+		network.sendMessage('movement', puffle.pos)
+	})*/
 })
 
-// press s to move down
-onKeyDown("s", () => {
-	puffle.move(0, SPEED)
-	network.sendMessage('movement', puffle.pos)
+scene("dojo", () => {
+
+	let MAX_HEIGHT = 400
+	let MAT_LOCATION = {
+		0: new Vec2(300, 580),
+		1: new Vec2(400, 520),
+		2: new Vec2(675, 580),
+		3: new Vec2(590, 520),
+	}
+	let DOOR_LOCATION = new Vec2(380, 335)
+
+	loadSprite("dojo-mat", "../background_interactables/mat.png")
+	loadSprite("background-dojo", "../background/dojo.png")
+	loadSprite("dojo-door", "../background_interactables/door.png")
+
+	//add background
+	const background = add([
+		sprite("background-dojo"),
+		pos(0, 0),
+		z(layers.bg)
+	])
+
+	const player = add([
+		sprite("puffle-red"),
+		pos(DOOR_LOCATION.x, DOOR_LOCATION.y + 80),
+		z(layers.game),
+		scale(0.5, 0.5),
+		anchor("center"),
+	])
+
+	spawnInteractables()
+
+	let curTween = null
+
+	//movement
+	onMousePress("right", () => {
+
+		if (curTween) {
+			curTween.cancel()
+		}
+
+		if (mousePos().y > MAX_HEIGHT) {
+			curTween = tween(player.pos, mousePos(), SPEED,
+				(p) => {
+					player.pos = p
+					network.sendMessage('movement', player.pos)
+				}, easings.easeOutSine)
+		}
+		else {
+			curTween = tween(player.pos, new Vec2(mousePos().x, MAX_HEIGHT), SPEED, (p) => {
+				player.pos = p
+				network.sendMessage('movement', player.pos)
+			}
+				, easings.easeOutSine)
+		}
+
+	})
+
+	//interact
+	onClick("dojo-door", (door) => {
+		if (curTween) {
+			curTween.cancel()
+		}
+		
+		curTween = tween(player.pos, mousePos(), SPEED,
+			(p) => {
+				player.pos = p
+				network.sendMessage('movement', player.pos)
+			}, easings.easeOutSine).then(() => go("lobby"))
+	})
+
+	function spawnInteractables() {
+		spawMats()
+		spawnDoor()
+	}
+
+	function spawnDoor() {
+		add([
+			sprite("dojo-door"),
+			pos(DOOR_LOCATION),
+			"dojo-door",
+			z(layers["bg-obj"]),
+			anchor("center"),
+			area(),
+		])
+	}
+
+	function spawMats() {
+		for (let i = 0; i < 4; i++) {
+			add([
+				sprite("dojo-mat"),
+				pos(MAT_LOCATION[i]),
+				"mat",
+				z(layers["bg-obj"]),
+				anchor("center"),
+				area()
+			])
+		}
+	}
+
+	function interact(tag) {
+		switch (tag) {
+			case "dojo-door":
+				go("lobby")
+				break;
+			case "dojo-mat":
+				break;
+			default:
+				break;
+		}
+	}
 })
 
-// press a to move down
-onKeyDown("a", () => {
-	puffle.move(-SPEED, 0)
-	network.sendMessage('movement', puffle.pos)
-})
-
-// press d to move down
-onKeyDown("d", () => {
-	puffle.move(SPEED, 0)
-	network.sendMessage('movement', puffle.pos)
-})
+go("lobby")
