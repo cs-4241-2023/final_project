@@ -5,6 +5,7 @@ import { getDateToday } from "../../scripts/date";
 import { HabitOutcome, Outcome, UserHabit } from "../../../../models";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { Loading } from "../css-components/loading";
+import CalendarComponent from "./calendar";
 
 
 const HabitPage: FC = () => {
@@ -39,12 +40,8 @@ const HabitPage: FC = () => {
                 return;
             }
 
-            const {idStr, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomes} = response.content;
-            const outcomesObj = (outcomes as any[]).map((outcome) => {
-                const outcomeEnum = outcome.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
-                return new HabitOutcome(outcome.year, outcome.month, outcome.day, outcomeEnum);
-            });
-            setUserHabitInfo(new UserHabit(idStr, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, outcomesObj));
+            const {userID, habitID, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime} = response.content;
+            setUserHabitInfo(new UserHabit(userID, habitID, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime));
         }
 
         fetchResponse();
@@ -63,7 +60,8 @@ const HabitPage: FC = () => {
     <p>Number of Logged Days: {userHabitInfo.numLoggedDays}</p>
     <p>Percent Success Week: {userHabitInfo.percentSuccessWeek}</p>
     <p>Percent Success Lifetime: {userHabitInfo.percentSuccessLifetime}</p>
-    <p>Outcomes: {userHabitInfo.outcomes.toString()}</p>
+
+    <CalendarComponent userID={userHabitInfo.userID} habitID={habitID!} setUpdate={setUpdate} />
 
     </>
 }

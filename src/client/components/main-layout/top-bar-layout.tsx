@@ -1,33 +1,25 @@
 import { FC, ReactNode } from "react";
 import styled from "styled-components";
+import './top-bar-layout.css'
 
-const Flex1 = styled.div`
-flex: 1;
-align-items: center;
-`
 
-const StyledTopBarLayout = styled.div`
-    width: 100vw; 
-    align-items: center;
-`;
 
 interface TopBarLayoutProps {
     centerDiv: ReactNode;
     rightDiv: ReactNode;
-  }
+}
   
 
 const TopBarLayout: FC<TopBarLayoutProps> = ({centerDiv, rightDiv}) => {
     return (
-        <StyledTopBarLayout className="text-center d-flex w-100" id="div1">
-            <Flex1 className="d-flex" /> {/* spacer */}
-            <Flex1 className="d-flex justify-content-center" id="div2">
+        <div className="container">
+            <div className="centered">
                 {centerDiv}
-            </Flex1>
-            <Flex1 className="d-flex justify-content-end" id="div3">
+            </div>
+            <div className="right">
                 {rightDiv}
-            </Flex1>
-        </StyledTopBarLayout>
+            </div>
+        </div>
     );
 }
 

@@ -39,7 +39,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
 
             const {username, percentSuccessWeek, percentSuccessLifetime, numLoggedDays, habits} = response.content;
             const habitsObj = (habits as any[]).map((habit) => {
-                return new UserHabit(habit.idStr, habit.name, habit.description, habit.currentStreak, habit.numLoggedDays, habit.percentSuccessWeek, habit.percentSuccessLifetime)
+                return new UserHabit(habit.userID, habit.habitID, habit.name, habit.description, habit.currentStreak, habit.numLoggedDays, habit.percentSuccessWeek, habit.percentSuccessLifetime)
             });
             setUserInfo(new UserInfo(username, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, habitsObj));
         }
@@ -60,7 +60,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
         <p>Habits: {userInfo.habits.toString()}</p>
         
         {
-            userInfo.habits.map((habit) => (<p><Link to={"/habit/"+habit.idStr}>{habit.name} {habit.idStr}</Link></p>))
+            userInfo.habits.map((habit) => (<p><Link to={"/habit/"+habit.habitID}>{habit.name} {habit.habitID}</Link></p>))
         }
 
         <HabitListWidget setUpdate={setUpdate} />
