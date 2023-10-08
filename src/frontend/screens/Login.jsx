@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Signup from "./Signup";
-import "../css/Login.css";
 
 function Login(props) {
     const { setLoggedIn } = props;
