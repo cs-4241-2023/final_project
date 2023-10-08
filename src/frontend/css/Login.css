@@ -1,7 +1,13 @@
+h1 {
+    font-family: Calibri, serif;
+    color: white;
+    text-align: center;
+}
+
 input {
     display: block;
-    width: 30%;
-    margin: 10px 35%;
+    width: 20%;
+    margin: 10px 40%;
 }
 
 input[type="text"], input[type="password"] {
@@ -16,5 +22,10 @@ input[type="text"], input[type="password"] {
 
 input[type="text"]:hover, input[type="password"]:hover {
     outline: solid #535bf2;
+}
+
+button {
+    width: 10%;
+    margin-left: 45%;
 }
 
