@@ -15,6 +15,7 @@ const app = express();
 const server_port = process.env.PORT || 3000;
 const express_session_token = process.env.EXPRESS_SESSION_TOKEN;
 
+app.use(express.static("../public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({

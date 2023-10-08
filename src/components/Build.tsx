@@ -7,48 +7,48 @@ const Build: React.FC<any> = (props) => {
     let [openedTab, setOpenedTab] = useState<any>("color");
     let options: any = {
         "color": [
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Pimp_Hat.svg/2048px-Pimp_Hat.svg.png",
-            "https://content.mycutegraphics.com/graphics/clothing/girls-hat-pink-bow.png",
-            "https://content.mycutegraphics.com/graphics/clothing/baseball-hat-red.png",
-            "https://www.clker.com/cliparts/z/2/B/y/d/r/baseball-hat-hi.png",
-            "https://www.clker.com/cliparts/B/l/D/j/g/v/rainbow-propellor-hat-hi.png",
-            "https://www.ia764.org/wp-content/uploads/2017/09/Top-hat-clipart-free-clipart-images.png",
-            "https://i.pinimg.com/originals/95/13/9e/95139e03442c25c564def5c70a9a7857.png",
-            "https://www.clker.com//cliparts/3/j/E/0/y/u/red-hat-hi.png",
-            "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3174292/hat-clipart-md.png",
+            "allCharStuff/bases/base1.png",
+            "allCharStuff/bases/base2.png",
+            "allCharStuff/bases/base3.png",
+            "allCharStuff/bases/base4.png",
+            "allCharStuff/bases/base5.png",
+            "allCharStuff/bases/base6.png",
+            "allCharStuff/bases/base7.png",
+            "allCharStuff/bases/base8.png",
+            "allCharStuff/bases/base9.png",
         ],
         "face": [
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Pimp_Hat.svg/2048px-Pimp_Hat.svg.png",
-            "https://content.mycutegraphics.com/graphics/clothing/girls-hat-pink-bow.png",
-            "https://content.mycutegraphics.com/graphics/clothing/baseball-hat-red.png",
-            "https://www.clker.com/cliparts/z/2/B/y/d/r/baseball-hat-hi.png",
-            "https://www.clker.com/cliparts/B/l/D/j/g/v/rainbow-propellor-hat-hi.png",
-            "https://www.ia764.org/wp-content/uploads/2017/09/Top-hat-clipart-free-clipart-images.png",
-            "https://i.pinimg.com/originals/95/13/9e/95139e03442c25c564def5c70a9a7857.png",
-            "https://www.clker.com//cliparts/3/j/E/0/y/u/red-hat-hi.png",
-            "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3174292/hat-clipart-md.png",
+            "allCharStuff/faces/face1.png",
+            "allCharStuff/faces/face2.png",
+            "allCharStuff/faces/face3.png",
+            "allCharStuff/faces/face4.png",
+            "allCharStuff/faces/face5.png",
+            "allCharStuff/faces/face6.png",
+            "allCharStuff/faces/face7.png",
+            "allCharStuff/faces/face8.png",
+            "allCharStuff/faces/face9.png",
         ],
         "hat": [
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Pimp_Hat.svg/2048px-Pimp_Hat.svg.png",
-            "https://content.mycutegraphics.com/graphics/clothing/girls-hat-pink-bow.png",
-            "https://content.mycutegraphics.com/graphics/clothing/baseball-hat-red.png",
-            "https://www.clker.com/cliparts/z/2/B/y/d/r/baseball-hat-hi.png",
-            "https://www.clker.com/cliparts/B/l/D/j/g/v/rainbow-propellor-hat-hi.png",
-            "https://www.ia764.org/wp-content/uploads/2017/09/Top-hat-clipart-free-clipart-images.png",
-            "https://i.pinimg.com/originals/95/13/9e/95139e03442c25c564def5c70a9a7857.png",
-            "https://www.clker.com//cliparts/3/j/E/0/y/u/red-hat-hi.png",
-            "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3174292/hat-clipart-md.png",
+            "allCharStuff/hats/hat1.png",
+            "allCharStuff/hats/hat2.png",
+            "allCharStuff/hats/hat3.png",
+            "allCharStuff/hats/hat4.png",
+            "allCharStuff/hats/hat5.png",
+            "allCharStuff/hats/hat6.png",
+            "allCharStuff/hats/hat7.png",
+            "allCharStuff/hats/hat8.png",
+            "allCharStuff/hats/hat9.png",
         ],
         "shirt": [
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Pimp_Hat.svg/2048px-Pimp_Hat.svg.png",
-            "https://content.mycutegraphics.com/graphics/clothing/girls-hat-pink-bow.png",
-            "https://content.mycutegraphics.com/graphics/clothing/baseball-hat-red.png",
-            "https://www.clker.com/cliparts/z/2/B/y/d/r/baseball-hat-hi.png",
-            "https://www.clker.com/cliparts/B/l/D/j/g/v/rainbow-propellor-hat-hi.png",
-            "https://www.ia764.org/wp-content/uploads/2017/09/Top-hat-clipart-free-clipart-images.png",
-            "https://i.pinimg.com/originals/95/13/9e/95139e03442c25c564def5c70a9a7857.png",
-            "https://www.clker.com//cliparts/3/j/E/0/y/u/red-hat-hi.png",
-            "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3174292/hat-clipart-md.png",  
+            "allCharStuff/shirts/shirt1.png",
+            "allCharStuff/shirts/shirt2.png",
+            "allCharStuff/shirts/shirt3.png",
+            "allCharStuff/shirts/shirt4.png",
+            "allCharStuff/shirts/shirt5.png",
+            "allCharStuff/shirts/shirt6.png",
+            "allCharStuff/shirts/shirt7.png",
+            "allCharStuff/shirts/shirt8.png",
+            "allCharStuff/shirts/shirt9.png",
         ],
     }
     const canvasRef = useRef(null);
@@ -64,26 +64,26 @@ const Build: React.FC<any> = (props) => {
 
         let colorImage = new Image();
         colorImage.src = props.color;
-        ctx.drawImage(colorImage, 0, 0, 64, 64);
+        ctx.drawImage(colorImage, 0, 0, 256, 256);
 
         let faceImage = new Image();
         faceImage.src = props.face;
-        ctx.drawImage(faceImage, 64, 0, 64, 64);
+        ctx.drawImage(faceImage, 0, 0, 256, 256);
 
         let hatImage = new Image();
         hatImage.src = props.hat;
-        ctx.drawImage(hatImage, 128, 0, 64, 64);
+        ctx.drawImage(hatImage, 0, 0, 256, 256);
 
         let shirtImage = new Image();
         shirtImage.src = props.shirt;
-        ctx.drawImage(shirtImage, 192, 0, 64, 64);
+        ctx.drawImage(shirtImage, 0, 0, 256, 256);
     })
 
     return (
         <>
             <div className="container">
-                <canvas ref={canvasRef} id="draw"></canvas>
-                <div>
+                <canvas ref={canvasRef} id="draw" height="256" width="256"></canvas>
+                <div className="rightbox">
                     <div className="tab">
                         {
                             Object.keys(options).map((option => 

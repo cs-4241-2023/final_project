@@ -36,7 +36,6 @@
   
 .tabcontent {
 	padding: 6px 12px;
-	border: 1px solid #ccc;
 	border-top: none;
 	display: grid;
     grid-template-areas: "button1 button2 button3"
@@ -86,4 +85,9 @@
 
 .tabcontent:nth-child(9) {
     grid-area: button9;
+}
+
+.rightbox {
+	height: 256px;
+	border: 1px solid #ccc;
 }
