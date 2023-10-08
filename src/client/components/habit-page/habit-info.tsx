@@ -35,10 +35,16 @@ width: 2em;
 height: 2em;
 transform: translateY(-2px);
 `
-const HabitStreakTextStyle = styled.p
+const HabitStreakTextStyle = styled.p<{isHighStreak: boolean}>
 `
 display: inline-block;
-transform: translate(-23px,-2px);
+transform: translate(-20px,-1px);
+
+${(props) =>
+    props.isHighStreak &&
+    `
+    transform: translate(-25px,-1px);
+    `}
 `
 
 const HabitDescriptionStyle = styled.div
@@ -69,6 +75,7 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
     const [isDescriptionEditing, setDescriptionEditing] = useState(false);
     const [description, setDescription] = useState(habitInfo.description);
     const displayStreak = habitInfo.currentStreak >= 1;
+    const isHighStreak = habitInfo.currentStreak > 9;
 
     const handleDescriptionClick = () => {
         setDescriptionEditing(true);
@@ -89,7 +96,7 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
                 {displayStreak && (
                     <>
                     <HabitStreakStyle src="/fire.svg"></HabitStreakStyle>
-                    <HabitStreakTextStyle>{habitInfo.currentStreak}</HabitStreakTextStyle>
+                    <HabitStreakTextStyle className="h5" isHighStreak={isHighStreak}>{habitInfo.currentStreak}</HabitStreakTextStyle>
                     </>
                 )}
                 {isDescriptionEditing ? (
@@ -100,10 +107,13 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
             </div>
             <div>
                 <HabitInfoRightSide className="h3">
-                    {habitInfo.numLoggedDays} days
+                    Logged Days: {habitInfo.numLoggedDays} days
                 </HabitInfoRightSide>
                 <HabitInfoRightSide className="h3">
-                    {habitInfo.percentSuccessLifetime}%
+                    Weekly Success: {habitInfo.percentSuccessWeek}%
+                </HabitInfoRightSide>
+                <HabitInfoRightSide className="h3">
+                    Lifetime Success: {habitInfo.percentSuccessLifetime}%
                 </HabitInfoRightSide>
             </div> 
         </MainDivStyle>

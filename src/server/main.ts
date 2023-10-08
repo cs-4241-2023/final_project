@@ -40,7 +40,7 @@ async function getWeekSuccess(userID: mongoose.Types.ObjectId, habitID: mongoose
     if (outcome !== Outcome.NONE) loggedDays++;
     currentDay = currentDay.previous();
   }
-  return (loggedDays === 0) ? 0 : (successes / loggedDays);
+  return (loggedDays === 0) ? 0 : +(((successes / loggedDays) * 100).toFixed(2));
 }
 
 async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserHabit | undefined> {
