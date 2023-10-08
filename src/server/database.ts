@@ -231,7 +231,7 @@ export class Database {
                 { $inc: { totalSuccesses: successDelta, totalFails: failDelta } }
             );
             await DBUser.updateOne(
-                { username: userID },
+                { _id: userID },
                 { $inc: { totalSuccesses: successDelta, totalFails: failDelta } }
             );
         }
@@ -247,12 +247,10 @@ export class Database {
         // increment/decrement numLoggedDays in UserInfo
         if (userDaysLoggedDelta !== 0) {
             await DBUser.updateOne(
-                { username: userID },
+                { _id: userID },
                 { $inc: { totalLoggedDays: userDaysLoggedDelta } }
             );
         }
-
-        console.log("Success delta:", successDelta, "Fail delta:", failDelta, "Habit days logged delta:", habitDaysLoggedDelta, "User days logged delta:", userDaysLoggedDelta);
 
     }
 

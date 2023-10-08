@@ -39,7 +39,9 @@ async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose
 
   userHabit.currentStreak = -1; // TODO: calculate this
   userHabit.percentSuccessWeek = -1; // TODO: calculate this
-  userHabit.percentSuccessLifetime = -1; // TODO: calculate this
+
+  let sum = habitInfo.totalSuccesses + habitInfo.totalFails;
+  userHabit.percentSuccessLifetime = (sum === 0) ? 0 : (habitInfo.totalSuccesses / sum);
 
   return userHabit;
 }
