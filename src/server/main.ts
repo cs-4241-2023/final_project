@@ -30,7 +30,7 @@ async function getStreakFor(userID: mongoose.Types.ObjectId, habitID: mongoose.T
   return streak;
 }
 
-async function getWeekSuccess(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<number> {
+async function getWeekSuccess(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<[number, number]> {
   let successes = 0;
   let loggedDays = 0;
 
@@ -40,7 +40,7 @@ async function getWeekSuccess(userID: mongoose.Types.ObjectId, habitID: mongoose
     if (outcome !== Outcome.NONE) loggedDays++;
     currentDay = currentDay.previous();
   }
-  return (loggedDays === 0) ? 0 : (successes / loggedDays);
+  return [successes, loggedDays];
 }
 
 async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, currentDay: Day): Promise<UserHabit | undefined> {
@@ -66,7 +66,7 @@ async function parseUserHabit(userID: mongoose.Types.ObjectId, habitID: mongoose
   userHabit.numLoggedDays = habitInfo.numLoggedDays;
 
   userHabit.currentStreak = await getStreakFor(userID, habitID, currentDay);
-  userHabit.percentSuccessWeek = await getWeekSuccess(userID, habitID, currentDay);
+  [userHabit.numSuccessesWeek, userHabit.numLoggedDaysWeek] = await getWeekSuccess(userID, habitID, currentDay);
 
   let sum = habitInfo.totalSuccesses + habitInfo.totalFails;
   userHabit.percentSuccessLifetime = (sum === 0) ? 0 : (habitInfo.totalSuccesses / sum);
@@ -84,8 +84,6 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
   userInfo.username = user.username;
   userInfo.numLoggedDays = user.totalLoggedDays;
 
-  userInfo.percentSuccessWeek = -1; // TODO: calculate this
-
   let sum = user.totalSuccesses + user.totalFails;
   userInfo.percentSuccessLifetime = (sum === 0) ? 0 : (user.totalSuccesses / sum);
 
@@ -93,18 +91,17 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
   const habits = [];
 
   for (const habitID of habitIDs) {
-    const {name, description} = (await database.getHabitByID(habitID))!;
-    const {totalSuccesses, totalFails, numLoggedDays} = (await database.getUserHabit(userID, habitID))!;
-
-    const sum = totalSuccesses + totalFails;
-    const percentSuccessLifetime = (sum === 0) ? 0 : (totalSuccesses / sum);
-
-    // TODO: calculate these
-    const currentStreak = 0;
-
-    habits.push(new UserHabit(userID.toString(), habitID.toString(), name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime));
+    habits.push((await parseUserHabit(userID, habitID, currentDay))!);
   }
   userInfo.habits = habits;
+
+  let loggedDaysWeek = 0;
+  let successesWeek = 0;
+  for (const habit of habits) {
+    loggedDaysWeek += habit.numLoggedDaysWeek;
+    successesWeek += habit.numSuccessesWeek;
+  }
+  userInfo.percentSuccessWeek = (loggedDaysWeek === 0) ? 0 : (successesWeek / loggedDaysWeek);
   
   return userInfo;
 }
@@ -184,14 +181,14 @@ app.get("/userinfo", async (req, res) => {
   }
 
   const data = req.query;
-  let {userIDStr, currentYearStr, currentMonthStr, currentDayStr} = data;
-  const userID = convertStrToUserID(req, userIDStr as (string | undefined));
+  let {userID, currentYear, currentMonth, currentDay} = data;
+  const userIDObj = convertStrToUserID(req, userID as (string | undefined));
 
-  const currentYear = parseInt(currentYearStr as string);
-  const currentMonth = parseInt(currentMonthStr as string);
-  const currentDay = parseInt(currentDayStr as string);
+  const currentYearObj = parseInt(currentYear as string);
+  const currentMonthObj = parseInt(currentMonth as string);
+  const currentDayObj = parseInt(currentDay as string);
 
-  let output = await parseUserInfo(userID, new Day(currentYear, currentMonth, currentDay));
+  let output = await parseUserInfo(userIDObj, new Day(currentYearObj, currentMonthObj, currentDayObj));
   res.status(200).json(output);
 });
 
