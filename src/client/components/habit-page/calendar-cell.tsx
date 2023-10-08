@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Outcome } from "../../../../models";
 import styled from "styled-components";
 import { darken } from 'polished';
@@ -74,6 +74,12 @@ function getColor(outcome: Outcome, today: number): string {
 const CalendarCellComponent: FC<CellComponentProps> = ({habitID, year, month, day, outcome, today, setUpdate}) => {
 
     const [myOutcome, setMyOutcome] = useState<Outcome>(outcome);
+
+    console.log("rerender", day, myOutcome, outcome);
+
+    useEffect(() => {
+        setMyOutcome(outcome);
+    }, [year, month]);
 
     const onClick = () => {
         console.log("clicked", day);
