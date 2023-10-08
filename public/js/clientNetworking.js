@@ -1,57 +1,63 @@
+import { SPAWN } from "./playerController.js"
+
+// Socket Initialization
+const network = io()
+network.on('setID', function(newID) {
+	this.id = newID
+	this.emit('movement', {id: newID, msg: SPAWN})
+})
+
+network.on('spawn', (players) => {
+	for (const [id, pos] of Object.entries(players)) {
+		spawnRemotePlayer(id, pos)
+	}
+})
+
+network.on('setPositions', (players) => {
+	for (const [id, pos] of Object.entries(players)) {
+		setRemotePosition(id, pos)
+	}
+})
+
+network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.msg))
+network.on('kill', (id) => removeRemotePlayer(id))
+
+
+// Public Functions
+
 /**
- * A singleton class that helps manage the Socket.IO connection with the server.
- * Use SocketNetwork.getConnection() to use this class.
- */
-class NetworkManager {
-
-	static #instance
-	static #isInternalConstructing
-	static getConnection() {
-		// Only ever creates one instance of this class
-		if(NetworkManager.#instance == undefined) {
-			NetworkManager.#isInternalConstructing = true
-			NetworkManager.#instance = new NetworkManager()
-		}
-		return NetworkManager.#instance
-	}
-
-	#socket
-	constructor() {
-		// Prevents outside construction to ensure singleton
-		if (!NetworkManager.#isInternalConstructing) {
-			throw new TypeError("NetworkManager is not constructable");
-		}
-		NetworkManager.#isInternalConstructing = false;
-
-		// Class initialization start
-		this.#socket = io()
-		this.#socket.on('setID', function(newID) {
-			this.id = newID
-			this.emit('movement', {id: newID, msg: SPAWN})
-		})
-
-		this.#socket.on('spawn', (players) => {
-			for (const [id, pos] of Object.entries(players)) {
-				spawnRemotePlayer(id, pos)
-			}
-		})
-
-		this.#socket.on('setPositions', (players) => {
-			for (const [id, pos] of Object.entries(players)) {
-				setRemotePosition(id, pos)
-			}
-		})
-
-		this.#socket.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.msg))
-		this.#socket.on('kill', (id) => removeRemotePlayer(id))
-	}
-
-	/**
-	 * Sends a message to the server
-	 * @param {string} messageName The name of this message. This serves as a simple indicator about the type of message that you are sending.
-	 * @param {object} object The object that will be send to clients.
-	 */
-	sendMessage(messageName, object) {
-		this.#socket.emit(messageName, {id: this.#socket.id, msg: object})
-	}
+  * Sends a message to the server
+  * @param {string} messageName The name of this message. This serves as a simple indicator about the type of message that you are sending.
+  * @param {object} object The object that will be send to clients.
+  */
+function sendNetworkMessage(messageName, object) {
+	network.emit(messageName, {id: network.id, msg: object})
 }
+
+
+
+// Private Functions
+
+const remotePlayers = {}
+const spawnRemotePlayer = function (id, positon) {
+	let x = positon.x || SPAWN.x
+	let y = positon.y || SPAWN.y
+	remotePlayers[id] = add([
+		sprite("puffle-red"),
+		pos(x, y),
+		scale(0.5, 0.5)
+	])
+}
+
+const removeRemotePlayer = function (id) {
+	console.log('Deleting:', id)
+	destroy(remotePlayers[id]) // removes player from kaboom
+	delete remotePlayers[id] // removes player from map
+}
+
+const moveRemotePlayer = function (id, vector) {
+	console.log(id, remotePlayers[id])
+	remotePlayers[id].moveTo(vector.x, vector.y)
+}
+
+export default sendNetworkMessage

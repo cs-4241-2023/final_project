@@ -1,32 +1,8 @@
-const network = NetworkManager.getConnection()
+import sendNetworkMessage from "./clientNetworking.js";
+
+//const network = NetworkManager.getConnection()
 const SPEED = 2
-const SPAWN = { x: 80, y: 40 }
-
-// -------------- Start Network Functions -----------------------
-
-const remotePlayers = {}
-const spawnRemotePlayer = function (id, positon) {
-	let x = positon.x || SPAWN.x
-	let y = positon.y || SPAWN.y
-	remotePlayers[id] = add([
-		sprite("puffle-red"),
-		pos(x, y),
-		scale(0.5, 0.5)
-	])
-}
-
-const removeRemotePlayer = function (id) {
-	console.log('Deleting:', id)
-	destroy(remotePlayers[id]) // removes player from kaboom
-	delete remotePlayers[id] // removes player from map
-}
-
-const moveRemotePlayer = function (id, vector) {
-	console.log(id, remotePlayers[id])
-	remotePlayers[id].moveTo(vector.x, vector.y)
-}
-
-// -------------- End Network Functions -------------------------
+export const SPAWN = { x: 80, y: 40 }
 
 kaboom({
 	background: [0, 0, 0],
@@ -125,7 +101,7 @@ scene("lobby", () => {
 		curTween = tween(player.pos, mousePos(), SPEED,
 			(p) => {
 				player.pos = p
-				network.sendMessage('movement', player.pos)
+				sendNetworkMessage('movement', player.pos)
 			}, easings.easeOutSine)
 
 	})
@@ -139,35 +115,10 @@ scene("lobby", () => {
 		curTween = tween(player.pos, mousePos(), SPEED,
 			(p) => {
 				player.pos = p
-				network.sendMessage('movement', player.pos)
+				sendNetworkMessage('movement', player.pos)
 			}, easings.easeOutSine).then(() => go("dojo"))
 	})
 
-	/*
-
-	// press w to move up
-	onKeyDown("w", () => {
-		puffle.move(0, -SPEED)
-		network.sendMessage('movement', puffle.pos)
-	})
-
-	// press s to move down
-	onKeyDown("s", () => {
-		puffle.move(0, SPEED)
-		network.sendMessage('movement', puffle.pos)
-	})
-
-	// press a to move down
-	onKeyDown("a", () => {
-		puffle.move(-SPEED, 0)
-		network.sendMessage('movement', puffle.pos)
-	})
-
-	// press d to move down
-	onKeyDown("d", () => {
-		puffle.move(SPEED, 0)
-		network.sendMessage('movement', puffle.pos)
-	})*/
 })
 
 scene("dojo", () => {
@@ -215,13 +166,13 @@ scene("dojo", () => {
 			curTween = tween(player.pos, mousePos(), SPEED,
 				(p) => {
 					player.pos = p
-					network.sendMessage('movement', player.pos)
+					sendNetworkMessage('movement', player.pos)
 				}, easings.easeOutSine)
 		}
 		else {
 			curTween = tween(player.pos, new Vec2(mousePos().x, MAX_HEIGHT), SPEED, (p) => {
 				player.pos = p
-				network.sendMessage('movement', player.pos)
+				sendNetworkMessage('movement', player.pos)
 			}
 				, easings.easeOutSine)
 		}
@@ -237,7 +188,7 @@ scene("dojo", () => {
 		curTween = tween(player.pos, mousePos(), SPEED,
 			(p) => {
 				player.pos = p
-				network.sendMessage('movement', player.pos)
+				sendNetworkMessage('movement', player.pos)
 			}, easings.easeOutSine).then(() => go("lobby"))
 	})
 
