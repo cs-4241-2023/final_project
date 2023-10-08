@@ -20,6 +20,7 @@ function Group(props) {
             >
                 Go To Group Page
             </button>
+            <button className={"delete-btn"} type={"submit"} onClick={(e) => props.deleteGroup(e, props.group._id)}>Delete Group</button>
         </div>
     );
 }

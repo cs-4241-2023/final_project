@@ -28,8 +28,9 @@ function Dashboard() {
                             groupDescription={group.groupDescription}
                             groupUsers={group.groupUsers}
                             meetingTimes={group.meetingTimes}
+                            deleteGroup={deleteGroup}
+                            group={group}
                         />
-                        
                     </div>
 
                 groupArr.push(groupComponent);
