@@ -4,7 +4,6 @@ import cookie from "cookie-session";
 import env from "dotenv";
 import { MongoClient, ObjectId } from "mongodb";
 
-// Import your routes
 import loginRoutes from "./routes/loginRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 
@@ -19,31 +18,31 @@ let allCollections = null;
 // Middleware for JSON parsing and session handling
 app.use(express.json());
 app.use(
-  cookie({
-    name: "session",
-    keys: ["key1", "key2"],
-  })
+    cookie({
+        name: "session",
+        keys: ["key1", "key2"],
+    })
 );
 
 // Database initialization middleware
 app.use(async (req, res, next) => {
-  try {
-    await dbClient.connect();
-    usersCollection = await dbClient.db("RendezViewDatabase").collection("Users");
-    allCollections = await dbClient.db("RendezViewDatabase").collections();
-    if (usersCollection !== null && allCollections !== null) {
-      console.log("Connected to database");
-      req.db = dbClient.db("RendezViewDatabase"); // Attach the database instance to req
-      req.allCollections = allCollections;
-      next();
-    } else {
-      console.error("Unable to connect to database");
-      res.sendStatus(503); // Service unavailable on database disconnect
+    try {
+        await dbClient.connect();
+        usersCollection = await dbClient.db("RendezViewDatabase").collection("Users");
+        allCollections = await dbClient.db("RendezViewDatabase").collections();
+        if (usersCollection !== null && allCollections !== null) {
+            console.log("Connected to database");
+            req.db = dbClient.db("RendezViewDatabase"); // Attach the database instance to req
+            req.allCollections = allCollections;
+            next();
+        } else {
+            console.error("Unable to connect to database");
+            res.sendStatus(503); // Service unavailable on database disconnect
+        }
+    } catch (error) {
+        console.error("An error occurred while connecting to the database:", error);
+        res.sendStatus(503); // Service unavailable on database error
     }
-  } catch (error) {
-    console.error("An error occurred while connecting to the database:", error);
-    res.sendStatus(503); // Service unavailable on database error
-  }
 });
 
 app.use("/", loginRoutes);

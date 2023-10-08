@@ -39,7 +39,7 @@ function Login(props) {
                             setHeaderMessage("Sign up for RendezView")
                         }}
                     >
-                        Don't have an account? Click Here!
+                        Don&rsquo;t have an account? Click Here!
                     </button>
                 </>
             ) : (
