@@ -127,7 +127,6 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
         const firstDay = getStartWeekday(displayMonth, displayYear);
         const numDaysInMonth = getDaysInMonth(displayMonth, displayYear);
 
-        // TODO: FETCH OUTCOMES FROM SERVER
         fetchHabitOutcomes(userID, habitID, displayYear, displayMonth).then((outcomes) => {
 
             let weekday = 0;
@@ -179,10 +178,10 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
                 <th>Sat</th>
             </tr>
             {
-                calendar.map((week) => {
-                    return <tr>
+                calendar.map((week, weekIndex) => {
+                    return <tr key={weekIndex}>
                         {
-                            week.map((day) => {
+                            week.map((day, dayIndex) => {
                                 let text = -1;
                                 let outcome = Outcome.NONE;
                                 let today = -1;
@@ -192,7 +191,8 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
                                     today = day.today;
                                 }
 
-                                return <td><CalendarCellComponent
+                                return <td key={`${dayIndex}-${displayYear}-${displayMonth}-${day?.day ?? 'empty'}`}>
+                                    <CalendarCellComponent
                                     habitID={habitID}
                                     year={displayYear} month={displayMonth} day={text}
                                     outcome={outcome} today={today}
