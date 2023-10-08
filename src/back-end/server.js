@@ -48,13 +48,9 @@ app.use(cookie({
 
 app.post("/login", async (req, res) => {
     // Find user within MongoDB
-    console.log(req.body.usernames)
-
     const response = await usersCollection.findOne({
         username: req.body.username,
     });
-
-    console.log(response)
 
     if (response !== null) {
         if(response.password === req.body.password) {
@@ -73,7 +69,7 @@ app.post("/login", async (req, res) => {
     else {
         console.log("user not found") 
         res.status(404);
-        res.end
+        res.end();
     }
 })
 
