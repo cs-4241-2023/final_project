@@ -4,6 +4,7 @@ import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { getDateToday } from "../../scripts/date";
 import { UserHabit, UserInfo } from "../../../../models";
 import { Loading } from "../css-components/loading";
+import PercentIcon from "../shared-components/percent-icon";
 
 const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatch<React.SetStateAction<number>>) => {
     console.log("create habit");
@@ -48,7 +49,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
 
             const {username, percentSuccessWeek, percentSuccessLifetime, numLoggedDays, habits} = response.content;
             const habitsObj = (habits as any[]).map((habit) => {
-                return new UserHabit(habit.userID, habit.habitID, habit.name, habit.description, habit.currentStreak, habit.numLoggedDays, habit.percentSuccessWeek, habit.percentSuccessLifetime)
+                return new UserHabit(habit.userID, habit.habitID, habit.name, habit.description, habit.currentStreak, habit.numLoggedDays, habit.numSuccessesWeek, habit.percentSuccessLifetime, habit.numLoggedDaysWeek)
             });
             setUserInfo(new UserInfo(username, numLoggedDays, percentSuccessWeek, percentSuccessLifetime, habitsObj));
         }
@@ -61,6 +62,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
     setUsername(userInfo.username);
     
     return <>
+        <PercentIcon percent={0.75} />
         <p>Home Page</p>
         <p>Username: {userInfo.username}</p>
         <p>Percent Success This Week: {userInfo.percentSuccessWeek}</p>
@@ -69,7 +71,15 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
         <p>Habits: {userInfo.habits.toString()}</p>
         
         {
-            userInfo.habits.map((habit) => (<p><Link to={"/habit/"+habit.habitID}>{habit.name} {habit.habitID}</Link></p>))
+            userInfo.habits.map((habit) => (<>
+            <p><Link to={"/habit/"+habit.habitID}>{habit.name} {habit.habitID}</Link></p>
+            <ul>
+            <li>Streak: {habit.currentStreak}</li>
+            <li>Number of Logged Days: {habit.numLoggedDays}</li>
+            <li>Percent Success Week: {habit.percentSuccessWeek}</li>
+            <li>Percent Success Lifetime: {habit.percentSuccessLifetime}</li>
+            </ul>
+            </>))
         }
         <button onClick ={() => createHabit(navigate, setUpdate)}>Create Habit</button>
 

@@ -42,8 +42,8 @@ const HabitPage: FC = () => {
                 return;
             }
 
-            const {userID, habitID, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime} = response.content;
-            setUserHabitInfo(new UserHabit(userID, habitID, name, description, currentStreak, numLoggedDays, percentSuccessWeek, percentSuccessLifetime));
+            const {userID, habitID, name, description, currentStreak, numLoggedDays, numSuccessesWeek, percentSuccessLifetime, numLoggedDaysWeek} = response.content;
+            setUserHabitInfo(new UserHabit(userID, habitID, name, description, currentStreak, numLoggedDays, numSuccessesWeek, percentSuccessLifetime, numLoggedDaysWeek));
         }
 
         fetchResponse();
