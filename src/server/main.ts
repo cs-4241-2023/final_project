@@ -91,20 +91,7 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
   const habits = [];
 
   for (const habitID of habitIDs) {
-<<<<<<< HEAD
-    const {name, description} = (await database.getHabitByID(habitID))!;
-    const {totalSuccesses, totalFails, numLoggedDays} = (await database.getUserHabit(userID, habitID))!;
-
-    const sum = totalSuccesses + totalFails;
-    const percentSuccessLifetime = (sum === 0) ? 0 : +(((totalSuccesses / sum) * 100).toFixed(2));
-
-    // TODO: calculate these
-    const currentStreak = 0;
-
-    habits.push(new UserHabit(userID.toString(), habitID.toString(), name, description, currentStreak, numLoggedDays, -1, percentSuccessLifetime));
-=======
     habits.push((await parseUserHabit(userID, habitID, currentDay))!);
->>>>>>> main
   }
   userInfo.habits = habits;
 
