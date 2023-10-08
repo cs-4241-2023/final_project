@@ -105,4 +105,4 @@ app.delete("/delete-group", (request, response) => {
     response.end(JSON.stringify({ result: "Success", message: "" }));
 });
 
-ViteExpress.listen(app, parseInt(process.env.PORT))
+ViteExpress.listen(app, process.env.PORT)

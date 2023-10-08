@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css"
+import Group from "../components/Group.jsx";
 
 function Dashboard() {
-    const [groupHTML, setGroupHTML] = React.useState([]);
-    const [addGroupPage, setAddGroupPage] = React.useState(<></>);
-    const [collectionName, setCollectionName] = React.useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
-    const [dataChanged, setDataChanged] = React.useState(false);
+    const [groups, setGroups] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [addGroupPage, setAddGroupPage] = useState(<></>);
+    const [collectionName, setCollectionName] = useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
+    const [dataChanged, setDataChanged] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         getCurrentCollection(collectionName).then((data) => {
 
             let groupArr = []
@@ -18,21 +20,17 @@ function Dashboard() {
                     listItems.push(<li key={listItems.length}>{user.trim()}</li>);
                 });
 
-                groupArr.push(
-                    <div className={"group"} key={groupArr.length}>
-                        <h3>{group.groupName}</h3>
-                        <p>{group.groupDescription}</p>
-                        <ul>
-                            {listItems}
-                        </ul>
-                        <p>Possible Group Meeting Times: {group.meetingTimes}</p>
-                        <button className={"group-btn"} type={"submit"} onClick={() => {
-                            // TODO: Switch to group page
-                        }}>Go To Group Page</button>
-                        <button className={"delete-btn"} type={"submit"} onClick={(e) => deleteGroup(e, group._id)}>Delete Group</button>
-                    </div>
-                );
-                setGroupHTML(groupArr);
+                const groupComponent =
+                    <Group key={groupArr.length}
+                        groupName={group.groupName}
+                        groupDescription={group.groupDescription}
+                        groupUsers={group.groupUsers}
+                        meetingTimes={group.meetingTimes}
+                    />
+
+                groupArr.push(groupComponent);
+                setSelectedGroup(groupComponent);
+                setGroups(groupArr);
                 setDataChanged(false);
             });
         }
@@ -106,21 +104,29 @@ function Dashboard() {
     }
 
     return <>
-        <button className={"profile-btn"} type={"submit"} onClick={() => {
-            // TODO: Switch to accounts page
-        }}>Profile/Settings</button>
+        <button className={"profile-btn"} type={"submit"}>Profile/Settings</button>
         <header>
             <h1>RendezView Dashboard</h1>
             <p>Welcome to RendezView. Please select an existing group or create a new one.</p>
         </header>
 
         <main>
-            <h2>Tracked Groups</h2>
-            {addGroupPage}
-            <div className={"group-container"}>
-                {groupHTML}
-            </div>
-            <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+            {selectedGroup ? (
+                <div className={"group-container"}>
+                    {selectedGroup}
+                    <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>Back</button>
+                </div>
+            ) : (
+                <div>
+
+                    <h2>Tracked Groups</h2>
+                    {addGroupPage}
+                    <div className={"group-container"}>
+                        {groups}
+                    </div>
+                    <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+                </div>
+            )}
         </main>
     </>
 }
