@@ -10,7 +10,8 @@ const spawnRemotePlayer = function (id, positon) {
 	let y = positon.y || SPAWN.y
 	remotePlayers[id] = add([
 		sprite("puffle-red"),
-		pos(x, y)
+		pos(x, y),
+		scale(0.5, 0.5)
 	])
 }
 
