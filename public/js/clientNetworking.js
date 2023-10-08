@@ -27,7 +27,7 @@ class NetworkManager {
 		this.#socket = io()
 		this.#socket.on('setID', function(newID) {
 			this.id = newID
-			this.emit('movement', {id: newID, msg: puffle.pos})
+			this.emit('movement', {id: newID, msg: SPAWN})
 		})
 
 		this.#socket.on('spawn', (players) => {
