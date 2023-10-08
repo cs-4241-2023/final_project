@@ -4,24 +4,20 @@ import { NavigateFunction } from "react-router-dom";
 import styled from "styled-components";
 import CreateHabitButton from "./create-habit-button";
 import HabitWidget from "./habit-widget";
-// import "./home-page.css"
-
-
-
+import "./home-page.css"
 
 const BigWidgetStyle = styled.div`
 background-color: ${COLOR_THEME.SECTION};
 display: flex;
+flex-direction: column;
+align-items: flex-start;
 justify-content: center;
-padding: 150px 20px 20px 10px;
-// margin: 20px;
+padding: 20px 10px 20px 10px;
 margin-right: 40px;
 margin-left: 40px;
 
-`
-const flexBox = styled.b`
 
-
+  
 `
 interface HabitListWidgetProps {
     setUpdate: React.Dispatch<React.SetStateAction<number>>;
@@ -30,13 +26,18 @@ interface HabitListWidgetProps {
 
 function HabitListWidget({setUpdate}: HabitListWidgetProps){
 
-    return(
+    return( <>
         <BigWidgetStyle className = "rounded">
-            {/* <h3>put habit nav buttons here</h3> */}
-            <HabitWidget/>
-            <CreateHabitButton setUpdate={setUpdate} />
-            {/* put button here, use a callback to call the createHabit function */}
-        </BigWidgetStyle> 
+            {/* <div><HabitWidget/></div>
+            <div><HabitWidget/></div>
+            <div><HabitWidget/></div>  
+            <div><HabitWidget/></div>   */}
+            <div><CreateHabitButton setUpdate={setUpdate} /></div>
+
+            </BigWidgetStyle> 
+
+</>
+
 
 
 

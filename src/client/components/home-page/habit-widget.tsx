@@ -11,9 +11,23 @@ background-color: ${COLOR_THEME.BUTTON};
 font-family: ${FONT_THEME.BUTTON_FONT};
 display: flex;
 justify-content: center;
-width: 2500px;
+width: 1335px;
+margin: 10px 0px 10px 0px;
+
 
 `
+
+// const MedWidgetStyle = styled.div`
+// // background-color: ${COLOR_THEME.SECTION};
+// background-color: black;
+// display: flex;
+// justify-content: center;
+// padding: 150px 20px 20px 10px;
+// // margin: 20px;
+// margin-right: 40px;
+// margin-left: 40px;
+
+// `
 
 
 interface HabitWidget {
@@ -26,7 +40,7 @@ function HabitWidget(){
     return(
         <StyledButton className=" btn btn-primary border-0"> 
         Click here to nav to habit
-        </StyledButton>    
+        </StyledButton> 
         
     );
 

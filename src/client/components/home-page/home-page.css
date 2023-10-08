@@ -1,10 +1,16 @@
 
 
-#bigWidget{
-background-color: #91A8E3;
-border-radius: 10px;
-margin-left: auto
-/* margin 10px, class name rounded */
-
+.flex-container {
+  display: flex;
+  background-color: DodgerBlue;
+  flex-direction: column;
 }
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}
+
 

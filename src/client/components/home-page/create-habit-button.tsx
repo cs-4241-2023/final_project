@@ -14,7 +14,9 @@ import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
   font-family: ${FONT_THEME.BUTTON_FONT};
   display: flex;
   justify-content: center;
-  width: 2500px;
+  width: 800px;
+  width: 1335px;
+  margin: 10px 0px 10px 0px;
   
   `
   interface CreateHabitButtonProps {
