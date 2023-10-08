@@ -5,7 +5,7 @@ kaboom({
 	scale: 1,
 	debug: true,});
 
-const SPAWN = {x: 20, y: 40};
+const START = {x: 20, y: 40};
 
 scene("puffle_store", () => {
     //Load puffle sprites
@@ -14,12 +14,11 @@ scene("puffle_store", () => {
                             { sprite: "puffle-blue.png", price: 300 },
                             { sprite: "puffle-black.png", price: 400 }];
     for (let i = 0; i < puffleSprites.length; i++) {
-        console.log(puffleSprites[i].sprite);
         loadSprite(puffleSprites[i].sprite.split(".")[0], `../sprites/${puffleSprites[i].sprite}`);
     }
 
     //Place sprites on screen horizontally aligned
-    let xOffset = SPAWN.x;
+    let xOffset = START.x;
     for (let i = 0; i < puffleSprites.length; i++) {
         const { sprite, price } = puffleSprites[i];
         displayPuffleWithPrice(xOffset, sprite.split(".")[0], price);
@@ -28,7 +27,7 @@ scene("puffle_store", () => {
 });
 
 function displayPuffleWithPrice(xPos, puffleSprite, price) {
-    const puffle = add([sprite(puffleSprite), pos(xPos, SPAWN.y)]);
+    const puffle = add([sprite(puffleSprite), pos(xPos, START.y)]);
     puffle.layer = "ui";
 
     const priceTag = add([
@@ -39,4 +38,4 @@ function displayPuffleWithPrice(xPos, puffleSprite, price) {
     priceTag.layer = "ui";
 }
 
-go("puffle_store")
+go("puffle_store");
