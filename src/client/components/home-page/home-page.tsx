@@ -4,6 +4,7 @@ import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
 import { getDateToday } from "../../scripts/date";
 import { UserHabit, UserInfo } from "../../../../models";
 import { Loading } from "../css-components/loading";
+import PercentIcon from "../shared-components/percent-icon";
 
 const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatch<React.SetStateAction<number>>) => {
     console.log("create habit");
@@ -61,6 +62,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
     setUsername(userInfo.username);
     
     return <>
+        <PercentIcon percent={0.75} />
         <p>Home Page</p>
         <p>Username: {userInfo.username}</p>
         <p>Percent Success This Week: {userInfo.percentSuccessWeek}</p>
