@@ -1,66 +1,48 @@
-import { ObjectId } from "mongodb";
+import Group from "../models/Group.js"; // Import your Mongoose Group model
 
-// Retrieve dashboard data controller
-export const getCollection = async (request, response) => {
-    let requestedCollection = null;
-    request.allCollections.forEach((collection) => {
-        if (
-            collection.namespace ===
-            `RendezViewDatabase.${request.body.requestedCollection}`
-        ) {
-            requestedCollection = collection;
-        }
-    });
-
-    if (requestedCollection !== null) {
-        let data = await requestedCollection.find({}).toArray();
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify(data));
-    } else {
-        response.sendStatus(404);
+export const getGroups = async (request, response) => {
+    try {
+        const groups = await Group.find();
+        response.status(200).json(groups);
+    } catch (error) {
+        console.error("An error occurred while fetching groups:", error);
+        response.status(500).end();
     }
 };
 
-// Add a new group controller
 export const addGroup = async (request, response) => {
-    let requestedCollection = null;
-    request.allCollections.forEach((collection) => {
-        if (
-            collection.namespace ===
-            `RendezViewDatabase.${request.body.collection}`
-        ) {
-            requestedCollection = collection;
-        }
-    });
+    const { collection, groupName, groupDescription, groupUsers } = request.body;
 
-    await requestedCollection.insertOne({
-        groupName: request.body.groupName,
-        groupDescription: request.body.groupDescription,
-        groupUsers: request.body.groupUsers,
-        meetingTimes: "TBD",
-    });
+    try {
+        // Create a new group using Mongoose model
+        const newGroup = new Group({
+            collection,
+            groupName,
+            groupDescription,
+            groupUsers,
+            meetingTimes: "TBD",
+        });
 
-    response.writeHead(200, { "Content-Type": "application/json" });
-    response.end(JSON.stringify({}));
+        await newGroup.save();
+
+        response.status(200).json({});
+    } catch (error) {
+        console.error("An error occurred while adding a group:", error);
+        response.status(500).end();
+    }
 };
 
 // Delete a group controller
 export const deleteGroup = async (request, response) => {
-    let requestedCollection = null;
-    request.allCollections.forEach((collection) => {
-        if (
-            collection.namespace ===
-            `RendezViewDatabase.${request.body.collection}`
-        ) {
-            requestedCollection = collection;
-        }
-    });
+    const { collection, _id } = request.body;
 
-    console.log("Delete Request for ID: " + request.body._id);
+    try {
+        // Delete the group using Mongoose model
+        await Group.deleteOne({ collection, _id });
 
-    requestedCollection.deleteOne({
-        _id: new ObjectId(request.body._id),
-    });
-    response.writeHead(200, { "Content-Type": "application/json" });
-    response.end(JSON.stringify({ result: "Success", message: "" }));
+        response.status(200).json({ result: "Success", message: "" });
+    } catch (error) {
+        console.error("An error occurred while deleting a group:", error);
+        response.status(500).end();
+    }
 };

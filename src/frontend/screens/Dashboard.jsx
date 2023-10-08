@@ -8,10 +8,9 @@ function Dashboard() {
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [addGroupPage, setAddGroupPage] = useState(<></>);
     const [hasDataChanged, setDataChanged] = useState(false);
-    const [collectionName, setCollectionName] = useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
 
     useEffect(() => {
-        getCurrentCollection(collectionName).then((data) => {
+        getCurrentCollection("Groups").then((data) => {
 
             let groupArr = []
 
@@ -43,15 +42,15 @@ function Dashboard() {
     }, [hasDataChanged]);
 
     async function getCurrentCollection() {
-        let result = await fetch("/get-collection", {
+        let result = await fetch("/groups", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ requestedCollection: collectionName }),
+            body: JSON.stringify({ requestedCollection: "Groups" }),
         });
         if (result.status !== 404) {
             return await result.json();
         } else {
-            console.log("404: Collection Not Found!");
+            console.log("404: Collection Not Found");
             return [];
         }
     }
@@ -81,7 +80,7 @@ function Dashboard() {
             alert("One or more fields are empty");
         } else {
             let groupJSON = JSON.stringify({
-                collection: collectionName,
+                collection: "Groups",
                 groupName: form.groupName.value,
                 groupDescription: form.groupDescription.value,
                 groupUsers: form.groupUsers.value,
@@ -103,7 +102,7 @@ function Dashboard() {
         await fetch("/delete-group", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ collection: collectionName, _id: assignmentID })
+            body: JSON.stringify({ collection: 'Groups', _id: assignmentID })
         });
         setDataChanged(true);
     }

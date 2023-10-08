@@ -1,21 +1,17 @@
-import { ObjectId } from "mongodb";
+import bcrypt from "bcrypt";
+import User from "../models/User.js";
 
 // Login controller
 export const loginUser = async (req, res) => {
     try {
-        // Access the database instance using req.db (attached in the middleware)
-        const usersCollection = req.db.collection("Users");
         const { username, password } = req.body;
+        const user = await User.findOne({ username });
+        console.log(user)
 
-        // Find user within MongoDB
-        const user = await usersCollection.findOne({ username });
-
-        if (user !== null && user.password === password) {
-            // Successful login
+        if (user && password === user.password) {
             req.session.user = username;
             res.status(200).end();
         } else {
-            // Incorrect username or password
             res.status(401).end();
         }
     } catch (error) {
@@ -24,43 +20,34 @@ export const loginUser = async (req, res) => {
     }
 };
 
-// Signup controller
 export const signupUser = async (req, res) => {
     try {
-        // Access the database instance using req.db (attached in the middleware)
-        const usersCollection = req.db.collection("Users");
         const { username, password } = req.body;
 
-        // Check if the username is already taken
-        const existingUser = await usersCollection.findOne({ username });
+        const existingUser = await User.findOne({ username });
 
         if (!existingUser) {
-            // Create a new user and associated collection
-            await usersCollection.insertOne({
+            // const hashedPassword = bcrypt.hashSync(password, 10);
+            const newUser = new User({
                 username,
-                password,
-                collectionName: username,
+                password
             });
 
-            // Create a new collection (if needed) - you can add logic here
+            await newUser.save();
 
             res.status(200).end();
         } else {
-            // Username already taken
             res.status(409).end();
         }
     } catch (error) {
         console.error("An error occurred during signup:", error);
-        res.status(500).end();
+        res.status(501).end();
     }
 };
 
-// Get users controller
 export const getUsers = async (req, res) => {
     try {
-        // Access the database instance using req.db (attached in the middleware)
-        const usersCollection = req.db.collection("Users");
-        const users = await usersCollection.find().toArray();
+        const users = await User.find();
 
         res.status(200).json(users);
     } catch (error) {
@@ -68,5 +55,3 @@ export const getUsers = async (req, res) => {
         res.status(500).end();
     }
 };
-
-// Other login-related controllers can be added here if needed

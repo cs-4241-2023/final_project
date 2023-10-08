@@ -2,20 +2,31 @@ import express from "express";
 import ViteExpress from "vite-express";
 import cookie from "cookie-session";
 import env from "dotenv";
-import { MongoClient, ObjectId } from "mongodb";
+import mongoose from "mongoose";
 
 import loginRoutes from "./routes/loginRoutes.js";
-import dashboardRoutes from "./routes/dashboardRoutes.js";
+// import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 const app = express();
 env.config();
+const MONGO_HOST = process.env.MONGO_HOST;
+const MONGO_USER = process.env.MONGO_USER;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 
-const url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}`;
-const dbClient = new MongoClient(url);
-let usersCollection = null;
-let allCollections = null;
+mongoose.connect(
+    `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}`, {dbName: 'RendezViewDatabase'}
+);
 
-// Middleware for JSON parsing and session handling
+const db = mongoose.connection;
+
+db.on("error", (error) => {
+    console.error("MongoDB connection error:", error);
+});
+
+db.once("open", () => {
+    console.log("Connected to MongoDB:", mongoose.connection.db.databaseName);
+});
+
 app.use(express.json());
 app.use(
     cookie({
@@ -24,28 +35,12 @@ app.use(
     })
 );
 
-// Database initialization middleware
-app.use(async (req, res, next) => {
-    try {
-        await dbClient.connect();
-        usersCollection = await dbClient.db("RendezViewDatabase").collection("Users");
-        allCollections = await dbClient.db("RendezViewDatabase").collections();
-        if (usersCollection !== null && allCollections !== null) {
-            console.log("Connected to database");
-            req.db = dbClient.db("RendezViewDatabase"); // Attach the database instance to req
-            req.allCollections = allCollections;
-            next();
-        } else {
-            console.error("Unable to connect to database");
-            res.sendStatus(503); // Service unavailable on database disconnect
-        }
-    } catch (error) {
-        console.error("An error occurred while connecting to the database:", error);
-        res.sendStatus(503); // Service unavailable on database error
-    }
+app.use((req, res, next) => {
+    req.db = db;
+    next();
 });
 
 app.use("/", loginRoutes);
-app.use("/", dashboardRoutes);
+// app.use("/", dashboardRoutes);
 
 ViteExpress.listen(app, parseInt(process.env.PORT));
