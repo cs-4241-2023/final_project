@@ -170,6 +170,22 @@ app.post("/createhabit", async (req, res) => {
   
 });
 
+app.post("/setdescription", async (req, res) => {
+
+  if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
+    res.status(401).json({message: "Not logged in"});
+    return;
+  }
+
+  const data = req.body;
+  const {habitID, description} = data;
+
+  await database.setDescription(habitID, description);
+  res.status(200).json({message: "Description set successfully"});
+
+
+});
+
 
 app.get("/userinfo", async (req, res) => {
 

@@ -254,8 +254,14 @@ export class Database {
             { totalSuccesses: numSuccessesUser, totalFails: numFailsUser, totalLoggedDays: numSuccessesUser + numFailsUser },
             { new: true }
         );
-
-
     }
 
+    public async setDescription(habitID: mongoose.Types.ObjectId, description: string) {
+
+        await DBHabit.findOneAndUpdate(
+            { _id: habitID },
+            { description: description },
+            { new: true }
+        );
+    }
 }
