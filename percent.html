@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Donut Chart</title>
+</head>
+<body>
+    <svg width="87.5" height="87.5" viewBox="0 0 87.5 87.5" class="donut-chart">
+        <g transform="rotate(-90 43.75 43.75)">
+            <circle stroke="#e21b3c" stroke-dasharray="219.9114857512855" cx="43.75" cy="43.75" r="35" fill="transparent" stroke-width="7"></circle>
+            <circle id="donut-background" stroke="#fff" stroke-linecap="round" stroke-dasharray="219.9114857512855" cx="43.75" cy="43.75" r="35" fill="transparent" stroke-width="16.5"></circle>
+            <circle id="donut-fill" stroke="#26890c" stroke-linecap="round" stroke-dasharray="219.9114857512855" cx="43.75" cy="43.75" r="35" fill="transparent" stroke-width="11"></circle>
+        </g>
+    </svg>
+
+    <script>
+        function drawDonutChart(percentage) {
+            const CIRCUMFERENCE = 219.9114857512855;
+            const offset = CIRCUMFERENCE * (1 - percentage / 100);
+
+            document.getElementById('donut-background').setAttribute('stroke-dashoffset', offset);
+            document.getElementById('donut-fill').setAttribute('stroke-dashoffset', offset);
+        }
+
+        drawDonutChart(75);  // Draws the chart for 65%. Change the number to whatever percentage you desire.
+    </script>
+</body>
+</html>
