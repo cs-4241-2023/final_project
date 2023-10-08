@@ -1,5 +1,3 @@
-import React from "react";
-
 function Dashboard() {
     const [groupHTML, setGroupHTML] = React.useState([]);
     const [addGroupPage, setAddGroupPage] = React.useState(<></>);
