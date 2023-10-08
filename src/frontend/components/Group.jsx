@@ -20,7 +20,6 @@ function Group(props) {
             >
                 Go To Group Page
             </button>
-            {/* Add a delete button and handle deleteGroup functionality */}
         </div>
     );
 }

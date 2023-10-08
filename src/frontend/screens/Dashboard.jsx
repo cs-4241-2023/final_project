@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css"
 import Group from "../components/Group.jsx";
+import Header from "../components/Header.jsx";
 
 function Dashboard() {
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [addGroupPage, setAddGroupPage] = useState(<></>);
+    const [hasDataChanged, setDataChanged] = useState(false);
     const [collectionName, setCollectionName] = useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
-    const [dataChanged, setDataChanged] = useState(false);
 
     useEffect(() => {
         getCurrentCollection(collectionName).then((data) => {
@@ -21,12 +22,15 @@ function Dashboard() {
                 });
 
                 const groupComponent =
-                    <Group key={groupArr.length}
-                        groupName={group.groupName}
-                        groupDescription={group.groupDescription}
-                        groupUsers={group.groupUsers}
-                        meetingTimes={group.meetingTimes}
-                    />
+                    <div>
+                        <Group key={groupArr.length}
+                            groupName={group.groupName}
+                            groupDescription={group.groupDescription}
+                            groupUsers={group.groupUsers}
+                            meetingTimes={group.meetingTimes}
+                        />
+                        
+                    </div>
 
                 groupArr.push(groupComponent);
                 setSelectedGroup(groupComponent);
@@ -35,7 +39,7 @@ function Dashboard() {
             });
         }
         );
-    }, [dataChanged]);
+    }, [hasDataChanged]);
 
     async function getCurrentCollection() {
         let result = await fetch("/get-collection", {
@@ -103,32 +107,28 @@ function Dashboard() {
         setDataChanged(true);
     }
 
-    return <>
-        <button className={"profile-btn"} type={"submit"}>Profile/Settings</button>
-        <header>
-            <h1>RendezView Dashboard</h1>
-            <p>Welcome to RendezView. Please select an existing group or create a new one.</p>
-        </header>
-
-        <main>
-            {selectedGroup ? (
-                <div className={"group-container"}>
-                    {selectedGroup}
-                    <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>Back</button>
-                </div>
-            ) : (
-                <div>
-
-                    <h2>Tracked Groups</h2>
-                    {addGroupPage}
+    return (<>
+        <Header />
+            <main>
+                {selectedGroup ? (
                     <div className={"group-container"}>
-                        {groups}
+                        {selectedGroup}
+                        <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>Back</button>
                     </div>
-                    <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
-                </div>
-            )}
-        </main>
+                ) : (
+                    <div>
+
+                        <h2>Tracked Groups</h2>
+                        {addGroupPage}
+                        <div className={"group-container"}>
+                            {groups}
+                        </div>
+                        <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+                    </div>
+                )}
+            </main>
     </>
+    )
 }
 
 export default Dashboard;
