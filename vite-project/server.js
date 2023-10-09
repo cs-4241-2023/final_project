@@ -189,10 +189,10 @@ app.put('/modifyMusicTourName', async (req, res) => {
   
   updateTourName(req.body)
 
-  await collection.updateOne({usern: userData[0].usern}, {$set: {musiclisteninglist: userData[0].musiclisteninglist}})
+  //await collection.updateOne({usern: userData[0].usern}, {$set: {musiclisteninglist: userData[0].musiclisteninglist}})
 
-  res.writeHead(200, {'Content-Type': 'application/json'})
-  res.end(JSON.stringify(userData[0].musiclisteninglist))
+  //res.writeHead(200, {'Content-Type': 'application/json'})
+  //res.end(JSON.stringify(userData[0].musiclisteninglist))
 })
 
 ViteExpress.listen(app, 3000)
