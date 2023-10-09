@@ -1,7 +1,6 @@
 import React from 'react';
 
-function Group({ group, onSelect, deleteGroup }) {
-
+function GroupInfo({ group, selectGroup, deleteGroup }) {
     const handleDelete = (e) => {
         e.preventDefault();
         deleteGroup(group._id);
@@ -20,7 +19,7 @@ function Group({ group, onSelect, deleteGroup }) {
             <button
                 className="group-btn"
                 type="submit"
-                onClick={() => onSelect}
+                onClick={() => selectGroup(group._id)}
             >
                 Go To Group Page
             </button>
@@ -35,4 +34,4 @@ function Group({ group, onSelect, deleteGroup }) {
     );
 }
 
-export default Group;
+export default GroupInfo;

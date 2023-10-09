@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css"
 import GroupList from "../components/GroupList.jsx";
+import GroupInfo from "../components/GroupInfo.jsx";
 import AddGroupForm from "../components/AddGroupForm.jsx";
 import Header from "../components/Header.jsx";
 
@@ -11,9 +12,7 @@ function Dashboard() {
     const [hasDataChanged, setDataChanged] = useState(false);
 
     useEffect(() => {
-        getGroupList("Groups").then((data) => {
-            setGroups(data);
-        });
+        getGroupList().then(data => setGroups(data))
     }, [hasDataChanged]);
 
     async function getGroupList() {
@@ -88,6 +87,19 @@ function Dashboard() {
         }
     }
 
+    const handleSelectGroup = (groupId) => {
+        const groupObj = groups.find(group => group._id === groupId)
+
+        const selectedGroupComp =
+            <GroupInfo
+                group={groupObj}
+                selectGroup={handleSelectGroup}
+                deleteGroup={deleteGroup}
+            />
+
+        setSelectedGroup(selectedGroupComp);
+    }
+
     return (<>
         <Header />
         <main>
@@ -112,7 +124,7 @@ function Dashboard() {
                     {isGroupFormVisible &&
                         <AddGroupForm addGroup={addGroup} onCancel={() => setGroupFormVisiblity(false)} />
                     }
-                    <GroupList groups={groups} selectGroup={setSelectedGroup} deleteGroup={deleteGroup} />
+                    <GroupList groups={groups} selectGroup={handleSelectGroup} deleteGroup={deleteGroup} />
                 </div>
             )}
         </main>
