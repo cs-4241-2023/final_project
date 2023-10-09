@@ -43,7 +43,7 @@ interface PercentComponentProps {
 const PercentIcon: FC<PercentComponentProps> = ({percent}) => {
 
     const CIRCUMFERENCE = 219.9114857512855;
-    const offset = CIRCUMFERENCE * (1 - percent);
+    const offset = CIRCUMFERENCE * (1 - percent / 100.0);
 
     return (<svg width="87.5" height="87.5" viewBox="0 0 87.5 87.5">
         <g transform="rotate(-90 43.75 43.75)">
