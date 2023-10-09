@@ -23,10 +23,6 @@ async function createViteServerMiddleware() {
         }
     });
 
-    app.post('/add', async (req, res) => {
-
-    });
-
     app.listen(server_port, () => {
         console.log(`Server is running on http://localhost:${server_port}`);
     });
