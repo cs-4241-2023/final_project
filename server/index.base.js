@@ -93,6 +93,12 @@ app.post('/add', async (req, res) => {
     return res.json(character);
 })
 
+app.post('/update', async (req, res) => {
+    const { _id, username, color, face, hat, shirt, name, skills, food, slogan } = req.body
+    const character = await storageService.updateCharacter(_id, username, color, face, hat, shirt, name, skills, food, slogan);
+    return res.json(character);
+})
+
 app.get('/user-info', (req, res) => {
     res.json(req.user);
 })

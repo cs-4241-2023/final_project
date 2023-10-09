@@ -84,7 +84,7 @@ const CreatePage: React.FC = () => {
 
         handleShowSnackbar();
 
-        if (user === null) {
+        if (user === null || user.username === null) {
             console.log("No user :(");
             return;
         }
@@ -97,7 +97,9 @@ const CreatePage: React.FC = () => {
                 setId(newCharacter._id);
             // Update character
             } else {
-                
+                await createService.updateData(
+                    {_id: id, username: user.username, color, face, hat, shirt, name, skills, food, slogan}
+                );
             }
 
         } catch (error) {
