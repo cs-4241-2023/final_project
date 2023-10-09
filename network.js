@@ -26,6 +26,10 @@ const onConnection = function(socket) {
 	socket.on('changeScene', (state) => {
 		const socketEntry = connectedPlayers[socket.id]
 
+		if(socketEntry.room === state.scene) {
+			return
+		}
+
 		socket.leave(connectedPlayers[socket.id].room)
 		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
 
@@ -44,6 +48,8 @@ const onConnection = function(socket) {
 				socket.emit('spawn', player)
 			}
 		}
+
+		console.log(`${socket.id}:`, 'changing scene to', state)
 	})
 	
 	socket.on('movement', (pos) => {

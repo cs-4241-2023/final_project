@@ -1,24 +1,3 @@
-// Socket Initialization
-const network = io()
-network.on('spawn', (players) => {
-	for (const [id, pos] of Object.entries(players)) {
-		spawnRemotePlayer(id, pos)
-	}
-})
-
-network.on('setPositions', (players) => {
-	for (const [id, pos] of Object.entries(players)) {
-		setRemotePosition(id, pos)
-	}
-})
-
-network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
-network.on('kill', (id) => removeRemotePlayer(id))
-
-let currentScene = { scene: '', pos: {} }
-network.on('sceneRequest', () => {console.log('requested');network.emit('changeScene', currentScene)})
-
-
 // Public Functions
 
 /**
@@ -39,6 +18,22 @@ const sendNetworkMessage = function(messageName, object) {
 	network.emit(messageName, object)
 }
 
+export default sendNetworkMessage
+
+
+// Socket Initialization
+const network = io()
+network.on('spawn', (players) => {
+	for (const [id, pos] of Object.entries(players)) {
+		spawnRemotePlayer(id, pos)
+	}
+})
+
+network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
+network.on('kill', (id) => removeRemotePlayer(id))
+
+let currentScene = { scene: '', pos: {} }
+network.on('sceneRequest', () => network.emit('changeScene', currentScene))
 
 
 // Private Functions
@@ -64,5 +59,3 @@ const removeRemotePlayer = function (id) {
 const moveRemotePlayer = function (id, vector) {
 	remotePlayers[id].moveTo(vector.x, vector.y)
 }
-
-export default sendNetworkMessage
