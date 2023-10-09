@@ -1,10 +1,10 @@
 export interface Create {
-  name: any;
-  skills: any;
-  food: any;
-  slogan: any;
-  color: any;
-  hat: any;
-  shirt: any;
-  face: any;
+  name: string;
+  skills: string;
+  food: string;
+  slogan: string;
+  color: string;
+  hat: string;
+  shirt: string;
+  face: string;
 }

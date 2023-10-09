@@ -1,11 +1,11 @@
 export interface Character {
-  _id: any;
-  name: any;
-  skills: any;
-  food: any;
-  slogan: any;
-  color: any;
-  hat: any;
-  shirt: any;
-  face: any;
+  _id: string;
+  name: string;
+  skills: string;
+  food: string;
+  slogan: string;
+  color: string;
+  hat: string;
+  shirt: string;
+  face: string;
 }
