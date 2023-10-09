@@ -27,8 +27,6 @@ db.once("open", () => {
     console.log("Connected to MongoDB:", mongoose.connection.db.databaseName);
 });
 
-
-
 app.use(express.json());
 app.use(
     cookie({

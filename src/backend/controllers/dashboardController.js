@@ -34,7 +34,7 @@ export const addGroup = async (request, response) => {
 
 // Delete a group controller
 export const deleteGroup = async (request, response) => {
-    const groupId = request.body;
+    const groupId = request.params.id;
     try {
         const deletedGroup = await Group.findByIdAndDelete(groupId);
 

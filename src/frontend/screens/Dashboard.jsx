@@ -59,7 +59,7 @@ function Dashboard() {
                 groupUsers: groupUsers,
                 meetingTimes: "TBD"
             });
-            await fetch("/add-group", {
+            await fetch("/groups", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
@@ -69,18 +69,17 @@ function Dashboard() {
         }
     }
 
-    async function deleteGroup(assignmentID) {
+    async function deleteGroup(groupId) {
         try {
-            const response = await fetch("/delete-group", {
+            const response = await fetch(`/groups/${groupId}`, {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ collection: "TestUserCollection", _id: assignmentID })
+                headers: { "Content-Type": "application/json" }
             })
+
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error(`Error deleting document: ${errorData.message}`);
             } else {
-                // Document successfully deleted
                 console.log('Document deleted successfully');
                 setDataChanged(!hasDataChanged);
             }

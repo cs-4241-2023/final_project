@@ -44,13 +44,13 @@ export const signupUser = async (req, res) => {
     }
 };
 
-export const getUsers = async (req, res) => {
-    try {
-        const users = await User.find();
+// export const getUsers = async (req, res) => {
+//     try {
+//         const users = await User.find();
 
-        res.status(200).json(users);
-    } catch (error) {
-        console.error("An error occurred while fetching users:", error);
-        res.status(500).end();
-    }
-};
+//         res.status(200).json(users);
+//     } catch (error) {
+//         console.error("An error occurred while fetching users:", error);
+//         res.status(500).end();
+//     }
+// };

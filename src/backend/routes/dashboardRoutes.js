@@ -5,7 +5,7 @@ const router = express.Router();
 import { getGroupList, addGroup, deleteGroup } from "../controllers/dashboardController.js";
 
 router.get("/groups", getGroupList);
-router.post("/add-group", addGroup);
-router.delete("/delete-group", deleteGroup);
+router.post("/groups", addGroup);
+router.delete("/groups/:id", deleteGroup);
 
 export default router;
