@@ -16,13 +16,18 @@ function App() {
       <Router> 
           <DisplayNavBar>
             <NavBar /> 
-          </DisplayNavBar>
+          </DisplayNavBar> 
           <Routes> 
             <Route path = '/' element = {<LandingPage/>} /> 
             <Route path = '/music_tour_builder' element = {<MusicTourBuilder/>} /> 
             <Route path = '/music_trends_information' element = {<MusicTrendsInformation/>} /> 
           </Routes> 
-      </Router> 
+      </Router>
+      <footer>
+        <div>
+          Fantasy Music Tour Builder created by Matthew McAlarney, Sean Arackal, Adish Jain, Daniel Onyema, and Sultan Adedeji
+        </div>
+      </footer>
   </>
   )
 }

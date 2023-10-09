@@ -9,7 +9,7 @@ function Navbar() {
                 <Link to = "/">Logout</Link>
             </div>
             <div>
-                <Link to = "/music_tour_builder">Music Tour Builder</Link>
+                <Link to = "/music_tour_builder">Build a Fantasy Music Tour</Link>
             </div>
             <div>
                 <Link to = "/music_trends_information">Music Trends Information</Link>

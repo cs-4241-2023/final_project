@@ -23,14 +23,16 @@ Simplified Data Structure - let's go with this:
 const user = {
 username: 'john',
 password: 'pw',
-musictour: 'Judgement Day', //Daniel
+musictourname: 'Judgement Day', //Daniel
 tourduration: 50 days, //Adish
 tourcontinent: 'Europe', //Matthew
-targetaudience: '15-30', //Sean
+targetaudienceagerange: '15-30', //Sean
 headliningartist: 'Limp Bizkit' //Sultan
-mainsupportingartist: 'Taylor Swift' //Adish
+directsupportartist: 'Taylor Swift' //Adish
 }
 */
+
+//Note in README that we simplified the scope of the editable list feature.
 
 //Client-side rendered application using React. Server only functions to interact with the client via HTTP protocal.
 
@@ -153,6 +155,36 @@ app.post('/userLogin', async (req, res) => {
       return res.status(500).end("InternalServerError")
     }
   }
+})
+
+app.get('/getMusicTourName', async (req, res) => {
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(userData[0].fantasymusictour.musictourname)
+})
+
+app.get('/getMusicTourDuration', async (req, res) => {
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(userData[0].fantasymusictour.tourduration)
+})
+
+app.get('/getMusicTourContinent', async (req, res) => {
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(userData[0].fantasymusictour.tourcontinent)
+})
+
+app.get('/getMusicTourTargetAudienceAgeRange', async (req, res) => {
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(userData[0].fantasymusictour.targetaudienceagerange)
+})
+
+app.get('/getMusicTourHeadliningArtist', async (req, res) => {
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(userData[0].fantasymusictour.headliningartist)
+})
+
+app.get('/getMusicTourDirectSupportArtist', async (req, res) => {
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(userData[0].fantasymusictour.directsupportartist)
 })
 
 ViteExpress.listen(app, 3000)
