@@ -93,6 +93,12 @@ app.post('/add', async (req, res) => {
     return res.json(character);
 })
 
+app.post('/update', async (req, res) => {
+    const { _id, username, color, face, hat, shirt, name, skills, food, slogan } = req.body
+    const character = await storageService.updateCharacter(_id, username, color, face, hat, shirt, name, skills, food, slogan);
+    return res.json(character);
+})
+
 app.get('/user-info', (req, res) => {
     res.json(req.user);
 })
@@ -111,9 +117,8 @@ app.get('/user-characters', async (req, res) => {
 
 });
 
-app.delete('/character/:characterId', async (req, res) => {
-    const characterId = req.params.characterId;
-    console.log(characterId)
+app.post('/delete', async (req, res) => {
+    const characterId = req.body.characterId;
     try {
         const deletedCount = await storageService.deleteCharacter(characterId);
         if (deletedCount && deletedCount > 0) {

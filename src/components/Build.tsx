@@ -71,7 +71,7 @@ const Build: React.FC<BuildProps> = (props) => {
             "allCharStuff/shirts/shirt9.png",
         ],
     }
-    
+
     const palette = useTheme().palette;
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -90,19 +90,36 @@ const Build: React.FC<BuildProps> = (props) => {
 
         const colorImage = new Image();
         colorImage.src = props.color;
-        ctx.drawImage(colorImage, 0, 0, 256, 256);
+        // colorImage.style= {"object-fit": }
+        ctx.drawImage(
+            colorImage,
+            0, 300, 1200, 1200,
+            0, 0, 256, 256,
+        );
 
         const faceImage = new Image();
         faceImage.src = props.face;
-        ctx.drawImage(faceImage, 0, 0, 256, 256);
+        ctx.drawImage(
+            faceImage,
+            0, 300, 1200, 1200,
+            0, 0, 256, 256,
+        );
 
         const shirtImage = new Image();
         shirtImage.src = props.shirt;
-        ctx.drawImage(shirtImage, 0, 0, 256, 256);
+        ctx.drawImage(
+            shirtImage,
+            0, 300, 1200, 1200,
+            0, 0, 256, 256,
+        );
 
         const hatImage = new Image();
         hatImage.src = props.hat;
-        ctx.drawImage(hatImage, 0, 0, 256, 256);
+        ctx.drawImage(
+            hatImage,
+            0, 300, 1200, 1200,
+            0, 0, 256, 256,
+        );
     })
 
     return (

@@ -9,3 +9,7 @@ export interface Create {
   shirt: string;
   face: string;
 }
+
+export interface Update extends Create {
+  _id: string;
+}
