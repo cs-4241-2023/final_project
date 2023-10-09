@@ -11,9 +11,11 @@ import Bio from "../components/Bio"
 import Build from "../components/Build"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Snackbar from '../components/Snackbar';
 import { User } from "../types/auth.types";
-
 import { createService } from '../services/create.service';
+
+
 
 const CreatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -26,6 +28,7 @@ const CreatePage: React.FC = () => {
     const [face, setFace] = useState("");
     const [hat, setHat] = useState("");
     const [shirt, setShirt] = useState("");
+    const [snackbarVisible, setIsSnackbarVisible] = useState(false);
 
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
@@ -67,7 +70,17 @@ const CreatePage: React.FC = () => {
         }
     }
 
+    const handleShowSnackbar = () => {
+        setIsSnackbarVisible(true);
+        setTimeout(() => {
+          setIsSnackbarVisible(false);
+        }, 5000);
+      };
+
     const saveCharacter = async function() {
+
+        handleShowSnackbar();
+
         if (user === null) {
             console.log("No user :(");
             return;
@@ -78,6 +91,7 @@ const CreatePage: React.FC = () => {
             console.error("An unexpected error happened when saving the character:", error);
         }
       };
+    
 
     return (
         <div className="splash-container">
@@ -93,6 +107,7 @@ const CreatePage: React.FC = () => {
                 <Button variant="contained" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</Button>
                 <Button variant="contained" onClick={() => { saveCharacter() }}>Save</Button>
             </Stack>
+            {snackbarVisible && <Snackbar message="Your character was saved!!" />}
             </div>
         </div>
     );
