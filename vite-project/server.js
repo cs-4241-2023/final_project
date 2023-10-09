@@ -78,19 +78,15 @@ function getFirstIndexOfWhiteSpaceInString(inputString) { //The indexOf() method
 
 function userInputHasWhiteSpace(un, pw) {
   if(getFirstIndexOfWhiteSpaceInString(un) >= 0 || getFirstIndexOfWhiteSpaceInString(pw) >= 0) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
 }
 
 function verifyUniqueUsername(newUsername, users) { //
   
   let duplicateUsernameCounter = 0
-  
-  console.log(users)
-  console.log(newUsername)
-  console.log(typeof(users))
 
   if(users.length !== 0) {
     users.forEach(u => {
@@ -157,34 +153,46 @@ app.post('/userLogin', async (req, res) => {
   }
 })
 
+//GET Requests
+
 app.get('/getMusicTourName', async (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end(userData[0].fantasymusictour.musictourname)
 })
 
 app.get('/getMusicTourDuration', async (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end(userData[0].fantasymusictour.tourduration)
 })
 
 app.get('/getMusicTourContinent', async (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end(userData[0].fantasymusictour.tourcontinent)
 })
 
 app.get('/getMusicTourTargetAudienceAgeRange', async (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end(userData[0].fantasymusictour.targetaudienceagerange)
 })
 
 app.get('/getMusicTourHeadliningArtist', async (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end(userData[0].fantasymusictour.headliningartist)
 })
 
 app.get('/getMusicTourDirectSupportArtist', async (req, res) => {
-  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end(userData[0].fantasymusictour.directsupportartist)
+})
+
+//PUT Requests
+
+function updateTourName() {
+
+}
+
+app.put('/modifyMusicTourName', async (req, res) => { 
+  
+  updateTourName(req.body)
+
+  await collection.updateOne({usern: userData[0].usern}, {$set: {musiclisteninglist: userData[0].musiclisteninglist}})
+
+  res.writeHead(200, {'Content-Type': 'application/json'})
+  res.end(JSON.stringify(userData[0].musiclisteninglist))
 })
 
 ViteExpress.listen(app, 3000)
