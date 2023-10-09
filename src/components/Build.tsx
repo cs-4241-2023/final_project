@@ -92,13 +92,13 @@ const Build: React.FC<BuildProps> = (props) => {
         faceImage.src = props.face;
         ctx.drawImage(faceImage, 0, 0, 256, 256);
 
-        const hatImage = new Image();
-        hatImage.src = props.hat;
-        ctx.drawImage(hatImage, 0, 0, 256, 256);
-
         const shirtImage = new Image();
         shirtImage.src = props.shirt;
         ctx.drawImage(shirtImage, 0, 0, 256, 256);
+        
+        const hatImage = new Image();
+        hatImage.src = props.hat;
+        ctx.drawImage(hatImage, 0, 0, 256, 256);
     })
 
     return (
