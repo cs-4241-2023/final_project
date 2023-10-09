@@ -70,7 +70,7 @@ class StorageService {
         });
         return user;
     }
-    
+
     async saveCharacter(color, face, hat, shirt, name, skills, food, slogan) {
         const db = this.client.db(db_name);
         const result = await db.collection(
@@ -98,6 +98,20 @@ class StorageService {
             skills,
             food,
             slogan
+        };
+    }
+    async deleteCharacter(id) {
+        const db = this.client.db(db_name);
+        const result = await db.collection(
+            this.Collection.USER
+        ).deleteOne({
+            _id: new ObjectId(id)
+        });
+        if (!result.deletedCount) {
+            throw new Error('Deleting character failed');
+        }
+        return {
+            _id: result.deletedCount,
         };
     }
 }
