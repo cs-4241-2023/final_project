@@ -1,41 +1,23 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 const Bio: React.FC<any> = (props) => {
 
     return (
       <>
-        <form className="bio-form">
-          <div className="bio">
-             <label>Name</label>
-             <input
-              id="name"
-              type="text" 
-              value={props.name} 
-              onChange={(event) => props.setName(event.target.value)}
-              />
-             <label>Skills</label>
-             <input
-              id="skills"
-              type="text" 
-              value={props.skills} 
-              onChange={(event) => props.setSkills(event.target.value)}
-              />
-             <label>Favorite Food</label>
-             <input
-              id="food"
-              type="text" 
-              value={props.food} 
-              onChange={(event) => props.setFood(event.target.value)}
-              />
-             <label>Slogan</label>
-             <input
-              id="slogan"
-              type="text" 
-              value={props.slogan} 
-              onChange={(event) => props.setSlogan(event.target.value)}
-              />
-         </div>
-      </form>
+        <Box component = "form"
+              sx={{
+                '& > :not(style)': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+             <TextField id="name" label="Name" variant="outlined" value={props.name} onChange={(event) => props.setName(event.target.value)}/>
+             <TextField id="skills" label="Skills" variant="outlined" value={props.skills} onChange={(event) => props.setSkills(event.target.value)}/>
+             <TextField id="food" label="Favorite Food" variant="outlined" value={props.food} onChange={(event) => props.setFood(event.target.value)}/>
+             <TextField id="slogan" label="Slogan" variant="outlined" value={props.slogan} onChange={(event) => props.setSlogan(event.target.value)}/>
+         </Box>
         </>
     );
 };

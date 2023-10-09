@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Bio from "../components/Bio"
 import Build from "../components/Build"
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 import { createService } from '../services/create.service';
 
@@ -66,11 +68,13 @@ const CreatePage: React.FC = () => {
             food={food} setFood={setFood}
             slogan={slogan} setSlogan={setSlogan}></Bio>}
 			{viewing === "Build" && <Build color={color} face={face} hat={hat} shirt={shirt} updateActive={updateActiveBuild}></Build>}
-            <div className="buttoncontainer">
-                <button className="cta-button" onClick={() => { navigate("/dashboard") }}>Back</button>
-                <button className="cta-button" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</button>
-                <button className="cta-button" onClick={() => { saveCharacter }}>Save</button>
-                <button className="cta-button">Export</button>
+            <div className="stack">
+            <Stack spacing={2} direction="row">
+                <Button variant="contained" onClick={() => { navigate("/dashboard") }}>Back</Button>
+                <Button variant="contained" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</Button>
+                <Button variant="contained" onClick={() => { saveCharacter }}>Save</Button>
+                <Button variant="contained">Export</Button>
+            </Stack>
             </div>
         </div>
     );
