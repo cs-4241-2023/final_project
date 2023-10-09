@@ -8,7 +8,14 @@ kaboom({
 const START = {x: 20, y: 40};
 const puffleList = [];
 
-scene("puffle_store", () => {
+scene("puffle_store", async () => {
+    const getResponse = await fetch(`/user/admin`, {
+        method: 'GET'
+    });
+
+    const text = await getResponse.text();
+    const userInfo = JSON.parse(text);
+
     //Load puffle sprites
     const puffleSprites = [ { sprite: "puffle-red.png", price: 100 },
                             { sprite: "puffle-green.png", price: 200 },
@@ -22,7 +29,7 @@ scene("puffle_store", () => {
     let xOffset = START.x;
     for (let i = 0; i < puffleSprites.length; i++) {
         const { sprite, price } = puffleSprites[i];
-        let puffle = displayPuffleWithPrice(xOffset, sprite.split(".")[0], price);
+        let puffle = displayPuffleWithPrice(xOffset, sprite.split(".")[0], price, userInfo);
         puffleList.push(puffle);
         xOffset = xOffset + 250;
     }
@@ -37,11 +44,17 @@ scene("puffle_store", () => {
     })
 });
 
-function displayPuffleWithPrice(xPos, puffleSprite, price) {
-    const puffle = add([sprite(puffleSprite), pos(xPos, START.y)], area(), z(2));
+function displayPuffleWithPrice(xPos, puffleSprite, price, userInfo) {
+    const priceTagText = userInfo.purchasedPuffles.includes(puffleSprite) ? "Purchased" : `$${price}`;
+
+    const puffle = add([
+        sprite(puffleSprite),
+        pos(xPos, START.y),
+        area(),
+        z(2)]);
 
     const priceTag = add([
-        text(`$${price}`, 12),
+        text(`${priceTagText}`, 12),
         pos(xPos, puffle.pos.y - puffle.height),
         color(0, 0, 0),
         z(2)
@@ -55,7 +68,6 @@ function displayPuffleWithPrice(xPos, puffleSprite, price) {
         });
 
         const text = await postResponse.text();
-        console.log(text);
         const result = JSON.parse(text);
         if (result.status === 1) {
             priceTag.text = "Purchased";

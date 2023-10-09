@@ -13,19 +13,27 @@ app.use( express.static( 'public' ) )
 const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
 const client = new MongoClient(uri);
 
-let user_colletion = null;
+let user_collection = null;
 
 async function run() {
 	await client.connect();
-	user_colletion = await client.db("club_pigeon").collection("users");
+	user_collection = await client.db("club_pigeon").collection("users");
 }
 
 app.use( (req, res, next) => {
-	if(user_colletion !== null) {
+	if(user_collection !== null) {
 	  next();
 	}else{
 	  res.status( 503 ).send();
 	}
+});
+
+app.get('/user/:username', async (req, res) => {
+	const username = req.params.username;
+	const user = await user_collection.findOne({ username: username });
+
+	res.writeHead(200, { 'Content-Type': 'application/json' });
+	res.end(JSON.stringify(user));
 });
 
 app.post('/purchase', (req, res) => {
@@ -38,7 +46,7 @@ app.post('/purchase', (req, res) => {
 	req.on('end', async function() {
 		let info = JSON.parse(dataString);
 
-	  	const user = await user_colletion.findOne({ _id: new ObjectId(info._id) }); //Find user
+	  	const user = await user_collection.findOne({ _id: new ObjectId(info._id) }); //Find user
 	  	const purchaseResult = {};
 
 	  	//Determine if transaction is possible
@@ -46,7 +54,7 @@ app.post('/purchase', (req, res) => {
 			user.coins -= info.price;
 			user.purchasedPuffles.push(info.puffleName);
 
-			const result = await user_colletion.updateOne({ _id: new ObjectId(user._id) }, { $set: { coins: user.coins, purchasedPuffles: user.purchasedPuffles } });
+			const result = await user_collection.updateOne({ _id: new ObjectId(user._id) }, { $set: { coins: user.coins, purchasedPuffles: user.purchasedPuffles } });
 			purchaseResult.status = 1; //Successful purchase
 	  	}
 	  	else {
