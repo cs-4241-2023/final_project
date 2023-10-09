@@ -150,8 +150,6 @@ app.post("/habitoutcome", async (req, res) => {
   const data = req.body;
   const {habitID, year, month, day, outcome} = data;
 
-  console.log("habitOutcome", data);
-
   await database.setHabitOutcome(auth.getUserID(req)!, habitID, new Day(year, month, day), outcome);
   res.status(200).json({message: "Habit outcome set successfully"});
 
@@ -170,6 +168,22 @@ app.post("/createhabit", async (req, res) => {
   await database.createHabit(auth.getUserID(req)!, name);
   res.status(200).json({message: "Habit created successfully"});
   
+});
+
+app.post("/setdescription", async (req, res) => {
+
+  if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
+    res.status(401).json({message: "Not logged in"});
+    return;
+  }
+
+  const data = req.body;
+  const {habitID, description} = data;
+
+  await database.setDescription(habitID, description);
+  res.status(200).json({message: "Description set successfully"});
+
+
 });
 
 
@@ -202,8 +216,6 @@ app.get("/userhabit", async (req, res) => {
   const data = req.query;
   const {userID, habitID, currentYear, currentMonth, currentDay} = data;
 
-  console.log("userhabit", data);
-
   const userIDObj = convertStrToUserID(req, userID as (string | undefined));
   const habitIDObj = convertStrToHabitID(habitID as string);
 
@@ -232,15 +244,11 @@ app.get("/outcomes", async (req, res) => {
   const data = req.query;
   const {userID, habitID, year, month} = data;
 
-  console.log("recieved outcomes req", data);
-
   const userIDObj = convertStrToUserID(req, userID as (string | undefined));
   const habitIDObj = convertStrToHabitID(habitID as string);
   const intYear = parseInt(year as string);
   const intMonth = parseInt(month as string);
   const outcomes = await database.getOutcomesForMonth(userIDObj, habitIDObj, intYear, intMonth);
-
-  console.log("sending outcomes", outcomes);
 
   res.status(200).json(outcomes);
 

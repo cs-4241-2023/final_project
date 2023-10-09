@@ -4,6 +4,8 @@ import { COLOR_THEME, FONT_THEME } from "../../themes";
 import { Link } from "react-router-dom";
 import { UserHabit } from "../../../../models";
 import PercentIcon from "../shared-components/percent-icon";
+import { Method, fetchServer } from "../../scripts/fetch-server";
+
 
 interface HabitInfoProps {
     habitInfo: UserHabit;
@@ -85,7 +87,19 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
       };
     
       const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setDescription(e.target.value);
+
+        const newDescription = e.target.value;
+        setDescription(newDescription);
+
+        const params = {
+            habitID: habitInfo.habitID,
+            description: newDescription
+        }
+        console.log("setting new description", newDescription);
+        fetchServer(Method.POST, "/setdescription", params).then((response) => {
+            console.log(response);
+        });
+
       };
 
     return(

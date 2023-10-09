@@ -111,7 +111,6 @@ export class Database {
             month: day.month,
             day: day.day
         });
-        console.log("Found:", record);
         if (record === null) return Outcome.NONE;
         else return record.isSuccess ? Outcome.SUCCESS : Outcome.FAIL;
     }
@@ -184,6 +183,36 @@ export class Database {
         });
     }
 
+    public async countOutcomeForHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId, outcome: Outcome): Promise<number> {
+
+        if (outcome === Outcome.NONE) throw new Error("This method does not support counting NONE outcomes")
+        
+        const isSuccess = outcome === Outcome.SUCCESS;
+        
+        const count = await DBHabitOutcome.countDocuments({
+            userID: userID,
+            habitID: habitID,
+            isSuccess: isSuccess
+        });
+
+        console.log("habit", isSuccess, count, userID.toString(), habitID.toString());
+        return count;
+    }
+
+    public async countOutcomeForUser(userID: mongoose.Types.ObjectId, outcome: Outcome): Promise<number> {
+            
+            if (outcome === Outcome.NONE) throw new Error("This method does not support counting NONE outcomes")
+    
+            const isSuccess = outcome === Outcome.SUCCESS;
+
+            const count =  await DBHabitOutcome.countDocuments({
+                userID: userID,
+                isSuccess: isSuccess
+            });
+
+            console.log("habit", isSuccess, count, userID.toString());
+            return count;
+        }
 
     // add record to HabitOutcome then update statistics:
     // update totalSuccesses/totalFails in UserInfo/UserHabit
@@ -196,62 +225,43 @@ export class Database {
         console.log("Previous:", prevOutcome, "New:", outcome);
 
         if (prevOutcome === outcome) return; // no change
-        
-
-        // calculate whether to increment/decrement successes/fails
-        let successDelta = 0;
-        let failDelta = 0;
-        if (prevOutcome === Outcome.SUCCESS) successDelta--;
-        else if (prevOutcome === Outcome.FAIL) failDelta--;
-        if (outcome === Outcome.SUCCESS) successDelta++;
-        else if (outcome === Outcome.FAIL) failDelta++; 
-        
-        // calculate whether to increment/decrement numLoggedDays for HABIT
-        let habitDaysLoggedDelta = 0;
-        if (prevOutcome === Outcome.NONE && outcome !== Outcome.NONE) habitDaysLoggedDelta++;
-        else if (prevOutcome !== Outcome.NONE && outcome === Outcome.NONE) habitDaysLoggedDelta--;
-
-        // calculate whether to increment/decrement numLoggedDays for USER
-        let userDaysLoggedDelta = 0;
-        const numOutcomesLoggedOnDay = await this.howManyHabitsLoggedOnDay(userID, day);
-        if (numOutcomesLoggedOnDay === 0 && outcome !== Outcome.NONE) userDaysLoggedDelta++;
-        else if (numOutcomesLoggedOnDay === 1 && outcome === Outcome.NONE) userDaysLoggedDelta--;
 
         // remove record if outcome is NONE, otherwise add outcome
-        if (outcome == Outcome.NONE) {
-            this._deleteHabitOutcomeOnDay(userID, habitID, day);
+        if (outcome === Outcome.NONE) {
+            await this._deleteHabitOutcomeOnDay(userID, habitID, day);
         } else {
-            this._setHabitOutcomeOnDay(userID, habitID, day, outcome);
+            await this._setHabitOutcomeOnDay(userID, habitID, day, outcome);
         }
 
-        // increment totalSuccesses/totalFails in both UserInfo and UserHabit
-        if (successDelta !== 0 || failDelta !== 0) {
-            await DBUserHabit.updateOne(
-                { userID: userID, habitID: habitID },
-                { $inc: { totalSuccesses: successDelta, totalFails: failDelta } }
-            );
-            await DBUser.updateOne(
-                { _id: userID },
-                { $inc: { totalSuccesses: successDelta, totalFails: failDelta } }
-            );
-        }
+        // update statistics for habit
+        const numSuccesses = await this.countOutcomeForHabit(userID, habitID, Outcome.SUCCESS);
+        const numFails = await this.countOutcomeForHabit(userID, habitID, Outcome.FAIL);
 
-        // increment/decrement numLoggedDays in UserHabit
-        if (habitDaysLoggedDelta !== 0) {
-            await DBUserHabit.updateOne(
-                { userID: userID, habitID: habitID },
-                { $inc: { numLoggedDays: habitDaysLoggedDelta } }
-            );
-        }
+        // update user habit in database
+        await DBUserHabit.findOneAndUpdate(
+            { userID: userID, habitID: habitID },
+            { totalSuccesses: numSuccesses, totalFails: numFails, numLoggedDays: numSuccesses + numFails },
+            { new: true }
+        );
 
-        // increment/decrement numLoggedDays in UserInfo
-        if (userDaysLoggedDelta !== 0) {
-            await DBUser.updateOne(
-                { _id: userID },
-                { $inc: { totalLoggedDays: userDaysLoggedDelta } }
-            );
-        }
+        // update statistics for user
+        const numSuccessesUser = await this.countOutcomeForUser(userID, Outcome.SUCCESS);
+        const numFailsUser = await this.countOutcomeForUser(userID, Outcome.FAIL);
 
+        // update user in database
+        await DBUser.findOneAndUpdate(
+            { _id: userID },
+            { totalSuccesses: numSuccessesUser, totalFails: numFailsUser, totalLoggedDays: numSuccessesUser + numFailsUser },
+            { new: true }
+        );
     }
 
+    public async setDescription(habitID: mongoose.Types.ObjectId, description: string) {
+
+        await DBHabit.findOneAndUpdate(
+            { _id: habitID },
+            { description: description },
+            { new: true }
+        );
+    }
 }
