@@ -2,7 +2,22 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const Bio: React.FC = (props) => {
+type bioprops = {
+  name: string;
+  skills: string;
+  food: string;
+  slogan: string;
+  color: string;
+  hat: string;
+  shirt: string;
+  face: string;
+  setName: React.Dispatch<React.SetStateAction<string>>
+  setSkills: React.Dispatch<React.SetStateAction<string>>
+  setFood: React.Dispatch<React.SetStateAction<string>>
+  setSlogan: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Bio: React.FC<bioprops> = (props) => {
 
     return (
       <>
