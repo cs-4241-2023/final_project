@@ -83,15 +83,11 @@ app.post("/signup", async (req, res) => {
 
     // If the username is not already taken, add the user into the 'User' collection and create a new collection for the user
     if (response === null) {
-        // TODO: Might want to encase this in a try catch
-        // Create a new collection with the username (can change this to a new MongoDB _id instead)
-        await db.createCollection(req.body.username);
-
         // Insert a new document into the 'Users' collection
         usersCollection.insertOne({
             username: req.body.username,
             password: req.body.password,
-            collectionName: req.body.username,
+            groups: {}
         });
 
         res.status(200);

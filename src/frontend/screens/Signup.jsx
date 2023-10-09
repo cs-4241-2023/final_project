@@ -35,7 +35,15 @@ export default function Signup(props) {
     function handleSignup(e) {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
+        if(username === "") {
+            setErrorMessage("Username cannot be empty")
+            return;
+        }
+        else if(password === "") {
+            setErrorMessage("Username cannot be empty")
+        }
+        // Check if the password is the same as the confirmed password
+        else if (password !== confirmPassword) {
             setErrorMessage("Passwords do not match.")
             return;
         }
