@@ -1,26 +1,36 @@
 import React from 'react';
 
-function Group(props) {
+function Group({ group, onSelect, deleteGroup }) {
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        deleteGroup(group._id);
+    }
+
     return (
         <div className="group">
-            <h3>{props.groupName}</h3>
-            <p>{props.groupDescription}</p>
+            <h3>{group.groupName}</h3>
+            <p>{group.groupDescription}</p>
             <ul>
-                {props.groupUsers.split(',').map((user, index) => (
+                {group.groupUsers.map((user, index) => (
                     <li key={index}>{user}</li>
                 ))}
             </ul>
-            <p>Possible Group Meeting Times: {props.meetingTimes}</p>
+            <p>Possible Group Meeting Times: {group.meetingTimes}</p>
             <button
                 className="group-btn"
                 type="submit"
-                onClick={() => {
-                    // Handle navigation to group page here
-                }}
+                onClick={() => onSelect}
             >
                 Go To Group Page
             </button>
-            <button className={"delete-btn"} type={"submit"} onClick={(e) => props.deleteGroup(e, props.group._id)}>Delete Group</button>
+            <button
+                className={"delete-btn"}
+                type={"submit"}
+                onClick={(e) => handleDelete(e)}
+            >
+                Delete Group
+            </button>
         </div>
     );
 }

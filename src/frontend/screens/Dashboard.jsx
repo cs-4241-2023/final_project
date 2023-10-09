@@ -1,89 +1,62 @@
 import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css"
-import Group from "../components/Group.jsx";
+import GroupList from "../components/GroupList.jsx";
+import AddGroupForm from "../components/AddGroupForm.jsx";
 import Header from "../components/Header.jsx";
 
 function Dashboard() {
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
-    const [addGroupPage, setAddGroupPage] = useState(<></>);
+    const [isGroupFormVisible, setGroupFormVisiblity] = useState(false);
     const [hasDataChanged, setDataChanged] = useState(false);
 
     useEffect(() => {
-        getCurrentCollection("Groups").then((data) => {
-
-            let groupArr = []
-
-            data.forEach((group) => {
-                let listItems = []
-                group.groupUsers.split(",").forEach((user) => {
-                    listItems.push(<li key={listItems.length}>{user.trim()}</li>);
-                });
-
-                const groupComponent =
-                    <div>
-                        <Group key={groupArr.length}
-                            groupName={group.groupName}
-                            groupDescription={group.groupDescription}
-                            groupUsers={group.groupUsers}
-                            meetingTimes={group.meetingTimes}
-                            deleteGroup={deleteGroup}
-                            group={group}
-                        />
-                    </div>
-
-                groupArr.push(groupComponent);
-                setSelectedGroup(groupComponent);
-                setGroups(groupArr);
-                setDataChanged(false);
-            });
-        }
-        );
+        getGroupList("Groups").then((data) => {
+            setGroups(data);
+        });
     }, [hasDataChanged]);
 
-    async function getCurrentCollection() {
-        let result = await fetch("/groups", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ requestedCollection: "Groups" }),
-        });
-        if (result.status !== 404) {
-            return await result.json();
-        } else {
-            console.log("404: Collection Not Found");
-            return [];
+    async function getGroupList() {
+        try {
+            let response = await fetch("/groups", {
+                method: "GET"
+            });
+
+            if (!response.ok) console.log("404: Collection Not Found");
+
+            const data = await response.json();
+            return data
+        } catch (error) {
+            console.error(error);
         }
     }
 
     async function showNewGroupPage(e) {
         e.preventDefault();
-        setAddGroupPage(
+        setGroupFormVisiblity(
             <div className={"add-group-page"}>
                 <h2>Add a Group</h2>
                 <form onSubmit={(e) => addGroup(e)}>
                     <input id={"groupName"} type={"text"} placeholder={"group name"} />
                     <input id={"groupDescription"} type={"text"} placeholder={"group description"} />
                     <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"} />
-                    <button onClick={() => { setAddGroupPage(<></>) }}>Cancel</button>
+                    <button onClick={() => { setGroupFormVisiblity(<></>) }}>Cancel</button>
                     <button type={"submit"}>Submit</button>
                 </form>
             </div>
         );
     }
 
-    async function addGroup(e) {
-        e.preventDefault()
-
-        let form = e.target.elements;
-
-        if (!form.groupName.value || !form.groupDescription.value || !form.groupUsers.value) {
+    async function addGroup(form) {
+        if (!form.groupName || !form.groupDescription || !form.groupUsers) {
             alert("One or more fields are empty");
         } else {
+            const groupUsers = form.groupUsers.split(",").map(user => user.trim())
             let groupJSON = JSON.stringify({
                 collection: "Groups",
-                groupName: form.groupName.value,
-                groupDescription: form.groupDescription.value,
-                groupUsers: form.groupUsers.value,
+                groupName: form.groupName,
+                groupDescription: form.groupDescription,
+                groupUsers: groupUsers,
                 meetingTimes: "TBD"
             });
             await fetch("/add-group", {
@@ -91,20 +64,29 @@ function Dashboard() {
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
             });
-            setDataChanged(true);
-            setAddGroupPage(<></>)
+            setDataChanged(!hasDataChanged)
+            setGroupFormVisiblity(false)
         }
     }
 
-    async function deleteGroup(e, assignmentID) {
-        e.preventDefault();
-
-        await fetch("/delete-group", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ collection: 'Groups', _id: assignmentID })
-        });
-        setDataChanged(true);
+    async function deleteGroup(assignmentID) {
+        try {
+            const response = await fetch("/delete-group", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ collection: "TestUserCollection", _id: assignmentID })
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error(`Error deleting document: ${errorData.message}`);
+            } else {
+                // Document successfully deleted
+                console.log('Document deleted successfully');
+                setDataChanged(!hasDataChanged);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (<>
@@ -113,22 +95,29 @@ function Dashboard() {
             {selectedGroup ? (
                 <div className={"group-container"}>
                     {selectedGroup}
-                    <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>Back</button>
+                    <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>
+                        Back
+                    </button>
                 </div>
             ) : (
                 <div>
-
+                    <button
+                        className={"add-group-btn"}
+                        type={"submit"}
+                        onClick={(e) => showNewGroupPage(e)}
+                    >
+                        Create New Group
+                    </button>
                     <h2>Tracked Groups</h2>
-                    {addGroupPage}
-                    <div className={"group-container"}>
-                        {groups}
-                    </div>
-                    <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+
+                    {isGroupFormVisible &&
+                        <AddGroupForm addGroup={addGroup} onCancel={() => setGroupFormVisiblity(false)} />
+                    }
+                    <GroupList groups={groups} selectGroup={setSelectedGroup} deleteGroup={deleteGroup} />
                 </div>
             )}
         </main>
-    </>
-    )
+    </>)
 }
 
 export default Dashboard;

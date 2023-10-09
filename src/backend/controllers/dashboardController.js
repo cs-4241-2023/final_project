@@ -1,6 +1,6 @@
 import Group from "../models/Group.js"; // Import your Mongoose Group model
 
-export const getGroups = async (request, response) => {
+export const getGroupList = async (request, response) => {
     try {
         const groups = await Group.find();
         response.status(200).json(groups);
@@ -34,13 +34,15 @@ export const addGroup = async (request, response) => {
 
 // Delete a group controller
 export const deleteGroup = async (request, response) => {
-    const { collection, _id } = request.body;
-
+    const groupId = request.body;
     try {
-        // Delete the group using Mongoose model
-        await Group.deleteOne({ collection, _id });
+        const deletedGroup = await Group.findByIdAndDelete(groupId);
 
-        response.status(200).json({ result: "Success", message: "" });
+        if (deletedGroup) {
+            response.status(200).json({ message: 'Group deleted successfully' });
+        } else {
+            response.status(404).json({ message: 'Group not found' });
+        }
     } catch (error) {
         console.error("An error occurred while deleting a group:", error);
         response.status(500).end();

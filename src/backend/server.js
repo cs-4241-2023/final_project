@@ -5,7 +5,7 @@ import env from "dotenv";
 import mongoose from "mongoose";
 
 import loginRoutes from "./routes/loginRoutes.js";
-// import dashboardRoutes from "./routes/dashboardRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 const app = express();
 env.config();
@@ -27,6 +27,8 @@ db.once("open", () => {
     console.log("Connected to MongoDB:", mongoose.connection.db.databaseName);
 });
 
+
+
 app.use(express.json());
 app.use(
     cookie({
@@ -41,6 +43,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/", loginRoutes);
-// app.use("/", dashboardRoutes);
+app.use("/", dashboardRoutes);
 
 ViteExpress.listen(app, parseInt(process.env.PORT));

@@ -6,7 +6,6 @@ export const loginUser = async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
-        console.log(user)
 
         if (user && password === user.password) {
             req.session.user = username;
