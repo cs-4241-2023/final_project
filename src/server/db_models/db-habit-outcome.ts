@@ -4,12 +4,12 @@ import mongoose, { Schema } from "mongoose";
 const habitOutcomeSchema = new Schema({
     userID: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'DBUser',
         required: true,
     },
     habitID: {
         type: Schema.Types.ObjectId,
-        ref: 'Habit',
+        ref: 'DBHabit',
         required: true,
     },
     year: {

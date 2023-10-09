@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { COLOR_THEME, FONT_THEME } from "../../themes";
 
 interface ButtonComponentProps {
     icon: string;
-    label: string;
+    label: ReactNode;
     isStatisticsButton?: boolean;
     isFriendButton?: boolean;
   }

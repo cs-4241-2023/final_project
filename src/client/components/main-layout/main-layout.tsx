@@ -8,7 +8,7 @@ import UsernameLayout from './username-layout';
 const TopBar = styled.div`
 background-color: ${COLOR_THEME.TOPBAR};
 color: white;
-height: 80px;
+min-height: 80px;
 display: absolute;
 width: 100%; // Ensure it spans the entire width of the viewport
 box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
