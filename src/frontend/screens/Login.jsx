@@ -34,6 +34,7 @@ function Login(props) {
                     </form>
                     <button
                         type="button"
+                        className="login--signup-button"
                         onClick={() => {
                             setSignUp(true);
                             setHeaderMessage("Sign up for RendezView")

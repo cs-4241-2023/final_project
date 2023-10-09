@@ -52,6 +52,9 @@ button:hover {
 
 
 /* Login / Signup styling */
+.login--signup-button {
+    margin-top: 20px;
+}
 
 /* Dashboard styling */
 .dashboard--header {
