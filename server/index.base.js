@@ -88,12 +88,9 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/add', async (req, res) => {
-    const { user, color, face, hat, shirt, name, skills, food, slogan } = req.body
-    const character = await storageService.saveCharacter(user, color, face, hat, shirt, name, skills, food, slogan);
-    req.saveCharacter(character, err => {
-        if (err) { return res.status(500).send(err.message); }
-        return res.json(user);
-    })
+    const { color, face, hat, shirt, name, skills, food, slogan } = req.body
+    const character = await storageService.saveCharacter(color, face, hat, shirt, name, skills, food, slogan);
+    return res.json(character);
 })
 
 app.get('/user-info', (req, res) => {
