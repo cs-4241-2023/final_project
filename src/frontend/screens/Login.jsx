@@ -12,7 +12,9 @@ function Login(props) {
     return (
         <>
             <h1>{headerMessage}</h1>
-            {errorMessage === "" ? null : <p>{errorMessage}</p>}
+            <div className="login--error-container" >
+                {errorMessage === "" ? null : <p>{errorMessage}</p>}
+            </div>
             {!signUp ? (
                 <>
                     <form>
@@ -34,9 +36,11 @@ function Login(props) {
                     </form>
                     <button
                         type="button"
+                        className="login--signup-button"
                         onClick={() => {
                             setSignUp(true);
-                            setHeaderMessage("Sign up for RendezView")
+                            setHeaderMessage("Sign up for RendezView");
+                            setErrorMessage("");
                         }}
                     >
                         Don&rsquo;t have an account? Click Here!
@@ -54,6 +58,15 @@ function Login(props) {
 
     function handleLogin(e) {
         e.preventDefault();
+
+        if (username === "") {
+            setErrorMessage("Username cannot be empty.");
+            return;
+        }
+        else if(password === "") {
+            setErrorMessage("Password cannot be empty.");
+            return;
+        }
 
         fetch("/login", {
             method: "POST",
