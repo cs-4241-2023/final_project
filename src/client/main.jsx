@@ -5,6 +5,9 @@ import Login from "./login.jsx";
 import Homepage from "./homepage.jsx";
 import "./css/theming.css";
 
+// Importing the Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   { path: "/index", element: <Login /> },
