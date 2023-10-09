@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css"
+import GroupPage from "./GroupPage.jsx";
 import GroupList from "../components/GroupList.jsx";
-import GroupInfo from "../components/GroupInfo.jsx";
 import AddGroupForm from "../components/AddGroupForm.jsx";
 import Header from "../components/Header.jsx";
 
 function Dashboard() {
     const [groups, setGroups] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [selectedGroupPage, setGroupPage] = useState(null);
     const [isGroupFormVisible, setGroupFormVisiblity] = useState(false);
     const [hasDataChanged, setDataChanged] = useState(false);
 
@@ -90,23 +90,23 @@ function Dashboard() {
     const handleSelectGroup = (groupId) => {
         const groupObj = groups.find(group => group._id === groupId)
 
-        const selectedGroupComp =
-            <GroupInfo
+        const groupPageComp =
+            <GroupPage
                 group={groupObj}
                 selectGroup={handleSelectGroup}
                 deleteGroup={deleteGroup}
             />
 
-        setSelectedGroup(selectedGroupComp);
+        setGroupPage(groupPageComp);
     }
 
     return (<>
         <Header />
         <main>
-            {selectedGroup ? (
+            {selectedGroupPage ? (
                 <div className={"group-container"}>
-                    {selectedGroup}
-                    <button className={"back-btn"} type={"submit"} onClick={() => setSelectedGroup(null)}>
+                    {selectedGroupPage}
+                    <button className={"back-btn"} type={"submit"} onClick={() => setGroupPage(null)}>
                         Back
                     </button>
                 </div>

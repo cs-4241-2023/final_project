@@ -1,9 +1,15 @@
 import React from 'react';
+import GroupCard from '../components/GroupCard.jsx';
 
-const GroupPage = () => {
+const GroupPage = ({ group, selectGroup, deleteGroup}) => {
     return (
         <div>
-            {/* Your component content goes here */}
+            <h1>meine groupe ( ͡° ͜ʖ ͡°)</h1>
+            <GroupCard
+                group={group}
+                selectGroup={selectGroup}
+                deleteGroup={deleteGroup}
+            />
         </div>
     );
 };
