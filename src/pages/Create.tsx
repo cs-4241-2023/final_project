@@ -24,7 +24,7 @@ const CreatePage: React.FC = () => {
     const [hat, setHat] = useState("");
     const [shirt, setShirt] = useState("");
 
-    let updateActiveBuild = (option: any, url: any) => {
+    const updateActiveBuild = (option: string, url: string) => {
         if (option === "color") {
             if (url === color) {
                 setColor("");
@@ -55,7 +55,7 @@ const CreatePage: React.FC = () => {
     const saveCharacter = async function() {
         try {
           await createService.saveData({color, face, hat, shirt, name, skills, food, slogan});
-        } catch (error: any) {
+        } catch (error) {
             console.error("An unexpected error happened when saving the character:", error);
         }
       };

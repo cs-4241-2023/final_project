@@ -7,10 +7,6 @@ type bioprops = {
   skills: string;
   food: string;
   slogan: string;
-  color: string;
-  hat: string;
-  shirt: string;
-  face: string;
   setName: React.Dispatch<React.SetStateAction<string>>
   setSkills: React.Dispatch<React.SetStateAction<string>>
   setFood: React.Dispatch<React.SetStateAction<string>>
