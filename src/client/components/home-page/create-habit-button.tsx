@@ -3,7 +3,7 @@ import { COLOR_THEME, FONT_THEME } from "../../themes";
 import styled from "styled-components";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
-// import {createHabit} from "./home-page";
+import HabitWidget from "./habit-widget";
 // import "./home-page.css"
 
 
@@ -14,7 +14,6 @@ import { Method, fetchServer, verifyAuth } from "../../scripts/fetch-server";
   font-family: ${FONT_THEME.BUTTON_FONT};
   display: flex;
   justify-content: center;
-  width: 800px;
   width: 1335px;
   margin: 10px 0px 10px 0px;
   
@@ -47,14 +46,14 @@ function CreateHabitButton({setUpdate}: CreateHabitButtonProps){
         await createHabit(navigate, setUpdate);
       };
     
-
-
-
-    return(
+    
+    return( <>
 
         <StyledButton className=" btn btn-primary border-0" onClick={handleCreateHabit}> 
         + Create New Habit
-        </StyledButton>       
+        </StyledButton>     
+
+        </>  
 
     );
 

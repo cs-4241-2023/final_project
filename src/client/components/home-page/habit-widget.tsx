@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
 import { NavigateFunction } from "react-router-dom";
 import styled from "styled-components";
+import { UserHabit } from "../../../../models";
 import CreateHabitButton from "./create-habit-button";
+import { Link } from "react-router-dom";
+import { Method, fetchServer } from "../../scripts/fetch-server";
 // import "./home-page.css"
 
   
@@ -17,31 +20,28 @@ margin: 10px 0px 10px 0px;
 
 `
 
-// const MedWidgetStyle = styled.div`
-// // background-color: ${COLOR_THEME.SECTION};
-// background-color: black;
-// display: flex;
-// justify-content: center;
-// padding: 150px 20px 20px 10px;
-// // margin: 20px;
-// margin-right: 40px;
-// margin-left: 40px;
 
-// `
-
-
-interface HabitWidget {
-    setUpdate: React.Dispatch<React.SetStateAction<number>>;
+interface HabitWidgetProps {
+    habit: UserHabit;
 }
 
 
-function HabitWidget(){
+
+function HabitWidget({habit}: HabitWidgetProps){
+
 
     return(
         <StyledButton className=" btn btn-primary border-0"> 
-        Click here to nav to habit
-        </StyledButton> 
+        <p><Link to={"/habit/"+habit.habitID}>{habit.name}</Link></p>
+        <p>
+            Streak: {habit.currentStreak}
+            Number of Logged Days: {habit.numLoggedDays}
+            Percent Success Week: {habit.percentSuccessWeek}
+            Percent Success Lifetime: {habit.percentSuccessLifetime}
+            </p>
         
+        </StyledButton> 
+
     );
 
 

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import CreateHabitButton from "./create-habit-button";
 import HabitWidget from "./habit-widget";
 import "./home-page.css"
+import { UserHabit } from "../../../../models";
 
 const BigWidgetStyle = styled.div`
 background-color: ${COLOR_THEME.SECTION};
@@ -21,26 +22,28 @@ margin-left: 40px;
 `
 interface HabitListWidgetProps {
     setUpdate: React.Dispatch<React.SetStateAction<number>>;
+    habits: UserHabit[];
 }
 
 
-function HabitListWidget({setUpdate}: HabitListWidgetProps){
+function HabitListWidget({setUpdate,habits}: HabitListWidgetProps ){
 
     return( <>
         <BigWidgetStyle className = "rounded">
-            {/* <div><HabitWidget/></div>
-            <div><HabitWidget/></div>
-            <div><HabitWidget/></div>  
-            <div><HabitWidget/></div>   */}
+
+            {habits.map((habit) => (<>
+             <div><HabitWidget habit = {habit}/></div>  
+             </>))}
             <div><CreateHabitButton setUpdate={setUpdate} /></div>
 
-            </BigWidgetStyle> 
+        </BigWidgetStyle> 
+
+
+
+\
+
 
 </>
-
-
-
-
     );
 
 

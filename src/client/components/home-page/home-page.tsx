@@ -5,6 +5,7 @@ import { getDateToday } from "../../scripts/date";
 import { UserHabit, UserInfo } from "../../../../models";
 import { Loading } from "../css-components/loading";
 import HabitListWidget from "./habit-list-widget"
+import HabitWidget from "./habit-widget";
 
 
 
@@ -71,7 +72,23 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
             </>))
         }
 
-        <HabitListWidget setUpdate={setUpdate} />
+        <HabitListWidget setUpdate={setUpdate} habits={userInfo.habits}/>
+
+
+        {/* {
+
+            userInfo.habits.map((habit) => (<>
+                <HabitWidget userHabit={habit} />
+                <HabitListWidget setUpdate={setUpdate} userHabit={habit}/>
+
+             </>))
+        } */}
+
+
+
+            
+    
+        
 
     </>
 };
