@@ -8,7 +8,7 @@ interface BuildProps {
     face: string,
     hat: string,
     shirt: string,
-    updateActive: Function,
+    updateActive: UpdateFunction,
 }
 
 interface BuildOptions {
@@ -19,6 +19,7 @@ interface BuildOptions {
 }
 
 type BuildTabs = "color" | "face" | "hat" | "shirt";
+type UpdateFunction = (BuildTabs, string) => void;
 
 
 const Build: React.FC<BuildProps> = (props) => {
@@ -69,13 +70,16 @@ const Build: React.FC<BuildProps> = (props) => {
             "allCharStuff/shirts/shirt9.png",
         ],
     }
-    const canvasRef = useRef(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
-        const canvas: any = canvasRef.current;
+        const canvas: HTMLCanvasElement = (canvasRef.current as HTMLCanvasElement);
         if (canvas === null) {
             return;
         }
         const ctx = canvas.getContext('2d');
+        if (ctx === null) {
+            return;
+        }
         
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
