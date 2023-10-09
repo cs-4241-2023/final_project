@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
   const handleDeleteCharacter = (characterId: string) => {
     axios
       .delete(`/character/${characterId}`)
-      .then((_) => {
+      .then(() => {
         setCharacters((prevCharacters) =>
           prevCharacters.filter((character) => character._id !== characterId)
         );
@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
       });
   };
 
-  const handleEditCharacter = (character: any) => {
+  const handleEditCharacter = (character: Character) => {
     navigate("/create", {
       state: {
         id: character._id,
