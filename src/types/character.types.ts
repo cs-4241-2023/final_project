@@ -1,4 +1,5 @@
-export interface Create {
+export interface Character {
+  _id: any;
   name: any;
   skills: any;
   food: any;
