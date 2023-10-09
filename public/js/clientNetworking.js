@@ -1,10 +1,5 @@
 // Socket Initialization
 const network = io()
-network.on('setID', function(newID) {
-	//this.id = newID
-	//this.emit('movement', {id: newID, msg: SPAWN})
-})
-
 network.on('spawn', (players) => {
 	for (const [id, pos] of Object.entries(players)) {
 		spawnRemotePlayer(id, pos)
@@ -20,6 +15,9 @@ network.on('setPositions', (players) => {
 network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
 network.on('kill', (id) => removeRemotePlayer(id))
 
+let currentScene = { scene: '', pos: {} }
+network.on('sceneRequest', () => {console.log('requested');network.emit('changeScene', currentScene)})
+
 
 // Public Functions
 
@@ -29,6 +27,15 @@ network.on('kill', (id) => removeRemotePlayer(id))
   * @param {object} object The object that will be send to clients.
   */
 const sendNetworkMessage = function(messageName, object) {
+	switch( messageName ) {
+		case 'changeScene':
+			currentScene = object
+			break
+		
+		case 'movement':
+			currentScene.pos = object
+			break
+	}
 	network.emit(messageName, object)
 }
 

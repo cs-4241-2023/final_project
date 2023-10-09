@@ -57,9 +57,11 @@ const onConnection = function(socket) {
 		delete connectedPlayers[socket.id]
 		console.log('User Disconnected:', connectedPlayers)
 	})
-	
 
-	connectedPlayers[socket.id] = { pos: {}, room: '' }
+
+	connectedPlayers[socket.id] = { room: '', pos: {} }
+	socket.emit('sceneRequest', {} )
+
 	console.log('User Connected:', connectedPlayers)
 }
 
