@@ -135,9 +135,8 @@ app.get('/user-characters', (req, res) => {
     res.json(body);
 })
 
-app.delete('/character/:characterId', async (req, res) => {
-    const characterId = req.params.characterId;
-    console.log(characterId)
+app.post('/delete', async (req, res) => {
+    const characterId = req.body.characterId;
     try {
         const deletedCount = await storageService.deleteCharacter(characterId);
         if (deletedCount && deletedCount > 0) {
