@@ -17,7 +17,6 @@ const Dashboard: React.FC = () => {
       })
       .catch((error) => {
         console.error("Failed to fetch user info:", error);
-        navigate("/");
       });
   }, []);
 
@@ -69,7 +68,12 @@ const Dashboard: React.FC = () => {
       console.error("Canvas element not found.");
       return;
     }
-
+    const context = canvas.getContext("2d");
+    if (context === null) {
+      console.error("Canvas context not available");
+      return;
+    }
+    context.fillText("This is the downloaded text", 0, 0);
     const a = document.createElement("a");
     a.href = canvas.toDataURL();
     a.download = `${characterName}_image.png`;

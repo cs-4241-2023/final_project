@@ -7,7 +7,7 @@ import "../styles/card.css";
 
 type CharacterCardProps = {
   character: Character;
-  onCharacterDelete: () => void;
+  onCharacterDelete: (characterId: string) => void;
   onCharacterEdit: (editCharacter: Character) => void;
   onCharacterExport: (exportCharacter: Character) => void;
 };
@@ -43,9 +43,9 @@ const Card: React.FC<CharacterCardProps> = ({
     }
     const imagesToDraw = [
       { src: character.color },
-      { src: character.hat },
       { src: character.shirt },
       { src: character.face },
+      { src: character.hat },
     ];
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -59,16 +59,16 @@ const Card: React.FC<CharacterCardProps> = ({
   // Call handleImageLoad to start loading and rendering images
   handleImageLoad();
 
-  const deleteCharacter = () => {
-    onCharacterDelete();
+  const deleteCharacter = (characterId: string) => {
+    onCharacterDelete(characterId);
   };
 
   const editCharacter = (character: Character) => {
-    onCharacterEdit({ characterToEdit: character });
+    onCharacterEdit(character);
   };
 
   const exportCharacter = (character: Character) => {
-    onCharacterExport({ characterToExport: character });
+    onCharacterExport(character);
   };
 
   return (
@@ -107,7 +107,10 @@ const Card: React.FC<CharacterCardProps> = ({
               {" "}
               <EditIcon />
             </button>
-            <button className="action-button" onClick={() => deleteCharacter()}>
+            <button
+              className="action-button"
+              onClick={() => deleteCharacter(character._id)}
+            >
               {" "}
               <DeleteIcon />
             </button>
