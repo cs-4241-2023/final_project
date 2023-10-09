@@ -11,10 +11,13 @@ import Bio from "../components/Bio"
 import Build from "../components/Build"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Snackbar from '../components/Snackbar';
 import { User } from "../types/auth.types";
 import { Character } from '../types/character.types';
 
 import { createService } from '../services/create.service';
+
+
 
 const CreatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -28,7 +31,8 @@ const CreatePage: React.FC = () => {
     const [hat, setHat] = useState("");
     const [shirt, setShirt] = useState("");
     const [id, setId] = useState<string | null>(null);
-
+    
+    const [snackbarVisible, setIsSnackbarVisible] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         axios
@@ -69,7 +73,17 @@ const CreatePage: React.FC = () => {
         }
     }
 
+    const handleShowSnackbar = () => {
+        setIsSnackbarVisible(true);
+        setTimeout(() => {
+          setIsSnackbarVisible(false);
+        }, 5000);
+      };
+
     const saveCharacter = async function() {
+
+        handleShowSnackbar();
+
         if (user === null) {
             console.log("No user :(");
             return;
@@ -105,6 +119,7 @@ const CreatePage: React.FC = () => {
                 <Button variant="contained" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</Button>
                 <Button variant="contained" onClick={() => { saveCharacter() }}>Save</Button>
             </Stack>
+            {snackbarVisible && <Snackbar message="Your character was saved!!" />}
             </div>
         </div>
     );
