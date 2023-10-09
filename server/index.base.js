@@ -88,8 +88,14 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/add', async (req, res) => {
-    const { color, face, hat, shirt, name, skills, food, slogan } = req.body
-    const character = await storageService.saveCharacter(color, face, hat, shirt, name, skills, food, slogan);
+    const { username, color, face, hat, shirt, name, skills, food, slogan } = req.body
+    const character = await storageService.saveCharacter(username, color, face, hat, shirt, name, skills, food, slogan);
+    return res.json(character);
+})
+
+app.post('/update', async (req, res) => {
+    const { _id, username, color, face, hat, shirt, name, skills, food, slogan } = req.body
+    const character = await storageService.updateCharacter(_id, username, color, face, hat, shirt, name, skills, food, slogan);
     return res.json(character);
 })
 

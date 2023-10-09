@@ -1,5 +1,6 @@
 export interface Character {
   _id: string;
+  username: string;
   name: string;
   skills: string;
   food: string;

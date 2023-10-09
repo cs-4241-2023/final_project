@@ -13,6 +13,8 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Snackbar from '../components/Snackbar';
 import { User } from "../types/auth.types";
+import { Character } from '../types/character.types';
+
 import { createService } from '../services/create.service';
 
 
@@ -28,8 +30,9 @@ const CreatePage: React.FC = () => {
     const [face, setFace] = useState("");
     const [hat, setHat] = useState("");
     const [shirt, setShirt] = useState("");
+    const [id, setId] = useState<string | null>(null);
+    
     const [snackbarVisible, setIsSnackbarVisible] = useState(false);
-
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         axios
@@ -81,17 +84,28 @@ const CreatePage: React.FC = () => {
 
         handleShowSnackbar();
 
-        if (user === null) {
+        if (user === null || user.username === null) {
             console.log("No user :(");
             return;
         }
         try {
-            await createService.saveData({user, color, face, hat, shirt, name, skills, food, slogan});
+            // New character
+            if (id === null) {
+                const newCharacter: Character = await createService.saveData(
+                    {username: user.username, color, face, hat, shirt, name, skills, food, slogan}
+                );
+                setId(newCharacter._id);
+            // Update character
+            } else {
+                await createService.updateData(
+                    {_id: id, username: user.username, color, face, hat, shirt, name, skills, food, slogan}
+                );
+            }
+
         } catch (error) {
             console.error("An unexpected error happened when saving the character:", error);
         }
-      };
-    
+    };
 
     return (
         <div className="splash-container">

@@ -107,6 +107,41 @@ class StorageService {
             slogan
         };
     }
+
+    async updateCharacter(_id, username, color, face, hat, shirt, name, skills, food, slogan) {
+        const db = this.client.db(db_name);
+        const result = await db.collection(
+            this.Collection.CHARACTERS
+        ).updateOne(
+            {_id: new ObjectId(_id)},
+            {
+                "$set": {
+                    username,
+                    color,
+                    face,
+                    hat,
+                    shirt,
+                    name,
+                    skills,
+                    food,
+                    slogan
+                }
+            }
+        );
+        return {
+            _id,
+            username,
+            color,
+            face,
+            hat,
+            shirt,
+            name,
+            skills,
+            food,
+            slogan
+        };
+    }
+
     async deleteCharacter(id) {
         const db = this.client.db(db_name);
         const result = await db.collection(
