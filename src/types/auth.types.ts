@@ -1,6 +1,8 @@
 export interface User {
     id: string;
     username: string;
+    firstName: string;
+    lastName: string;
 }
 
 export interface LoginData {
@@ -10,4 +12,6 @@ export interface LoginData {
 
 export interface RegisterData extends LoginData {
     confirmPassword: string;
+    firstName: string;
+    lastName: string;
 }

@@ -54,7 +54,7 @@ app.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
+    const { username, password, confirmPassword, firstName, lastName } = req.body;
     if (password !== confirmPassword) {
         return res.status(400).send('Passwords do not match');
     }
@@ -63,12 +63,23 @@ app.post('/register', async (req, res) => {
         return res.status(400).send('Username already taken');
     }
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = await storageService.createUser(username, hashedPassword);
+    const user = await storageService.createUser(username, hashedPassword, firstName, lastName);
     req.login(user, err => {
         if (err) { return res.status(500).send(err.message); }
         return res.json(user);
     });
 });
+
+app.post('/checkUsername', async (req, res) => {
+    const { username } = req.body;
+    console.log(username)
+    const existingUser = await storageService.findUserByUsername(username);
+    console.log("Existing User", existingUser)
+    if (existingUser) {
+        return res.status(400).send('Username already taken');
+    }
+    return res.status(200).send("Username available")
+})
 
 app.post('/logout', (req, res) => {
     req.logout(() => {

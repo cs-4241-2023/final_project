@@ -33,13 +33,15 @@ class StorageService {
         });
     }
 
-    async createUser(username, hashedPassword) {
+    async createUser(username, hashedPassword, firstName, lastName) {
         const db = this.client.db(db_name);
         const result = await db.collection(
             this.Collection.USER
         ).insertOne({
             username,
-            hashedPassword
+            hashedPassword,
+            firstName,
+            lastName,
         });
         if (!result.insertedId) {
             throw new Error('User creation failed');
@@ -48,6 +50,8 @@ class StorageService {
             _id: result.insertedId,
             username,
             hashedPassword,
+            firstName,
+            lastName,
         };
     }
 
