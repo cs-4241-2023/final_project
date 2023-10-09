@@ -1,5 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import axios from "axios";
 
 import "../styles/splash.css"
 import "../styles/create.css"
@@ -9,6 +11,7 @@ import Bio from "../components/Bio"
 import Build from "../components/Build"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { User } from "../types/auth.types";
 
 import { createService } from '../services/create.service';
 
@@ -23,6 +26,18 @@ const CreatePage: React.FC = () => {
     const [face, setFace] = useState("");
     const [hat, setHat] = useState("");
     const [shirt, setShirt] = useState("");
+
+    const [user, setUser] = useState<User | null>(null);
+    useEffect(() => {
+        axios
+        .get("/user-info")
+        .then((response) => {
+            setUser(response.data);
+        })
+        .catch((error) => {
+            console.error("Failed to fetch user info:", error);
+        });
+    }, []);
 
     const updateActiveBuild = (option: string, url: string) => {
         if (option === "color") {
@@ -53,8 +68,12 @@ const CreatePage: React.FC = () => {
     }
 
     const saveCharacter = async function() {
+        if (user === null) {
+            console.log("No user :(");
+            return;
+        }
         try {
-          await createService.saveData({color, face, hat, shirt, name, skills, food, slogan});
+            await createService.saveData({user, color, face, hat, shirt, name, skills, food, slogan});
         } catch (error) {
             console.error("An unexpected error happened when saving the character:", error);
         }
@@ -72,7 +91,7 @@ const CreatePage: React.FC = () => {
             <Stack spacing={2} direction="row">
                 <Button variant="contained" onClick={() => { navigate("/dashboard") }}>Back</Button>
                 <Button variant="contained" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</Button>
-                <Button variant="contained" onClick={() => { saveCharacter }}>Save</Button>
+                <Button variant="contained" onClick={() => { saveCharacter() }}>Save</Button>
             </Stack>
             </div>
         </div>

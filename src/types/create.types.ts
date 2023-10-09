@@ -1,4 +1,7 @@
+import { User } from "./auth.types";
+
 export interface Create {
+  user: User;
   name: string;
   skills: string;
   food: string;

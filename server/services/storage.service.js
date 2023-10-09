@@ -24,6 +24,7 @@ else {
 class StorageService {
     Collection = {
         USER: "users",
+        CHARACTERS: "characters"
     }
 
     constructor() {
@@ -75,11 +76,12 @@ class StorageService {
         return user;
     }
 
-    async saveCharacter(color, face, hat, shirt, name, skills, food, slogan) {
+    async saveCharacter(username, color, face, hat, shirt, name, skills, food, slogan) {
         const db = this.client.db(db_name);
         const result = await db.collection(
-            this.Collection.USER
+            this.Collection.CHARACTERS
         ).insertOne({
+            username,
             color,
             face,
             hat,
@@ -94,6 +96,7 @@ class StorageService {
         }
         return {
             _id: result.insertedId,
+            username,
             color,
             face,
             hat,
@@ -107,7 +110,7 @@ class StorageService {
     async deleteCharacter(id) {
         const db = this.client.db(db_name);
         const result = await db.collection(
-            this.Collection.USER
+            this.Collection.CHARACTERS
         ).deleteOne({
             _id: new ObjectId(id)
         });
