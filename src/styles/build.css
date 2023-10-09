@@ -1,7 +1,7 @@
 .container {
 	display: grid;
-    grid-template-areas: "canvas div";
-    grid-gap: 0px;
+	grid-template-areas: "canvas div";
+	grid-gap: 0px;
 }
 
 .container canvas {
@@ -34,16 +34,17 @@
 .tab button:hover {
 	background-color: inherit;
 }
-  
+
 .tabcontent {
 	padding: 6px 12px;
 	border-top: none;
 	display: grid;
-    grid-template-areas: "button1 button2 button3"
-                         "button4 button5 button6"
-						 "button7 button8 button9";
-    grid-gap: 5px;
+	grid-template-areas: "button1 button2 button3"
+		"button4 button5 button6"
+		"button7 button8 button9";
+	grid-gap: 5px;
 }
+
 .tabcontent button {
 	background-color: inherit
 }
@@ -53,42 +54,90 @@
 }
 
 .tabcontent:nth-child(1) {
-    grid-area: button1;
+	grid-area: button1;
 }
 
 .tabcontent:nth-child(2) {
-    grid-area: button2;
+	grid-area: button2;
 }
 
 .tabcontent:nth-child(3) {
-    grid-area: button3;
+	grid-area: button3;
 }
 
 .tabcontent:nth-child(4) {
-    grid-area: button4;
+	grid-area: button4;
 }
 
 .tabcontent:nth-child(5) {
-    grid-area: button5;
+	grid-area: button5;
 }
 
 .tabcontent:nth-child(6) {
-    grid-area: button6;
+	grid-area: button6;
 }
 
 .tabcontent:nth-child(7) {
-    grid-area: button7;
+	grid-area: button7;
 }
 
 .tabcontent:nth-child(8) {
-    grid-area: button8;
+	grid-area: button8;
 }
 
 .tabcontent:nth-child(9) {
-    grid-area: button9;
+	grid-area: button9;
 }
 
 .rightbox {
 	height: 256px;
 	border: 1px solid #ccc;
+}
+
+.color {
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+}
+
+.color img {
+	width: calc(4 * 12px);
+	height: calc(4 * 18px);
+	margin: -12px -6px 0px 0px;
+}
+
+.face {
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+}
+
+.face img {
+	width: calc(12 * 12px);
+	height: calc(12 * 18px);
+	margin: -54px 0px 0px -42px;
+}
+
+.hat {
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+}
+
+.hat img {
+	width: calc(8 * 12px);
+	height: calc(8 * 18px);
+	margin: -24px 0px 0px -24px;
+}
+
+.shirt {
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+}
+
+.shirt img {
+	width: calc(6 * 12px);
+	height: calc(6 * 18px);
+	margin: -30px 0px 0px -10px;
 }
