@@ -8,8 +8,8 @@ import "../styles/card.css";
 type CharacterCardProps = {
   character: Character;
   onCharacterDelete: () => void;
-  onCharacterEdit: (editCharacter: any) => void;
-  onCharacterExport: (exportCharacter: any) => void;
+  onCharacterEdit: (editCharacter: Character) => void;
+  onCharacterExport: (exportCharacter: Character) => void;
 };
 
 const Card: React.FC<CharacterCardProps> = ({
@@ -63,11 +63,11 @@ const Card: React.FC<CharacterCardProps> = ({
     onCharacterDelete();
   };
 
-  const editCharacter = (character: any) => {
+  const editCharacter = (character: Character) => {
     onCharacterEdit({ characterToEdit: character });
   };
 
-  const exportCharacter = (character: any) => {
+  const exportCharacter = (character: Character) => {
     onCharacterExport({ characterToExport: character });
   };
 
