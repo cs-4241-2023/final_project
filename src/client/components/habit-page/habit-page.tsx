@@ -58,17 +58,6 @@ const HabitPage: FC = () => {
     {/* </div> */}
     <CalendarComponent userID={userHabitInfo.userID} habitID={habitID!} setUpdate={setUpdate} />
 
-    <p>Habit Page for: {habitID}</p>
-    <Link to="/home">Home</Link>
-
-    <p>Habit Name: {userHabitInfo.name}</p>
-    <p>Description: {userHabitInfo.description}</p>
-    <p>Current Streak: {userHabitInfo.currentStreak}</p>
-    <p>Number of Logged Days: {userHabitInfo.numLoggedDays}</p>
-    <p>Percent Success Week: {userHabitInfo.percentSuccessWeek}</p>
-    <p>Percent Success Lifetime: {userHabitInfo.percentSuccessLifetime}</p>
-
-
     </>
 }
     
