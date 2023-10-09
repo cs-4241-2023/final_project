@@ -34,13 +34,13 @@ export default function Signup(props) {
         e.preventDefault();
 
         if (username === "") {
-            setErrorMessage("Username cannot be empty")
+            setErrorMessage("Username cannot be empty.")
             return;
         }
         else if (password === "") {
-            setErrorMessage("Username cannot be empty")
+            setErrorMessage("Password cannot be empty.")
+            return
         }
-        // Check if the password is the same as the confirmed password
         else if (password !== confirmPassword) {
             setErrorMessage("Passwords do not match.")
             return;
@@ -57,7 +57,7 @@ export default function Signup(props) {
                 setSignUp(false);
                 setHeaderMessage("Login To RendezView")
             }
-            else if (response.status === 401) {
+            else if (response.status === 409) {
                 setErrorMessage("Username taken.")
             }
         });

@@ -9,7 +9,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    groups: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
+        }   
+    ],
 });
 
 const User = mongoose.model("User", userSchema, "Users");
