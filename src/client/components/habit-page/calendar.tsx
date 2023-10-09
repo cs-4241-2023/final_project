@@ -5,6 +5,8 @@ import { HabitOutcome, Outcome } from "../../../../models";
 import { Loading } from "../css-components/loading";
 import CalendarCellComponent from "./calendar-cell";
 import { Method, fetchServer } from "../../scripts/fetch-server";
+import styled from "styled-components";
+import { FONT_THEME, COLOR_THEME } from "../../themes";
 
 function getDaysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
@@ -90,6 +92,41 @@ interface CalendarComponentProps {
     setUpdate: React.Dispatch<React.SetStateAction<number>>,
 }
 
+const MainDivStyle = styled.div
+`
+display: flex;
+justify-content: center;
+font-family: ${FONT_THEME.MAIN_FONT};
+background-color: ${COLOR_THEME.SECTION};
+color: white;
+padding: 10px;
+margin: 10px;    
+`
+
+const ButtonStyle = styled.button 
+`
+background-color: ${COLOR_THEME.BUTTON};
+`
+
+const BackButtonImgStyle = styled.img
+`
+width: 20px;
+height: 20px;
+`
+
+const ForwardButtonImgStyle = styled.img
+`
+width: 20px;
+height: 20px;
+-webkit-transform: scaleX(-1);
+transform: scaleX(-1);
+`
+
+const MonthTextStyle = styled.div
+`
+margin: 10px;
+`
+
 const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpdate}) => {
 
     const dateToday = getDateToday();
@@ -163,10 +200,18 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
     if (calendar === undefined) return <Loading />;
 
     return <>
-        <p>Current Year: {displayYear}</p>
-        <p>Current Month: {getMonthString(displayMonth)}</p>
-        <button onClick={goPreviousMonth}>Previous Month</button>
-        <button onClick={goNextMonth}>Next Month</button>
+    <MainDivStyle className="rounded">
+        <div className="d-flex flex-column">
+            <div className="d-flex flex-row justify-content-center">
+                <ButtonStyle className="btn rounded-circle" onClick={goPreviousMonth}>
+                    <BackButtonImgStyle src="/back.png"></BackButtonImgStyle>
+                </ButtonStyle>
+                <MonthTextStyle className="h4 d-flex justify-content-center">{getMonthString(displayMonth)} {displayYear}</MonthTextStyle>
+                <ButtonStyle className="btn rounded-circle" onClick={goNextMonth}>
+                    <ForwardButtonImgStyle src="/back.png"></ForwardButtonImgStyle>
+                </ButtonStyle> 
+            </div>
+            <div className="d-flex justify-content-center">
         <table><tbody>
             <tr>
                 <th>Sun</th>
@@ -203,6 +248,11 @@ const CalendarComponent: FC<CalendarComponentProps> = ({userID, habitID, setUpda
                 })
             }
         </tbody></table>
+        </div>
+
+        </div>
+    </MainDivStyle>
+        
     </>
 
 

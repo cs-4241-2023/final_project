@@ -53,8 +53,11 @@ const HabitPage: FC = () => {
 
     return <>
     <HabitNavComponent/>
-    <HabitInfoComponent habitInfo = {userHabitInfo}/>
-    
+    {/* <div className="d-flex justify-content-center"> */}
+      <HabitInfoComponent habitInfo = {userHabitInfo}/>
+    {/* </div> */}
+    <CalendarComponent userID={userHabitInfo.userID} habitID={habitID!} setUpdate={setUpdate} />
+
     <p>Habit Page for: {habitID}</p>
     <Link to="/home">Home</Link>
 
@@ -65,7 +68,6 @@ const HabitPage: FC = () => {
     <p>Percent Success Week: {userHabitInfo.percentSuccessWeek}</p>
     <p>Percent Success Lifetime: {userHabitInfo.percentSuccessLifetime}</p>
 
-    <CalendarComponent userID={userHabitInfo.userID} habitID={habitID!} setUpdate={setUpdate} />
 
     </>
 }

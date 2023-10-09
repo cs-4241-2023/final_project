@@ -11,7 +11,7 @@ export const COLOR_THEME = {
     TEXT: '#FFFFFF', // white, color for text
     OUTCOME_SUCCESS: '#72ED8D', // green, color in a calender day cell for successful outcomes
     OUTCOME_FAIL: '#ED7272', // red, color in a calender day cell for failed outcomes
-    OUTCOME_FUTURE: '#93a6db', // grey, color in a calender day cell for future days
+    OUTCOME_FUTURE: '#919dbf', // grey, color in a calender day cell for future days
     LOGIN_BACKGROUND: '#3159C0',
     LOGIN_TEXT_FIELD: '#4B77E8',
 };

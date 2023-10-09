@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
-import { Link } from "react-router-dom";
 import { UserHabit } from "../../../../models";
 import PercentIcon from "../shared-components/percent-icon";
 import { Method, fetchServer } from "../../scripts/fetch-server";
@@ -20,6 +19,7 @@ background-color: ${COLOR_THEME.SECTION};
 color: white;
 padding: 10px;
 margin: 10px;
+// width: 80%
 `
 
 const HabitTitleStyle = styled.h1
@@ -40,7 +40,7 @@ transform: translateY(-2px);
 const HabitStreakTextStyle = styled.p<{isHighStreak: boolean}>
 `
 display: inline-block;
-transform: translate(-20px,-1px);
+transform: translate(-21px,-1px);
 
 ${(props) =>
     props.isHighStreak &&
@@ -53,7 +53,7 @@ const HabitDescriptionStyle = styled.div
 `
 cursor: pointer;
 width: fit-content;
-padding-left: 10px;
+padding: 10px;
 transition: background-color 0.3s;
 
 &:hover {
@@ -67,9 +67,34 @@ width: 100%;
 resize: none;
 margin-left: 8px;
 `
+const LoggedDaysStyle = styled.div
+`
+padding: 10px;
+display: flex;
+justify-content: center;
+`
+
 const HabitInfoRightSide = styled.div
 `
-padding-right: 10px;
+padding: 15px;
+`
+
+const HabitInfoLeftSide = styled.div
+`
+padding: 15px;
+`
+
+const PercentSuccessTextStyle = styled.div
+`
+transform: translateY(-56px);
+font-size: 14px;
+`
+
+const CalendarImgStyle = styled.img 
+`
+width: 40px;
+height: 40px;
+margin-right: 10px;
 `
 
 const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
@@ -104,7 +129,7 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
 
     return(
         <MainDivStyle className="rounded">
-            <div>
+            <HabitInfoLeftSide>
                 <HabitTitleStyle>{habitInfo.name}</HabitTitleStyle>
                 {displayStreak && (
                     <>
@@ -117,30 +142,33 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
                 ) : (
                 <HabitDescriptionStyle className="rounded" onClick={handleDescriptionClick}>{description}</HabitDescriptionStyle>
                 )}
-            </div>
-            <div>
-                <HabitInfoRightSide className="h3">
-                    Time Logged: {habitInfo.numLoggedDays} days
-                </HabitInfoRightSide>
+            </HabitInfoLeftSide>
 
+            <HabitInfoRightSide>
+                <LoggedDaysStyle className="h3">
+                    <CalendarImgStyle src="/calendaricon.png"></CalendarImgStyle>
+                    {habitInfo.numLoggedDays} days
+                </LoggedDaysStyle>
                 <div>
                     <div className="row">
                         <div className="col-6">
-                            <h5 className="d-flex justify-content-center">Week</h5>
+                            <h4 className="d-flex justify-content-center">Week</h4>
                             <div className="d-flex justify-content-center">
                                 <PercentIcon percent={habitInfo.percentSuccessWeek}/>
                             </div>
+                            <PercentSuccessTextStyle className="d-flex justify-content-center">{habitInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
                         </div>
                         <div className="col-6">
-                            <h5 className="d-flex justify-content-center">Lifetime</h5>
+                            <h4 className="d-flex justify-content-center">Lifetime</h4>
                             <div className="d-flex justify-content-center">
                                 <PercentIcon percent={habitInfo.percentSuccessLifetime}/> 
                             </div>
+                            <PercentSuccessTextStyle className="d-flex justify-content-center">{habitInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
                         </div>
                     </div>
                 </div>
 
-            </div> 
+            </HabitInfoRightSide> 
         </MainDivStyle>
     )
 }
