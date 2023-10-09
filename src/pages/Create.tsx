@@ -73,7 +73,6 @@ const CreatePage: React.FC = () => {
                 <Button variant="contained" onClick={() => { navigate("/dashboard") }}>Back</Button>
                 <Button variant="contained" onClick={() => { setViewing(viewing === "Build" ? "Bio" : "Build") }}>{viewing === "Build" ? "Bio" : "Build"}</Button>
                 <Button variant="contained" onClick={() => { saveCharacter }}>Save</Button>
-                <Button variant="contained">Export</Button>
             </Stack>
             </div>
         </div>
