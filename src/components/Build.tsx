@@ -3,9 +3,28 @@ import React, { useEffect, useRef, useState } from 'react';
 import "../styles/splash.css";
 import "../styles/build.css";
 
-const Build: React.FC<any> = (props) => {
-    let [openedTab, setOpenedTab] = useState<any>("color");
-    let options: any = {
+interface BuildProps {
+    color: string,
+    face: string,
+    hat: string,
+    shirt: string,
+    updateActive: UpdateFunction,
+}
+
+interface BuildOptions {
+    color: string[],
+    face: string[],
+    hat: string[],
+    shirt: string[],
+}
+
+type BuildTabs = "color" | "face" | "hat" | "shirt";
+type UpdateFunction = (BuildTabs, string) => void;
+
+
+const Build: React.FC<BuildProps> = (props) => {
+    const [openedTab, setOpenedTab] = useState<BuildTabs>("color");
+    const options: BuildOptions = {
         "color": [
             "allCharStuff/bases/base1.png",
             "allCharStuff/bases/base2.png",
@@ -51,32 +70,35 @@ const Build: React.FC<any> = (props) => {
             "allCharStuff/shirts/shirt9.png",
         ],
     }
-    const canvasRef = useRef(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
-        const canvas: any = canvasRef.current;
+        const canvas: HTMLCanvasElement = (canvasRef.current as HTMLCanvasElement);
         if (canvas === null) {
             return;
         }
         const ctx = canvas.getContext('2d');
+        if (ctx === null) {
+            return;
+        }
         
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        let colorImage = new Image();
+        const colorImage = new Image();
         colorImage.src = props.color;
         ctx.drawImage(colorImage, 0, 0, 256, 256);
 
-        let faceImage = new Image();
+        const faceImage = new Image();
         faceImage.src = props.face;
         ctx.drawImage(faceImage, 0, 0, 256, 256);
 
-        let hatImage = new Image();
-        hatImage.src = props.hat;
-        ctx.drawImage(hatImage, 0, 0, 256, 256);
-
-        let shirtImage = new Image();
+        const shirtImage = new Image();
         shirtImage.src = props.shirt;
         ctx.drawImage(shirtImage, 0, 0, 256, 256);
+        
+        const hatImage = new Image();
+        hatImage.src = props.hat;
+        ctx.drawImage(hatImage, 0, 0, 256, 256);
     })
 
     return (
@@ -86,8 +108,8 @@ const Build: React.FC<any> = (props) => {
                 <div className="rightbox">
                     <div className="tab">
                         {
-                            Object.keys(options).map((option => 
-                                <button key={option} className="tabitem" onClick={() => setOpenedTab(option)}>
+                            Object.keys(options).map((option =>
+                                <button key={option} className="tabitem" onClick={() => setOpenedTab(option as BuildTabs)}>
                                     {option.charAt(0).toUpperCase() + option.substring(1)}
                                 </button>
                             ))
