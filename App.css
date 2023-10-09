@@ -140,7 +140,7 @@ root {
 }
 
 .main {
-  background-image: none;
+  background-image: url(./src/assets/WindowsXPBG.jpeg);
   width: 100vw;
   height: 100vh;
 }
