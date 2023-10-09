@@ -19,7 +19,7 @@ interface BuildOptions {
 }
 
 type BuildTabs = "color" | "face" | "hat" | "shirt";
-type UpdateFunction = (BuildTabs, string) => void;
+type UpdateFunction = (arg0: BuildTabs, arg1: string) => void;
 
 
 const Build: React.FC<BuildProps> = (props) => {
@@ -95,7 +95,7 @@ const Build: React.FC<BuildProps> = (props) => {
         const shirtImage = new Image();
         shirtImage.src = props.shirt;
         ctx.drawImage(shirtImage, 0, 0, 256, 256);
-        
+
         const hatImage = new Image();
         hatImage.src = props.hat;
         ctx.drawImage(hatImage, 0, 0, 256, 256);
