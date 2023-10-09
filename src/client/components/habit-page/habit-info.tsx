@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
 import { Link } from "react-router-dom";
 import { UserHabit } from "../../../../models";
-
+import PercentIcon from "../shared-components/percent-icon";
 
 interface HabitInfoProps {
     habitInfo: UserHabit;
@@ -70,7 +70,6 @@ const HabitInfoRightSide = styled.div
 padding-right: 10px;
 `
 
-
 const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
     const [isDescriptionEditing, setDescriptionEditing] = useState(false);
     const [description, setDescription] = useState(habitInfo.description);
@@ -107,14 +106,26 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
             </div>
             <div>
                 <HabitInfoRightSide className="h3">
-                    Logged Days: {habitInfo.numLoggedDays} days
+                    Time Logged: {habitInfo.numLoggedDays} days
                 </HabitInfoRightSide>
-                <HabitInfoRightSide className="h3">
-                    Weekly Success: {habitInfo.percentSuccessWeek}%
-                </HabitInfoRightSide>
-                <HabitInfoRightSide className="h3">
-                    Lifetime Success: {habitInfo.percentSuccessLifetime}%
-                </HabitInfoRightSide>
+
+                <div>
+                    <div className="row">
+                        <div className="col-6">
+                            <h5 className="d-flex justify-content-center">Week</h5>
+                            <div className="d-flex justify-content-center">
+                                <PercentIcon percent={habitInfo.percentSuccessWeek}/>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <h5 className="d-flex justify-content-center">Lifetime</h5>
+                            <div className="d-flex justify-content-center">
+                                <PercentIcon percent={habitInfo.percentSuccessLifetime}/> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div> 
         </MainDivStyle>
     )

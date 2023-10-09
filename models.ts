@@ -43,7 +43,7 @@ export class UserHabit {
     }
 
     get percentSuccessWeek(): number {
-        return (this.numLoggedDaysWeek === 0) ? 0 : (this.numSuccessesWeek / this.numLoggedDaysWeek);
+        return (this.numLoggedDaysWeek === 0) ? 0 : +(((this.numSuccessesWeek / this.numLoggedDaysWeek) * 100).toFixed(2));
     }
 
 }
