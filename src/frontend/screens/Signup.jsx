@@ -63,5 +63,6 @@ export default function Signup(props) {
                 setErrorMessage("Username taken.")
             }
         });
+        setErrorMessage("");
     }
 }
