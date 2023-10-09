@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "../../App.css";
 
 function Header() {
@@ -11,7 +12,7 @@ function Header() {
           </div>
         </div>
         <div className="weather-card">
-          <span class="material-symbols-outlined">sunny</span>
+          <span className="material-symbols-outlined">sunny</span>
           <div className="weather-info">
             <div className="degrees">78°F</div>
             <div className="weather-description">Sunny</div>
