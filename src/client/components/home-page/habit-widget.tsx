@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { UserHabit } from "../../../../models";
 import CreateHabitButton from "./create-habit-button";
@@ -25,19 +25,32 @@ interface HabitWidgetProps {
     habit: UserHabit;
 }
 
+// function handleClick({habit}: HabitWidgetProps ) {
+//   <p><Link to={"/habit/"+habit.habitID}>{habit.name}</Link></p>
+
+//   console.log('Link clicked!');
+// }
 
 
 function HabitWidget({habit}: HabitWidgetProps){
 
+  const navigate = useNavigate(); // Get the navigate function from React Router
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent the default button click behavior
+    navigate("/habit/" + habit.habitID); // Programmatically navigate to the desired URL
+  };
+
 
     return(
-        <StyledButton className=" btn btn-primary border-0"> 
-        <p><Link to={"/habit/"+habit.habitID}>{habit.name}</Link></p>
+        <StyledButton className=" btn btn-primary border-0" onClick={handleClick}> 
+
         <p>
-            Streak: {habit.currentStreak}
+          {habit.name}
+            {/* Streak: {habit.currentStreak}
             Number of Logged Days: {habit.numLoggedDays}
             Percent Success Week: {habit.percentSuccessWeek}
-            Percent Success Lifetime: {habit.percentSuccessLifetime}
+            Percent Success Lifetime: {habit.percentSuccessLifetime} */}
             </p>
         
         </StyledButton> 

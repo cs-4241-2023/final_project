@@ -61,7 +61,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
         <p>Percent Success Lifetime: {userInfo.percentSuccessLifetime}</p>
         <p>Number of Logged Days: {userInfo.numLoggedDays}</p>
         <p>Habits: {userInfo.habits.toString()}</p>
-        
+{/*         
         {
             userInfo.habits.map((habit) => (<>
             <p><Link to={"/habit/"+habit.habitID}>{habit.name} {habit.habitID}</Link></p>
@@ -72,7 +72,7 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
             <li>Percent Success Lifetime: {habit.percentSuccessLifetime}</li>
             </ul>
             </>))
-        }
+        } */}
 
         <HabitListWidget setUpdate={setUpdate} habits={userInfo.habits}/>
 
