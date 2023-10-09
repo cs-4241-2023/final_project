@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import "../styles/splash.css";
 import "../styles/build.css";
+import { useTheme } from '@mui/material';
 
 interface BuildProps {
     color: string,
@@ -70,6 +71,9 @@ const Build: React.FC<BuildProps> = (props) => {
             "allCharStuff/shirts/shirt9.png",
         ],
     }
+    
+    const palette = useTheme().palette;
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
         const canvas: HTMLCanvasElement = (canvasRef.current as HTMLCanvasElement);
@@ -80,8 +84,8 @@ const Build: React.FC<BuildProps> = (props) => {
         if (ctx === null) {
             return;
         }
-        
-        ctx.fillStyle = "#FFFFFF";
+
+        ctx.fillStyle = palette.background.default
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         const colorImage = new Image();
@@ -118,9 +122,9 @@ const Build: React.FC<BuildProps> = (props) => {
 
                     <div className="tabcontent">
                         {
-                            options[openedTab].map((url: string) => 
+                            options[openedTab].map((url: string) =>
                                 <button className={props[openedTab] === url ? "activebutton" : undefined} onClick={() => props.updateActive(openedTab, url)}>
-                                    <img src={url} width={32} height={32}/>
+                                    <img src={url} width={32} height={32} />
                                 </button>
                             )
                         }
