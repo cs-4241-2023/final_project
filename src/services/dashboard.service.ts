@@ -5,7 +5,7 @@ import { User } from "../types/auth.types";
 class DashboardService {
   async getCharacters(user: User) {
     try {
-      const response = await axios.post("/getCharacters", user);
+      const response = await axios.post("/getCharacters", user.username);
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;

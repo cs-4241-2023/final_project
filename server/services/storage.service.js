@@ -66,6 +66,15 @@ class StorageService {
         return user;
     }
 
+    async getCharacters(username) {
+        const db = this.client.db(db_name);
+        const characters = await db.collection(
+            this.Collection.CHARACTERS
+        ).find({ username: username }).toArray();
+
+        return characters
+    }
+
     async findUserById(id) {
         const db = this.client.db(db_name);
         const user = await db.collection(

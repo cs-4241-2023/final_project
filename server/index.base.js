@@ -97,37 +97,19 @@ app.get('/user-info', (req, res) => {
     res.json(req.user);
 })
 
-app.get('/user-characters', (req, res) => {
+app.get('/user-characters', async (req, res) => {
+    const user = req.user.username;
+    console.log(user)
+    try {
+        const characters = await storageService.getCharacters(user);
+        res.status(200).send({ characters });
 
-    const body = [
-        {
-            "_id": 1,
-            "name": "Character 1",
-            "skills": ["Skill 1", "Skill 2"],
-            "food": "Food 1",
-            "slogan": "Slogan 1",
-            "color": "allCharStuff/bases/base9.png",
-            "hat": "allCharStuff/hats/hat7.png",
-            "shirt": "allCharStuff/shirts/shirt6.png",
-            "face": "allCharStuff/faces/face5.png",
+    } catch (err) {
+        console.error('Error getting characters: ', err);
+        res.status(500).send({ message: 'Internal server error' });
+    }
 
-        },
-        {
-            "_id": 2,
-            "name": "Character 2",
-            "skills": ["Skill 1", "Skill 2"],
-            "food": "Food 1",
-            "slogan": "Slogan 1",
-            "color": "allCharStuff/bases/base6.png",
-            "hat": "allCharStuff/hats/hat6.png",
-            "shirt": "allCharStuff/shirts/shirt4.png",
-            "face": "allCharStuff/faces/face5.png",
-
-        }
-    ];
-
-    res.json(body);
-})
+});
 
 app.delete('/character/:characterId', async (req, res) => {
     const characterId = req.params.characterId;

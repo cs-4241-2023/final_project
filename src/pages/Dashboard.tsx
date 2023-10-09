@@ -4,10 +4,11 @@ import axios from "axios";
 import { Character } from "../types/character.types";
 import { User } from "../types/auth.types";
 import "../styles/dashboard.css";
+import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>();
   const [characters, setCharacters] = useState<Character[]>([]);
   useEffect(() => {
     axios
@@ -47,7 +48,8 @@ const Dashboard: React.FC = () => {
   const handleEditCharacter = (character: Character) => {
     navigate("/create", {
       state: {
-        id: character._id,
+        username: user?.username,
+        character_id: character._id,
         name: character.name,
         skills: character.skills,
         food: character.food,
@@ -73,7 +75,18 @@ const Dashboard: React.FC = () => {
       console.error("Canvas context not available");
       return;
     }
-    context.fillText("This is the downloaded text", 0, 0);
+    context.font = "16px Arial";
+    context.fillStyle = "black"; // You can set the text color
+    context.textAlign = "center"; // Center the text horizontally
+    context.textBaseline = "middle"; // Center the text vertically
+
+    // Calculate the position to center the text
+    const x = canvas.width / 2;
+    const y = canvas.height / 2;
+
+    // Add the character's name to the canvas
+    context.fillText(characterName, x, y);
+
     const a = document.createElement("a");
     a.href = canvas.toDataURL();
     a.download = `${characterName}_image.png`;
@@ -95,23 +108,16 @@ const Dashboard: React.FC = () => {
           </div>
         )}
         <div className="card-container">
-          {characters.length > 0 &&
-            characters.map((character) => (
-              <Card
-                key={character._id}
-                character={character}
-                onCharacterDelete={() => handleDeleteCharacter(character._id)}
-                onCharacterEdit={() => handleEditCharacter(character)}
-                onCharacterExport={() =>
-                  exportCanvasImage(character._id, character.name)
-                }
-              />
-            ))}
+          {characters.length > 0 && <h1> A</h1>}
         </div>
         <button
           className="create-button"
           onClick={() => {
-            navigate("/create");
+            navigate("/create", {
+              state: {
+                username: user?.username,
+              },
+            });
           }}
         >
           Create New Character!
