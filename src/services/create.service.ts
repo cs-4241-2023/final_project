@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Create } from '../types/create.types';
 
 
@@ -8,8 +8,13 @@ class CreateService {
         try {
             const response = await axios.post('/add', data);
             return response.data;
-        } catch (error: any) {
-            throw new Error(error.response ? error.response.data : error.message);
+        } catch (error) {
+          const axiosError = error as AxiosError;
+          throw new Error(
+            axiosError.response && typeof axiosError.response.data === 'string' ?
+              axiosError.response.data :
+              axiosError.message
+          );
         }
     }
 }
