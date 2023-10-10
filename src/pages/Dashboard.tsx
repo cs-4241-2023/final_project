@@ -5,10 +5,13 @@ import { Character } from "../types/character.types";
 import { User } from "../types/auth.types";
 import "../styles/dashboard.css";
 import { useNavigate } from "react-router-dom";
+import { deleteService } from "../services/delete.service";
+
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User>();
   const [characters, setCharacters] = useState<Character[]>([]);
+
   useEffect(() => {
     axios
       .get("/user-info")
@@ -32,16 +35,10 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const handleDeleteCharacter = (characterId: string) => {
-    axios
-      .delete(`/character/${characterId}`)
-      .then(() => {
-        setCharacters((prevCharacters) =>
-          prevCharacters.filter((character) => character._id !== characterId)
-        );
-      })
-      .catch((error) => {
-        console.error("Failed to delete task:", error);
-      });
+    deleteService.deleteData(characterId);
+    setCharacters(
+      characters.filter((character) => character._id !== characterId)
+    );
   };
 
   const handleEditCharacter = (character: Character) => {
