@@ -45,13 +45,14 @@ scene("puffle_store", async () => {
 });
 
 function displayPuffleWithPrice(xPos, puffleSprite, price, userInfo) {
-    const priceTagText = userInfo.purchasedPuffles.includes(puffleSprite) ? "Purchased" : `$${price}`;
+    const priceTagText = userInfo.purchasedPuffles.includes(puffleSprite) ? "Equip" : `$${price}`;
 
     const puffle = add([
         sprite(puffleSprite),
         pos(xPos, START.y),
         area(),
-        z(2)]);
+        z(2)
+    ]);
 
     const priceTag = add([
         text(`${priceTagText}`, 12),
@@ -61,16 +62,36 @@ function displayPuffleWithPrice(xPos, puffleSprite, price, userInfo) {
     ]);
 
     puffle.onClick = async function() {
-        const body = JSON.stringify({ _id: "6522f7a13b601563446db64b", puffleName: puffleSprite, price: price});
-        const postResponse = await fetch('/purchase', {
-            method: 'POST',
-            body
-        });
+        if (priceTag.text === "Equip") {
+            const body = JSON.stringify({ username: 'admin', puffleName: puffleSprite });
+            const postRespone = await fetch('/equip', {
+                method: 'POST',
+                body
+            });
+            
+            priceTag.text = "Unequip";
+        }
+        else if (priceTag.text === "Unequip") {
+            const body = JSON.stringify({ username: 'admin', puffleName: "" });
+            const postRespone = await fetch('/equip', {
+                method: 'POST',
+                body
+            });
 
-        const text = await postResponse.text();
-        const result = JSON.parse(text);
-        if (result.status === 1) {
-            priceTag.text = "Purchased";
+            priceTag.text = "Equip";
+        }
+        else {
+            const body = JSON.stringify({ _id: "6522f7a13b601563446db64b", puffleName: puffleSprite, price: price});
+            const postResponse = await fetch('/purchase', {
+                method: 'POST',
+                body
+            });
+
+            const text = await postResponse.text();
+            const result = JSON.parse(text);
+            if (result.status === 1) {
+                priceTag.text = "Equip";
+            }
         }
     }
 

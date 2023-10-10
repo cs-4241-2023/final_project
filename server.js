@@ -67,6 +67,29 @@ app.post('/purchase', (req, res) => {
 	});
 });
 
+app.post('/equip', (req, res) => {
+	let dataString = "";
+
+	req.on('data', function(data) {
+	  dataString += data;
+	});
+
+	req.on('end', async function() {
+		let info = JSON.parse(dataString);
+
+		const user = await user_collection.findOne({ username: info.username });
+
+		if (user.purchasedPuffles.includes(info.puffleName)) {
+			const result = await user_collection.updateOne({ username: info.username }, { $set: { equippedPuffle: info.puffleName } });
+		}
+		else {
+			const result = await user_collection.updateOne({ username: info.username }, { $set: { equippedPuffle: "" } });
+		}
+
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		res.end(JSON.stringify({ result: "Done" }));
+	});
+});
 
 run();
 server.listen(port, function() {
