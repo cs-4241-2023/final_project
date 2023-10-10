@@ -19,7 +19,7 @@ import { createService } from '../services/create.service';
 
 
 
-const CreatePage: React.FC = (raw) => {
+const CreatePage: React.FC = () => {
     const location = useLocation();
     console.log(location.state);
     const navigate = useNavigate();
