@@ -141,7 +141,7 @@ function UserPage() {
           style={{ width: "340px" }}
         >
           <Navbar.Brand
-            href="/homepage"
+            href="/userpage"
             className="d-flex align-items-center mb-3 mb-md-0 text-decoration-none"
           >
             <img src={rbeLogo} alt="Rho Beta Epsilon Logo" width="100px" />
@@ -213,16 +213,24 @@ function UserPage() {
                           onChange={(e) => onChangeInput(e, entry.user_id)}
                         ></input>
                       </td>
-                      
-                      <td>
-                        <Button
-                          className="btn-dark"
-                          style={{ marginLeft: "25px" }}
-                          onClick={deleteEntry}
-                        >
-                          X
-                        </Button>
+                      <td key="numHours">
+                        <input
+                          name="numHours"
+                          required
+                          value={entry.pronouns}
+                          type="text"
+                          plaintext="true"
+                          readOnly={editable}
+                          style={{
+                            border: "none", // Remove border
+                            boxShadow: "none", // Remove box shadow
+                            background: "transparent", // Make background transparent
+                          }}
+                          onChange={(e) => onChangeInput(e, entry.user_id)}
+                        ></input>
                       </td>
+                      
+                      
                     </tr>
                   );
                 })}

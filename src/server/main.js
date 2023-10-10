@@ -167,8 +167,11 @@ app.get("/getData", async (req, res) => {
 });
 
 app.get("/getProfile", async(req, res) => {
-  const result = await User.find({user_id: req.session.user._id});
+  console.log(req.session.user._id);
+  const result = await User.find({_id: req.session.user._id});
+
   let body = JSON.stringify(result);
+  console.log("gotten data: ", result);
   res.send(body);
 })
 
