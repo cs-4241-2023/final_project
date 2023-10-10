@@ -26,7 +26,7 @@ const GameBoard = ({ lettersArray }) => {
   const checkWordLetters = (word) => {
     for (const char of word) { 
       if(!isValidCharacter(char)){
-        alert('not a valid character')
+        alert(`${char} is not a valid letter`)
         return
       } 
   }
