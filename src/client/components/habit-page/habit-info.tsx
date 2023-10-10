@@ -19,7 +19,6 @@ background-color: ${COLOR_THEME.SECTION};
 color: white;
 padding: 10px;
 margin: 10px;
-// width: 80%
 `
 
 const HabitTitleStyle = styled.h1
@@ -40,7 +39,7 @@ transform: translateY(-2px);
 const HabitStreakTextStyle = styled.p<{isHighStreak: boolean}>
 `
 display: inline-block;
-transform: translate(-21px,-1px);
+transform: translate(-22px, -1px);
 
 ${(props) =>
     props.isHighStreak &&
@@ -55,6 +54,8 @@ cursor: pointer;
 width: fit-content;
 padding: 10px;
 transition: background-color 0.3s;
+max-width: 100%
+white-space: normal;
 
 &:hover {
     background-color: ${COLOR_THEME.SUBSECTION}
@@ -66,22 +67,27 @@ const EditableDescription = styled.textarea
 width: 100%;
 resize: none;
 margin-left: 8px;
+max-width: 100%;
 `
 const LoggedDaysStyle = styled.div
 `
 padding: 10px;
 display: flex;
 justify-content: center;
+transform: translateY(-17px)
 `
 
 const HabitInfoRightSide = styled.div
 `
-padding: 15px;
+margin: 20px 20px 0 0;
+display: flex;
+align-items: center;
 `
 
 const HabitInfoLeftSide = styled.div
 `
-padding: 15px;
+padding: 10px;
+max-width: 50%
 `
 
 const PercentSuccessTextStyle = styled.div
@@ -92,9 +98,20 @@ font-size: 14px;
 
 const CalendarImgStyle = styled.img 
 `
-width: 40px;
-height: 40px;
+width: 35px;
+height: 35px;
 margin-right: 10px;
+`
+
+const PercentWidgetStyle = styled.div
+`
+margin-left: 60px;
+
+`
+
+const LoggedDaysTextStyle = styled.h3
+`
+margin-top: 30px;
 `
 
 const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
@@ -146,28 +163,28 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
 
             <HabitInfoRightSide>
                 <LoggedDaysStyle className="h3">
-                    <CalendarImgStyle src="/calendaricon.png"></CalendarImgStyle>
-                    {habitInfo.numLoggedDays} days
+                    <div className="text-center">
+                        Time Logged
+                        <LoggedDaysTextStyle>
+                            <CalendarImgStyle src="/calendaricon.png"></CalendarImgStyle>
+                            {habitInfo.numLoggedDays} days
+                        </LoggedDaysTextStyle> 
+                    </div>        
                 </LoggedDaysStyle>
-                <div>
-                    <div className="row">
-                        <div className="col-6">
-                            <h4 className="d-flex justify-content-center">Week</h4>
-                            <div className="d-flex justify-content-center">
-                                <PercentIcon percent={habitInfo.percentSuccessWeek}/>
-                            </div>
-                            <PercentSuccessTextStyle className="d-flex justify-content-center">{habitInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
-                        </div>
-                        <div className="col-6">
-                            <h4 className="d-flex justify-content-center">Lifetime</h4>
-                            <div className="d-flex justify-content-center">
-                                <PercentIcon percent={habitInfo.percentSuccessLifetime}/> 
-                            </div>
-                            <PercentSuccessTextStyle className="d-flex justify-content-center">{habitInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
-                        </div>
+                <PercentWidgetStyle className="d-flex flex-column align-items-center">
+                    <h3 className="text-center">Week</h3>
+                    <div className="d-flex justify-content-center">
+                        <PercentIcon percent={habitInfo.percentSuccessWeek}/>
                     </div>
-                </div>
-
+                    <PercentSuccessTextStyle className="text-center">{habitInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
+                </PercentWidgetStyle>
+                <PercentWidgetStyle className="d-flex flex-column align-items-center">
+                    <h3 className="text-center">Lifetime</h3>
+                    <div className="d-flex justify-content-center">
+                        <PercentIcon percent={habitInfo.percentSuccessLifetime}/> 
+                    </div>
+                    <PercentSuccessTextStyle className="text-center">{habitInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
+                </PercentWidgetStyle>
             </HabitInfoRightSide> 
         </MainDivStyle>
     )
