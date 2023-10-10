@@ -22,9 +22,8 @@ const WidgetDivStyle = styled.div
 `
 background-color: ${COLOR_THEME.SECTION};
 margin: 10px;
-padding: 10px 20px 10px 20px;
+padding: 20px;
 min-width: 30%;
-
 `
 
 const LoggedDaysStyle = styled.div
@@ -38,7 +37,8 @@ justify-content: center;
 const PercentSuccessTextStyle = styled.div
 `
 // transform: translateY(-56px);
-font-size: 14px;
+margin-left: 10px;
+font-size: 40px;
 `
 
 const CalendarImgStyle = styled.img 
@@ -70,25 +70,25 @@ const UserWidgetComponent: FC<UserWidgetProps> = ({ userInfo }) => {
                             <CalendarImgStyle src="/calendaricon.png"></CalendarImgStyle>
                             {userInfo.numLoggedDays} days
                         </LoggedDaysTextStyle> 
-                    </div>        
+                    </div>
                 </LoggedDaysStyle>
         </WidgetDivStyle>
         <WidgetDivStyle className="rounded">
                 <PercentWidgetStyle className="d-flex flex-column align-items-center">
                     <h3 className="text-center">Weekly Success</h3>
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center align-items-center">
                         <PercentIcon percent={userInfo.percentSuccessWeek}/>
+                        <PercentSuccessTextStyle className="text-center">{userInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
                     </div>
-                    <PercentSuccessTextStyle className="text-center">{userInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
                 </PercentWidgetStyle>
         </WidgetDivStyle>
         <WidgetDivStyle className="rounded">
                 <PercentWidgetStyle className="d-flex flex-column align-items-center">
                     <h3 className="text-center">Lifetime Success</h3>
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center align-items-center">
                         <PercentIcon percent={userInfo.percentSuccessLifetime}/> 
+                        <PercentSuccessTextStyle className="text-center">{userInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
                     </div>
-                    <PercentSuccessTextStyle className="text-center">{userInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
                 </PercentWidgetStyle>
         </WidgetDivStyle>
         </MainDivStyle>
