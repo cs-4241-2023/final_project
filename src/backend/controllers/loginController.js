@@ -55,6 +55,11 @@ export const authStatus = (req, res) => {
     }
 }
 
+export const unAuthorize = (req, res) => {
+    req.session.isLoggedIn = false;
+    res.status(200).end();
+}
+
 // export const getUsers = async (req, res) => {
 //     try {
 //         const users = await User.find();
