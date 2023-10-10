@@ -1,11 +1,11 @@
-import express from  'express'
-import ViteExpress from 'vite-express'
-import {MongoClient} from 'mongodb'
-import dotenv from 'dotenv'
-import cookieSession from 'cookie-session'
-import bcrypt from 'bcryptjs'
+const express = require('express')
+const viteExpress = require('vite-express')
+const {MongoClient} = require('mongodb')
+const dotEnv = require('dotenv')
+const cookieSession = require('cookie-session')
+const bcrypt = require('bcryptjs')
 
-dotenv.config()
+dotEnv.config()
 
 //Build system Vite will handle static routes (GET requests) for us.
 const app = express()
@@ -221,4 +221,4 @@ app.put('/modifyDirectSupportArtist', async (req, res) => {
   res.end("Direct Supporting Artist has been successfully updated.")
 })
 
-ViteExpress.listen(app, 3000)
+viteExpress.listen(app, 3000)
