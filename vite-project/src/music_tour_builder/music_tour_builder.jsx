@@ -9,7 +9,8 @@ function musicTourBuilder() {
     const [musicTourContinent, setMusicContinent] = useState("") 
     const [musicTourTargetAudienceAgeRange, setMusicTourTargetAudienceAgeRange] = useState("") 
     const [musicTourHeadliningArtist, setMusicTourHeadliningArtist] = useState("") 
-    const [musicTourDirectSupportArtist, setMusicTourDirectSupportArtist] = useState("") 
+    const [musicTourDirectSupportArtist, setMusicTourDirectSupportArtist] = useState("")
+    const [fieldModificationFeedback, setFieldModificationFeedback] = useState("")
 
     useEffect(() => {
         async function getMusicTourName() {
@@ -53,8 +54,8 @@ function musicTourBuilder() {
                 method:'GET'
             })
         
-            const tourTargetAudienceAgeRange = await response.text()
-            setMusicTourTargetAudienceAgeRange(tourTargetAudienceAgeRange)
+            const targetAudienceAgeRange = await response.text()
+            setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange)
         }
         getMusicTourTargetAudienceAgeRange()
     }, [])
@@ -65,8 +66,8 @@ function musicTourBuilder() {
                 method:'GET'
             })
         
-            const tourHeadliningArtist = await response.text()
-            setMusicTourHeadliningArtist(tourHeadliningArtist)
+            const headliningArtist = await response.text()
+            setMusicTourHeadliningArtist(headliningArtist)
         }
         getMusicTourHeadliningArtist()
     }, [])
@@ -77,8 +78,8 @@ function musicTourBuilder() {
                 method:'GET'
             })
         
-            const tourDirectSupportArtist = await response.text()
-            setMusicTourDirectSupportArtist(tourDirectSupportArtist)
+            const directSupportArtist = await response.text()
+            setMusicTourDirectSupportArtist(directSupportArtist)
         }
         getMusicTourDirectSupportArtist()
     }, [])
@@ -89,7 +90,7 @@ function musicTourBuilder() {
             const tourName = document.getElementById("tourname").textContent
             setMusicTourName(tourName)
 
-            const response = await fetch('/modifyMusicTourName', { 
+            const response = await fetch('/modifyTourName', { 
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({
@@ -97,7 +98,8 @@ function musicTourBuilder() {
                 }) 
             })
                 
-            const modificationMessage = await response.text()
+            const modificationFeedback = await response.text()
+            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
@@ -107,7 +109,7 @@ function musicTourBuilder() {
             const tourDuration = document.getElementById("tourduration").textContent
             setMusicTourDuration(tourDuration)
 
-            const response = await fetch('/modifyMusicTourDuration', { 
+            const response = await fetch('/modifyTourDuration', { 
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({
@@ -115,7 +117,8 @@ function musicTourBuilder() {
                 }) 
             })
                 
-            const modificationMessage = await response.text()
+            const modificationFeedback = await response.text()
+            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
@@ -125,7 +128,7 @@ function musicTourBuilder() {
             const tourContinent = document.getElementById("tourcontinent").textContent
             setMusicContinent(tourContinent)
 
-            const response = await fetch('/modifyMusicTourContinent', { 
+            const response = await fetch('/modifyTourContinent', { 
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({
@@ -133,7 +136,8 @@ function musicTourBuilder() {
                 }) 
             })
                 
-            const modificationMessage = await response.text()
+            const modificationFeedback = await response.text()
+            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
@@ -151,7 +155,8 @@ function musicTourBuilder() {
                 }) 
             })
                 
-            const modificationMessage = await response.text()
+            const modificationFeedback = await response.text()
+            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
@@ -169,7 +174,8 @@ function musicTourBuilder() {
                 }) 
             })
                 
-            const modificationMessage = await response.text()
+            const modificationFeedback = await response.text()
+            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
@@ -183,19 +189,20 @@ function musicTourBuilder() {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({
-                    tourname: directSupportArtist
+                    directsupportartist: directSupportArtist
                 }) 
             })
                 
-            const modificationMessage = await response.text()
+            const modificationFeedback = await response.text()
+            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
     return (
         <div>
             <h2>Build a Fantasy Music Tour</h2>
-            <p>The list below provides a high-level format for building a fantasy music tour. To complete a fantasy music tour, information must be entered for the Music Tour Name, Tour Duration, Tour Continent, Target Audience Age Range, Headlining Artist, and Direct Support Artist. To enter information for those fields, edit the text for each item in the list below. Then, submit the entered information to your account using the corresponding button.</p>
-            <p>Important details for entering information:</p>
+            <p>The Fantasy Music Tour Text Editor below provides a high-level format for building a fantasy music tour. To complete a fantasy music tour, information must be entered for the Tour Name, Tour Duration, Tour Continent, Target Audience Age Range, Headlining Artist, and Direct Support Artist. To enter information for those fields, edit the text for each item in the Fantasy Music Tour Text Editor below. Then, submit the entered information to your account using the corresponding button.</p>
+            <p>Important details for entering information into the editor:</p>
             <ul>
                 <li>
                     <p>For the Tour Duration field, enter a number using digits. The duration of a tour must be greater than or equal to 0 days.</p>
@@ -203,13 +210,16 @@ function musicTourBuilder() {
                 <li>
                     <p>For the Target Audience Age Range field, enter the age range in the following format: (#...-#...) where # is a number written in digits. (15-25) is an example of a valid age range entry.</p>
                 </li>
+                <li>
+                    <p>A confirmation message will appear below the Fantasy Music Text Editor when the edited field has been successfully saved to your account.</p>
+                </li>
             </ul>
-            <p>Edit Fantasy Music Tour Outline:</p>
+            <p>Fantasy Music Tour Text Editor:</p>
             <ol>
                 <li>
-                    <p>Music Tour Name:</p>
+                    <p>Tour Name:</p>
                     <p id = "tourname" contentEditable = "true" suppressContentEditableWarning = {true}>{musicTourName}</p>
-                    <button id = "submitMusicTourName">Submit Music Tour Name</button>
+                    <button id = "submitMusicTourName">Submit Tour Name</button>
                 </li>
                 <li>
                     <p>Tour Duration (Number of Days):</p>
@@ -237,6 +247,7 @@ function musicTourBuilder() {
                     <button id = "submitDirectSupportArtist">Submit Direct Supporting Artist</button>
                 </li>
             </ol>
+            <p>{fieldModificationFeedback}</p>
         </div>
     )
 }

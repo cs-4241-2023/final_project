@@ -64,39 +64,37 @@ app.use((req, res, next) => {
 
 //Server-side form validation for username and password
 
-function userInputHasMissingField(un, pw) {
+function usernameOrPasswordHasMissingField(un, pw) {
   if(un.trim().length === 0 || pw.trim().length === 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function getFirstIndexOfWhiteSpaceInString(inputString) { //The indexOf() method returns the position of the first occurrence of a value in a string.
-  return inputString.indexOf(' ')
-}
-
-function userInputHasWhiteSpace(un, pw) {
-  if(getFirstIndexOfWhiteSpaceInString(un) >= 0 || getFirstIndexOfWhiteSpaceInString(pw) >= 0) {
     return true
   } else {
     return false
   }
 }
 
-function verifyUniqueUsername(newUsername, users) { //
+function getFirstIndexOfStringWhiteSpace(inputString) { //The indexOf() method returns the position of the first occurrence of a value in a string.
+  return inputString.indexOf(' ')
+}
+
+function usernameOrPasswordHasWhiteSpace(un, pw) {
+  if(getFirstIndexOfStringWhiteSpace(un) >= 0 || getFirstIndexOfStringWhiteSpace(pw) >= 0) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function getDuplicateUsernameCount(newUsername, usersList) { 
   
   let duplicateUsernameCounter = 0
 
-  if(users.length !== 0) {
-    users.forEach(u => {
+  if(usersList.length !== 0) {
+    usersList.forEach(u => {
       if(u.usern === newUsername) {
         duplicateUsernameCounter++
       }
     })
   }
-  
-  console.log(duplicateUsernameCounter)
 
   return duplicateUsernameCounter
 }
@@ -104,13 +102,13 @@ function verifyUniqueUsername(newUsername, users) { //
 app.post('/userCreation', async (req, res) => {
   const allUsers = await collection.find({}, {usern: 1, _id: 0}).toArray() 
 
-  if(userInputHasMissingField(req.body.username, req.body.password)) {
+  if(usernameOrPasswordHasMissingField(req.body.username, req.body.password)) {
     return res.end("MissingInformation")
   }
-  else if(userInputHasWhiteSpace(req.body.username, req.body.password)) {
+  else if(usernameOrPasswordHasWhiteSpace(req.body.username, req.body.password)) {
     return res.end("WhitespacePresent")
   }
-  else if(verifyUniqueUsername(req.body.username, allUsers) === 0) { 
+  else if(getDuplicateUsernameCount(req.body.username, allUsers) === 0) { 
     try {
       const salt = await bcrypt.genSalt(10) //A salt is a random data that is used as an additional input to a one-way function that hashes data
       const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -127,10 +125,10 @@ app.post('/userCreation', async (req, res) => {
 
 app.post('/userLogin', async (req, res) => {
   
-  if(userInputHasMissingField(req.body.username, req.body.password)) {
+  if(usernameOrPasswordHasMissingField(req.body.username, req.body.password)) {
     return res.end("MissingInformation")
   }
-  else if(userInputHasWhiteSpace(req.body.username, req.body.password)) {
+  else if(usernameOrPasswordHasWhiteSpace(req.body.username, req.body.password)) {
     return res.end("WhitespacePresent")
   } else {
     userData = await collection.find({usern: req.body.username}).toArray()
@@ -156,7 +154,7 @@ app.post('/userLogin', async (req, res) => {
 //GET Requests
 
 app.get('/getMusicTourName', async (req, res) => {
-  res.end(userData[0].fantasymusictour.musictourname)
+  res.end(userData[0].fantasymusictour.tourname)
 })
 
 app.get('/getMusicTourDuration', async (req, res) => {
@@ -181,18 +179,46 @@ app.get('/getMusicTourDirectSupportArtist', async (req, res) => {
 
 //PUT Requests
 
-function updateTourName() {
-
-}
-
-app.put('/modifyMusicTourName', async (req, res) => { 
+app.put('/modifyTourName', async (req, res) => { 
   
-  updateTourName(req.body)
+  userData[0].fantasymusictour.tourname = req.body.tourname
+  await collection.updateOne({usern: userData[0].usern}, {$set: {'fantasymusictour.tourname': userData[0].fantasymusictour.tourname}}) 
+  res.end("Tour Name has been successfully updated.")
+})
 
-  //await collection.updateOne({usern: userData[0].usern}, {$set: {musiclisteninglist: userData[0].musiclisteninglist}})
+app.put('/modifyTourDuration', async (req, res) => { 
+  
+  userData[0].fantasymusictour.tourduration = req.body.tourduration
+  await collection.updateOne({usern: userData[0].usern}, {$set: {'fantasymusictour.tourduration': userData[0].fantasymusictour.tourduration}})
+  res.end("Tour Duration has been successfully updated.")
+})
 
-  //res.writeHead(200, {'Content-Type': 'application/json'})
-  //res.end(JSON.stringify(userData[0].musiclisteninglist))
+app.put('/modifyTourContinent', async (req, res) => { 
+  
+  userData[0].fantasymusictour.tourcontinent = req.body.tourcontinent
+  await collection.updateOne({usern: userData[0].usern}, {$set: {'fantasymusictour.tourcontinent': userData[0].fantasymusictour.tourcontinent}})
+  res.end("Tour Continent has been successfully updated.")
+})
+
+app.put('/modifyTargetAudienceAgeRange', async (req, res) => { 
+  
+  userData[0].fantasymusictour.targetaudienceagerange = req.body.targetaudienceagerange
+  await collection.updateOne({usern: userData[0].usern}, {$set: {'fantasymusictour.targetaudienceagerange': userData[0].fantasymusictour.targetaudienceagerange}})
+  res.end("Target Audience Age Range has been successfully updated.")
+})
+
+app.put('/modifyHeadliningArtist', async (req, res) => { 
+  
+  userData[0].fantasymusictour.headliningartist = req.body.headliningartist
+  await collection.updateOne({usern: userData[0].usern}, {$set: {'fantasymusictour.headliningartist': userData[0].fantasymusictour.headliningartist}})
+  res.end("Headlining Artist has been successfully updated.")
+})
+
+app.put('/modifyDirectSupportArtist', async (req, res) => { 
+  
+  userData[0].fantasymusictour.directsupportartist = req.body.directsupportartist
+  await collection.updateOne({usern: userData[0].usern}, {$set: {'fantasymusictour.directsupportartist': userData[0].fantasymusictour.directsupportartist}})
+  res.end("Direct Supporting Artist has been successfully updated.")
 })
 
 ViteExpress.listen(app, 3000)
