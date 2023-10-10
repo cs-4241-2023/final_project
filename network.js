@@ -25,29 +25,33 @@ class SocketServer {
 const onConnection = function(socket) {
 	socket.on('changeScene', (state) => {
 		const socketEntry = connectedPlayers[socket.id]
-
 		if(socketEntry.room === state.scene) {
 			return
 		}
 
-		socket.leave(connectedPlayers[socket.id].room)
-		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
+		// Alert everyone to the scene change
+		socket.leave(socketEntry.room)
+		socket.broadcast.in(socketEntry.room).emit('kill', socket.id)
 
-		socketEntry.room = state.scene
-		socketEntry.pos = state.pos
-
-		let newObj = {}
-		newObj[socket.id] = socketEntry.pos
-		socket.broadcast.in(state.scene).emit('spawn', newObj)
-		socket.join(state.scene)
-
+		// Spawn all players in destination scene
+		const roomPlayers = {}
 		for(const [id, obj] of Object.entries(connectedPlayers)) {
-			const player = {}
-			player[id] = obj.pos
-			if((obj.room === socketEntry.room) && (id !== socket.id)) {
-				socket.emit('spawn', player)
+			if(obj.room === state.scene) {
+				roomPlayers[id] = obj.pos
 			}
 		}
+		socket.emit('spawn', roomPlayers)
+
+
+		// Spawn player for remote clients in destination scene
+		let newObj = {}
+		newObj[socket.id] = state.pos
+		socket.broadcast.in(state.scene).emit('spawn', newObj)
+		
+		// Join new scene
+		socketEntry.room = state.scene
+		socketEntry.pos = state.pos
+		socket.join(state.scene)
 
 		console.log(`${socket.id}:`, 'changing scene to', state)
 	})
@@ -64,9 +68,29 @@ const onConnection = function(socket) {
 		console.log('User Disconnected:', connectedPlayers)
 	})
 
+	socket.on('setScene', (sceneObj) => {
+		socket.join(sceneObj.scene)
+		connectedPlayers[socket.id].room = sceneObj.scene
+		connectedPlayers[socket.id].pos = sceneObj.pos
+
+		// Set all current players in destination scene
+		const roomPlayers = {}
+		for(const [id, obj] of Object.entries(connectedPlayers)) {
+			if((obj.room === sceneObj.scene) && (id !== socket.id)) {
+				roomPlayers[id] = obj.pos
+			}
+		}
+		socket.emit('spawn', roomPlayers)
+
+		let newObj = {}
+		newObj[socket.id] = sceneObj.pos
+		socket.broadcast.in(sceneObj.scene).emit('spawn', newObj)
+
+		console.log(`${socket.id}:`, 'setting scene to', sceneObj)
+	})
+
 
 	connectedPlayers[socket.id] = { room: '', pos: {} }
-	socket.emit('sceneRequest', {} )
 
 	console.log('User Connected:', connectedPlayers)
 }

@@ -22,7 +22,8 @@ export default sendNetworkMessage
 
 
 // Socket Initialization
-const network = io()
+const network = io('/', {forceNew: true})
+
 network.on('spawn', (players) => {
 	for (const [id, pos] of Object.entries(players)) {
 		spawnRemotePlayer(id, pos)
@@ -32,22 +33,39 @@ network.on('spawn', (players) => {
 network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
 network.on('kill', (id) => removeRemotePlayer(id))
 
+const remotePlayers = {}
 let currentScene = { scene: '', pos: {} }
-network.on('sceneRequest', () => network.emit('changeScene', currentScene))
+network.on('connect', () => {
+	if(currentScene.scene === '') {
+		return
+	}
+
+	for (const id of Object.keys(remotePlayers)) {
+		removeRemotePlayer(id)
+	}
+
+	network.emit('setScene', currentScene)
+	console.log('reconnected')
+})
 
 
 // Private Functions
 
-const remotePlayers = {}
 const spawnRemotePlayer = function (id, positon) {
 	let x = positon.x //|| SPAWN.x
 	let y = positon.y //|| SPAWN.y
+
+	if(remotePlayers[id]) {
+		destroy(remotePlayers[id])
+	}
+
 	remotePlayers[id] = add([
 		sprite("puffle-red"),
 		pos(x, y),
 		scale(0.5, 0.5),
 		anchor("center"),
 	])
+	console.log('Add:', id)
 }
 
 const removeRemotePlayer = function (id) {
