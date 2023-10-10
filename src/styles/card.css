@@ -1,0 +1,40 @@
+.character-card {
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.character {
+  border: 2px solid #000000; /* Border style and color */
+  padding: 5px;
+}
+.hover-content {
+  position: absolute;
+  background-color: #dfe1f3ed; /* Background color for hover content */
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: opacity 0.3s;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.parent-element:hover .hover-content {
+  opacity: 1;
+}
+
+.character-info h4 {
+  text-align: left;
+}
+.action-button {
+  margin: 4px;
+  width: 80px;
+  height: 80px;
+}
