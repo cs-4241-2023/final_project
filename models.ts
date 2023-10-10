@@ -52,7 +52,8 @@ export class UserInfo {
     username: string;
     numLoggedDays: number;
     percentSuccessWeek: number;
-    percentSuccessLifetime?: number;
+    // percentSuccessLifetime?: number;
+    percentSuccessLifetime: number;
     habits: UserHabit[];
 
     constructor(username: string = "", numLoggedDays: number = -1, percentSuccessWeek: number = -1, percentSuccessLifetime: number = -1, habits: UserHabit[] = []) {

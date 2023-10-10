@@ -106,6 +106,10 @@ margin: 10px;
 const ButtonStyle = styled.button 
 `
 background-color: ${COLOR_THEME.BUTTON};
+
+&:hover {
+    background-color: ${COLOR_THEME.SUBSECTION}
+}
 `
 
 const BackButtonImgStyle = styled.img

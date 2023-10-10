@@ -10,16 +10,18 @@ import { Method, fetchServer } from "../../scripts/fetch-server";
 
   
 const StyledButton = styled.button`
-background-color: ${COLOR_THEME.BUTTON};
+background-color: ${COLOR_THEME.SUBSECTION};
 font-family: ${FONT_THEME.BUTTON_FONT};
 display: flex;
-justify-content: center;
-width: 1335px;
-margin: 10px 0px 10px 0px;
-
-
+justify-content: flex-start;
+width: 100%;
+margin-bottom: 10px;
 `
 
+const HabitTextStyle = styled.p
+`
+transform: translateY(10px);
+`
 
 interface HabitWidgetProps {
     habit: UserHabit;
@@ -43,21 +45,11 @@ function HabitWidget({habit}: HabitWidgetProps){
 
 
     return(
-        <StyledButton className=" btn btn-primary border-0" onClick={handleClick}> 
-
-        <p>
-          {habit.name}
-            {/* Streak: {habit.currentStreak}
-            Number of Logged Days: {habit.numLoggedDays}
-            Percent Success Week: {habit.percentSuccessWeek}
-            Percent Success Lifetime: {habit.percentSuccessLifetime} */}
-            </p>
-        
+        <StyledButton className=" btn btn-primary rounded border-0" onClick={handleClick}> 
+          <HabitTextStyle>{habit.name}</HabitTextStyle>
         </StyledButton> 
 
     );
-
-
 }
 
 export default HabitWidget;

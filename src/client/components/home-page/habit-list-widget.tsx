@@ -4,49 +4,43 @@ import { NavigateFunction } from "react-router-dom";
 import styled from "styled-components";
 import CreateHabitButton from "./create-habit-button";
 import HabitWidget from "./habit-widget";
-import "./home-page.css"
+// import "./home-page.css"
 import { UserHabit } from "../../../../models";
+
+interface HabitListWidgetProps {
+    setUpdate: React.Dispatch<React.SetStateAction<number>>;
+    habits: UserHabit[];
+}
 
 const BigWidgetStyle = styled.div`
 background-color: ${COLOR_THEME.SECTION};
 display: flex;
 flex-direction: column;
-align-items: flex-start;
 justify-content: center;
-padding: 20px 10px 20px 10px;
-margin-right: 40px;
-margin-left: 40px;
-
-
-  
+padding: 30px 0 30px 0;
+width: 75%;
 `
-interface HabitListWidgetProps {
-    setUpdate: React.Dispatch<React.SetStateAction<number>>;
-    habits: UserHabit[];
-}
+
+const HabitWidgetStyle = styled.div
+`
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0 2.5% 0 2.5%;
+`
 
 
 function HabitListWidget({setUpdate,habits}: HabitListWidgetProps ){
 
     return( <>
         <BigWidgetStyle className = "rounded">
-
             {habits.map((habit) => (<>
-             <div><HabitWidget habit = {habit}/></div>  
+             <HabitWidgetStyle><HabitWidget habit = {habit}/></HabitWidgetStyle>  
              </>))}
-            <div><CreateHabitButton setUpdate={setUpdate} /></div>
-
+            <div className="d-flex justify-content-center"><CreateHabitButton setUpdate={setUpdate}/></div>
         </BigWidgetStyle> 
-
-
-
-\
-
-
 </>
     );
-
-
 }
 
 export default HabitListWidget;
