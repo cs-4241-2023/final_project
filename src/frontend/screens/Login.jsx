@@ -19,15 +19,15 @@ function Login(props) {
                 <>
                     <form>
                         <input
-                            aria-label={"input-username"}
-                            type={"text"}
-                            placeholder={"username"}
+                            aria-label="input-username"
+                            type="text"
+                            placeholder="username"
                             onChange={(e) => setUsername(e.target.value)}
                         />
                         <input
-                            aria-label={"password-input"}
-                            type={"password"}
-                            placeholder={"password"}
+                            aria-label="password-input"
+                            type="password"
+                            placeholder="password"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <button type={"submit"} onClick={(e) => handleLogin(e)}>
@@ -43,7 +43,7 @@ function Login(props) {
                             setErrorMessage("");
                         }}
                     >
-                        Don't have an account? Click Here!
+                        Don&rsquo;t have an account? Click Here!
                     </button>
                 </>
             ) : (

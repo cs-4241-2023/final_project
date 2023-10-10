@@ -1,127 +1,134 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import "../css/Dashboard.css"
+import GroupPage from "./GroupPage.jsx";
+import GroupList from "../components/GroupList.jsx";
+import AddGroupForm from "../components/AddGroupForm.jsx";
+import Header from "../components/Header.jsx";
 
 function Dashboard() {
-    const [groupHTML, setGroupHTML] = React.useState([]);
-    const [addGroupPage, setAddGroupPage] = React.useState(<></>);
-    const [collectionName, setCollectionName] = React.useState("TestUserCollection"); // TODO: Brandon, however you implement authentication set this variable to the correct collection name
-    const [dataChanged, setDataChanged] = React.useState(false);
+    const [groups, setGroups] = useState([]);
+    const [selectedGroupPage, setGroupPage] = useState(null);
+    const [isGroupFormVisible, setGroupFormVisiblity] = useState(false);
+    const [hasDataChanged, setDataChanged] = useState(false);
 
-    React.useEffect( () => {
-        getCurrentCollection(collectionName).then((data) => {
+    useEffect(() => {
+        getGroupList().then(data => setGroups(data))
+    }, [hasDataChanged]);
 
-            let groupArr = []
+    async function getGroupList() {
+        try {
+            let response = await fetch("/groups", {
+                method: "GET"
+            });
 
-            data.forEach((group) => {
-                let listItems = []
-                group.groupUsers.split(",").forEach((user) => {
-                    listItems.push(<li key={listItems.length}>{user.trim()}</li>);
-                });
+            if (!response.ok) console.log("404: Collection Not Found");
 
-                groupArr.push(
-                            <div className={"group"} key={groupArr.length}>
-                                <h3>{group.groupName}</h3>
-                                <p>{group.groupDescription}</p>
-                                <ul>
-                                    {listItems}
-                                </ul>
-                                <p>Possible Group Meeting Times: {group.meetingTimes}</p>
-                                <button className={"group-btn"} type={"submit"} onClick={() => {
-                                    // TODO: Switch to group page
-                                }}>Go To Group Page</button>
-                                <button className={"delete-btn"} type={"submit"} onClick={(e) => deleteGroup(e, group._id)}>Delete Group</button>
-                            </div>
-                    );
-                    setGroupHTML(groupArr);
-                    setDataChanged(false);
-                });
-            }
-        );
-    }, [dataChanged]);
-
-    async function getCurrentCollection() {
-        let result = await fetch("/get-collection", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ requestedCollection: collectionName }),
-        });
-        if (result.status !== 404) {
-            return await result.json();
-        } else {
-            console.log("404: Collection Not Found!");
-            return [];
+            const data = await response.json();
+            return data
+        } catch (error) {
+            console.error(error);
         }
     }
 
     async function showNewGroupPage(e) {
         e.preventDefault();
-        setAddGroupPage(
+        setGroupFormVisiblity(
             <div className={"add-group-page"}>
                 <h2>Add a Group</h2>
                 <form onSubmit={(e) => addGroup(e)}>
-                    <input id={"groupName"} type={"text"} placeholder={"group name"}/>
-                    <input id={"groupDescription"} type={"text"} placeholder={"group description"}/>
-                    <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"}/>
-                    <button onClick={()=> {setAddGroupPage(<></>)}}>Cancel</button>
+                    <input id={"groupName"} type={"text"} placeholder={"group name"} />
+                    <input id={"groupDescription"} type={"text"} placeholder={"group description"} />
+                    <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"} />
+                    <button onClick={() => { setGroupFormVisiblity(<></>) }}>Cancel</button>
                     <button type={"submit"}>Submit</button>
                 </form>
             </div>
         );
     }
 
-    async function addGroup(e) {
-        e.preventDefault()
-
-        let form = e.target.elements;
-
-        if(form.groupName.value === "" || form.groupDescription.value === "" || form.groupUsers.value === "") {
+    async function addGroup(form) {
+        if (!form.groupName || !form.groupDescription || !form.groupUsers) {
             alert("One or more fields are empty");
         } else {
+            const groupUsers = form.groupUsers.split(",").map(user => user.trim())
             let groupJSON = JSON.stringify({
-                collection: collectionName,
-                groupName: form.groupName.value,
-                groupDescription: form.groupDescription.value,
-                groupUsers: form.groupUsers.value,
+                collection: "Groups",
+                groupName: form.groupName,
+                groupDescription: form.groupDescription,
+                groupUsers: groupUsers,
                 meetingTimes: "TBD"
             });
-            await fetch("/add-group", {
+            await fetch("/groups", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
             });
-            setDataChanged(true);
-            setAddGroupPage(<></>)
+            setDataChanged(!hasDataChanged)
+            setGroupFormVisiblity(false)
         }
     }
 
-    async function deleteGroup(e, assignmentID) {
-        e.preventDefault();
+    async function deleteGroup(groupId) {
+        try {
+            const response = await fetch(`/groups/${groupId}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" }
+            })
 
-        await fetch("/delete-group", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({collection: collectionName, _id: assignmentID })
-        });
-        setDataChanged(true);
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error(`Error deleting document: ${errorData.message}`);
+            } else {
+                console.log('Document deleted successfully');
+                setDataChanged(!hasDataChanged);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    return <>
-        <button className={"profile-btn"} type={"submit"} onClick={() => {
-            // TODO: Switch to accounts page
-        }}>Profile/Settings</button>
-        <header className="dashboard--header">
-            <h1>RendezView Dashboard</h1>
-            <p>Welcome to RendezView. Please select an existing group or create a new one.</p>
-        </header>
+    const handleSelectGroup = (groupId) => {
+        const groupObj = groups.find(group => group._id === groupId)
 
+        const groupPageComp =
+            <GroupPage
+                group={groupObj}
+                selectGroup={handleSelectGroup}
+                deleteGroup={deleteGroup}
+            />
+
+        setGroupPage(groupPageComp);
+    }
+
+    return (<>
+        <Header />
         <main>
-            <h2>Tracked Groups</h2>
-            {addGroupPage}
-            <div className={"group-container"}>
-                 {groupHTML}
-            </div>
-            <button className={"add-group-btn"} type={"submit"} onClick={(e) => showNewGroupPage(e)}>Create New Group</button>
+            {selectedGroupPage ? (
+                <div className={"group-container"}>
+                    {selectedGroupPage}
+                    <button className={"back-btn"} type={"submit"} onClick={() => setGroupPage(null)}>
+                        Back
+                    </button>
+                </div>
+            ) : (
+                <div>
+                    <button
+                        className={"add-group-btn"}
+                        type={"submit"}
+                        onClick={(e) => showNewGroupPage(e)}
+                    >
+                        Create New Group
+                    </button>
+                    <h2>Tracked Groups</h2>
+
+                    {isGroupFormVisible &&
+                        <AddGroupForm addGroup={addGroup} onCancel={() => setGroupFormVisiblity(false)} />
+                    }
+                    <GroupList groups={groups} selectGroup={handleSelectGroup} deleteGroup={deleteGroup} />
+                </div>
+            )}
         </main>
-    </>
+    </>)
 }
 
 export default Dashboard;
