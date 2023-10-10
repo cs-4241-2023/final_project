@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./login.jsx";
 import Homepage from "./homepage.jsx";
+import UserPage from "./userpage.jsx"
 import "./css/theming.css";
 
 // Importing the Bootstrap CSS
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   { path: "/index", element: <Login /> },
   { path: "/homepage", element: <Homepage /> },
+  { path: "/userpage", element: <UserPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

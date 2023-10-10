@@ -166,6 +166,12 @@ app.get("/getData", async (req, res) => {
   res.send(body);
 });
 
+app.get("/getProfile", async(req, res) => {
+  const result = await User.find({user_id: req.session.user._id});
+  let body = JSON.stringify(result);
+  res.send(body);
+})
+
 app.post("/add", async (req, res) => {
   let data = req.body;
   debugger;
@@ -206,6 +212,24 @@ app.post("/update", async (req, res) => {
   });
   console.log("should have updated");
   res.redirect("/getData");
+});
+
+app.post("/updateProfile", async (req, res) => {
+  let data = req.body;
+  console.log("edited data: ", data);
+  data.map(async (item) => {
+    const result = await User.updateOne(
+      { user_id: item.user_id },
+      {
+        $set: {
+          name: item.name,
+        },
+      }
+    );
+    console.log("result:", result);
+  });
+  console.log("should have updated");
+  res.redirect("/getProfile");
 });
 
 const logger = (req, res, next) => {
