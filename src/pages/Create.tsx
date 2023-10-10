@@ -5,7 +5,7 @@ import axios from "axios";
 
 import "../styles/splash.css"
 import "../styles/create.css"
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Bio from "../components/Bio"
 import Build from "../components/Build"
@@ -19,18 +19,20 @@ import { createService } from '../services/create.service';
 
 
 
-const CreatePage: React.FC = () => {
+const CreatePage: React.FC = (raw) => {
+    const location = useLocation();
+    console.log(location.state);
     const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [skills, setSkills] = useState('');
-    const [food, setFood] = useState('');
-    const [slogan, setSlogan] = useState('');
-	const [viewing, setViewing] = useState("Build");
-    const [color, setColor] = useState("");
-    const [face, setFace] = useState("");
-    const [hat, setHat] = useState("");
-    const [shirt, setShirt] = useState("");
-    const [id, setId] = useState<string | null>(null);
+    const [viewing, setViewing] = useState("Build");
+    const [name, setName] = useState(location.state.name ?? '');
+    const [skills, setSkills] = useState(location.state.skills ?? '');
+    const [food, setFood] = useState(location.state.food ?? '');
+    const [slogan, setSlogan] = useState(location.state.slogan ?? '');
+    const [color, setColor] = useState(location.state.color ?? '');
+    const [face, setFace] = useState(location.state.face ?? '');
+    const [hat, setHat] = useState(location.state.hat ?? '');
+    const [shirt, setShirt] = useState(location.state.shirt ?? '');
+    const [id, setId] = useState<string | null>(location.state.character_id ?? null);
     
     const [snackbarVisible, setIsSnackbarVisible] = useState(false);
     const [user, setUser] = useState<User | null>(null);

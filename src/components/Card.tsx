@@ -25,6 +25,10 @@ const Card: React.FC<CharacterCardProps> = ({
     return new Promise<HTMLImageElement>((resolve) => {
       const img = new Image();
       img.src = src;
+      // Don't hang waiting to load the image when the part has no image
+      if (src === "") {
+        resolve(img);
+      }
       img.onload = () => {
         resolve(img);
       };
