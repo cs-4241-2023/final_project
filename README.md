@@ -10,7 +10,7 @@ The technologies we used for this project were: React (with TypeScript), Vite, E
 
 Our responsibilites:
 
-- Isabella Pabon - created the build page, saving, debugging.
+- Isabella Pabon - created the bio page, saving, debugging.
 
 - Mirandi McCormick - responsible for all character art and images for character creation
 
