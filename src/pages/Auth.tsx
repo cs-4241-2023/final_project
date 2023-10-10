@@ -3,7 +3,7 @@ import { Login, Register } from '../components/auth';
 import { Button, Container, Paper, Box } from '@mui/material';
 
 const AuthPage: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const toggleForm = () => {
     setIsLogin((prev) => !prev);
