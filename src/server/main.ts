@@ -101,7 +101,7 @@ async function parseUserInfo(userID: mongoose.Types.ObjectId, currentDay: Day): 
     loggedDaysWeek += habit.numLoggedDaysWeek;
     successesWeek += habit.numSuccessesWeek;
   }
-  userInfo.percentSuccessWeek = (loggedDaysWeek === 0) ? 0 : (successesWeek / loggedDaysWeek);
+  userInfo.percentSuccessWeek = (loggedDaysWeek === 0) ? 0 : +(((successesWeek / loggedDaysWeek)*100).toFixed(2));
   
   return userInfo;
 }

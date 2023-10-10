@@ -14,9 +14,7 @@ import HabitWidget from "./habit-widget";
   font-family: ${FONT_THEME.BUTTON_FONT};
   display: flex;
   justify-content: center;
-  width: 1335px;
-  margin: 10px 0px 10px 0px;
-  
+  width: 95%
   `
   interface CreateHabitButtonProps {
     setUpdate: React.Dispatch<React.SetStateAction<number>>;
@@ -50,7 +48,7 @@ function CreateHabitButton({setUpdate}: CreateHabitButtonProps){
     return( <>
 
         <StyledButton className=" btn btn-primary border-0" onClick={handleCreateHabit}> 
-        + Create New Habit
+          + Create New Habit
         </StyledButton>     
 
         </>  

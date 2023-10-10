@@ -7,6 +7,7 @@ import { Loading } from "../css-components/loading";
 import PercentIcon from "../shared-components/percent-icon";
 import HabitListWidget from "./habit-list-widget"
 import HabitWidget from "./habit-widget";
+import UserWidgetComponent from "./user-widgets";
 
 
 
@@ -54,13 +55,13 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
     setUsername(userInfo.username);
     
     return <>
-        <PercentIcon percent={0.75} />
+        {/* <PercentIcon percent={0.75} />
         <p>Home Page</p>
         <p>Username: {userInfo.username}</p>
         <p>Percent Success This Week: {userInfo.percentSuccessWeek}</p>
         <p>Percent Success Lifetime: {userInfo.percentSuccessLifetime}</p>
         <p>Number of Logged Days: {userInfo.numLoggedDays}</p>
-        <p>Habits: {userInfo.habits.toString()}</p>
+        <p>Habits: {userInfo.habits.toString()}</p> */}
 {/*         
         {
             userInfo.habits.map((habit) => (<>
@@ -73,9 +74,13 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
             </ul>
             </>))
         } */}
+        <div className="d-flex justify-content-center">
+            <UserWidgetComponent userInfo={userInfo}/>
+        </div>
 
-        <HabitListWidget setUpdate={setUpdate} habits={userInfo.habits}/>
-
+        <div className="d-flex justify-content-center mb-5">
+            <HabitListWidget setUpdate={setUpdate} habits={userInfo.habits}/>
+        </div>
 
         {/* {
 
