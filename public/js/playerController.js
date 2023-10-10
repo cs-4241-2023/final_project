@@ -1,7 +1,7 @@
 import sendNetworkMessage from "./clientNetworking.js";
 
 const SPEED = 2
-const LOBBY_SPAWN = { x: 80, y: 40 }
+const LOBBY_SPAWN = { x: 520, y: 400 }
 const DOJO_SPAWN = { x: 380, y: 415 }
 
 kaboom({
@@ -25,15 +25,17 @@ loadSprite("puffle-red", "../sprites/puffle-red.png")
 scene("lobby", () => {
 
 	let BUILDING_LOCATIONS = {
-		puffleShop: new Vec2(300, 300),
-		dojo: new Vec2(512, 150),
-		abandoned: new Vec2(724, 300),
+		puffleShop: new Vec2(285, 320),
+		dojo: new Vec2(520, 150),
+		abandoned: new Vec2(739, 320),
 	}
 
 	loadSprite("vista", "../background/vista.png")
 	loadSprite("dojo", "../background_interactables/dojoBuilding.png")
 	loadSprite("abandoned", "../background_interactables/abandonedBuilding.png")
 	loadSprite("puffleShop", "../background_interactables/puffleShop.png")
+	loadSprite("dojoHighlight", "../background_interactables/highlight/dojoBuildingHighlight.png")
+	loadSprite("puffleShopHighlight", "/background_interactables/highlight/puffleShopHighlight.png")
 
 
 	// compose the player game object from multiple components and add it to the game
@@ -53,7 +55,7 @@ scene("lobby", () => {
 	}
 
 	function spawnBuildings() {
-		add([
+		const dojoBuilding = add([
 			sprite("dojo"),
 			pos(BUILDING_LOCATIONS.dojo),
 			z(layers.bg),
@@ -62,7 +64,7 @@ scene("lobby", () => {
 			"dojoBuilding",
 		])
 
-		add([
+		const abandonedBuilding = add([
 			sprite("abandoned"),
 			pos(BUILDING_LOCATIONS.abandoned),
 			z(layers.bg),
@@ -71,7 +73,7 @@ scene("lobby", () => {
 			"abandonedBuilding",
 		])
 
-		add([
+		const puffleShop = add([
 			sprite("puffleShop"),
 			pos(BUILDING_LOCATIONS.puffleShop),
 			z(layers.bg),
@@ -79,6 +81,12 @@ scene("lobby", () => {
 			area(),
 			"puffleShop",
 		])
+		
+		dojoBuilding.onHover(() => highlight(dojoBuilding, "dojoHighlight"))
+		dojoBuilding.onHoverEnd(() => unHighlight(dojoBuilding, "dojo"))
+
+		puffleShop.onHover(() => highlight(puffleShop, "puffleShopHighlight"))
+		puffleShop.onHoverEnd(() => unHighlight(puffleShop, "puffleShop"))
 	}
 
 	function spawnVista() {
@@ -91,7 +99,7 @@ scene("lobby", () => {
 
 	let curTween = null
 	//movement
-	onMousePress("right", () => {
+	onMousePress("left", () => {
 		if (curTween) {
 			curTween.cancel()
 		}
@@ -130,15 +138,17 @@ scene("dojo", () => {
 		2: new Vec2(675, 580),
 		3: new Vec2(590, 520),
 	}
-	const DOOR_LOCATION = new Vec2(DOJO_SPAWN.x, DOJO_SPAWN.y - 80)
+	const DOOR_LOCATION = new Vec2(DOJO_SPAWN.x, DOJO_SPAWN.y - 50)
 
-	loadSprite("dojo-mat", "../background_interactables/mat.png")
-	loadSprite("background-dojo", "../background/dojo.png")
-	loadSprite("dojo-door", "../background_interactables/door.png")
+	loadSprite("dojoMat", "../background_interactables/mat.png")
+	loadSprite("backgroundDojo", "../background/dojo.png")
+	loadSprite("dojoDoor", "../background_interactables/dojoDoor.png")
+	loadSprite("dojoMatHighlight", "/background_interactables/highlight/matHighlight.png")
+	loadSprite("dojoDoorHighlight", "/background_interactables/highlight/dojoDoorHighlight.png")
 
 	//add background
 	const background = add([
-		sprite("background-dojo"),
+		sprite("backgroundDojo"),
 		pos(0, 0),
 		z(layers.bg)
 	])
@@ -156,7 +166,7 @@ scene("dojo", () => {
 	let curTween = null
 
 	//movement
-	onMousePress("right", () => {
+	onMousePress("left", () => {
 
 		if (curTween) {
 			curTween.cancel()
@@ -179,7 +189,7 @@ scene("dojo", () => {
 	})
 
 	//interact
-	onClick("dojo-door", (door) => {
+	onClick("dojoDoor", (door) => {
 		if (curTween) {
 			curTween.cancel()
 		}
@@ -200,41 +210,46 @@ scene("dojo", () => {
 	}
 
 	function spawnDoor() {
-		add([
-			sprite("dojo-door"),
+		let door = add([
+			sprite("dojoDoor"),
 			pos(DOOR_LOCATION),
-			"dojo-door",
+			"dojoDoor",
 			z(layers["bg-obj"]),
 			anchor("center"),
 			area(),
 		])
+
+		door.onHover(() => highlight(door, "dojoDoorHighlight"))
+		door.onHoverEnd(() => unHighlight(door, "dojoDoor"))
 	}
 
 	function spawMats() {
 		for (let i = 0; i < 4; i++) {
-			add([
-				sprite("dojo-mat"),
+			let mat = add([
+				sprite("dojoMat"),
 				pos(MAT_LOCATION[i]),
 				"mat",
 				z(layers["bg-obj"]),
 				anchor("center"),
 				area()
 			])
-		}
-	}
 
-	function interact(tag) {
-		switch (tag) {
-			case "dojo-door":
-				go("lobby")
-				break;
-			case "dojo-mat":
-				break;
-			default:
-				break;
+			mat.onHover(() => highlight(mat, "dojoMatHighlight"))
+			mat.onHoverEnd(() => unHighlight(mat, "dojoMat"))
 		}
 	}
 })
+
+/*Utility Functions*/
+function highlight(obj, spriteName){
+	obj.use(sprite(spriteName))
+	obj.use(scale(1.05))
+}
+
+function unHighlight(obj, spriteName){
+	obj.use(sprite(spriteName))
+	obj.use(scale(1))
+}
 
 go("lobby")
 sendNetworkMessage('changeScene', { scene: 'lobby', pos: LOBBY_SPAWN })
