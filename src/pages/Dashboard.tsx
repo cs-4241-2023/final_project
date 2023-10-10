@@ -6,6 +6,7 @@ import { User } from "../types/auth.types";
 import "../styles/dashboard.css";
 import { useNavigate } from "react-router-dom";
 import { deleteService } from "../services/delete.service";
+import Button from '@mui/material/Button';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -118,8 +119,9 @@ const Dashboard: React.FC = () => {
               />
             ))}
         </div>
-        <button
+        <Button
           className="create-button"
+          variant="contained"
           onClick={() => {
             navigate("/create", {
               state: {
@@ -128,8 +130,8 @@ const Dashboard: React.FC = () => {
             });
           }}
         >
-          Create New Character!
-        </button>
+          Create A New Character!
+        </Button>
       </div>
     </>
   );
