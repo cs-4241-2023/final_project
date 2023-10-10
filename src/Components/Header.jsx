@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../../App.css";
 
-function Header() {
+function Header(props) {
   return (
     <>
       <div className="header">
@@ -12,10 +12,11 @@ function Header() {
           </div>
         </div>
         <div className="weather-card">
-          <span className="material-symbols-outlined">sunny</span>
           <div className="weather-info">
-            <div className="degrees">78°F</div>
-            <div className="weather-description">Sunny</div>
+            <div className="degrees">{props.weather.current.temp_f}°F</div>
+            <div className="weather-description">
+              {props.weather.current.condition.text}
+            </div>
           </div>
         </div>
       </div>
