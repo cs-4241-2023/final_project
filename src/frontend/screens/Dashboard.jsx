@@ -39,6 +39,17 @@ function Dashboard() {
             alert("One or more fields are empty");
         } else {
             const groupUsers = form.groupUsers.split(",").map(user => user.trim())
+            for (const user of groupUsers) {
+                let res = await fetch("/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user })
+                });
+                if(res.status === 404) {
+                    alert("One or more users could not be found");
+                    return;
+                }
+            }
             let groupJSON = JSON.stringify({
                 collection: "Groups",
                 groupName: form.groupName,

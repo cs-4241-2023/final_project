@@ -1,4 +1,6 @@
-import Group from "../models/Group.js"; // Import your Mongoose Group model
+import Group from "../models/Group.js";
+import User from "../models/User.js"
+import {request, response} from "express"; // Import your Mongoose Group model
 
 export const getGroupList = async (request, response) => {
     try {
@@ -48,3 +50,19 @@ export const deleteGroup = async (request, response) => {
         response.status(500).end();
     }
 };
+
+export const lookupUser = async (request, response) => {
+    let user = request.body.username;
+    console.log("looking for: " + user)
+
+    const foundUser = await User.findOne({username: user});
+
+    console.log("Found: " + foundUser)
+
+
+    if(foundUser) {
+        response.status(200).end();
+    } else {
+        response.status(404).end();
+    }
+}
