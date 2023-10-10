@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Signup from "./Signup";
 
 function Login(props) {
@@ -9,6 +9,22 @@ function Login(props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [signUp, setSignUp] = useState(false);
     const [headerMessage, setHeaderMessage] = useState("Login To RendezView");
+
+    React.useEffect(() => {
+        fetch("/auth", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(r => {
+            if(r.status === 200) {
+                setLoggedIn(true)
+            } else {
+                setLoggedIn(false)
+            }
+        });
+    }, []);
+
     return (
         <>
             <h1>{headerMessage}</h1>

@@ -5,7 +5,6 @@ import "./css/styles.css"
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
-    console.log("LOGGED IN:", loggedIn)
 
     return (
         <div className="container">
