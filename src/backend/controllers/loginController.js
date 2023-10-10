@@ -47,7 +47,6 @@ export const signupUser = async (req, res) => {
 };
 
 export const authStatus = (req, res) => {
-    console.log(req.session.isLoggedIn)
     if(req.session.isLoggedIn) {
         res.status(200).end();
     } else {

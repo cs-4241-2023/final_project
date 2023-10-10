@@ -53,11 +53,8 @@ export const deleteGroup = async (request, response) => {
 
 export const lookupUser = async (request, response) => {
     let user = request.body.username;
-    console.log("looking for: " + user)
 
     const foundUser = await User.findOne({username: user});
-
-    console.log("Found: " + foundUser)
 
 
     if(foundUser) {
