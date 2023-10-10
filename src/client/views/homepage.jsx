@@ -5,8 +5,27 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Stack, Modal } from "react-bootstrap";
 
 function Homepage() {
-  //   const [events, setEvents] = useState([]);
-  const events = [1, 12, 123, 1234];
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    const tempEvent = [
+      {
+        title: "GBM",
+        date: new Date("2/2/2023"),
+        description: "Yippee!",
+      },
+    ];
+    setEvents(tempEvent);
+    return;
+    fetch("/get", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("recieved data: ", data);
+        setEvents(data);
+      });
+  }, []);
   return (
     <div>
       <h1>Upcoming Events</h1>
@@ -15,18 +34,24 @@ function Homepage() {
           <div key={self.crypto.randomUUID()}>
             <div
               className="modal show"
-              style={{ display: "block", position: "initial" }}
+              style={{
+                display: "block",
+                position: "initial",
+                minWidth: "600px",
+              }}
             >
               <Modal.Dialog>
                 <Modal.Header>
-                  <Modal.Title>event name</Modal.Title>
+                  <Modal.Title>{event.title}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                  <p>{event}</p>
+                  <p>{event.description}</p>
                 </Modal.Body>
 
-                <Modal.Footer>Reeeeee</Modal.Footer>
+                <Modal.Footer>
+                  {"Date: " + event.date.toDateString()}
+                </Modal.Footer>
               </Modal.Dialog>
             </div>
           </div>

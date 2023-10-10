@@ -5,14 +5,27 @@ import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 
 function AttendancePage() {
-  //   const [events, setEvents] = useState([]);
-  //   const [dates, setDates] = useState([]);
-  const events = [1, 12, 123, 1234];
-  const dates = [
-    new Date("1/1/2023"),
-    new Date("2/1/2023"),
-    new Date("3/1/2023"),
-  ];
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    const tempEvent = [
+      {
+        title: "GBM",
+        date: new Date("2/2/2023"),
+        description: "Yippee!",
+      },
+    ];
+    setEvents(tempEvent);
+    return;
+    fetch("/get", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("recieved data: ", data);
+        setEvents(data);
+      });
+  }, []);
   return (
     <div>
       <h1>Attendance Tracking</h1>
@@ -36,9 +49,9 @@ function AttendancePage() {
 
           <Form.Select>
             <option>GBM Date</option>
-            {dates.map((date) => (
+            {events.map((event) => (
               <option key={self.crypto.randomUUID()}>
-                {date.toISOString()}
+                {event.title + ": " + event.date.toDateString()}
               </option>
             ))}
           </Form.Select>
@@ -60,12 +73,11 @@ function AttendancePage() {
       >
         <Form.Group className="mb-3">
           <Form.Label htmlFor="dateSubmission">Date Completed</Form.Label>
-
           <Form.Select>
             <option>GBM Date</option>
-            {dates.map((date) => (
+            {events.map((event) => (
               <option key={self.crypto.randomUUID()}>
-                {date.toISOString()}
+                {event.title + ": " + event.date.toDateString()}
               </option>
             ))}
           </Form.Select>

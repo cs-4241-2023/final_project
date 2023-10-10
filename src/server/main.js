@@ -1,7 +1,7 @@
 import "dotenv/config";
 import mongoose from "mongoose";
 import User from "../models/User.js";
-import Submission from "../models/hourSubmission.js";
+import Submission from "../models/HourSubmission.js";
 import express from "express";
 import session from "express-session";
 import ViteExpress from "vite-express";
@@ -12,13 +12,11 @@ import Crypto from "crypto";
 // const cookieParser = require("cookie-parser");
 const app = express();
 
-// ViteExpress.config({ mode: process.env.NODE_ENV });
+ViteExpress.config({ mode: process.env.NODE_ENV });
 
 app.use(express.static("src/"));
+// app.use(ViteExpress.static("/"));
 app.use(express.static("./index.html"));
-// app.use(ViteExpress.static("src/"));
-// app.use(ViteExpress.static("./index.html"));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -100,7 +98,7 @@ app.get(
   async function (req, res) {
     req.session.user = await User.findById(req.session.passport.user._id);
     console.log(req.session);
-    res.redirect("/home");
+    res.redirect("/homepage");
   }
 );
 //__________________________________________________________________________
@@ -152,7 +150,7 @@ app.get("/login", function (req, res) {
   if (req.session.login == true) {
     console.log("Signing in normally");
     console.log(req.session);
-    res.redirect("/home");
+    res.redirect("/homepage");
   }
 });
 
