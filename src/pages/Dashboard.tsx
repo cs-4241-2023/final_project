@@ -61,9 +61,9 @@ const Dashboard: React.FC = () => {
       },
     });
   };
-  const exportCanvasImage = (characterId: string, characterName: string) => {
+  const exportCanvasImage = (character: Character) => {
     const canvas = document.getElementById(
-      `canvas-${characterId}`
+      `canvas-${character._id}`
     ) as HTMLCanvasElement;
 
     if (!canvas) {
@@ -75,21 +75,24 @@ const Dashboard: React.FC = () => {
       console.error("Canvas context not available");
       return;
     }
-    context.font = "16px Arial";
+    context.font = "14px Arial";
     context.fillStyle = "black"; // You can set the text color
     context.textAlign = "center"; // Center the text horizontally
     context.textBaseline = "middle"; // Center the text vertically
 
     // Calculate the position to center the text
     const x = canvas.width / 2;
-    const y = canvas.height / 2;
+    const y = canvas.height / 4;
 
     // Add the character's name to the canvas
-    context.fillText(characterName, x, y);
+    context.fillText(character.name, x, y - 30);
+    context.fillText("Skills:  " + character.skills, x, y * 3 + 25);
+    context.fillText("Foods:  " + character.food, x, y * 3 + 40);
+    context.fillText("Slogan:  " + character.slogan, x, y * 3 + 55);
 
     const a = document.createElement("a");
     a.href = canvas.toDataURL();
-    a.download = `${characterName}_image.png`;
+    a.download = `${character.name}_image.png`;
     a.click();
   };
 
@@ -115,9 +118,7 @@ const Dashboard: React.FC = () => {
                 character={character}
                 onCharacterDelete={() => handleDeleteCharacter(character._id)}
                 onCharacterEdit={() => handleEditCharacter(character)}
-                onCharacterExport={() =>
-                  exportCanvasImage(character._id, character.name)
-                }
+                onCharacterExport={() => exportCanvasImage(character)}
               />
             ))}
         </div>
