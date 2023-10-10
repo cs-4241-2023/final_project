@@ -4,7 +4,6 @@ import axios from "axios";
 import { Character } from "../types/character.types";
 import { User } from "../types/auth.types";
 import "../styles/dashboard.css";
-import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
