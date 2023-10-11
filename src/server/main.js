@@ -2,6 +2,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Submission from "../models/hourSubmission.js";
+import Events from "../models/Event.js"
 import express from "express";
 import session from "express-session";
 import ViteExpress from "vite-express";
@@ -169,6 +170,14 @@ app.get("/getData", async (req, res) => {
 app.get("/getProfile", async(req, res) => {
   console.log(req.session.user._id);
   const result = await User.find({_id: req.session.user._id});
+
+  let body = JSON.stringify(result);
+  console.log("gotten data: ", result);
+  res.send(body);
+})
+
+app.get("/getEvents", async(req, res) => {
+  const result = await Events.find();
 
   let body = JSON.stringify(result);
   console.log("gotten data: ", result);

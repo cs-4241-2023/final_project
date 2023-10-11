@@ -158,6 +158,9 @@ function UserPage() {
             <Nav.Link href="/userpage" className="primary">
               Profile
             </Nav.Link>
+            <Nav.Link href="/eventspage" className="tertiary">
+              Events
+            </Nav.Link>
             {/* Add more Nav.Link items as needed */}
           </Nav>
           <hr />

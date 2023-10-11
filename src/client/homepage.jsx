@@ -159,6 +159,9 @@ function Homepage() {
             <Nav.Link href="/userpage" className="secondary">
               Profile
             </Nav.Link>
+            <Nav.Link href="/eventspage" className="tertiary">
+              Events
+            </Nav.Link>
             {/* Add more Nav.Link items as needed */}
           </Nav>
           <hr />
