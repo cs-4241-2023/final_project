@@ -226,9 +226,10 @@ body {
   border-radius: 15px;
   background: rgba(255, 255, 153, 1);
   display: flex;
-  width: 429px;
+  width: fit-content;
   height: 720px;
-  padding: 15px 15px;
+  width: 500px;
+  padding: 15px;
   flex-direction: column;
   align-items: center;
   gap: 10px;
@@ -247,22 +248,28 @@ body {
 
 .Schedule ul {
   list-style: none;
-  width: 100%;
+  width: auto;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.Schedule li {
+.ScheduleItem {
   border-radius: 15px;
   background: #FFF740;
   display: flex;
   width: auto;
-  align-items: center;
+  align-items: top;
   flex-direction: row;
   justify-content: space-between;
   font-size: 25px;
+  padding: 15px;
   margin: 10px;
-  padding: 20px;
 }
 
 .ScheduleHeading {
@@ -271,7 +278,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
+  width: auto;
   height: auto;
   gap: 10px;
 }
@@ -293,15 +300,59 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: auto;
   height: auto;
   gap: 10px;
 }
 
-.ScheduleHeading button:hover {
-  color: #ff0000;
+.FormDivider {
+    display: block;
+    height: 1px;
+    width: 80%;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+    text-align: center;
 }
+
 
 .hidden {
   display: none;
+}
+
+.AddFormInputs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+}
+
+.AddFormInputs input {
+  width: auto;
+}
+
+.AddFormButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+}
+
+.AddFormButtons button {
+  background-color: #FFF210;
+  border-radius: 5px;
+  color: #000;
+  border-color: #000;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  margin: 10px;
+}
+
+.AddFormButtons button:hover {
+  background-color: #c2b90d;
+  color: #000;
 }

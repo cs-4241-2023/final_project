@@ -28,11 +28,15 @@ function Schedule(props) {
     return sortedSchedule;
   }
 
+  function showAddForm() {
+    document.getElementById("addForm").classList.remove("hidden");
+  }
+
   return (
     <div className="Schedule">
       <div className="ScheduleHeading">
         <h1>Schedule</h1>
-        <button onClick={(e) => props.onAdd({"subject": "Test", "time": "3:30pm"})}>
+        <button onClick={showAddForm}>
           <svg
             width="21"
             height="21"
@@ -60,7 +64,18 @@ function Schedule(props) {
         </button>
       </div>
       <ul>
-        <li id="addForm" className="hidden"></li>
+        <li id="addForm" className="hidden ScheduleItem">
+          <form action={(e) => props.onAdd(this)}>
+            <div id="addFormItems" className="AddFormInputs">
+              <input type="text" name="subject" placeholder="Event" />
+              <input type="time" name="time" placeholder="Time" />
+            </div>
+            <div className="AddFormButtons">
+              <button type="submit">Add</button>
+              <button type="cancel">Cancel</button>
+            </div>
+          </form>
+        </li>
         {sortSchedule(props.ScheduleList).map((item, index) => (
           <ScheduleItem subject={item.subject} time={item.time}/>
         ))}
