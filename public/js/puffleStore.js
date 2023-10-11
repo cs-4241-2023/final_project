@@ -142,7 +142,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             priceTag.text = "Equip";
         }
         else {
-            const body = JSON.stringify({ _id: "6522f7a13b601563446db64b", puffleName: puffleName, price: price});
+            const body = JSON.stringify({ username: "admin", puffleName: puffleName, price: price});
             const postResponse = await fetch('/purchase', {
                 method: 'POST',
                 body

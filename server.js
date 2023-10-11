@@ -46,7 +46,7 @@ app.post('/purchase', (req, res) => {
 	req.on('end', async function() {
 		let info = JSON.parse(dataString);
 
-	  	const user = await user_collection.findOne({ _id: new ObjectId(info._id) }); //Find user
+	  	const user = await user_collection.findOne({ username: info.username }); //Find user
 	  	const purchaseResult = {};
 
 	  	//Determine if transaction is possible
@@ -54,7 +54,7 @@ app.post('/purchase', (req, res) => {
 			user.coins -= info.price;
 			user.purchasedPuffles.push(info.puffleName);
 
-			const result = await user_collection.updateOne({ _id: new ObjectId(user._id) }, { $set: { coins: user.coins, purchasedPuffles: user.purchasedPuffles } });
+			const result = await user_collection.updateOne({ username: info.username }, { $set: { coins: user.coins, purchasedPuffles: user.purchasedPuffles } });
 			purchaseResult.status = 1; //Successful purchase
 	  	}
 	  	else {
