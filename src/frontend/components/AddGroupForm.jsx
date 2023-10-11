@@ -48,11 +48,15 @@ function AddGroupForm({ addGroup, onCancel }) {
                     value={formData.groupUsers}
                     onChange={handleChange}
                 />
-                <div className="dashboard--group-buttons" >
-                    <button type="submit" className="dashboard--group-submit interactable">
+                <div className="dashboard--group-buttons">
+                    <button
+                        type="submit"
+                        className="dashboard--group-submit interactable"
+                    >
                         Submit
                     </button>
                     <button
+                        type="button"
                         onClick={onCancel}
                         className="dashboard--group-cancel interactable"
                     >
