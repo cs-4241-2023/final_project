@@ -81,3 +81,8 @@ export const userGroupRef = async (request, response) => {
 
     response.status(200).end();
 }
+
+
+export const getCurrentUser = (request, response) => {
+    response.status(200).end(JSON.stringify({user: request.session.user}));
+}

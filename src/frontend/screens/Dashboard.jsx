@@ -10,10 +10,19 @@ function Dashboard() {
     const [selectedGroupPage, setGroupPage] = useState(null);
     const [isGroupFormVisible, setGroupFormVisiblity] = useState(false);
     const [hasDataChanged, setDataChanged] = useState(false);
+    const [currentUser, setCurrentUser] = useState("");
 
     useEffect(() => {
-        getGroupList().then(data => setGroups(data))
+        getGroupList().then(data => setGroups(data));
+        getCurrentUserInfo().then(res => setCurrentUser(res.user));
     }, [hasDataChanged]);
+
+    async function getCurrentUserInfo() {
+        let res = await fetch("/user", {
+            method: "GET"
+        });
+        return await res.json();
+    }
 
     async function getGroupList() {
         try {
@@ -38,7 +47,10 @@ function Dashboard() {
         if (!form.groupName || !form.groupDescription || !form.groupUsers) {
             alert("One or more fields are empty");
         } else {
-            const groupUsers = form.groupUsers.split(",").map(user => user.trim())
+            const groupUsers = form.groupUsers.split(",").map(user => user.trim());
+            if(groupUsers.indexOf(currentUser) === -1) {
+                groupUsers.push(currentUser);
+            }
             for (const user of groupUsers) {
                 let res = await fetch("/users", {
                     method: "POST",
