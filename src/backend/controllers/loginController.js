@@ -12,6 +12,7 @@ export const loginUser = async (req, res) => {
             req.session.isLoggedIn = true;
             res.status(200).end();
         } else {
+            req.session.user = undefined;
             req.session.isLoggedIn = false;
             res.status(401).end();
         }
@@ -31,7 +32,8 @@ export const signupUser = async (req, res) => {
             // const hashedPassword = bcrypt.hashSync(password, 10);
             const newUser = new User({
                 username,
-                password
+                password,
+                groups: []
             });
 
             await newUser.save();
