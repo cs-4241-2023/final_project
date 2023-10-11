@@ -208,7 +208,7 @@ function musicTourBuilder() {
                     <p>For the Tour Duration field, enter a number using digits. The duration of a tour must be greater than or equal to 0 days.</p>
                 </li>
                 <li>
-                    <p>For the Target Audience Age Range field, enter the age range in the following format: (#...-#...) where # is a number written in digits. (15-25) is an example of a valid age range entry.</p>
+                    <p>For the Target Audience Age Range field, enter the age range in the following format: (#...-#...) where # is a number written in digits. (15-25) is an example of a valid age range entry. A given age also needs to be greater than or equal to 0 and less than or equal to 100.</p>
                 </li>
                 <li>
                     <p>A confirmation message will appear below the Fantasy Music Text Editor when the edited field has been successfully saved to your account.</p>
