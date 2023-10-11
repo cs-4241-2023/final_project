@@ -1,14 +1,13 @@
 import { useState } from "react";
-import Login from "./screens/Login";
+import LoginScreen from "./screens/LoginScreen";
 import Dashboard from "./screens/Dashboard"
-import "./css/styles.css"
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
 
     return (
         <div className="container">
-            {!loggedIn ? <Login setLoggedIn={setLoggedIn} /> : <Dashboard setLoggedIn={setLoggedIn} />}
+            {!loggedIn ? <LoginScreen setLoggedIn={setLoggedIn} /> : <Dashboard setLoggedIn={setLoggedIn} />}
         </div>
     );
 }
