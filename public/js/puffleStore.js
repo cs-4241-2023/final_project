@@ -131,6 +131,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             });
             
             priceTag.text = "Unequip";
+            updateViewers(puffleBuy.id);
         }
         else if (priceTag.text === "Unequip") {
             const body = JSON.stringify({ username: 'admin', puffleName: "" });
@@ -157,6 +158,14 @@ function addPuffleViewer(puffleName, price, userInfo) {
     }
 
     return { puffleBuy, priceTag };
+}
+
+function updateViewers(id) {
+    for (let i = 0; i < puffleBuyList.length; i++) {
+        if (puffleBuyList[i].puffleBuy.id !== id) {
+            puffleBuyList[i].priceTag.text = "Equip";
+        }
+    }
 }
 
 go("puffle_store");
