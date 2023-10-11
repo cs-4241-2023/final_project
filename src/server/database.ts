@@ -214,6 +214,21 @@ export class Database {
             return count;
         }
 
+    private async updateUserStats(userID: mongoose.Types.ObjectId) {
+
+        // update statistics for user
+        const numSuccessesUser = await this.countOutcomeForUser(userID, Outcome.SUCCESS);
+        const numFailsUser = await this.countOutcomeForUser(userID, Outcome.FAIL);
+
+        // update user in database
+        await DBUser.findOneAndUpdate(
+            { _id: userID },
+            { totalSuccesses: numSuccessesUser, totalFails: numFailsUser, totalLoggedDays: numSuccessesUser + numFailsUser },
+            { new: true }
+        );
+
+    }
+
     // add record to HabitOutcome then update statistics:
     // update totalSuccesses/totalFails in UserInfo/UserHabit
     // update numLoggedDays in UserInfo/UserHabit IF new day
@@ -244,16 +259,7 @@ export class Database {
             { new: true }
         );
 
-        // update statistics for user
-        const numSuccessesUser = await this.countOutcomeForUser(userID, Outcome.SUCCESS);
-        const numFailsUser = await this.countOutcomeForUser(userID, Outcome.FAIL);
-
-        // update user in database
-        await DBUser.findOneAndUpdate(
-            { _id: userID },
-            { totalSuccesses: numSuccessesUser, totalFails: numFailsUser, totalLoggedDays: numSuccessesUser + numFailsUser },
-            { new: true }
-        );
+        await this.updateUserStats(userID);
     }
 
     public async deleteHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId) {
@@ -272,6 +278,9 @@ export class Database {
         } else {
             console.log("Other users still have this habit, deleting habit for this user only");
         }
+
+        // recalculate user stats after deleting habit
+        await this.updateUserStats(userID);
 
     }
 
