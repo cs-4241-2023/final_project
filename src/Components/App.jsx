@@ -28,7 +28,9 @@ function App() {
   }, [search]);
 
   const addToDo = async (add) => {
-    setToDo(toDo.push(add));
+    const newToDo = [...toDo, add];
+    setToDo(newToDo);
+    console.log(newToDo);
   }
 
   return (
@@ -36,7 +38,7 @@ function App() {
       <div className="main">
         {weather && <Header weather={weather} />}
         <Sidebar />
-        <ToDo title="TITLE" description="DESCRIPTION"/>
+        <ToDo onAdd={addToDo} toDoList={toDo} />
       </div>
     </>
   );

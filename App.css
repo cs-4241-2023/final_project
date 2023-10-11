@@ -248,12 +248,13 @@ root {
   align-items: baseline;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  width: auto;
   height: fit-content;
   padding: 10px 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+  font-size: 25px;
 }
 
 .ToDoHeading {
@@ -276,7 +277,17 @@ root {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   position: absolute;
-  right: 25px;
+  right: 26px;
+}
+
+.ToDoForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  gap: 10px;
 }
 
 .ToDoHeading button:hover {

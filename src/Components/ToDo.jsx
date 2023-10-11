@@ -1,9 +1,9 @@
 function ToDo(props) {
   return (
     <div className="ToDo">
-      <div class="ToDoHeading">
+      <div className="ToDoHeading">
         <h1>To Do</h1>
-        <button>
+        <button onClick={(e) => props.onAdd({"toDo": "Test"})}>
           <svg
             width="21"
             height="21"
@@ -31,6 +31,9 @@ function ToDo(props) {
         </button>
       </div>
       <ul>
+        {props.toDoList.map((item, index) => (
+          <li key={index}>{item.toDo}</li>
+        ))}
       </ul>
     </div>
   );
