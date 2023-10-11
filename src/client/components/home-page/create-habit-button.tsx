@@ -18,14 +18,21 @@ import HabitWidget from "./habit-widget";
   `
   interface CreateHabitButtonProps {
     setUpdate: React.Dispatch<React.SetStateAction<number>>;
+    createHabitClientSide: (habitName: string) => void;
 
 }
 
-const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatch<React.SetStateAction<number>>) => {
+const createHabit = async (
+        navigate: NavigateFunction,
+        setUpdate:  React.Dispatch<React.SetStateAction<number>>,
+        createHabitClientSide: (habitName: string) => void
+  ) => {
       console.log("create habit");
   
       const habitName = prompt("Enter habit name:");
       if (habitName === null) return;
+
+      createHabitClientSide(habitName);
   
       const response = verifyAuth(navigate, await fetchServer(Method.POST, "/createhabit", {name: habitName}));
       console.log(response);
@@ -35,13 +42,13 @@ const createHabit = async (navigate: NavigateFunction, setUpdate:  React.Dispatc
   };
 
 
-function CreateHabitButton({setUpdate}: CreateHabitButtonProps){
+function CreateHabitButton({setUpdate, createHabitClientSide}: CreateHabitButtonProps){
 
     const navigate = useNavigate();
 
     const handleCreateHabit = async () => {
         //  Call the callback function to create a habit
-        await createHabit(navigate, setUpdate);
+        await createHabit(navigate, setUpdate, createHabitClientSide);
       };
     
     
