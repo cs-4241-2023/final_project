@@ -59,7 +59,7 @@ function Sidebar({ userSettings, updateUserSettings }) {
         <FaMoneyBillAlt /> Stocks
       </button>
       <button>
-        <FaCog /> <Link to="/settings">Settings</Link>
+        <FaCog /> <Link to="/Settings">Settings</Link>
       </button>
     </div>
   );

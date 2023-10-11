@@ -2,7 +2,6 @@ import "../../App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Paperclip from "./Paperclip";
-import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -55,13 +54,13 @@ function App() {
     <>
       {" "}
       <div>
-        <BrowserRouter>
+    
           <div className="main">
             {weather && <Header weather={weather} currentTime={currentTime} />}
             <Sidebar />
             <Paperclip />
           </div>
-        </BrowserRouter>
+        
       </div>
     </>
   );
