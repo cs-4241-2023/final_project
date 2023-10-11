@@ -2,6 +2,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Submission from "../models/HourSubmission.js";
+import Events from "../models/Event.js";
 import express from "express";
 import session from "express-session";
 import ViteExpress from "vite-express";
@@ -166,6 +167,23 @@ app.get("/getData", async (req, res) => {
   res.send(body);
 });
 
+app.get("/getProfile", async (req, res) => {
+  console.log(req.session.user._id);
+  const result = await User.find({ _id: req.session.user._id });
+
+  let body = JSON.stringify(result);
+  console.log("gotten data: ", result);
+  res.send(body);
+});
+
+app.get("/getEvents", async (req, res) => {
+  const result = await Events.find();
+
+  let body = JSON.stringify(result);
+  console.log("gotten data: ", result);
+  res.send(body);
+});
+
 app.post("/add", async (req, res) => {
   let data = req.body;
   debugger;
@@ -206,6 +224,28 @@ app.post("/update", async (req, res) => {
   });
   console.log("should have updated");
   res.redirect("/getData");
+});
+
+app.post("/updateProfile", async (req, res) => {
+  let data = req.body;
+  console.log("edited data: ", data);
+  data.map(async (item) => {
+    const result = await User.updateOne(
+      { user_id: item.user_id },
+      {
+        $set: {
+          name: item.name,
+          pronouns: item.pronouns,
+          bio: item.bio,
+          email: item.email,
+          iqp_term: item.iqp_term,
+        },
+      }
+    );
+    console.log("result:", result);
+  });
+  console.log("should have updated");
+  res.redirect("/getProfile");
 });
 
 const logger = (req, res, next) => {

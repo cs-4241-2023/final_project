@@ -4,12 +4,22 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./login.jsx";
 import Hours from "./views/hours.jsx";
 import HomePage from "./views/homepage.jsx";
+import UserPage from "./userpage.jsx";
+import EventsPage from "./eventspage.jsx";
 import AttendancePage from "./views/attendance.jsx";
 import Layout from "./Layout.jsx";
 import "./css/theming.css";
 
 // Importing the Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Login /> },
+  { path: "/index", element: <Login /> },
+  { path: "/homepage", element: <Homepage /> },
+  { path: "/userpage", element: <UserPage /> },
+  { path: "/eventspage", element: <EventsPage /> },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
