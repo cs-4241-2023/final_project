@@ -1,6 +1,7 @@
 import Group from "../models/Group.js";
 import User from "../models/User.js"
-import {request, response} from "express"; // Import your Mongoose Group model
+import {request, response} from "express";
+import {ObjectId} from "mongodb"; // Import your Mongoose Group model
 
 export const getGroupList = async (request, response) => {
     try {
@@ -24,9 +25,9 @@ export const addGroup = async (request, response) => {
             meetingTimes: "TBD",
         });
 
-        await newGroup.save();
+        let r = await newGroup.save();
 
-        response.status(200).json({});
+        response.status(200).end(JSON.stringify({_id: r._id}));
     } catch (error) {
         console.error("An error occurred while adding a group:", error);
         response.status(500).end();
@@ -55,10 +56,21 @@ export const lookupUser = async (request, response) => {
 
     const foundUser = await User.findOne({username: user});
 
-
     if(foundUser) {
         response.status(200).end();
     } else {
         response.status(404).end();
     }
+};
+
+export const userGroupRef = async (request, response) => {
+    let username = request.body.user;
+    let groupRef = request.body.groupID;
+
+    const user = await User.findOne({username: username});
+    let userGroups = user.groups;
+    userGroups.push(new ObjectId(groupRef));
+    await user.updateOne({groups: userGroups})
+
+    response.status(200).end();
 }

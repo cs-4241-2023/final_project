@@ -23,7 +23,7 @@ function Dashboard() {
 
             if (!response.ok) console.log("404: Collection Not Found");
 
-            return await response.json()
+            return await response.json();
         } catch (error) {
             console.error(error);
         }
@@ -56,11 +56,20 @@ function Dashboard() {
                 groupUsers: groupUsers,
                 meetingTimes: "TBD"
             });
-            await fetch("/groups", {
+            let res = await(await fetch("/groups", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
-            });
+            })).json();
+
+            for (const user of groupUsers) {
+                await fetch("/addUserGroup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({user: user, groupID: res._id})
+                });
+            }
+
             setDataChanged(!hasDataChanged)
             setGroupFormVisiblity(false)
         }
