@@ -3,10 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./auth-frontend/Login";
 import Signup from "./auth-frontend/Signup";
 import "./App.css";
-import GameBoard from "./components/gameboard";
-import PuzzleMenu from "./components/Menu";
-import Scoreboard from "./components/Score";
-import InfoButton from "./components/Directions";
+import Home from "./Home";
 function App() {
   let [lettersArray, setLettersArray] = useState([
     "A",
@@ -22,18 +19,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/"
-          element={
-            <>
-              <PuzzleMenu></PuzzleMenu>
-              <Scoreboard></Scoreboard>
-              <h1>Spelling Goat</h1>
-
-              <GameBoard lettersArray={lettersArray} />
-            </>
-          }
-        />
+        <Route path="/" element={<Home lettersArray={lettersArray} />} />
       </Routes>
     </>
   );
