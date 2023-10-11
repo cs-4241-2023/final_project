@@ -23,3 +23,8 @@ input:focus {
   outline: 1px solid #ccc;
   border: 1px solid #ccc;
 }
+
+ul,
+li {
+  line-height: 2.5em;
+}

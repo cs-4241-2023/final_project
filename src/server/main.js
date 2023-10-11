@@ -98,7 +98,7 @@ app.get(
   async function (req, res) {
     req.session.user = await User.findById(req.session.passport.user._id);
     console.log(req.session);
-    res.redirect("/homepage");
+    res.redirect("/home");
   }
 );
 //__________________________________________________________________________
@@ -150,7 +150,7 @@ app.get("/login", function (req, res) {
   if (req.session.login == true) {
     console.log("Signing in normally");
     console.log(req.session);
-    res.redirect("/homepage");
+    res.redirect("/home");
   }
 });
 

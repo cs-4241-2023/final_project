@@ -77,7 +77,9 @@ const Layout = ({ children }) => {
           </NavDropdown>
         </Col>
 
-        <Col style={{ marginLeft: "20px", marginTop: "50px" }}>
+        <Col
+          style={{ marginLeft: "20px", marginTop: "50px", overflow: "auto" }}
+        >
           <Outlet>{children}</Outlet>
         </Col>
       </Row>

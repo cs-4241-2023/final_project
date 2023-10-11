@@ -33,6 +33,7 @@ function Hours() {
   const [submissions, setSubmissions] = useState([]);
   const [editable, setEditable] = useState(false);
   const [content, setContent] = useState("Edit");
+  let totalHours = 0;
   //gets data from the server on load
   useEffect(() => {
     fetch("/getData", {
@@ -78,7 +79,7 @@ function Hours() {
   };
 
   const controlEdit = async () => {
-    console.log(editable);
+    // console.log(editable);
     if (editable) {
       const response = await fetch("/getData", {
         method: "GET",
@@ -99,11 +100,11 @@ function Hours() {
       const text = await response.text();
       const newData = JSON.parse(text);
       setSubmissions(newData);
-
       setContent("Edit");
     }
+    totalHours = 0;
     setEditable(!editable);
-    console.log(editable);
+    // console.log(editable);
   };
 
   const onChangeInput = (e, entryID) => {
@@ -118,7 +119,6 @@ function Hours() {
     setSubmissions(edited);
   };
 
-  let totalHours = 0;
   return (
     <div style={{ maxWidth: "700px" }}>
       <Form
@@ -126,7 +126,7 @@ function Hours() {
           border: "1px solid",
           padding: "10px",
           borderRadius: "5px",
-          maxWidth: "500px",
+          maxWidth: "600px",
         }}
       >
         <Form.Group className="mb-3">
@@ -172,12 +172,18 @@ function Hours() {
         </Button>
       </Form>
       <hr />
-      <div>
+      <div
+        style={{
+          maxHeight: "300px",
+          overflow: "auto",
+          // paddingBottom: "25px",
+        }}
+      >
         <Table striped hover bordered id="submissionTable">
           <thead>
             <tr>
-              <th style={{ width: "200px" }}>Number of Hours</th>
-              <th style={{ width: "200px" }}>Date</th>
+              <th style={{ width: "100px" }}># of Hours</th>
+              <th style={{ width: "100px" }}>Date</th>
               <th style={{ width: "200px" }}>Reason</th>
               <th style={{ width: "100px" }}>Delete</th>
             </tr>
@@ -187,7 +193,7 @@ function Hours() {
               totalHours += parseInt(entry.numHours);
               return (
                 <tr key={entry._id} data-internal_id={entry._id}>
-                  <td key="numHours">
+                  <td key="numHours" style={{ maxWidth: "100px" }}>
                     <input
                       name="numHours"
                       required
@@ -209,7 +215,7 @@ function Hours() {
                       required
                       value={entry.date.split("T")[0]}
                       type="date"
-                      plaintext={!editable}
+                      plaintext={(!editable).toString()}
                       readOnly={editable}
                       style={{
                         border: "none", // Remove border
@@ -249,11 +255,13 @@ function Hours() {
             })}
           </tbody>
         </Table>
+      </div>
+      <div>
         <Button className="btn-primary" onClick={controlEdit}>
           {content}
         </Button>
         <hr />
-        <Table striped bordered id="totalHoursTable" style={{ width: "250px" }}>
+        <Table striped bordered id="totalHoursTable">
           <thead>
             <tr>
               <th style={{ width: "150px" }}>Total Hours:</th>
