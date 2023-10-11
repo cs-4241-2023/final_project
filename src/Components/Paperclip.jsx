@@ -4,6 +4,7 @@ import "./Paperclip.css";
 function Paperclip(props) {
   const [showSpeechBubble, setShowSpeechBubble] = useState(false);
   const [speechText, setSpeechText] = useState("");
+  const [askForFunFact, setAskForFunFact] = useState(false);
   const paperclipRef = useRef(null);
 
   const funFacts = [
@@ -30,40 +31,53 @@ function Paperclip(props) {
   ];
 
   useEffect(() => {
-    setSpeechText("Hello!");
+    setSpeechText("Would you like to hear a fun fact? (click here)");
 
     const showTimer = setTimeout(() => {
       setShowSpeechBubble(true);
+      setAskForFunFact(true);
     }, 3000);
-
-    const hideTimer = setTimeout(() => {
-      setShowSpeechBubble(false);
-    }, 13000); // 3000 (initial delay) + 10000 (10 seconds)
 
     return () => {
       clearTimeout(showTimer);
-      clearTimeout(hideTimer);
     };
   }, []);
 
   useEffect(() => {
-    if (showSpeechBubble) {
-      const timer = setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * funFacts.length);
-        setSpeechText("Did you know " + funFacts[randomIndex]);
-      }, 4000);
+    if (askForFunFact) {
+      const speechBubble = document.querySelector(".speechBubble");
+      const handleClick = () => {
+        const audio = new Audio("/public/assets/pageFlip.mp3");
 
-      return () => clearTimeout(timer);
+        audio.addEventListener("ended", () => {
+          const randomIndex = Math.floor(Math.random() * funFacts.length);
+          setSpeechText("Did you know " + funFacts[randomIndex]);
+          setAskForFunFact(false);
+        });
+
+        audio.play();
+        speechBubble.removeEventListener("click", handleClick);
+      };
+
+      if (speechBubble) {
+        speechBubble.addEventListener("click", handleClick);
+      }
+
+      return () => {
+        if (speechBubble) {
+          speechBubble.removeEventListener("click", handleClick);
+        }
+      };
     }
-  }, [showSpeechBubble]);
+  }, [askForFunFact]);
 
   useEffect(() => {
     if (showSpeechBubble && paperclipRef.current) {
       const rect = paperclipRef.current.getBoundingClientRect();
       const speechBubble = document.querySelector(".speechBubble");
       if (speechBubble) {
-        speechBubble.style.left = `${rect.left + 100}px`;
-        speechBubble.style.top = `${rect.top - 40}px`;
+        speechBubble.style.left = `${rect.left + 95}px`;
+        speechBubble.style.top = `${rect.top - 50}px`;
       }
     }
   }, [showSpeechBubble]);
