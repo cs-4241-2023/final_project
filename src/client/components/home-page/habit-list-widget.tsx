@@ -33,7 +33,7 @@ margin: 0 2.5% 0 2.5%;
 function HabitListWidget({setUpdate, habits}: HabitListWidgetProps ){
 
     const sortFunc = (a: UserHabit, b: UserHabit) => {
-        return b.currentStreak - a.currentStreak;
+        return b.numLoggedDays - a.numLoggedDays;
     }
 
     // delete habit as a client-only operation for responsiveness while server catches up
