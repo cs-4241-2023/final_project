@@ -16,7 +16,8 @@ export async function calculateScore(submittedWord, puzzleWord) {
   console.log(`Submitted word: ${submittedWord}`)
 
   const wordsAPIData = await isValidWord(submittedWord, puzzleWord)
-  if (!wordsAPIData) {
+  console.log('WORDS API DATA: ',wordsAPIData)
+  if (wordsAPIData.success === false) {
     return null
   }
 

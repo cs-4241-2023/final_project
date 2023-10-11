@@ -13,6 +13,7 @@ puzzleRouter.get("/:puzzleID", (req, res) => {
       );
     } else {
       const scrambledWord = scrambleWord(puzzle.word)
+      console.log(`Scrambled word: ${scrambledWord}`)
       res.send(scrambledWord); // Send the scrambled word as plain text
     }
   });
@@ -29,6 +30,7 @@ puzzleRouter.get("/:puzzleID", (req, res) => {
       const wordScores = await calculateScore(req.body.word, puzzle.word)
       if (wordScores !== null) {
         console.log("Word score: " + wordScores.totalscore)
+        // res.status(200).send(wordScores)
         res.send(wordScores)
       } else {
         res.status(403).send('Submitted word is invalid')
