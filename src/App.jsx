@@ -3,7 +3,6 @@ import "./App.css";
 import GameBoard from "./components/gameboard";
 
 function App() {
-  //getPuzzle(1)
   let [lettersArray, setLettersArray] = useState(["G", "O", "A", "T", "S"]);
   setTimeout(() => {
     setLettersArray(["G", "O", "A", "T", "S", "!", "!", "!"]);

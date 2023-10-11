@@ -43,19 +43,19 @@ ViteExpress.listen(app, port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-app.post("/puzzles/:puzzleID/submit-word", (req, res) => {
+app.post("/puzzles/:puzzleID/submit-word", async (req, res) => {
   const requestedID = req.params.puzzleID
-  const puzzle = puzzles.find(t=>t.id === `${requestedID}`)
+  const puzzle = puzzleList.find(t=>t.id === `${requestedID}`)
   if (puzzle === undefined) {
     res.status(404).send(
       `Puzzle with ID of ${requestedID} not found`)
   }
   else {
   // TODO: make sure word has not already been submitted
-    const data = req.body;
-    const wordScore = calculateScore(data.word, puzzle.word)
-    if (score !== undefined) {
-      res.send({score: `${wordScore}`})
+    const wordScores = await calculateScore(req.body.word, puzzle.word)
+    if (wordScores !== null) {
+      console.log("Word score: " + wordScores.totalscore)
+      res.send(wordScores)
     } else {
       res.status(403).send('Submitted word is invalid')
     }

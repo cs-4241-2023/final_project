@@ -38,7 +38,11 @@ export async function calculateScore(submittedWord, puzzleWord) {
   }
 
   console.log(`${submittedWord} total score: ${score}`)
-  return score
+  const scores = {
+    'totalscore': score,
+    'rarityscore': rarityScore
+  }
+  return scores
 }
 
 async function isInWordsAPI(submittedWord) {

@@ -18,9 +18,31 @@ async function getPuzzle(puzzleID) {
     }
     const data = await response.text();
     console.log(data);
+    puzzleWord = data
   } catch (error) {
     console.error(error);
   }
 }
 
-//getPuzzle(1)
+async function submitWord(submittedWord, puzzleID) {
+  const payload = {'word' : submittedWord}
+  console.log(`Requested puzzle id: ${puzzleID}`);
+  try {
+    const response = await fetch(`/puzzles/${puzzleID}/submit-word`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.text();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+submitWord("amp", 1)
