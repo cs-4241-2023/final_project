@@ -36,8 +36,14 @@ function HabitListWidget({setUpdate, habits}: HabitListWidgetProps ){
         return b.currentStreak - a.currentStreak;
     }
 
+    // delete habit as a client-only operation for responsiveness while server catches up
     const deleteHabitClientSide = (habit: UserHabit) => {
         habits.splice(habits.indexOf(habit), 1);
+    }
+    
+    // create habit as a client-only operation for responsiveness while server catches up
+    const createHabitClientSide = (habitName: string) => {
+        habits.push(new UserHabit("-1", "-1", habitName, "", 0, 0, 0, 0, 0));
     }
 
     return( <>
@@ -45,7 +51,7 @@ function HabitListWidget({setUpdate, habits}: HabitListWidgetProps ){
             {habits.sort(sortFunc).map((habit) => (<>
              <HabitWidgetStyle><HabitWidget habit={habit} setUpdate={setUpdate} deleteHabitClientSide={deleteHabitClientSide}/></HabitWidgetStyle>  
              </>))}
-            <div className="d-flex justify-content-center"><CreateHabitButton setUpdate={setUpdate}/></div>
+            <div className="d-flex justify-content-center"><CreateHabitButton setUpdate={setUpdate} createHabitClientSide={createHabitClientSide}/></div>
         </BigWidgetStyle> 
 </>
     );
