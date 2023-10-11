@@ -10,7 +10,7 @@ function InfoButton() {
   const modalStyle = {
     display: showInstructions ? 'block' : 'none',
     position: 'fixed',
-    zIndex: 1,
+    zIndex: 99,
     left: 0,
     top: 0,
     width: '100%',
