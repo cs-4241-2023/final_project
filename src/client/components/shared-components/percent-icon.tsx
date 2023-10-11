@@ -15,7 +15,7 @@ const RedArc = styled.circle.attrs({
 })``
 
 const BackgroundCircle = styled.circle.attrs({
-    stroke: COLOR_THEME.BACKGROUND,
+    stroke: COLOR_THEME.SECTION,
     strokeLinecap: "round",
     strokeDasharray: "219.9114857512855",
     cx: "43.75",
@@ -45,7 +45,7 @@ const PercentIcon: FC<PercentComponentProps> = ({percent}) => {
     const CIRCUMFERENCE = 219.9114857512855;
     const offset = CIRCUMFERENCE * (1 - percent / 100.0);
 
-    return (<svg width="87.5" height="87.5" viewBox="0 0 87.5 87.5">
+    return (<svg width="100%" height="100%" viewBox="0 0 87.5 87.5">
         <g transform="rotate(-90 43.75 43.75)">
             <RedArc />
             <BackgroundCircle style={{strokeDashoffset: offset}} />

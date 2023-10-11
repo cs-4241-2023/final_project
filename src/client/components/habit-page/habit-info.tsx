@@ -106,7 +106,12 @@ margin-right: 10px;
 const PercentWidgetStyle = styled.div
 `
 margin-left: 60px;
+`
 
+const PercentIconStyle = styled.div
+`
+width: 87.5px;
+height: 87.5px;
 `
 
 const LoggedDaysTextStyle = styled.h3
@@ -173,16 +178,16 @@ const HabitInfoComponent: FC<HabitInfoProps> = ({ habitInfo }) => {
                 </LoggedDaysStyle>
                 <PercentWidgetStyle className="d-flex flex-column align-items-center">
                     <h3 className="text-center">Week</h3>
-                    <div className="d-flex justify-content-center">
+                    <PercentIconStyle className="d-flex justify-content-center">
                         <PercentIcon percent={habitInfo.percentSuccessWeek}/>
-                    </div>
+                    </PercentIconStyle>
                     <PercentSuccessTextStyle className="text-center">{habitInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
                 </PercentWidgetStyle>
                 <PercentWidgetStyle className="d-flex flex-column align-items-center">
                     <h3 className="text-center">Lifetime</h3>
-                    <div className="d-flex justify-content-center">
+                    <PercentIconStyle className="d-flex justify-content-center">
                         <PercentIcon percent={habitInfo.percentSuccessLifetime}/> 
-                    </div>
+                    </PercentIconStyle>
                     <PercentSuccessTextStyle className="text-center">{habitInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
                 </PercentWidgetStyle>
             </HabitInfoRightSide> 
