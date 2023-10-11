@@ -8,6 +8,7 @@ import session from "express-session";
 import ViteExpress from "vite-express";
 import passport from "passport";
 import GitHubStrategy from "passport-github2";
+import GoogleStrategy from "passport-google-oauth2";
 import Crypto from "crypto";
 
 // const cookieParser = require("cookie-parser");
@@ -82,6 +83,37 @@ passport.use(
   )
 );
 
+passport.use(new GoogleStrategy({
+    clientID:     process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:8080/auth/google/callback",
+
+  },
+  async(accessToken, refreshToken, profile, done) => {
+    try {
+      const user = await User.findOne({ user_id: profile.id });
+      console.log("google user: ", user);
+      if (user != null) {
+        console.log("found the user");
+        return done(null, user);
+      } else {
+        const newUser = new User({
+          email: profile.email,
+          name: profile.displayName,
+          password: "auto",
+          user_id: profile.id,
+        });
+
+        const savedUser = await newUser.save();
+        console.log("Saved a new user");
+        return done(null, savedUser);
+      }
+    } catch (error) {
+      return done(error);
+    }
+  }
+));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -102,6 +134,26 @@ app.get(
     res.redirect("/home");
   }
 );
+
+//Google OAuth2 login route
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope:['email', 'profile'] })
+);
+
+//Google OAuth2 Callback
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate( 'google', { failureRedirect: '/', session:true}),
+  async function (req, res) {
+    req.session.user = await User.findById(req.session.passport.user._id);
+    console.log(req.session);
+    res.redirect("/home");
+  }
+);
+
 //__________________________________________________________________________
 
 app.post("/findUser", async function (req, res) {
