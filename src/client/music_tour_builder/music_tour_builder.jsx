@@ -179,7 +179,7 @@ function musicTourBuilder() {
                 const ageStorageArray = targetAudienceAgeRange.split("-")
 
                 if(ageStorageArray.length !== 2 || (countOccurrencesOfNonConvertableCharacterInUserInputString(ageStorageArray[0]) > 0 || countOccurrencesOfNonConvertableCharacterInUserInputString(ageStorageArray[1]) > 0)) {
-                    setTargetAudienceAgeRangeUserInputFeedback("Entered Target Audience Age Range can only contain exactly two integer ages.")
+                    setTargetAudienceAgeRangeUserInputFeedback("Entered Target Audience Age Range can only contain exactly two integer ages in the specified entry format.")
                 } else if(parseInt(ageStorageArray[0]) < 0 || parseInt(ageStorageArray[0]) > 100 || parseInt(ageStorageArray[1]) < 0 || parseInt(ageStorageArray[1]) > 100) {
                     setTargetAudienceAgeRangeUserInputFeedback("Entered target audience ages need to be between 0 and 100 inclusive.")
                 } else if(parseInt(ageStorageArray[0]) > parseInt(ageStorageArray[1])) {
