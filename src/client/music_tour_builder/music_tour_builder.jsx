@@ -11,6 +11,8 @@ function musicTourBuilder() {
     const [musicTourHeadliningArtist, setMusicTourHeadliningArtist] = useState("") 
     const [musicTourDirectSupportArtist, setMusicTourDirectSupportArtist] = useState("")
     const [fieldModificationFeedback, setFieldModificationFeedback] = useState("")
+    const [tourDurationUserInputFeedback, setTourDurationUserInputFeedback] = useState("")
+    const [targetAudienceAgeRangeUserInputFeedback, setTargetAudienceAgeRangeUserInputFeedback] = useState("")
 
     useEffect(() => {
         async function getMusicTourName() {
@@ -107,15 +109,21 @@ function musicTourBuilder() {
         const tourDurationButton = document.getElementById("submitTourDuration")
         tourDurationButton.addEventListener('click', async function() {
             const tourDuration = document.getElementById("tourduration").textContent
-            setMusicTourDuration(tourDuration)
+            
+            if(parseInt(tourDuration) < 0) {
+                setTourDurationUserInputFeedback("Entered tour duration needs to be greater than or equal to 0 days.")
+            } else {
+                setTourDurationUserInputFeedback("")
+                setMusicTourDuration(tourDuration)
 
-            const response = await fetch('/modifyTourDuration', { 
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({
-                    tourduration: tourDuration
-                }) 
-            })
+                const response = await fetch('/modifyTourDuration', { 
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({
+                        tourduration: tourDuration
+                    }) 
+                })
+            }
                 
             const modificationFeedback = await response.text()
             setFieldModificationFeedback(modificationFeedback)
@@ -145,18 +153,54 @@ function musicTourBuilder() {
         const targetAudienceAgeRangeButton = document.getElementById("submitTargetAudienceAgeRange")
         targetAudienceAgeRangeButton.addEventListener('click', async function() {
             const targetAudienceAgeRange = document.getElementById("targetaudienceagerange").textContent
-            setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange)
+            
+            function getFirstIndexOfStringWhiteSpace(inputString) { //The indexOf() method returns the position of the first occurrence of a value in a string.
+                return inputString.indexOf(' ')
+            }
 
-            const response = await fetch('/modifyTargetAudienceAgeRange', { 
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({
-                    targetaudienceagerange: targetAudienceAgeRange
-                }) 
-            })
+            function countOccurrencesOfNonConvertableCharacterInUserInputString(inputString) {    
                 
-            const modificationFeedback = await response.text()
-            setFieldModificationFeedback(modificationFeedback)
+                let nonConvertableCharacterCounter = 0
+                
+                inputString.split("").forEach(c => {
+                    if(isNaN(parseInt(c))) {
+                        nonConvertableCharacterCounter++
+                    }
+                })
+
+                return nonConvertableCharacterCounter
+            }
+
+            if(getFirstIndexOfStringWhiteSpace(targetAudienceAgeRange) >= 0) { 
+                setTargetAudienceAgeRangeUserInputFeedback("Entered Target Audience Age Range cannot contain any whitespace.")
+            } else if(!(targetAudienceAgeRange.includes("-"))) { 
+                setTargetAudienceAgeRangeUserInputFeedback("Entered Target Audience Age Range needs to include a dash (-).")
+            } else {
+                const ageStorageArray = targetAudienceAgeRange.split("-")
+
+                if(ageStorageArray.length !== 2 || (countOccurrencesOfNonConvertableCharacterInUserInputString(ageStorageArray[0]) > 0 || countOccurrencesOfNonConvertableCharacterInUserInputString(ageStorageArray[1]) > 0)) {
+                    setTargetAudienceAgeRangeUserInputFeedback("Entered Target Audience Age Range can only contain exactly two integer ages.")
+                } else if(parseInt(ageStorageArray[0]) < 0 || parseInt(ageStorageArray[0]) > 100 || parseInt(ageStorageArray[1]) < 0 || parseInt(ageStorageArray[1]) > 100) {
+                    setTargetAudienceAgeRangeUserInputFeedback("Entered target audience ages need to be between 0 and 100 inclusive.")
+                } else if(parseInt(ageStorageArray[0]) > parseInt(ageStorageArray[1])) {
+                    setTargetAudienceAgeRangeUserInputFeedback("Entered target audience age on the left needs to be smaller than the entered target audience age on the right.")
+                } else {
+                    setTargetAudienceAgeRangeUserInputFeedback("")
+                    setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange)
+                    
+                    const response = await fetch('/modifyTargetAudienceAgeRange', { 
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'}, 
+                        body: JSON.stringify({
+                            targetaudienceagerange: targetAudienceAgeRange
+                        }) 
+                    })
+
+                    const modificationFeedback = await response.text()
+                    setFieldModificationFeedback(modificationFeedback)
+                }
+            } 
+                
         })
     })
 
@@ -225,6 +269,7 @@ function musicTourBuilder() {
                     <p>Tour Duration (Number of Days):</p>
                     <p id = "tourduration" contentEditable = "true" suppressContentEditableWarning = {true}>{musicTourDuration}</p>
                     <button id = "submitTourDuration">Submit Tour Duration</button>
+                    <p>{tourDurationUserInputFeedback}</p>
                 </li>
                 <li>
                     <p>Tour Continent:</p>
@@ -235,6 +280,7 @@ function musicTourBuilder() {
                     <p>Target Audience Age Range (#...-#...):</p>
                     <p id = "targetaudienceagerange" contentEditable = "true" suppressContentEditableWarning = {true}>{musicTourTargetAudienceAgeRange}</p>
                     <button id = "submitTargetAudienceAgeRange">Submit Target Audience Age Range</button>
+                    <p>{targetAudienceAgeRangeUserInputFeedback}</p>
                 </li>
                 <li>
                     <p>Headlining Artist:</p>
