@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
+const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM'];
+
 // SoloGrid Component
 const SoloGrid = ({ user, days }) => {
-    // Dummy data for availability (initialize with false for all slots)
+
     const initialAvailability = days.reduce((acc, day) => {
         acc[day] = {};
         timeSlots.forEach((timeSlot) => {
@@ -14,13 +16,10 @@ const SoloGrid = ({ user, days }) => {
     const [availability, setAvailability] = useState(initialAvailability);
 
     const handleSlotClick = (day, timeSlot) => {
-        // Clone the current availability state
         const updatedAvailability = { ...availability };
 
-        // Toggle availability for a specific day and time slot
         updatedAvailability[day][timeSlot] = !updatedAvailability[day][timeSlot];
 
-        // Update the state
         setAvailability(updatedAvailability);
     };
 
@@ -51,9 +50,5 @@ const SoloGrid = ({ user, days }) => {
     );
 };
 
-// Sample days of the week
-
-// Sample time slots
-const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM'];
 
 export default SoloGrid;
