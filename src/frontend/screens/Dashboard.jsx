@@ -109,8 +109,8 @@ function Dashboard() {
                     <div className="">
                         {selectedGroupPage}
                         <button
-                            className={"back-btn"}
-                            type={"submit"}
+                            className="back-btn interactable"
+                            type="submit"
                             onClick={() => setGroupPage(null)}
                         >
                             Back
@@ -122,7 +122,7 @@ function Dashboard() {
                             <h2>Tracked Groups</h2>
                             <div>
                                 <button
-                                    className={"dashboard--new-group"}
+                                    className="dashboard--new-group interactable"
                                     type={"submit"}
                                     onClick={(e) => showNewGroupPage(e)}
                                 >
@@ -137,11 +137,13 @@ function Dashboard() {
                                 onCancel={() => setGroupFormVisiblity(false)}
                             />
                         )}
-                        <GroupList
-                            groups={groups}
-                            selectGroup={handleSelectGroup}
-                            deleteGroup={deleteGroup}
-                        />
+                        {groups && (
+                            <GroupList
+                                groups={groups}
+                                selectGroup={handleSelectGroup}
+                                deleteGroup={deleteGroup}
+                            />
+                        )}
                     </div>
                 )}
             </main>

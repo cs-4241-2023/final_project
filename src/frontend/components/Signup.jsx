@@ -11,25 +11,25 @@ export default function Signup(props) {
         <form className="signup--form">
             <input
                 type="text"
-                className="signup--username"
+                className="signup--username interactable"
                 placeholder="username"
                 onChange={(e) => setUsername(e.target.value)}
             />
             <input
                 type="password"
-                className="signup--password"
+                className="signup--password interactable"
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
             <input
                 type="password"
-                className="signup--password"
+                className="signup--password interactable"
                 placeholder="confirm password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <button
                 type="submit"
-                className="signup--submit"
+                className="signup--submit interactable"
                 onClick={(e) => handleSignup(e)}
             >
                 Sign up!

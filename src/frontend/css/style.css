@@ -33,20 +33,7 @@ body {
     width: 100%;
 }
 
-.login--username,
-.login--password,
-.login--submit,
-.login--signup-button,
-.signup--username,
-.signup--password,
-.signup--submit,
-.dashboard--logout,
-.dashboard--new-group,
-.dashboard--group-submit,
-.dashboard--group-cancel,
-.dashboard--group-name,
-.dashboard--group-description,
-.dashboard--group-users {
+.interactable {
     padding: 10px;
     outline: 0px;
     border: 0px;
@@ -75,7 +62,9 @@ body {
 .dashboard--logout:hover,
 .dashboard--new-group:hover,
 .dashboard--group-submit,
-.dashboard--group-cancel {
+.dashboard--group-cancel,
+.group-submit,
+.group-delete {
     background-color: #a46be2;
     cursor: pointer;
 }
@@ -157,8 +146,24 @@ body {
 hr {
     width: 100%;
     margin: 0;
+    margin-bottom: 10px;
 }
 
 .dashboard--new-group {
     margin-left: auto;
+}
+
+/* Group list styling */
+.dashboard--group-list {
+    border: solid white 1px;
+    padding: 10px; 
+    display: flex;
+}
+
+.group > h3 {
+    margin-top: 0;
+}
+
+.group-buttons {
+
 }

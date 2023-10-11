@@ -11,7 +11,7 @@ function Header() {
                 </p>
             </div>
             <button
-                className={"dashboard--logout"}
+                className={"dashboard--logout interactable"}
                 type={"submit"}
                 onClick={(e) => {
                     e.preventDefault();

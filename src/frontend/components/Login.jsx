@@ -11,20 +11,20 @@ export default function Login(props) {
             <form className="login--form">
                 <input
                     aria-label="input-username"
-                    className="login--username"
+                    className="login--username interactable"
                     type="text"
                     placeholder="username"
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
-                    className="login--password"
+                    className="login--password interactable"
                     aria-label="password-input"
                     type="password"
                     placeholder="password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
-                    className="login--submit"
+                    className="login--submit interactable"
                     type={"submit"}
                     onClick={(e) => handleLogin(e)}
                 >
@@ -32,7 +32,7 @@ export default function Login(props) {
                 </button>
                 <button
                     type="button"
-                    className="login--signup-button"
+                    className="login--signup-button interactable"
                     onClick={() => {
                         setSignUp(true);
                         setHeaderMessage("Sign up for RendezView");
