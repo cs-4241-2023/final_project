@@ -5,65 +5,126 @@ kaboom({
 	scale: 1,
 	debug: true,});
 
-const START = {x: 20, y: 40};
+const START = {x: 20, y: 200};
 const puffleList = [];
+const puffleBuyList = [];
+let background;
+let cancel;
+let displayIsVisible = true;
+
+let layers = {
+    "hidden": -1,
+    "background": 0,
+    "display": 1,
+    "front": 2,
+    "buy": 3
+}
 
 scene("puffle_store", async () => {
-    const getResponse = await fetch(`/user/admin`, {
+    const getResponse = await fetch('/user/admin', {
         method: 'GET'
     });
 
-    const text = await getResponse.text();
-    const userInfo = JSON.parse(text);
+    const gText = await getResponse.text();
+    const userInfo = JSON.parse(gText);
 
-    //Load puffle sprites
-    const puffleSprites = [ { sprite: "puffle-red.png", price: 100 },
+    //Load Background
+    loadSprite("puffleShop", "../background/dojo.png");
+    background = add([
+        sprite("puffleShop"),
+        pos(0,0),
+        z(layers.background)
+    ])
+
+    //Load cancel button
+    cancel = add([
+        text("Cancel", 12),
+        pos(0, 0),
+        color(0, 0, 0),
+        area(),
+        z(layers.hidden),
+        "cancel"
+    ])
+
+    const puffleSprites = [{ sprite: "puffle-red.png", price: 100 },
                             { sprite: "puffle-green.png", price: 200 },
                             { sprite: "puffle-blue.png", price: 300 },
-                            { sprite: "puffle-black.png", price: 400 }];
+                            { sprite: "puffle-black.png", price: 400 } ];
+
     for (let i = 0; i < puffleSprites.length; i++) {
         loadSprite(puffleSprites[i].sprite.split(".")[0], `../sprites/${puffleSprites[i].sprite}`);
+        const puffleBuy = addPuffleViewer(puffleSprites[i].sprite.split(".")[0], puffleSprites[i].price, userInfo);
+        puffleBuyList.push(puffleBuy);
     }
 
-    //Place sprites on screen horizontally aligned
     let xOffset = START.x;
     for (let i = 0; i < puffleSprites.length; i++) {
-        const { sprite, price } = puffleSprites[i];
-        let puffle = displayPuffleWithPrice(xOffset, sprite.split(".")[0], price, userInfo);
+        const puffleName = puffleSprites[i].sprite.split(".")[0];
+        const puffle = add([
+            sprite(puffleName),
+            pos(xOffset, START.y),
+            area(),
+            z(layers.display),
+            "puffle"
+        ]);
+        puffle.showMyViewer = function() {
+            background.z = layers.front;
+            cancel.z = layers.buy;
+            puffleBuyList[i].puffleBuy.z = layers.buy;
+            puffleBuyList[i].priceTag.z = layers.buy;
+            displayIsVisible = false;
+        }
         puffleList.push(puffle);
         xOffset = xOffset + 250;
     }
 
-    onMousePress(() => {
-        const mousePosition = mousePos();
-        for (let i = 0; i < puffleList.length; i++) {
-            if (mousePosition.x >= puffleList[i].puffle.pos.x && mousePosition.x <= puffleList[i].puffle.pos.x + puffleList[i].puffle.width && mousePosition.y >= puffleList[i].puffle.pos.y && mousePosition.y <= puffleList[i].puffle.pos.y + puffleList[i].puffle.height) {
-                puffleList[i].puffle.onClick();
-            }
+    onClick("puffle", (puff) => {
+        if (displayIsVisible) {
+            puff.showMyViewer();
         }
-    })
+    });
+
+    onClick("puffleBuy", (puffB) => {
+        if (puffB.z === layers.buy) {
+            puffB.adoptPuffle();
+        }
+    });
+
+    onClick("cancel", (cancel) => {
+        if (cancel.z === layers.buy) {
+            for (let i = 0; i < puffleBuyList.length; i++) {
+                puffleBuyList[i].puffleBuy.z = layers.hidden;
+                puffleBuyList[i].priceTag.z = layers.hidden;
+            }
+            cancel.z = layers.hidden;
+            background.z = layers.background;
+            displayIsVisible = true;
+        }
+    });
 });
 
-function displayPuffleWithPrice(xPos, puffleSprite, price, userInfo) {
-    const priceTagText = userInfo.purchasedPuffles.includes(puffleSprite) ? "Equip" : `$${price}`;
-
-    const puffle = add([
-        sprite(puffleSprite),
-        pos(xPos, START.y),
+function addPuffleViewer(puffleName, price, userInfo) {
+    const puffleBuy = add([
+        sprite(puffleName),
+        pos(400, 200),
         area(),
-        z(2)
+        z(layers.hidden),
+        "puffleBuy"
     ]);
 
+    let priceTagText = userInfo.purchasedPuffles.includes(puffleName) ? "Equip" : `${price}`;
+    priceTagText = userInfo.equippedPuffle === puffleName ? "Unequip" : priceTagText;
+    
     const priceTag = add([
         text(`${priceTagText}`, 12),
-        pos(xPos, puffle.pos.y - puffle.height),
+        pos(puffleBuy.pos.x, puffleBuy.pos.y),
         color(0, 0, 0),
-        z(2)
+        z(-1)
     ]);
 
-    puffle.onClick = async function() {
+    puffleBuy.adoptPuffle = async function() {
         if (priceTag.text === "Equip") {
-            const body = JSON.stringify({ username: 'admin', puffleName: puffleSprite });
+            const body = JSON.stringify({ username: 'admin', puffleName: puffleName });
             const postRespone = await fetch('/equip', {
                 method: 'POST',
                 body
@@ -81,7 +142,7 @@ function displayPuffleWithPrice(xPos, puffleSprite, price, userInfo) {
             priceTag.text = "Equip";
         }
         else {
-            const body = JSON.stringify({ _id: "6522f7a13b601563446db64b", puffleName: puffleSprite, price: price});
+            const body = JSON.stringify({ _id: "6522f7a13b601563446db64b", puffleName: puffleName, price: price});
             const postResponse = await fetch('/purchase', {
                 method: 'POST',
                 body
@@ -95,7 +156,7 @@ function displayPuffleWithPrice(xPos, puffleSprite, price, userInfo) {
         }
     }
 
-    return { puffle: puffle, priceTag: priceTag };
+    return { puffleBuy, priceTag };
 }
 
 go("puffle_store");
