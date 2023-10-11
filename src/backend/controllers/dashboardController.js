@@ -13,12 +13,11 @@ export const getGroupList = async (request, response) => {
 };
 
 export const addGroup = async (request, response) => {
-    const { collection, groupName, groupDescription, groupUsers } = request.body;
+    const {groupName, groupDescription, groupUsers } = request.body;
 
     try {
         // Create a new group using Mongoose model
         const newGroup = new Group({
-            collection,
             groupName,
             groupDescription,
             groupUsers,

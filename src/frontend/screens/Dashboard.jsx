@@ -52,7 +52,6 @@ function Dashboard() {
                 }
             }
             let groupJSON = JSON.stringify({
-                collection: "Groups",
                 groupName: form.groupName,
                 groupDescription: form.groupDescription,
                 groupUsers: groupUsers,
