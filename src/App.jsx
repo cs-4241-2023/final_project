@@ -5,6 +5,7 @@ import PuzzleMenu from "./components/Menu";
 import Score from "./components/Score";
 import GuessList from "./components/GuessList";
 import Scoreboard from "./components/ScoreBoard";
+import { set } from "lodash";
 
 function App() {
   const [lettersArray, setLettersArray] = useState([]);
@@ -30,10 +31,16 @@ const selectPuzzle = (puzzleNumber) => {
     setLettersArray(data)
     setGuessList([]);
     setPuzzleNumber(puzzleNumber);
+    setCurrentScore(0);
   });
 }
 
 const checkGuess = (word) => {
+  //check if word is in guessList
+  if(guessList.includes(word)){
+    alert("word already guessed")
+    return
+  }
   const postWord = { word: word };
   fetch(`/puzzles/${puzzleNumber}/submit-word`, {
       method: 'POST',
