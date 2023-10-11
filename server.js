@@ -8,6 +8,7 @@ import { getConnection } from "./db/dbConnection.js";
 import authRoute from "./routes/authRoutes.js";
 import { calculateScore } from "./word-manager.js";
 import puzzleRouter from "./routes/puzzles.js";
+import { userVerificationWithNext } from "./auth/authMiddleware.js";
 
 const app = express();
 app.use(cors());
@@ -41,15 +42,16 @@ app.use(express.json());
 
 // authnetication routes
 app.use("/", authRoute);
+// for route protection
 
 // all other routes and middleware below
 //test route
-app.get("/test", (req, res) => {
+app.get("/test", userVerificationWithNext, (req, res) => {
   res.send("Hello World!");
 });
 
 //test db route
-app.get("/testdb", async (req, res) => {
+app.get("/testdb", userVerificationWithNext, async (req, res) => {
   const test = await db.collection("scores").find().toArray();
   res.json(test);
 });

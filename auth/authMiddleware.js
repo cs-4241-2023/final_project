@@ -37,4 +37,32 @@ const userVerification = (req, res, next) => {
   });
 };
 
-export { userVerification };
+const userVerificationWithNext = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    // user is not authenticated
+    return res
+      .status(401)
+      .json({ status: false, message: "User not authenticated" });
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const db = await getConnection();
+    const user = await db
+      .collection("users")
+      .findOne({ _id: new ObjectId(decoded.userID) });
+    if (!user) {
+      return res
+        .status(401)
+        .json({ status: false, message: "User not authenticated" });
+    }
+    req.user = user;
+    next();
+  } catch (err) {
+    return res
+      .status(401)
+      .json({ status: false, message: "User not authenticated" });
+  }
+};
+
+export { userVerification, userVerificationWithNext };
