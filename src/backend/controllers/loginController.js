@@ -12,6 +12,7 @@ export const loginUser = async (req, res) => {
             req.session.isLoggedIn = true;
             res.status(200).end();
         } else {
+            req.session.user = undefined;
             req.session.isLoggedIn = false;
             res.status(401).end();
         }

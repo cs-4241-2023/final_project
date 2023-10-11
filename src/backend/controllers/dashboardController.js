@@ -5,8 +5,15 @@ import {ObjectId} from "mongodb"; // Import your Mongoose Group model
 
 export const getGroupList = async (request, response) => {
     try {
-        const groups = await Group.find();
-        response.status(200).json(groups);
+        const user = await User.findOne({username: request.session.user})
+
+        let groupArr = [];
+
+        for(let groupID of user.groups) {
+            let group = await Group.findOne({_id: groupID});
+            if(group) groupArr.push(group);
+        }
+        response.status(200).json(groupArr);
     } catch (error) {
         console.error("An error occurred while fetching groups:", error);
         response.status(500).end();
