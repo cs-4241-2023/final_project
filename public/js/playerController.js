@@ -1,13 +1,14 @@
 import sendNetworkMessage from "./clientNetworking.js";
 
 const SPEED = 2
-const LOBBY_SPAWN = { x: 80, y: 40 }
+const LOBBY_SPAWN = { x: 520, y: 400 }
 const DOJO_SPAWN = { x: 380, y: 415 }
+const SCREEN_SIZE = { width: 1024, height: 640 }
 
 kaboom({
 	background: [0, 0, 0],
-	width: 1024,
-	height: 640,
+	width: SCREEN_SIZE.width,
+	height: SCREEN_SIZE.height,
 	scale: 1,
 	debug: true,
 });
@@ -21,19 +22,23 @@ let layers = {
 }
 
 loadSprite("puffle-red", "../sprites/puffle-red.png")
+loadSprite("puffle-blue", "../sprites/puffle-blue.png")
+loadSprite("puffle-green", "../sprites/puffle-green.png")
 
 scene("lobby", () => {
 
 	let BUILDING_LOCATIONS = {
-		puffleShop: new Vec2(300, 300),
-		dojo: new Vec2(512, 150),
-		abandoned: new Vec2(724, 300),
+		puffleShop: new Vec2(285, 320),
+		dojo: new Vec2(520, 150),
+		abandoned: new Vec2(739, 320),
 	}
 
 	loadSprite("vista", "../background/vista.png")
 	loadSprite("dojo", "../background_interactables/dojoBuilding.png")
 	loadSprite("abandoned", "../background_interactables/abandonedBuilding.png")
 	loadSprite("puffleShop", "../background_interactables/puffleShop.png")
+	loadSprite("dojoHighlight", "../background_interactables/highlight/dojoBuildingHighlight.png")
+	loadSprite("puffleShopHighlight", "/background_interactables/highlight/puffleShopHighlight.png")
 
 
 	// compose the player game object from multiple components and add it to the game
@@ -53,16 +58,16 @@ scene("lobby", () => {
 	}
 
 	function spawnBuildings() {
-		add([
+		const dojoBuilding = add([
 			sprite("dojo"),
 			pos(BUILDING_LOCATIONS.dojo),
 			z(layers.bg),
 			anchor("center"),
 			area(),
-			"dojoBuilding",
+			"dojoBuilding",        
 		])
 
-		add([
+		const abandonedBuilding = add([
 			sprite("abandoned"),
 			pos(BUILDING_LOCATIONS.abandoned),
 			z(layers.bg),
@@ -71,7 +76,7 @@ scene("lobby", () => {
 			"abandonedBuilding",
 		])
 
-		add([
+		const puffleShop = add([
 			sprite("puffleShop"),
 			pos(BUILDING_LOCATIONS.puffleShop),
 			z(layers.bg),
@@ -79,6 +84,12 @@ scene("lobby", () => {
 			area(),
 			"puffleShop",
 		])
+		
+		dojoBuilding.onHover(() => highlight(dojoBuilding, "dojoHighlight"))
+		dojoBuilding.onHoverEnd(() => unHighlight(dojoBuilding, "dojo"))
+
+		puffleShop.onHover(() => highlight(puffleShop, "puffleShopHighlight"))
+		puffleShop.onHoverEnd(() => unHighlight(puffleShop, "puffleShop"))
 	}
 
 	function spawnVista() {
@@ -91,7 +102,7 @@ scene("lobby", () => {
 
 	let curTween = null
 	//movement
-	onMousePress("right", () => {
+	onMousePress("left", () => {
 		if (curTween) {
 			curTween.cancel()
 		}
@@ -130,15 +141,17 @@ scene("dojo", () => {
 		2: new Vec2(675, 580),
 		3: new Vec2(590, 520),
 	}
-	const DOOR_LOCATION = new Vec2(DOJO_SPAWN.x, DOJO_SPAWN.y - 80)
+	const DOOR_LOCATION = new Vec2(DOJO_SPAWN.x, DOJO_SPAWN.y - 50)
 
-	loadSprite("dojo-mat", "../background_interactables/mat.png")
-	loadSprite("background-dojo", "../background/dojo.png")
-	loadSprite("dojo-door", "../background_interactables/door.png")
+	loadSprite("dojoMat", "../background_interactables/mat.png")
+	loadSprite("backgroundDojo", "../background/dojo.png")
+	loadSprite("dojoDoor", "../background_interactables/dojoDoor.png")
+	loadSprite("dojoMatHighlight", "/background_interactables/highlight/matHighlight.png")
+	loadSprite("dojoDoorHighlight", "/background_interactables/highlight/dojoDoorHighlight.png")
 
 	//add background
 	const background = add([
-		sprite("background-dojo"),
+		sprite("backgroundDojo"),
 		pos(0, 0),
 		z(layers.bg)
 	])
@@ -156,7 +169,7 @@ scene("dojo", () => {
 	let curTween = null
 
 	//movement
-	onMousePress("right", () => {
+	onMousePress("left", () => {
 
 		if (curTween) {
 			curTween.cancel()
@@ -179,7 +192,7 @@ scene("dojo", () => {
 	})
 
 	//interact
-	onClick("dojo-door", (door) => {
+	onClick("dojoDoor", (door) => {
 		if (curTween) {
 			curTween.cancel()
 		}
@@ -200,41 +213,191 @@ scene("dojo", () => {
 	}
 
 	function spawnDoor() {
-		add([
-			sprite("dojo-door"),
+		let door = add([
+			sprite("dojoDoor"),
 			pos(DOOR_LOCATION),
-			"dojo-door",
+			"dojoDoor",
 			z(layers["bg-obj"]),
 			anchor("center"),
 			area(),
 		])
+
+		door.onHover(() => highlight(door, "dojoDoorHighlight"))
+		door.onHoverEnd(() => unHighlight(door, "dojoDoor"))
 	}
 
 	function spawMats() {
 		for (let i = 0; i < 4; i++) {
-			add([
-				sprite("dojo-mat"),
+			let mat = add([
+				sprite("dojoMat"),
 				pos(MAT_LOCATION[i]),
 				"mat",
 				z(layers["bg-obj"]),
 				anchor("center"),
 				area()
 			])
-		}
-	}
 
-	function interact(tag) {
-		switch (tag) {
-			case "dojo-door":
-				go("lobby")
-				break;
-			case "dojo-mat":
-				break;
-			default:
-				break;
+			mat.onHover(() => highlight(mat, "dojoMatHighlight"))
+			mat.onHoverEnd(() => unHighlight(mat, "dojoMat"))
 		}
 	}
 })
 
+
+
+// Card Game Code
+scene("card", () => {
+
+	let myCardType;
+	let myCardValue;
+	let opponentCardType = "WaterCard";
+	let opponentCardValue = 1;
+	let youWin;
+	let tie = false;
+	let CARDSLOTS = {
+		first: new Vec2(300, 500),
+		second: new Vec2(500, 500),
+		thrid: new Vec2(700, 500)
+
+	}
+
+	function createCard(cardObj, position) {
+		add([
+			sprite(cardObj.spriteName),
+			pos(position),
+			"Cards",
+			cardObj.cardType,
+			area(),
+			anchor("center"),
+			{
+				cardType: cardObj.cardType,
+				cardVal: cardObj.cardVal
+			}
+		])
+
+	}
+
+
+	// Begin game with 3 cards
+	function beginHand() {
+		let deck = [
+			{cardType: 'WaterCard', cardVal: 1, spriteName: 'puffle-blue'},
+			{cardType: 'WaterCard', cardVal: 2, spriteName: 'puffle-blue'}, 
+			{cardType: 'WaterCard', cardVal: 3, spriteName: 'puffle-blue'}, 
+			{cardType: 'GoldCard', cardVal: 1, spriteName: 'puffle-red'}, 
+			{cardType: 'GoldCard', cardVal: 2, spriteName: 'puffle-red'}, 
+			{cardType: 'GoldCard', cardVal: 3, spriteName: 'puffle-red'}, 
+			{cardType: 'SoilCard', cardVal: 1, spriteName: 'puffle-green'}, 
+			{cardType: 'SoilCard', cardVal: 2, spriteName: 'puffle-green'},
+			{cardType: 'SoilCard', cardVal: 3, spriteName: 'puffle-green'}
+		]
+		let randomCard1 = Math.floor(Math.random() * deck.length);
+		let randomCard2 = Math.floor(Math.random() * deck.length);
+		let randomCard3 = Math.floor(Math.random() * deck.length);
+
+		createCard(deck[randomCard1], CARDSLOTS.first);
+		createCard(deck[randomCard2], CARDSLOTS.second);
+		createCard(deck[randomCard3], CARDSLOTS.thrid);
+		deck.splice(randomCard1, 1);
+		deck.splice(randomCard2, 1);
+		deck.splice(randomCard3, 1);
+		
+	}
+	
+	beginHand();
+
+
+	// Play Cards
+	onClick("Cards", (card) => {
+		// Send card type & value to server so opponent can see card
+		myCardType = card.cardType;
+		myCardValue = card.cardVal;
+
+		card.moveTo(SCREEN_SIZE.width / 4, (SCREEN_SIZE.height / 2 ) - 50)
+		console.log(card.cardType)
+		console.log(card.cardVal)
+
+		compareCards();
+
+	})
+
+
+	function compareCards() {
+
+		tie = false;
+
+		if(myCardType == "WaterCard" && opponentCardType == "WaterCard") {
+			compareValue();
+		} else if(myCardType == "WaterCard" && opponentCardType == "SoilCard") {
+			youWin = true;
+			moveCard();
+		} else if(myCardType == "WaterCard" && opponentCardType == "GoldCard") {
+			youWin = false;
+			deleteCard();
+		} else if(myCardType == "SoilCard" && opponentCardType == "SoilCard") {
+			compareValue();
+		} else if(myCardType == "SoilCard" && opponentCardType == "GoldCard") {
+			youWin = true;
+			moveCard();
+		} else if(myCardType == "SoilCard" && opponentCardType == "WaterCard") {
+			youWin = false;
+			deleteCard();
+		} else if(myCardType == "GoldCard" && opponentCardType == "GoldCard") {
+			compareValue();
+		} else if(myCardType == "GoldCard" && opponentCardType == "SoilCard") {
+			youWin = false;
+			deleteCard();
+		} else if(myCardType == "GoldCard" && opponentCardType == "WaterCard") {
+			youWin = true;
+			moveCard();
+		} else {
+			return -1;
+		}
+	}
+
+	function compareValue() {
+		if(myCardValue > opponentCardValue){
+			youWin = true;
+			moveCard();
+		} else if(myCardValue < opponentCardValue) {
+			youWin = false;
+			deleteCard();
+		} else {
+			tie = true;
+		}
+	}
+
+	function deleteCard() {
+		onUpdate("Cards", (card) => {
+			if(card.pos.x == SCREEN_SIZE.width / 4) {
+				destroy(card)
+			}
+		})
+	}
+
+	function moveCard(){
+		onUpdate("Cards", (card) => {
+			if(card.pos.x == SCREEN_SIZE.width / 4) {
+				card.moveTo(SCREEN_SIZE.width / 2, (SCREEN_SIZE.height / 2) - 50)
+			}
+		})
+	}
+
+
+})
+
+
+/*Utility Functions*/
+function highlight(obj, spriteName){
+	obj.use(sprite(spriteName))
+	obj.use(scale(1.05))
+}
+
+function unHighlight(obj, spriteName){
+	obj.use(sprite(spriteName))
+	obj.use(scale(1))
+}
+
 go("lobby")
 sendNetworkMessage('changeScene', { scene: 'lobby', pos: LOBBY_SPAWN })
+
