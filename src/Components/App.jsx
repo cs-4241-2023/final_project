@@ -1,6 +1,7 @@
 import "../../App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Paperclip from "./Paperclip";
 import ToDo from "./ToDo";
 import { useEffect, useState } from "react";
 
@@ -38,6 +39,7 @@ function App() {
       <div className="main">
         {weather && <Header weather={weather} />}
         <Sidebar />
+        <Paperclip />
         <ToDo onAdd={addToDo} toDoList={toDo} />
       </div>
     </>
