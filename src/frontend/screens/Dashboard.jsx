@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../css/Dashboard.css"
 import GroupPage from "./GroupPage.jsx";
 import GroupList from "../components/GroupList.jsx";
@@ -23,8 +23,7 @@ function Dashboard() {
 
             if (!response.ok) console.log("404: Collection Not Found");
 
-            const data = await response.json();
-            return data
+            return await response.json()
         } catch (error) {
             console.error(error);
         }
@@ -32,18 +31,7 @@ function Dashboard() {
 
     async function showNewGroupPage(e) {
         e.preventDefault();
-        setGroupFormVisiblity(
-            <div className={"add-group-page"}>
-                <h2>Add a Group</h2>
-                <form onSubmit={(e) => addGroup(e)}>
-                    <input id={"groupName"} type={"text"} placeholder={"group name"} />
-                    <input id={"groupDescription"} type={"text"} placeholder={"group description"} />
-                    <input id={"groupUsers"} type={"text"} placeholder={"group users (separate each user with a comma)"} />
-                    <button onClick={() => { setGroupFormVisiblity(<></>) }}>Cancel</button>
-                    <button type={"submit"}>Submit</button>
-                </form>
-            </div>
-        );
+        setGroupFormVisiblity(true);
     }
 
     async function addGroup(form) {
@@ -51,6 +39,17 @@ function Dashboard() {
             alert("One or more fields are empty");
         } else {
             const groupUsers = form.groupUsers.split(",").map(user => user.trim())
+            for (const user of groupUsers) {
+                let res = await fetch("/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user })
+                });
+                if(res.status === 404) {
+                    alert("One or more users could not be found");
+                    return;
+                }
+            }
             let groupJSON = JSON.stringify({
                 collection: "Groups",
                 groupName: form.groupName,

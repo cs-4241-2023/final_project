@@ -7,10 +7,12 @@ export const loginUser = async (req, res) => {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
 
-        if (user && password === user.password) {
+        if ((user && password === user.password) || req.session.isLoggedIn) {
             req.session.user = username;
+            req.session.isLoggedIn = true;
             res.status(200).end();
         } else {
+            req.session.isLoggedIn = false;
             res.status(401).end();
         }
     } catch (error) {
@@ -43,6 +45,19 @@ export const signupUser = async (req, res) => {
         res.status(501).end();
     }
 };
+
+export const authStatus = (req, res) => {
+    if(req.session.isLoggedIn) {
+        res.status(200).end();
+    } else {
+        res.status(401).end();
+    }
+}
+
+export const unAuthorize = (req, res) => {
+    req.session.isLoggedIn = false;
+    res.status(200).end();
+}
 
 // export const getUsers = async (req, res) => {
 //     try {
