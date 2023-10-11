@@ -143,9 +143,16 @@ hr {
 
 /* Group list styling */
 .dashboard--group-list {
-    border: solid white 1px;
-    padding: 10px; 
     display: flex;
+    flex-direction: column;
+}
+
+.group-card {
+    border: solid white 1px;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 .group > h3 {
@@ -153,5 +160,7 @@ hr {
 }
 
 .group-buttons {
-
+    margin: auto 0 0 auto;
+    display: flex;
+    gap: 10px;
 }
