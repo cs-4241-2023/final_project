@@ -117,16 +117,20 @@ function Dashboard() {
                         </button>
                     </div>
                 ) : (
-                    <div>
-                        <button
-                            className={"add-group-btn"}
-                            type={"submit"}
-                            onClick={(e) => showNewGroupPage(e)}
-                        >
-                            Create New Group
-                        </button>
-                        <h2>Tracked Groups</h2>
-
+                    <div className="dashboard--main">
+                        <div className="dashboard--main-header">
+                            <h2>Tracked Groups</h2>
+                            <div>
+                                <button
+                                    className={"dashboard--new-group"}
+                                    type={"submit"}
+                                    onClick={(e) => showNewGroupPage(e)}
+                                >
+                                    Create New Group
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
                         {isGroupFormVisible && (
                             <AddGroupForm
                                 addGroup={addGroup}

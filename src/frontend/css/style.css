@@ -39,8 +39,14 @@ body {
 .login--signup-button,
 .signup--username,
 .signup--password,
-.signup--submit, 
-.dashboard--logout {
+.signup--submit,
+.dashboard--logout,
+.dashboard--new-group,
+.dashboard--group-submit,
+.dashboard--group-cancel,
+.dashboard--group-name,
+.dashboard--group-description,
+.dashboard--group-users {
     padding: 10px;
     outline: 0px;
     border: 0px;
@@ -57,7 +63,8 @@ body {
 .login--submit,
 .login--signup-button,
 .signup--submit,
-.dashboard--logout {
+.dashboard--logout,
+.dashboard--new-group {
     color: white;
     background-color: #bb86f3;
 }
@@ -65,25 +72,25 @@ body {
 .login--submit:hover,
 .login--signup-button:hover,
 .signup--submit:hover,
-.dashboard--logout:hover {
+.dashboard--logout:hover,
+.dashboard--new-group:hover,
+.dashboard--group-submit,
+.dashboard--group-cancel {
     background-color: #a46be2;
     cursor: pointer;
 }
 
+/*-------------------*/
 /* Dashboard styling */
-.dashboard {
-    /* display: flex;
-    flex-direction: column; */
-    /* align-items: center; */
-}
+/*-------------------*/
 
+/* header styling */
 .dashboard--header {
     display: flex;
     color: whites;
     background: #161618;
     justify-content: space-between;
 }
-
 
 .dashboard--header-text {
     margin-right: auto;
@@ -95,15 +102,63 @@ body {
     justify-content: center;
 }
 
-
 .dashboard--header-text > h1 {
     margin: 0;
 }
 
-.dashboard--logout {
-    
+/* main content styling */
+.dashboard--main {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
 }
 
-.group {
-    /* background: white; */
+.dashboard--main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard--group-container {
+    position: absolute;
+    z-index: 10;
+    background-color: #161618;
+    color: white;
+    top: 20%;
+    left: 35%;
+    border-radius: 20px;
+    width: 25%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(100px);
+}
+
+.dashboard--group-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.dashboard--group-form > input {
+    width: 50%;
+}
+
+.dashboard--group-buttons {
+    margin-top: 20%;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+
+hr {
+    width: 100%;
+    margin: 0;
+}
+
+.dashboard--new-group {
+    margin-left: auto;
 }
