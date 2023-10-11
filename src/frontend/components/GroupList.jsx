@@ -7,7 +7,7 @@ function GroupList({ groups, selectGroup, deleteGroup }) {
     }
 
     return (
-        <div className={"group-container"}>
+        <div className={"dashboard--group-list"}>
             {groups.map((group, index) => (
                 <div key={index}>
                     <GroupCard group={group} selectGroup={selectGroup} deleteGroup={deleteGroup} />

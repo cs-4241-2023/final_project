@@ -18,7 +18,7 @@ function AddGroupForm({ addGroup, onCancel }) {
     };
 
     return (
-        <div className={"add-group-page"}>
+        <div className={"dashboard--add-group"}>
             <h2>Add a Group</h2>
             <form onSubmit={handleSubmit}>
                 <input
