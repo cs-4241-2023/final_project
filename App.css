@@ -150,7 +150,6 @@ body {
 }
 
 /* Header */
-
 .header {
   display: grid;
   height: 14vh;
@@ -174,7 +173,9 @@ body {
   font-size: 2rem;
 }
 
-.greeting-info {
+.greeting-info p {
+  display: inline-block;
+  margin-right: 20px;
   font-size: 1.4rem;
 }
 

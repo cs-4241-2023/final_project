@@ -1,20 +1,35 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css";
 
 function Header(props) {
-  function getCurrentDate() {
+  const [formattedDateWithSuffix, setFormattedDateWithSuffix] = useState("");
+
+  useEffect(() => {
     const now = new Date();
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const formattedDate = now.toLocaleDateString("en-US", options);
 
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0"); // Month is zero-based, so we add 1
-    const day = String(now.getDate()).padStart(2, "0");
+    const day = now.getDate();
+    let suffix = "th";
+    if (day % 10 === 1 && day !== 11) {
+      suffix = "st";
+    } else if (day % 10 === 2 && day !== 12) {
+      suffix = "nd";
+    } else if (day % 10 === 3 && day !== 13) {
+      suffix = "rd";
+    }
 
-    const formattedDate = `${month}/${day}/${year}`;
-
-    return formattedDate;
-  }
-
-  const currentDate = getCurrentDate();
+    const formattedDateWithSuffixTemp = formattedDate.replace(
+      `${day},`,
+      `${day}${suffix},`
+    );
+    setFormattedDateWithSuffix(formattedDateWithSuffixTemp);
+  }, []);
 
   return (
     <>
@@ -22,7 +37,8 @@ function Header(props) {
         <div className="greeting-card">
           <div className="greeting-text">Hello, User!</div>
           <div className="greeting-info">
-            {props.currentTime} | {currentDate}
+            <p>{formattedDateWithSuffix}</p>
+            <p>{props.currentTime}</p>
           </div>
         </div>
         <div className="weather-card">

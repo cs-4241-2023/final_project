@@ -73,28 +73,23 @@ function Paperclip(props) {
   useEffect(() => {
     if (askForFunFact) {
       const speechBubble = document.querySelector(".speechBubble");
+
       const handleClick = () => {
         const audio = new Audio("/public/assets/pageFlip.mp3");
 
         audio.addEventListener("ended", () => {
           const randomIndex = Math.floor(Math.random() * funFacts.length);
-          setSpeechText("Did you know " + funFacts[randomIndex]);
-          speechBubble.style.cursor = setAskForFunFact(false);
+          setSpeechText(`Did you know ${funFacts[randomIndex]}`);
+          setAskForFunFact(false);
+          speechBubble.style.cursor = "pointer";
         });
 
         audio.play();
-        speechBubble.removeEventListener("click", handleClick);
       };
 
       if (speechBubble) {
         speechBubble.addEventListener("click", handleClick);
       }
-
-      return () => {
-        if (speechBubble) {
-          speechBubble.removeEventListener("click", handleClick);
-        }
-      };
     }
   }, [askForFunFact]);
 
@@ -104,7 +99,7 @@ function Paperclip(props) {
       const speechBubble = document.querySelector(".speechBubble");
       if (speechBubble) {
         speechBubble.style.left = `${rect.left + 95}px`;
-        speechBubble.style.top = `${rect.top - 50}px`;
+        speechBubble.style.top = `${rect.top - 60}px`;
       }
     }
   }, [showSpeechBubble]);
