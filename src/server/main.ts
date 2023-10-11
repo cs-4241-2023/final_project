@@ -186,6 +186,23 @@ app.post("/setdescription", async (req, res) => {
 
 });
 
+app.post("/deletehabit", async (req, res) => {
+
+  if (!auth.isLoggedIn(req)) { // if not logged in, redirect to login page
+    res.status(401).json({message: "Not logged in"});
+    return;
+  }
+
+  const data = req.body;
+  const {habitID} = data;
+
+  const habitIDObj = convertStrToHabitID(habitID as string);
+
+  await database.deleteHabit(auth.getUserID(req)!, habitIDObj);
+  res.status(200).json({message: "Habit deleted successfully"});
+
+});
+
 
 app.get("/userinfo", async (req, res) => {
 

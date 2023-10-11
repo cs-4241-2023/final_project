@@ -75,8 +75,6 @@ const CalendarCellComponent: FC<CellComponentProps> = ({habitID, year, month, da
 
     const [myOutcome, setMyOutcome] = useState<Outcome>(outcome);
 
-    console.log("rerender", day, myOutcome, outcome);
-
     useEffect(() => {
         setMyOutcome(outcome);
     }, [year, month]);

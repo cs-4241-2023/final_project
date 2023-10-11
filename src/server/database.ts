@@ -256,6 +256,25 @@ export class Database {
         );
     }
 
+    public async deleteHabit(userID: mongoose.Types.ObjectId, habitID: mongoose.Types.ObjectId) {
+
+        // delete all outcomes for this habit
+        await DBHabitOutcome.deleteMany({ userID: userID, habitID: habitID });
+
+        // delete UserHabit record
+        await DBUserHabit.findOneAndDelete({ userID: userID, habitID: habitID });
+
+        // if no other users have this habit, delete the habit
+        const numUsers = await DBUserHabit.countDocuments({ habitID: habitID });
+        if (numUsers === 0) {
+            await DBHabit.findOneAndDelete({ _id: habitID });
+            console.log("No users have this habit left, deleting habit entirely");
+        } else {
+            console.log("Other users still have this habit, deleting habit for this user only");
+        }
+
+    }
+
     public async setDescription(habitID: mongoose.Types.ObjectId, description: string) {
 
         await DBHabit.findOneAndUpdate(

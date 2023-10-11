@@ -4,6 +4,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PercentIcon from "../shared-components/percent-icon";
 import { UserHabit } from "../../../../models";
+import { Method, fetchServer } from "../../scripts/fetch-server";
 
 
 const StyledButton = styled.button`
@@ -95,6 +96,8 @@ ${(props) =>
 
 interface HabitWidgetProps {
   habit: UserHabit;
+  setUpdate: React.Dispatch<React.SetStateAction<number>>;
+  deleteHabitClientSide: (habit: UserHabit) => void;
 }
 
 // function handleClick({habit}: HabitWidgetProps ) {
@@ -103,7 +106,7 @@ interface HabitWidgetProps {
 //   console.log('Link clicked!');
 // }
 
-function HabitWidget({ habit }: HabitWidgetProps) {
+function HabitWidget({ habit, setUpdate, deleteHabitClientSide }: HabitWidgetProps) {
 
   const navigate = useNavigate(); // Get the navigate function from React Router
 
@@ -111,6 +114,18 @@ function HabitWidget({ habit }: HabitWidgetProps) {
     event.preventDefault(); // Prevent the default button click behavior
     navigate("/habit/" + habit.habitID); // Programmatically navigate to the desired URL
   };
+
+  const onDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+     console.log("delete habit client-side");
+     event.stopPropagation(); // prevent click from propgating to clicking habit itself
+
+     deleteHabitClientSide(habit); // delete habit client-side first, for responsiveness while waiting for server response
+
+     fetchServer(Method.POST, "/deletehabit", { habitID: habit.habitID }).then((response) => {
+        console.log("delete habit server-side", response);
+        setUpdate((update) => update + 1);
+      });
+  }
 
   const displayStreak = habit.currentStreak >= 1;
   const isHighStreak = habit.currentStreak > 9;
@@ -156,7 +171,7 @@ function HabitWidget({ habit }: HabitWidgetProps) {
             <PercentTextStyle>{habit.percentSuccessLifetime}%</PercentTextStyle>
           </ThreeWidgetStyle>
 
-          <DeleteButtonStyle className="btn btn-primary border-0">
+          <DeleteButtonStyle className="btn btn-primary border-0" onClick={onDelete}>
             <DeleteButtonImgStyle src="/trash.png"></DeleteButtonImgStyle>
           </DeleteButtonStyle>
 

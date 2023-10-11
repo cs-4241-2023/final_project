@@ -30,16 +30,20 @@ margin: 0 2.5% 0 2.5%;
 `
 
 
-function HabitListWidget({setUpdate,habits}: HabitListWidgetProps ){
+function HabitListWidget({setUpdate, habits}: HabitListWidgetProps ){
 
     const sortFunc = (a: UserHabit, b: UserHabit) => {
         return b.currentStreak - a.currentStreak;
     }
 
+    const deleteHabitClientSide = (habit: UserHabit) => {
+        habits.splice(habits.indexOf(habit), 1);
+    }
+
     return( <>
         <BigWidgetStyle className = "rounded">
             {habits.sort(sortFunc).map((habit) => (<>
-             <HabitWidgetStyle><HabitWidget habit = {habit}/></HabitWidgetStyle>  
+             <HabitWidgetStyle><HabitWidget habit={habit} setUpdate={setUpdate} deleteHabitClientSide={deleteHabitClientSide}/></HabitWidgetStyle>  
              </>))}
             <div className="d-flex justify-content-center"><CreateHabitButton setUpdate={setUpdate}/></div>
         </BigWidgetStyle> 
