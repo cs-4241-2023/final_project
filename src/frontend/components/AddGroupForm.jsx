@@ -18,12 +18,12 @@ function AddGroupForm({ addGroup, onCancel }) {
     };
 
     return (
-        <div className="dashboard--group-container">
+        <div className="dashboard--group-container interactable">
             <form className="dashboard--group-form" onSubmit={handleSubmit}>
                 <h2>Add a Group</h2>
                 <input
                     name="groupName"
-                    className="dashboard--group-name"
+                    className="dashboard--group-name interactable"
                     type="text"
                     autoComplete="off"
                     placeholder="group name"
@@ -32,7 +32,7 @@ function AddGroupForm({ addGroup, onCancel }) {
                 />
                 <input
                     name="groupDescription"
-                    className="dashboard--group-description"
+                    className="dashboard--group-description interactable"
                     type="text"
                     autoComplete="off"
                     placeholder="group description"
@@ -41,7 +41,7 @@ function AddGroupForm({ addGroup, onCancel }) {
                 />
                 <input
                     name="groupUsers"
-                    className="dashboard--group-users"
+                    className="dashboard--group-users interactable"
                     type="text"
                     autoComplete="off"
                     placeholder="group users (separate each user with a comma)"
@@ -49,12 +49,12 @@ function AddGroupForm({ addGroup, onCancel }) {
                     onChange={handleChange}
                 />
                 <div className="dashboard--group-buttons" >
-                    <button type="submit" className="dashboard--group-submit">
+                    <button type="submit" className="dashboard--group-submit interactable">
                         Submit
                     </button>
                     <button
                         onClick={onCancel}
-                        className="dashboard--group-cancel"
+                        className="dashboard--group-cancel interactable"
                     >
                         Cancel
                     </button>

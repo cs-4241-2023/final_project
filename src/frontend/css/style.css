@@ -47,24 +47,12 @@ body {
     margin-bottom: 1px;
 }
 
-.login--submit,
-.login--signup-button,
-.signup--submit,
-.dashboard--logout,
-.dashboard--new-group {
+button {
     color: white;
     background-color: #bb86f3;
 }
 
-.login--submit:hover,
-.login--signup-button:hover,
-.signup--submit:hover,
-.dashboard--logout:hover,
-.dashboard--new-group:hover,
-.dashboard--group-submit,
-.dashboard--group-cancel,
-.group-submit,
-.group-delete {
+button:hover {
     background-color: #a46be2;
     cursor: pointer;
 }
