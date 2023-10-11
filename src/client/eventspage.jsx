@@ -1,5 +1,3 @@
-import "./css/theming.css";
-import rbeLogo from "./Resources/RhoBetaEpsilon_Logo_noBackground.png";
 import "./css/sidebar.css";
 import React from "react";
 import { useState, useEffect } from "react";

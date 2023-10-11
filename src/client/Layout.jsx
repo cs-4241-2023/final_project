@@ -1,5 +1,5 @@
-import "./css/theming.css";
-import rbeLogo from "./Resources/RhoBetaEpsilon_Logo_noBackground.png";
+import "../Theming/theming.css";
+import Logo from "../Theming/Logo.png";
 import "./css/sidebar.css";
 import React from "react";
 import { useLocation } from "react-router-dom";
@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
             href="/home"
             className="d-flex align-items-center mb-3 mb-md-0 text-decoration-none"
           >
-            <img src={rbeLogo} alt="Rho Beta Epsilon Logo" width="100px" />
+            <img src={Logo} alt="Rho Beta Epsilon Logo" width="100px" />
             <span className="fs-4">Rho Beta Epsilon</span>
           </Navbar.Brand>
           <hr />
@@ -43,22 +43,35 @@ const Layout = ({ children }) => {
             variant="pills"
           >
             <Nav.Item>
-              <Nav.Link href="/home" className="primary">
+              <Nav.Link
+                href="/home"
+                style={{ color: "white", textDecoration: "none" }}
+              >
                 Home
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/attendance" className="primary">
+              <Nav.Link
+                href="/attendance"
+                style={{ color: "white", textDecoration: "none" }}
+                variant="sidebarLink"
+              >
                 Attendance
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/hours" className="primary">
+              <Nav.Link
+                href="/hours"
+                style={{ color: "white", textDecoration: "none" }}
+              >
                 Hours
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/history" className="primary">
+              <Nav.Link
+                href="/history"
+                style={{ color: "white", textDecoration: "none" }}
+              >
                 History
               </Nav.Link>
             </Nav.Item>

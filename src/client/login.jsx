@@ -1,5 +1,5 @@
-import "./css/theming.css";
-import rbeLogo from "./Resources/RhoBetaEpsilon_Logo_noBackground.png";
+import "../Theming/theming.css";
+import Logo from "../Theming/Logo.png";
 import React from "react";
 import { useState } from "react";
 import { Image, Form, Button, Navbar } from "react-bootstrap";
@@ -46,7 +46,7 @@ function Login() {
       >
         <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <Image
-            src={rbeLogo}
+            src={Logo}
             alt="Rho Beta Epsilon Logo"
             width="100px"
             height="116px"

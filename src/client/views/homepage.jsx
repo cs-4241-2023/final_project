@@ -1,8 +1,7 @@
-import "../css/theming.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Stack, Modal } from "react-bootstrap";
-
+import { determineEventType } from "../../Theming/site_control";
 function Homepage() {
   const [events, setEvents] = useState([]);
   useEffect(() => {
@@ -23,7 +22,7 @@ function Homepage() {
       description: "Robots go brrr!",
     };
     const tempEventFour = {
-      title: "Colloquium asdasd",
+      title: "Event asdasd",
       date: new Date("2/3/2023"),
       description: "Robots go brrr again!",
     };
@@ -39,18 +38,6 @@ function Homepage() {
         setEvents(data);
       });
   }, []);
-
-  const determineEventType = (title) => {
-    console.log(title);
-    let bgcolor = "#a23535";
-    let textColor = "white";
-    if (title.toLowerCase().includes("colloquium")) {
-      bgcolor = "#ffdf50";
-      textColor = "black";
-    }
-    console.log({ backgroundColor: { bgcolor }, color: { textColor } });
-    return { backgroundColor: bgcolor, color: textColor };
-  };
 
   return (
     <Container fluid>
@@ -77,12 +64,7 @@ function Homepage() {
                 >
                   <Modal.Dialog>
                     <Modal.Header
-                      style={{
-                        backgroundColor: `${
-                          determineEventType(event.title).backgroundColor
-                        }`,
-                        color: `${determineEventType(event.title).color}`,
-                      }}
+                      className={`${determineEventType(event.title).style}`}
                     >
                       <Modal.Title>{event.title}</Modal.Title>
                     </Modal.Header>

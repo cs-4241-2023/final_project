@@ -8,7 +8,7 @@ import UserPage from "./views/userpage.jsx";
 import EventsPage from "./eventspage.jsx";
 import AttendancePage from "./views/attendance.jsx";
 import Layout from "./Layout.jsx";
-import "./css/theming.css";
+import "../Theming/theming.css";
 
 // Importing the Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
