@@ -3,11 +3,12 @@ import sendNetworkMessage from "./clientNetworking.js";
 const SPEED = 2
 const LOBBY_SPAWN = { x: 80, y: 40 }
 const DOJO_SPAWN = { x: 380, y: 415 }
+const SCREEN_SIZE = { width: 1024, height: 640 }
 
 kaboom({
 	background: [0, 0, 0],
-	width: 1024,
-	height: 640,
+	width: SCREEN_SIZE.width,
+	height: SCREEN_SIZE.height,
 	scale: 1,
 	debug: true,
 });
@@ -21,6 +22,8 @@ let layers = {
 }
 
 loadSprite("puffle-red", "../sprites/puffle-red.png")
+loadSprite("puffle-blue", "../sprites/puffle-blue.png")
+loadSprite("puffle-green", "../sprites/puffle-green.png")
 
 scene("lobby", () => {
 
@@ -59,7 +62,7 @@ scene("lobby", () => {
 			z(layers.bg),
 			anchor("center"),
 			area(),
-			"dojoBuilding",
+			"dojoBuilding",        
 		])
 
 		add([
@@ -236,5 +239,147 @@ scene("dojo", () => {
 	}
 })
 
-go("lobby")
-sendNetworkMessage('changeScene', { scene: 'lobby', pos: LOBBY_SPAWN })
+
+// Card Game Code
+scene("card", () => {
+
+	let myCardType;
+	let myCardValue;
+	let opponentCardType = "WaterCard";
+	let opponentCardValue = 1;
+	let youWin;
+	let tie = false;
+	let CARDSLOTS = {
+		first: new Vec2(300, 500),
+		second: new Vec2(500, 500),
+		thrid: new Vec2(700, 500)
+
+	}
+
+	function createCard(cardObj, position) {
+		add([
+			sprite(cardObj.spriteName),
+			pos(position),
+			"Cards",
+			cardObj.cardType,
+			area(),
+			anchor("center"),
+			{
+				cardType: cardObj.cardType,
+				cardVal: cardObj.cardVal
+			}
+		])
+
+	}
+
+
+	// Begin game with 3 cards
+	function beginHand() {
+		let deck = [
+			{cardType: 'WaterCard', cardVal: 1, spriteName: 'puffle-blue'},
+			{cardType: 'WaterCard', cardVal: 2, spriteName: 'puffle-blue'}, 
+			{cardType: 'WaterCard', cardVal: 3, spriteName: 'puffle-blue'}, 
+			{cardType: 'GoldCard', cardVal: 1, spriteName: 'puffle-red'}, 
+			{cardType: 'GoldCard', cardVal: 2, spriteName: 'puffle-red'}, 
+			{cardType: 'GoldCard', cardVal: 3, spriteName: 'puffle-red'}, 
+			{cardType: 'SoilCard', cardVal: 1, spriteName: 'puffle-green'}, 
+			{cardType: 'SoilCard', cardVal: 2, spriteName: 'puffle-green'},
+			{cardType: 'SoilCard', cardVal: 3, spriteName: 'puffle-green'}
+		]
+		let randomCard1 = Math.floor(Math.random() * deck.length);
+		let randomCard2 = Math.floor(Math.random() * deck.length);
+		let randomCard3 = Math.floor(Math.random() * deck.length);
+
+		createCard(deck[randomCard1], CARDSLOTS.first);
+		createCard(deck[randomCard2], CARDSLOTS.second);
+		createCard(deck[randomCard3], CARDSLOTS.thrid);
+		deck.splice(randomCard1, 1);
+		deck.splice(randomCard2, 1);
+		deck.splice(randomCard3, 1);
+		
+	}
+	
+	beginHand();
+
+
+	// Play Cards
+	onClick("Cards", (card) => {
+		// Send card type & value to server so opponent can see card
+		myCardType = card.cardType;
+		myCardValue = card.cardVal;
+
+		card.moveTo(SCREEN_SIZE.width / 4, (SCREEN_SIZE.height / 2 ) - 50)
+		console.log(card.cardType)
+		console.log(card.cardVal)
+
+		compareCards();
+
+	})
+
+
+	function compareCards() {
+
+		tie = false;
+
+		if(myCardType == "WaterCard" && opponentCardType == "WaterCard") {
+			compareValue();
+		} else if(myCardType == "WaterCard" && opponentCardType == "SoilCard") {
+			youWin = true;
+			moveCard();
+		} else if(myCardType == "WaterCard" && opponentCardType == "GoldCard") {
+			youWin = false;
+			deleteCard();
+		} else if(myCardType == "SoilCard" && opponentCardType == "SoilCard") {
+			compareValue();
+		} else if(myCardType == "SoilCard" && opponentCardType == "GoldCard") {
+			youWin = true;
+			moveCard();
+		} else if(myCardType == "SoilCard" && opponentCardType == "WaterCard") {
+			youWin = false;
+			deleteCard();
+		} else if(myCardType == "GoldCard" && opponentCardType == "GoldCard") {
+			compareValue();
+		} else if(myCardType == "GoldCard" && opponentCardType == "SoilCard") {
+			youWin = false;
+			deleteCard();
+		} else if(myCardType == "GoldCard" && opponentCardType == "WaterCard") {
+			youWin = true;
+			moveCard();
+		} else {
+			return -1;
+		}
+	}
+
+	function compareValue() {
+		if(myCardValue > opponentCardValue){
+			youWin = true;
+			moveCard();
+		} else if(myCardValue < opponentCardValue) {
+			youWin = false;
+			deleteCard();
+		} else {
+			tie = true;
+		}
+	}
+
+	function deleteCard() {
+		onUpdate("Cards", (card) => {
+			if(card.pos.x == SCREEN_SIZE.width / 4) {
+				destroy(card)
+			}
+		})
+	}
+
+	function moveCard(){
+		onUpdate("Cards", (card) => {
+			if(card.pos.x == SCREEN_SIZE.width / 4) {
+				card.moveTo(SCREEN_SIZE.width / 2, (SCREEN_SIZE.height / 2) - 50)
+			}
+		})
+	}
+
+
+})
+
+go("card");
+sendNetworkMessage('changeScene', { scene: 'card', pos: LOBBY_SPAWN });
