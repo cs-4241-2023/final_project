@@ -1,5 +1,8 @@
 .env
 
+dbConnection.js
+
+
 # Logs
 logs
 *.log
