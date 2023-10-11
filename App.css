@@ -217,7 +217,7 @@ body {
 
 .ToDo {
   border-radius: 15px;
-  background: rgba(255, 255, 153, 0.95);
+  background: rgba(255, 255, 153, 1);
   display: flex;
   width: 429px;
   height: 720px;
