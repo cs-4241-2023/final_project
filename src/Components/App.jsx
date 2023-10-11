@@ -2,7 +2,7 @@ import "../../App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Paperclip from "./Paperclip";
-import ToDo from "./ToDo";
+import Schedule from "./Schedule";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
   const [search, setSearch] = useState("New York");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
-  const [toDo, setToDo] = useState([ ]);
+  const [schedule, setSchedule] = useState([ ]);
 
   const fetchWeather = async (search) => {
     try {
@@ -68,10 +68,10 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const addToDo = async (add) => {
-    const newToDo = [...toDo, add];
-    setToDo(newToDo);
-    console.log(newToDo);
+  const addSchedule = async (add) => {
+    const newSchedule = [...schedule, add];
+    setSchedule(newSchedule);
+    console.log(newSchedule);
   }
 
   return (
@@ -80,7 +80,7 @@ function App() {
         {weather && <Header weather={weather} currentTime={currentTime} />}
         <Sidebar />
         <Paperclip />
-        <ToDo onAdd={addToDo} toDoList={toDo} />
+        <Schedule onAdd={addSchedule} ScheduleList={schedule} />
       </div>
     </>
   );

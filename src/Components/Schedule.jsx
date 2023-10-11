@@ -1,9 +1,11 @@
-function ToDo(props) {
+import ScheduleItem from "./ScheduleItem";
+
+function Schedule(props) {
   return (
-    <div className="ToDo">
-      <div className="ToDoHeading">
+    <div className="Schedule">
+      <div className="ScheduleHeading">
         <h1>To Do</h1>
-        <button onClick={(e) => props.onAdd({"toDo": "Test"})}>
+        <button onClick={(e) => props.onAdd({"subject": "Test", "time": "3:30pm"})}>
           <svg
             width="21"
             height="21"
@@ -31,11 +33,11 @@ function ToDo(props) {
         </button>
       </div>
       <ul>
-        {props.toDoList.map((item, index) => (
-          <li key={index}>{item.toDo}</li>
+        {props.ScheduleList.map((item, index) => (
+          <ScheduleItem subject={item.subject} time={item.time}/>
         ))}
       </ul>
     </div>
   );
 }
-export default ToDo;
+export default Schedule;
