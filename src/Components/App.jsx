@@ -1,6 +1,7 @@
 import "../../App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Paperclip from "./Paperclip";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
       <div className="main">
         {weather && <Header weather={weather} />}
         <Sidebar />
+        <Paperclip />
       </div>
     </>
   );
