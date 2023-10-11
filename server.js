@@ -3,7 +3,7 @@ dotenv.config();
 import express from "express";
 import ViteExpress from "vite-express";
 import cors from "cors";
-import { calculateScore } from "./word-manager";
+import { calculateScore } from "./word-manager.js";
 
 const app = express();
 
@@ -24,23 +24,28 @@ app.get("/test", (req, res) => {
   res.send("Hello World!");
 });
 
-const port = 3000;
+const port = 5173;
 ViteExpress.listen(app, port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-app.get("/puzzles/:puzzleID", (req, res) => {
-  const requestedID = req.params.puzzleID
-  console.log(`Client is requesting puzzle with ID of ${requestedID}`)
-  const puzzle = puzzles.find(t=>t.id === `${requestedID}`)
+app.get("/puzzles/1", (req, res) => {
+  /*
+  const requestedID = req.params.puzzleID;
+  console.log(`Client is requesting puzzle with ID of ${requestedID}`);
+  const puzzle = puzzles.find((t) => t.id === `${requestedID}`);
   if (puzzle === undefined) {
     res.status(404).send(
-      `Puzzle with ID of ${requestedID} not found`)
+      `Puzzle with ID of ${requestedID} not found`
+    );
+  } else {
+    const scrambledWord = scrambleWord(puzzle.word);
+    // res.send(scrambledWord); // Send the scrambled word as plain text
+    res.send("hello");
   }
-  else {
-    res.send({word: `${scrambleWord(puzzle.word)}`})
-  }
-})
+  */
+ res.sendStatus(404)
+});
 
 app.post("/puzzles/:puzzleID/submit-word", (req, res) => {
   const requestedID = req.params.puzzleID
@@ -67,7 +72,7 @@ function scrambleWord(puzzleWord) {
   return scrambledWord
 }
 
-const puzzles = [
+const puzzleList = [
   {
       "id" : "1",
       "word" : "amplify"
