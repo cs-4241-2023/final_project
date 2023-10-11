@@ -123,10 +123,10 @@ function musicTourBuilder() {
                         tourduration: tourDuration
                     }) 
                 })
+
+                const modificationFeedback = await response.text()
+                setFieldModificationFeedback(modificationFeedback)
             }
-                
-            const modificationFeedback = await response.text()
-            setFieldModificationFeedback(modificationFeedback)
         })
     })
 
