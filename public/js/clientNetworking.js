@@ -45,7 +45,6 @@ network.on('connect', () => {
 	}
 
 	network.emit('setScene', currentScene)
-	console.log('reconnected')
 })
 
 
@@ -65,11 +64,9 @@ const spawnRemotePlayer = function (id, positon) {
 		scale(0.5, 0.5),
 		anchor("center"),
 	])
-	console.log('Add:', id)
 }
 
 const removeRemotePlayer = function (id) {
-	console.log('Deleting:', id)
 	destroy(remotePlayers[id]) // removes player from kaboom
 	delete remotePlayers[id] // removes player from map
 }
