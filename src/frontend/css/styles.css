@@ -35,18 +35,18 @@ button:hover {
 
 /* Container holding the entire app */
 .container,
-.container > form {
+.container>form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.container > form {
+.container>form {
     gap: 20px;
     width: 20%;
 }
 
-.container > form > input {
+.container>form>input {
     width: 100%;
 }
 
@@ -72,7 +72,8 @@ button:hover {
     color: white;
 }
 
-.dashboard--header h1, .profile-btn {
+.dashboard--header h1,
+.profile-btn {
     display: inline;
 }
 
@@ -98,6 +99,7 @@ main h2 {
     background-color: #1F1A24;
     color: white;
 }
+
 .group-container h2 {
     text-align: center;
 }
@@ -121,7 +123,8 @@ main h2 {
     margin: 5px;
 }
 
-.group-btn, .delete-btn {
+.group-btn,
+.delete-btn {
     margin: 10px;
 }
 
@@ -162,4 +165,52 @@ main h2 {
     margin: 5px;
     border: solid transparent;
     border-radius: 10px;
+}
+
+/* SoloGrid.css */
+
+.solo-grid {
+    padding: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 100px);
+    /* Adjust column width as needed */
+    grid-template-rows: repeat(6, 40px);
+    /* Adjust row height as needed */
+    grid-gap: 2px;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.empty-cell {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.day-label,
+.time-slot-label {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.availability-cell {
+    border: 1px solid #ccc;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.available {
+    background-color: #6eff6e;
+    /* Green background for available slots */
+}
+
+.unavailable {
+    background-color: #ff6e6e;
+    /* Red background for unavailable slots */
 }

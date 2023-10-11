@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css"
 import GroupPage from "./GroupPage.jsx";
 import GroupList from "../components/GroupList.jsx";
 import AddGroupForm from "../components/AddGroupForm.jsx";
 import Header from "../components/Header.jsx";
+import SoloGrid from "../components/SoloGrid.jsx";
 
 function Dashboard() {
     const [groups, setGroups] = useState([]);
@@ -45,7 +46,7 @@ function Dashboard() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username: user })
                 });
-                if(res.status === 404) {
+                if (res.status === 404) {
                     alert("One or more users could not be found");
                     return;
                 }
@@ -99,10 +100,14 @@ function Dashboard() {
         setGroupPage(groupPageComp);
     }
 
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const [availability, setAvailability] = useState({});
+
     return (<>
         <Header />
         <main>
-            {selectedGroupPage ? (
+            <SoloGrid days={days} availability={availability} setAvailability={setAvailability} />
+            {/* {selectedGroupPage ? (
                 <div className={"group-container"}>
                     {selectedGroupPage}
                     <button className={"back-btn"} type={"submit"} onClick={() => setGroupPage(null)}>
@@ -125,7 +130,7 @@ function Dashboard() {
                     }
                     <GroupList groups={groups} selectGroup={handleSelectGroup} deleteGroup={deleteGroup} />
                 </div>
-            )}
+            )} */}
         </main>
     </>)
 }
