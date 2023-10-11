@@ -223,26 +223,62 @@ root {
   gap: 10px;
   flex-shrink: 0;
   position: fixed;
+  top: 25%;
   bottom: 75px;
   right: 75px;
+}
+
+.ToDo h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #000;
 }
 
 .ToDo ul {
   list-style: none;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 0;
   margin: 0;
 }
 
 .ToDo li {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  height: fit-content;
   padding: 10px 20px;
   border-radius: 8px;
-  background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+}
+
+.ToDoHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  gap: 10px;
+}
+
+.ToDoHeading button {
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  right: 25px;
+}
+
+.ToDoHeading button:hover {
+  color: #ff0000;
 }
