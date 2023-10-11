@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [search, setSearch] = useState("New York");
   const [weather, setWeather] = useState(null);
+  const [currentTime, setCurrentTime] = useState("");
 
   const fetchWeather = async search => {
     try {
@@ -21,14 +22,37 @@ function App() {
       console.error(err);
     }
   };
+
   useEffect(() => {
     fetchWeather(search);
   }, [search]);
 
+  useEffect(() => {
+    // Function to update the current time
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours() % 12 || 12;
+      const amPm = now.getHours() >= 12 ? "PM" : "AM";
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+      const currentTime = `${hours}:${minutes}:${seconds} ${amPm}`;
+      setCurrentTime(currentTime);
+    }
+
+    // Update the clock initially
+    updateClock();
+
+    // Set an interval to update the clock every second
+    const intervalId = setInterval(updateClock, 1000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <>
       <div className="main">
-        {weather && <Header weather={weather} />}
+        {weather && <Header weather={weather} currentTime={currentTime} />}
         <Sidebar />
       </div>
     </>
