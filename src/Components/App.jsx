@@ -2,6 +2,7 @@ import "../../App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Paperclip from "./Paperclip";
+import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [currentTime, setCurrentTime] = useState("");
 
-  const fetchWeather = async search => {
+  const fetchWeather = async (search) => {
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=d1bfed572118495ea1d193651231407&q=${search}`,
@@ -52,10 +53,15 @@ function App() {
 
   return (
     <>
-      <div className="main">
-        {weather && <Header weather={weather} currentTime={currentTime} />}
-        <Sidebar />
-        <Paperclip />
+      {" "}
+      <div>
+        <BrowserRouter>
+          <div className="main">
+            {weather && <Header weather={weather} currentTime={currentTime} />}
+            <Sidebar />
+            <Paperclip />
+          </div>
+        </BrowserRouter>
       </div>
     </>
   );
