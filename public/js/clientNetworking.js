@@ -7,11 +7,11 @@
   */
 const sendNetworkMessage = function(messageName, object) {
 	switch( messageName ) {
-		case 'changeScene':
+		case "changeScene":
 			currentScene = object
 			break
 		
-		case 'movement':
+		case "movement":
 			currentScene.pos = object
 			break
 	}
@@ -22,21 +22,21 @@ export default sendNetworkMessage
 
 
 // Socket Initialization
-const network = io('/', {forceNew: true})
+const network = io("/", {forceNew: true})
 
-network.on('spawn', (players) => {
+network.on("spawn", (players) => {
 	for (const [id, pos] of Object.entries(players)) {
 		spawnRemotePlayer(id, pos)
 	}
 })
 
-network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
-network.on('kill', (id) => removeRemotePlayer(id))
+network.on("remoteMovement", (movement) => moveRemotePlayer(movement.id, movement.pos))
+network.on("kill", (id) => removeRemotePlayer(id))
 
 const remotePlayers = {}
-let currentScene = { scene: '', pos: {} }
-network.on('connect', () => {
-	if(currentScene.scene === '') {
+let currentScene = { scene: "", pos: {} }
+network.on("connect", () => {
+	if(currentScene.scene === "") {
 		return
 	}
 
@@ -44,7 +44,7 @@ network.on('connect', () => {
 		removeRemotePlayer(id)
 	}
 
-	network.emit('setScene', currentScene)
+	network.emit("setScene", currentScene)
 })
 
 
