@@ -1,5 +1,6 @@
-const express = require('express')
-const viteExpress = require('vite-express')
+const express = require("express")
+const ViteExpress = require("vite-express")
+
 const {MongoClient} = require('mongodb')
 const dotEnv = require('dotenv')
 const cookieSession = require('cookie-session')
@@ -221,4 +222,4 @@ app.put('/modifyDirectSupportArtist', async (req, res) => {
   res.end("Direct Supporting Artist has been successfully updated.")
 })
 
-viteExpress.listen(app, 3000)
+ViteExpress.listen(app, 3000)
