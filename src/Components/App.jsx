@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import Paperclip from "./Paperclip";
 import Schedule from "./Schedule";
 import { useEffect, useState } from "react";
+import Settings from "./Settings";
 
 function App() {
   const [weather, setWeather] = useState(null);
@@ -81,6 +82,7 @@ function App() {
         <Sidebar />
         <Paperclip />
         <Schedule onAdd={addSchedule} ScheduleList={schedule} />
+        <Settings />
       </div>
     </>
   );

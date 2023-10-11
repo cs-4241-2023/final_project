@@ -34,7 +34,7 @@ function Sidebar({ userSettings, updateUserSettings }) {
   };
 
   const handleSettingsClick = () => {
-    window.location.href = "/Settings";
+    document.querySelector(".settings-card").classList.toggle("hidden");
   };
 
   return (
@@ -68,3 +68,4 @@ function Sidebar({ userSettings, updateUserSettings }) {
 }
 
 export default Sidebar;
+

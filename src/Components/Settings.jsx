@@ -24,12 +24,13 @@ function Settings(props) {
   };
 
   return (
-    <div className="settings-page">
-      <h2>Settings</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="settings-card hidden">
+      <h2 className="h2">Settings</h2>
+      <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
-          <label>First Name:</label>
+          <label className="settings-label">First Name:</label>
           <input
+            className="settings-input"
             type="text"
             name="firstName"
             value={settingsForm.firstName}
@@ -37,8 +38,9 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>Last Name:</label>
+          <label className="settings-label">Last Name:</label>
           <input
+          className="settings-input"
             type="text"
             name="lastName"
             value={settingsForm.lastName}
@@ -46,8 +48,9 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>Location:</label>
+          <label className="settings-label">Location:</label>
           <input
+          className="settings-input"
             type="text"
             name="location"
             value={settingsForm.location}
@@ -55,8 +58,9 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>Email Link:</label>
+          <label className="settings-label">Email Link:</label>
           <input
+          className="settings-input"
             type="text"
             name="emailLink"
             value={settingsForm.emailLink}
@@ -64,8 +68,9 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>Calendar Link:</label>
+          <label className="settings-label">Calendar Link:</label>
           <input
+          className="settings-input"
             type="text"
             name="calendarLink"
             value={settingsForm.calendarLink}
@@ -73,8 +78,9 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>News Link:</label>
+          <label className="settings-label">News Link:</label>
           <input
+          className="settings-input"
             type="text"
             name="newsLink"
             value={settingsForm.newsLink}
@@ -82,8 +88,9 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>Bitcoin Link:</label>
+          <label className="settings-label">Bitcoin Link:</label>
           <input
+          className="settings-input"
             type="text"
             name="bitcoinLink"
             value={settingsForm.bitcoinLink}
@@ -91,15 +98,16 @@ function Settings(props) {
           />
         </div>
         <div className="form-group">
-          <label>Stocks Link:</label>
+          <label className="settings-label">Stocks Link:</label>
           <input
+          className="settings-input"
             type="text"
             name="stocksLink"
             value={settingsForm.stocksLink}
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Save</button>
+        <button type="submit" className="settings-button">Save</button>
       </form>
     </div>
   );
