@@ -1,11 +1,13 @@
 import "../../App.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import ToDo from "./ToDo";
 import { useEffect, useState } from "react";
 
 function App() {
   const [search, setSearch] = useState("New York");
   const [weather, setWeather] = useState(null);
+  const [toDo, setToDo] = useState([ ]);
 
   const fetchWeather = async search => {
     try {
@@ -25,11 +27,16 @@ function App() {
     fetchWeather(search);
   }, [search]);
 
+  const addToDo = async (add) => {
+    setToDo(toDo.push(add));
+  }
+
   return (
     <>
       <div className="main">
         {weather && <Header weather={weather} />}
         <Sidebar />
+        <ToDo title="TITLE" description="DESCRIPTION"/>
       </div>
     </>
   );
