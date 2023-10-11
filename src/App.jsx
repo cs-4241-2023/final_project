@@ -21,7 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Home />} />
       </Routes>
-// import { useState, useEffect } from "react";
+{/* // import { useState, useEffect } from "react";
 // import "./App.css";
 // import GameBoard from "./components/gameboard";
 // import PuzzleMenu from "./components/Menu";
@@ -98,7 +98,7 @@ function App() {
 //       <h1>Spelling Goat</h1>
 //       <GameBoard lettersArray={lettersArray} addGuessedWord={checkGuess}/>
 //       <Scoreboard scores={scores}></Scoreboard>
-//  guessList
+//  guessList */}
     </>
   );
 }
