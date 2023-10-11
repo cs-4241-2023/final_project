@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from "react";
-import "../css/Dashboard.css"
+import React, { useEffect, useState } from "react";
 import GroupPage from "./GroupPage.jsx";
 import GroupList from "../components/GroupList.jsx";
 import AddGroupForm from "../components/AddGroupForm.jsx";
@@ -27,7 +26,7 @@ function Dashboard() {
     async function getGroupList() {
         try {
             let response = await fetch("/groups", {
-                method: "GET"
+                method: "GET",
             });
 
             if (!response.ok) console.log("404: Collection Not Found");
@@ -55,9 +54,9 @@ function Dashboard() {
                 let res = await fetch("/users", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username: user })
+                    body: JSON.stringify({ username: user }),
                 });
-                if(res.status === 404) {
+                if (res.status === 404) {
                     alert("One or more users could not be found");
                     return;
                 }
@@ -66,7 +65,7 @@ function Dashboard() {
                 groupName: form.groupName,
                 groupDescription: form.groupDescription,
                 groupUsers: groupUsers,
-                meetingTimes: "TBD"
+                meetingTimes: "TBD",
             });
             let res = await(await fetch("/groups", {
                 method: "POST",
@@ -91,14 +90,14 @@ function Dashboard() {
         try {
             const response = await fetch(`/groups/${groupId}`, {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" }
-            })
+                headers: { "Content-Type": "application/json" },
+            });
 
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error(`Error deleting document: ${errorData.message}`);
             } else {
-                console.log('Document deleted successfully');
+                console.log("Document deleted successfully");
                 setDataChanged(!hasDataChanged);
             }
         } catch (error) {
@@ -107,47 +106,67 @@ function Dashboard() {
     }
 
     const handleSelectGroup = (groupId) => {
-        const groupObj = groups.find(group => group._id === groupId)
+        const groupObj = groups.find((group) => group._id === groupId);
 
-        const groupPageComp =
+        const groupPageComp = (
             <GroupPage
                 group={groupObj}
                 selectGroup={handleSelectGroup}
                 deleteGroup={deleteGroup}
             />
+        );
 
         setGroupPage(groupPageComp);
-    }
+    };
 
-    return (<>
-        <Header />
-        <main>
-            {selectedGroupPage ? (
-                <div className={"group-container"}>
-                    {selectedGroupPage}
-                    <button className={"back-btn"} type={"submit"} onClick={() => setGroupPage(null)}>
-                        Back
-                    </button>
-                </div>
-            ) : (
-                <div>
-                    <button
-                        className={"add-group-btn"}
-                        type={"submit"}
-                        onClick={(e) => showNewGroupPage(e)}
-                    >
-                        Create New Group
-                    </button>
-                    <h2>Tracked Groups</h2>
-
-                    {isGroupFormVisible &&
-                        <AddGroupForm addGroup={addGroup} onCancel={() => setGroupFormVisiblity(false)} />
-                    }
-                    <GroupList groups={groups} selectGroup={handleSelectGroup} deleteGroup={deleteGroup} />
-                </div>
-            )}
-        </main>
-    </>)
+    return (
+        <div className="dashboard">
+            <Header />
+            <main className="dashboard--container">
+                {selectedGroupPage ? (
+                    <div className="">
+                        {selectedGroupPage}
+                        <button
+                            className="back-btn interactable"
+                            type="submit"
+                            onClick={() => setGroupPage(null)}
+                        >
+                            Back
+                        </button>
+                    </div>
+                ) : (
+                    <div className="dashboard--main">
+                        <div className="dashboard--main-header">
+                            <h2>Tracked Groups</h2>
+                            <div>
+                                <button
+                                    className="dashboard--new-group interactable"
+                                    type={"submit"}
+                                    onClick={(e) => showNewGroupPage(e)}
+                                >
+                                    Create New Group
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        {isGroupFormVisible && (
+                            <AddGroupForm
+                                addGroup={addGroup}
+                                onCancel={() => setGroupFormVisiblity(false)}
+                            />
+                        )}
+                        {groups && (
+                            <GroupList
+                                groups={groups}
+                                selectGroup={handleSelectGroup}
+                                deleteGroup={deleteGroup}
+                            />
+                        )}
+                    </div>
+                )}
+            </main>
+        </div>
+    );
 }
 
 export default Dashboard;

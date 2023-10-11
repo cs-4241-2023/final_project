@@ -18,35 +18,51 @@ function AddGroupForm({ addGroup, onCancel }) {
     };
 
     return (
-        <div className={"add-group-page"}>
-            <h2>Add a Group</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="dashboard--group-container interactable">
+            <form className="dashboard--group-form" onSubmit={handleSubmit}>
+                <h2>Add a Group</h2>
                 <input
                     name="groupName"
+                    className="dashboard--group-name interactable"
                     type="text"
-                    autoComplete={"off"}
+                    autoComplete="off"
                     placeholder="group name"
                     value={formData.groupName}
                     onChange={handleChange}
                 />
                 <input
                     name="groupDescription"
+                    className="dashboard--group-description interactable"
                     type="text"
-                    autoComplete={"off"}
+                    autoComplete="off"
                     placeholder="group description"
                     value={formData.groupDescription}
                     onChange={handleChange}
                 />
                 <input
                     name="groupUsers"
+                    className="dashboard--group-users interactable"
                     type="text"
-                    autoComplete={"off"}
+                    autoComplete="off"
                     placeholder="group users (separate each user with a comma)"
                     value={formData.groupUsers}
                     onChange={handleChange}
                 />
-                <button onClick={onCancel}>Cancel</button>
-                <button type="submit">Submit</button>
+                <div className="dashboard--group-buttons">
+                    <button
+                        type="submit"
+                        className="dashboard--group-submit interactable"
+                    >
+                        Submit
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        className="dashboard--group-cancel interactable"
+                    >
+                        Cancel
+                    </button>
+                </div>
             </form>
         </div>
     );

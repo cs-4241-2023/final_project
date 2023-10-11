@@ -1,0 +1,166 @@
+/* General Styling */
+body {
+    background-color: #1e1e20;
+    color: white;
+    font-family: "Calibri", "sans-serif";
+    margin: 0;
+}
+
+/* Login Styling */
+.login {
+    width: 15vw;
+    height: 45vh;
+    margin: 25vh 0 0 37.5vw;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: white;
+    padding: 40px;
+}
+
+.login--error-container {
+    height: 10vh;
+    color: red;
+}
+
+.login--form,
+.signup--form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 30vh;
+    width: 100%;
+}
+
+.interactable {
+    padding: 10px;
+    outline: 0px;
+    border: 0px;
+}
+
+.login--username,
+.login--password,
+.signup--username,
+.signup--password {
+    border-bottom: 1px solid black;
+    margin-bottom: 1px;
+}
+
+button {
+    color: white;
+    background-color: #bb86f3;
+}
+
+button:hover {
+    background-color: #a46be2;
+    cursor: pointer;
+}
+
+/*-------------------*/
+/* Dashboard styling */
+/*-------------------*/
+
+/* header styling */
+.dashboard--header {
+    display: flex;
+    color: whites;
+    background: #161618;
+    justify-content: space-between;
+}
+
+.dashboard--header-text {
+    margin-right: auto;
+    margin-left: 20px;
+}
+
+.dashboard--container {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard--header-text > h1 {
+    margin: 0;
+}
+
+/* main content styling */
+.dashboard--main {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.dashboard--main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard--group-container {
+    position: absolute;
+    z-index: 10;
+    background-color: #161618;
+    color: white;
+    top: 20%;
+    left: 35%;
+    border-radius: 20px;
+    width: 25%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(100px);
+}
+
+.dashboard--group-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.dashboard--group-form > input {
+    width: 50%;
+}
+
+.dashboard--group-buttons {
+    margin-top: 20%;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+
+hr {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.dashboard--new-group {
+    margin-left: auto;
+}
+
+/* Group list styling */
+.dashboard--group-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-card {
+    border: solid white 1px;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.group > h3 {
+    margin-top: 0;
+}
+
+.group-buttons {
+    margin: auto 0 0 auto;
+    display: flex;
+    gap: 10px;
+}
