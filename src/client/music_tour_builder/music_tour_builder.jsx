@@ -183,7 +183,7 @@ function musicTourBuilder() {
                 } else if(parseInt(ageStorageArray[0]) < 0 || parseInt(ageStorageArray[0]) > 100 || parseInt(ageStorageArray[1]) < 0 || parseInt(ageStorageArray[1]) > 100) {
                     setTargetAudienceAgeRangeUserInputFeedback("Entered target audience ages need to be between 0 and 100 inclusive.")
                 } else if(parseInt(ageStorageArray[0]) > parseInt(ageStorageArray[1])) {
-                    setTargetAudienceAgeRangeUserInputFeedback("Entered target audience age on the left needs to be smaller than the entered target audience age on the right.")
+                    setTargetAudienceAgeRangeUserInputFeedback("Entered target audience age on the left needs to be less than the entered target audience age on the right.")
                 } else {
                     setTargetAudienceAgeRangeUserInputFeedback("")
                     setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange)
