@@ -32,9 +32,13 @@ margin: 0 2.5% 0 2.5%;
 
 function HabitListWidget({setUpdate,habits}: HabitListWidgetProps ){
 
+    const sortFunc = (a: UserHabit, b: UserHabit) => {
+        return b.currentStreak - a.currentStreak;
+    }
+
     return( <>
         <BigWidgetStyle className = "rounded">
-            {habits.map((habit) => (<>
+            {habits.sort(sortFunc).map((habit) => (<>
              <HabitWidgetStyle><HabitWidget habit = {habit}/></HabitWidgetStyle>  
              </>))}
             <div className="d-flex justify-content-center"><CreateHabitButton setUpdate={setUpdate}/></div>
