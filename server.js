@@ -24,27 +24,23 @@ app.get("/test", (req, res) => {
   res.send("Hello World!");
 });
 
-const port = 5173;
-ViteExpress.listen(app, port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
-
-app.get("/puzzles/1", (req, res) => {
-  /*
+app.get("/puzzles/:puzzleID", (req, res) => {
   const requestedID = req.params.puzzleID;
   console.log(`Client is requesting puzzle with ID of ${requestedID}`);
-  const puzzle = puzzles.find((t) => t.id === `${requestedID}`);
+  const puzzle = puzzleList.find((t) => t.id === `${requestedID}`);
   if (puzzle === undefined) {
     res.status(404).send(
       `Puzzle with ID of ${requestedID} not found`
     );
   } else {
-    const scrambledWord = scrambleWord(puzzle.word);
-    // res.send(scrambledWord); // Send the scrambled word as plain text
-    res.send("hello");
+    const scrambledWord = scrambleWord(puzzle.word)
+    res.send(scrambledWord); // Send the scrambled word as plain text
   }
-  */
- res.sendStatus(404)
+});
+
+const port = 3000;
+ViteExpress.listen(app, port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
 app.post("/puzzles/:puzzleID/submit-word", (req, res) => {
@@ -68,7 +64,7 @@ app.post("/puzzles/:puzzleID/submit-word", (req, res) => {
 
 function scrambleWord(puzzleWord) {
   // https://stackoverflow.com/questions/3943772/how-do-i-shuffle-the-characters-in-a-string-in-javascript
-  const scrambledWord = [...puzzleWord].sort(()=>Math.random-.5).join('')
+  const scrambledWord = puzzleWord.split('').sort(function(){return 0.5-Math.random()}).join('');
   return scrambledWord
 }
 

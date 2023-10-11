@@ -12,8 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 async function getPuzzle(puzzleID) {
   console.log(`Requested puzzle id: ${puzzleID}`);
   try {
-    //const response = await fetch(`/puzzles/${puzzleID}`);
-    const response = await fetch(`/puzzles/1`);
+    const response = await fetch(`/puzzles/${puzzleID}`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -24,4 +23,4 @@ async function getPuzzle(puzzleID) {
   }
 }
 
-getPuzzle(1)
+//getPuzzle(1)
