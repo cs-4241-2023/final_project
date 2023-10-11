@@ -1,5 +1,5 @@
-import sendNetworkMessage from "./clientNetworking"
-import { global } from "./global"
+import sendNetworkMessage from "./clientNetworking.js"
+import { global } from "./global.js"
 
 
 const CARDSLOTS = [
