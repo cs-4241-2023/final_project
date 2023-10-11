@@ -248,16 +248,14 @@ body {
 }
 
 .ToDo li {
+  border-radius: 15px;
+  background: #FFF740;
   display: flex;
-  align-items: baseline;
-  flex-direction: row;
-  justify-content: space-between;
+  height: 75px;
   width: auto;
-  height: fit-content;
-  padding: 10px 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: left;
   font-size: 25px;
 }
 
