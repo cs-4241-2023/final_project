@@ -6,6 +6,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { getConnection } from "./db/dbConnection.js";
 import authRoute from "./routes/authRoutes.js";
+import { calculateScore } from "./word-manager.js";
+import puzzleRouter from "./routes/puzzles.js";
 
 const app = express();
 app.use(cors());
@@ -51,6 +53,9 @@ app.get("/testdb", async (req, res) => {
   const test = await db.collection("scores").find().toArray();
   res.json(test);
 });
+
+// Puzzles route
+app.use("/puzzles", puzzleRouter);
 
 const port = 3000;
 ViteExpress.listen(app, port, () => {
