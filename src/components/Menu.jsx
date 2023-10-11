@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InfoButton from './Directions';
 
-const PuzzleMenu = () => {
+const PuzzleMenu = ({changePuzzle}) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [selectedPuzzle, setSelectedPuzzle] = useState(null);
 
@@ -20,13 +20,6 @@ const PuzzleMenu = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
-  };
-
-  const changePuzzle = (puzzleNumber) => {
-    // Your implementation of the changePuzzle function
-    console.log(`Selected Puzzle ${puzzleNumber}`);
-    setSelectedPuzzle(puzzleNumber);
-    setDropdownOpen(false); // Close the dropdown after selection
   };
 
   const dropdownStyle = {

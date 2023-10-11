@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-const Score = () => {
-  const [currentScore, setCurrentScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+const Score = ({score, highScore}) => {
 
   // Function to update the high score when needed
   const updateHighScore = () => {
@@ -42,7 +40,7 @@ const Score = () => {
     <>
     <div style={scoreboardStyles}>
       <div style={scoreStyles}>
-        <h3>Current Score: {currentScore}</h3>
+        <h3>Current Score: {score}</h3>
       </div>
       <div style={scoreStyles}>
         <h3>High Score: {highScore}</h3>

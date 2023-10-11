@@ -45,4 +45,4 @@ async function submitWord(submittedWord, puzzleID) {
   }
 }
 
-submitWord("amp", 1)
+// submitWord("amp", 1)
