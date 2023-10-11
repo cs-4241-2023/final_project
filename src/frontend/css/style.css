@@ -1,0 +1,67 @@
+/* General Styling */
+body {
+    background-color: #121212;
+    color: white;
+    font-family: "Calibri", "sans-serif";
+}
+
+/* Login Styling */
+.login {
+    width: 15vw;
+    height: 45vh;
+    margin: 25vh 0 0 37.5vw;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    background-color: white;
+    padding: 40px;
+}
+
+.login--error-container {
+    height: 10vh;
+    color: red;
+}
+
+.login--form, .signup--form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 30vh;
+    width: 100%;
+}
+
+.login--username,
+.login--password,
+.login--submit,
+.login--signup-button,
+.signup--username,
+.signup--password,
+.signup--submit {
+    padding: 10px;
+    outline: 0px;
+    border: 0px;
+}
+
+.login--username,
+.login--password,
+.signup--username,
+.signup--password {
+    border-bottom: 1px solid black;
+    margin-bottom: 1px;
+}
+
+.login--submit,
+.login--signup-button,
+.signup--submit {
+    color: white;
+    background-color: #bb86f3;
+}
+
+.login--submit:hover,
+.login--signup-button:hover,
+.signup--submit:hover {
+    background-color: #a46be2;
+}
+

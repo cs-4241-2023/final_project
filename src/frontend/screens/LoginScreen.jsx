@@ -25,11 +25,9 @@ function LoginScreen(props) {
     }, []);
 
     return (
-        <>
+        <div className="login">
             <h1>{headerMessage}</h1>
-            <div className="login--error-container">
-                {errorMessage === "" ? null : <p>{errorMessage}</p>}
-            </div>
+
             {!signUp ? (
                 <Login
                     setSignUp={setSignUp}
@@ -44,7 +42,10 @@ function LoginScreen(props) {
                     setHeaderMessage={setHeaderMessage}
                 />
             )}
-        </>
+            <div className="login--error-container">
+                {errorMessage === "" ? null : <p>{errorMessage}</p>}
+            </div>
+        </div>
     );
 }
 
