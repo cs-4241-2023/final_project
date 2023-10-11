@@ -20,6 +20,7 @@ function Settings(props) {
   const handleSubmit = () => {
     // Update user settings with the new values from settingsForm
     updateUserSettings(settingsForm);
+    window.location.href = "/";
   };
 
   return (

@@ -26,13 +26,15 @@ function Sidebar({ userSettings, updateUserSettings }) {
   };
 
   const handleBitcoinClick = () => {
-    // Handle Bitcoin button click
-    // Redirect to Bitcoin-related page or action
+    window.location.href = userSettings.bitcoinLink;
   };
 
   const handleStocksClick = () => {
-    // Handle Stocks button click
-    // Redirect to Stocks-related page or action
+    window.location.href = userSettings.stocksLink;
+  };
+
+  const handleSettingsClick = () => {
+    window.location.href = "/Settings";
   };
 
   return (
@@ -58,9 +60,9 @@ function Sidebar({ userSettings, updateUserSettings }) {
       <button onClick={handleStocksClick}>
         <FaMoneyBillAlt /> Stocks
       </button>
-      <button>
-        <FaCog /> <Link to="/Settings">Settings</Link>
-      </button>
+      <button onClick={handleSettingsClick}>
+        <FaCog /> Settings 
+      </button> 
     </div>
   );
 }
