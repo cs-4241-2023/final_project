@@ -74,11 +74,11 @@ const HomePage: FC<HomePageProps> = ({ setUsername }) => {
             </ul>
             </>))
         } */}
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mt-4">
             <UserWidgetComponent userInfo={userInfo}/>
         </div>
 
-        <div className="d-flex justify-content-center mb-5">
+        <div className="d-flex justify-content-center mb-4">
             <HabitListWidget setUpdate={setUpdate} habits={userInfo.habits}/>
         </div>
 

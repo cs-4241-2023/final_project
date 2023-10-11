@@ -99,7 +99,7 @@ justify-content: center;
 font-family: ${FONT_THEME.MAIN_FONT};
 background-color: ${COLOR_THEME.SECTION};
 color: white;
-padding: 10px;
+padding: 20px;
 margin: 10px;    
 `
 

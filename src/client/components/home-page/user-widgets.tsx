@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { COLOR_THEME, FONT_THEME } from "../../themes";
 import { UserInfo } from "../../../../models";
 import PercentIcon from "../shared-components/percent-icon";
-import { Method, fetchServer } from "../../scripts/fetch-server";
 
 interface UserWidgetProps {
     userInfo: UserInfo;
@@ -21,42 +20,40 @@ width: 75%;
 const WidgetDivStyle = styled.div
 `
 background-color: ${COLOR_THEME.SECTION};
-margin: 10px;
+margin: 10px 0 30px 0;
 padding: 20px;
-min-width: 30%;
+min-width: 31%;
 `
 
 const LoggedDaysStyle = styled.div
 `
-// padding: 10px;
 display: flex;
 justify-content: center;
-// transform: translateY(-17px)
 `
 
 const PercentSuccessTextStyle = styled.div
 `
-// transform: translateY(-56px);
-margin-left: 10px;
-font-size: 40px;
+font-size: 50px;
 `
 
 const CalendarImgStyle = styled.img 
 `
-width: 35px;
-height: 35px;
-// margin-right: 10px;
+width: 70px;
+height: 70px;
+margin-right: 10px;
 `
 
 const PercentWidgetStyle = styled.div
 `
-// margin-left: 60px;
-
+margin-right: 10px;
+width: 65px;
+height: 65px;
 `
 
 const LoggedDaysTextStyle = styled.h3
 `
-margin-top: 30px;
+font-size: 50px;
+transform: translateY(14px);
 `
 
 const UserWidgetComponent: FC<UserWidgetProps> = ({ userInfo }) => {
@@ -74,22 +71,26 @@ const UserWidgetComponent: FC<UserWidgetProps> = ({ userInfo }) => {
                 </LoggedDaysStyle>
         </WidgetDivStyle>
         <WidgetDivStyle className="rounded">
-                <PercentWidgetStyle className="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column align-items-center">
                     <h3 className="text-center">Weekly Success</h3>
                     <div className="d-flex justify-content-center align-items-center">
-                        <PercentIcon percent={userInfo.percentSuccessWeek}/>
+                        <PercentWidgetStyle>
+                            <PercentIcon percent={userInfo.percentSuccessWeek}/>
+                        </PercentWidgetStyle>
                         <PercentSuccessTextStyle className="text-center">{userInfo.percentSuccessWeek}%</PercentSuccessTextStyle>
                     </div>
-                </PercentWidgetStyle>
+                </div>
         </WidgetDivStyle>
         <WidgetDivStyle className="rounded">
-                <PercentWidgetStyle className="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column align-items-center">
                     <h3 className="text-center">Lifetime Success</h3>
                     <div className="d-flex justify-content-center align-items-center">
-                        <PercentIcon percent={userInfo.percentSuccessLifetime}/> 
+                        <PercentWidgetStyle>
+                            <PercentIcon percent={userInfo.percentSuccessLifetime}/> 
+                        </PercentWidgetStyle>
                         <PercentSuccessTextStyle className="text-center">{userInfo.percentSuccessLifetime}%</PercentSuccessTextStyle>
                     </div>
-                </PercentWidgetStyle>
+                </div>
         </WidgetDivStyle>
         </MainDivStyle>
     )
