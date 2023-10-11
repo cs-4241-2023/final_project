@@ -3,32 +3,18 @@ dotenv.config();
 import express from "express";
 import ViteExpress from "vite-express";
 import cors from "cors";
-import { MongoClient, ServerApiVersion } from "mongodb";
+import cookieParser from "cookie-parser";
+import { getConnection } from "./db/dbConnection.js";
+import authRoute from "./routes/authRoutes.js";
 
 const app = express();
 app.use(cors());
 
-// MongoDB connection setup
-const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
+// connect to the database
 let db = null;
-
-async function connectToDB() {
-  await client.connect();
-  db = await client.db("Spelling_Goat_App");
-  console.log("Connected to DB successfully");
-}
-
-connectToDB().catch((error) => {
-  console.error("Error connecting to the database: ", error);
-});
+(async () => {
+  db = await getConnection();
+})();
 
 // middleware to check the connection to the database
 app.use((req, res, next) => {
@@ -45,8 +31,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// cookie parser middleware
+app.use(cookieParser());
+
 // parses JSON bodies
 app.use(express.json());
+
+app.use("/", authRoute);
 
 // all other routes and middleware below
 //test route
