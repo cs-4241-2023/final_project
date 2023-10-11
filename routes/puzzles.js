@@ -1,5 +1,6 @@
 import express from "express";
 import { calculateScore } from "../word-manager.js";
+import { getConnection } from "../db/dbConnection.js";
 const puzzleRouter = express.Router();
 
 puzzleRouter.get("/:puzzleID", (req, res) => {
@@ -32,6 +33,24 @@ puzzleRouter.get("/:puzzleID", (req, res) => {
       } else {
         res.status(403).send('Submitted word is invalid')
       }
+    }
+  })
+
+  puzzleRouter.get("/:puzzleID/leaderboard", async (req, res) => {
+    const requestedID = req.params.puzzleID
+    const puzzle = puzzleList.find(t=>t.id === `${requestedID}`)
+    if (puzzle === undefined) {
+      res.status(404).send(
+        `Puzzle with ID of ${requestedID} not found`)
+    } else {
+        console.log(`Client requesting leaderboard data for puzzle ${requestedID}`)
+        const db = await getConnection()
+        const scores = await db.collection("scores").findOne({puzzle: requestedID}, function(result) {
+            console.log(result)
+        })
+        console.log("Scores for puzzle: " + scores)
+        // TODO: filter to only keep highest score for user
+        res.send(scores)
     }
   })
   

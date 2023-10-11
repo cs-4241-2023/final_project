@@ -48,4 +48,18 @@ async function submitWord(submittedWord, puzzleID) {
   }
 }
 
-submitWord("amp", 1);
+async function getPuzzleLeaderboard(puzzleID) {
+  console.log(`Leaderboard requested for puzzle ${puzzleID}`);
+  try {
+    const response = await fetch(`/puzzles/${puzzleID}/leaderboard`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.text();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+getPuzzleLeaderboard(1)
