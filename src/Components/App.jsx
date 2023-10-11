@@ -76,7 +76,7 @@ function App() {
 
   return (
     <>
-      <div className={currentClass}>
+      <div className="main">
         {weather && <Header weather={weather} currentTime={currentTime} />}
         <Sidebar />
         <Paperclip />

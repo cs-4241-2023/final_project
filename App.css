@@ -143,6 +143,9 @@ root {
   background-image: url(/public/assets/WindowsXPBG.jpeg);
   height: 100vh;
   width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  grid-template-rows: 1fr 5fr;
 }
 
 .main-night {
@@ -157,6 +160,7 @@ body {
 
 /* Header */
 .header {
+  grid-column: 2 / 3;
   display: grid;
   height: 14vh;
   grid-template-columns: 4fr 1fr;
