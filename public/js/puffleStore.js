@@ -10,6 +10,7 @@ const puffleList = [];
 const puffleBuyList = [];
 let background;
 let cancel;
+let coinLabel;
 let displayIsVisible = true;
 
 let layers = {
@@ -26,7 +27,7 @@ scene("puffle_store", async () => {
     });
 
     const gText = await getResponse.text();
-    const userInfo = JSON.parse(gText);
+    let userInfo = JSON.parse(gText);
 
     //Load Background
     loadSprite("puffleShop", "../background/dojo.png");
@@ -45,6 +46,14 @@ scene("puffle_store", async () => {
         z(layers.hidden),
         "cancel"
     ])
+
+    //Load player coin label
+    coinLabel = add([
+        text(`Coins: ${userInfo.coins}`, 12),
+        pos(800, 590),
+        color(0, 0, 0),
+        z(layers.buy)
+    ]);
 
     const puffleSprites = [{ sprite: "puffle-red.png", price: 100 },
                             { sprite: "puffle-green.png", price: 200 },
@@ -153,6 +162,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             const result = JSON.parse(text);
             if (result.status === 1) {
                 priceTag.text = "Equip";
+                coinLabel.text = `Coins: ${result.coinsRemaining}`;
             }
         }
     }
@@ -162,7 +172,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
 
 function updateViewers(id) {
     for (let i = 0; i < puffleBuyList.length; i++) {
-        if (puffleBuyList[i].puffleBuy.id !== id) {
+        if (puffleBuyList[i].puffleBuy.id !== id && (puffleBuyList[i].priceTag.text === "Equip" || puffleBuyList[i].priceTag.text === "Unequip")) {
             puffleBuyList[i].priceTag.text = "Equip";
         }
     }
