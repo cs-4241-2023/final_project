@@ -47,20 +47,36 @@ const isValidCharacter = (char) => {
 
   const checkWordLength = (word) => {
     if(word.length < 4){
-      alert(`${word} is too short: Must be a word with 4 or more letters`)
+      alert('word is too short: Must be a word with 4 or more letters')
       return
     }
   }
 
-  
+  const inputButtonStyle = {
+    backgroundColor: '#ac2b37',
+    color: 'white',
+    padding: '10px',
+    margin: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    borderRadius: '10px',
+  }
+
+  const inputStyle = {
+    backgroundColor: 'white',
+    color: 'black',
+    padding: '10px',
+    margin: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    borderRadius: '10px',
+  }
+
   return (
     <>
        <form onSubmit={handleSubmit}>
-        <label>
-          Word:
-        </label>
-        <input onChange={handleChange} type="text" name="name" />
-        <input type="submit" value="Submit" />
+        <input style={inputStyle} placeholder='guess' onChange={handleChange} type="text" name="name" />
+        <input style={inputButtonStyle} type="submit" value="Submit" />
       </form>
       <HexGrid width={600} height={600} viewBox="-6 -30 10 70"
       style={{
