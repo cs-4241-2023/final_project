@@ -5,11 +5,12 @@ import Paperclip from "./Paperclip";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [search, setSearch] = useState("New York");
   const [weather, setWeather] = useState(null);
+  const [search, setSearch] = useState("New York");
   const [currentTime, setCurrentTime] = useState("");
+  const [currentClass, setCurrentClass] = useState("main");
 
-  const fetchWeather = async search => {
+  const fetchWeather = async (search) => {
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=d1bfed572118495ea1d193651231407&q=${search}`,
@@ -50,9 +51,24 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    const checkTime = () => {
+      const currentTime = new Date();
+      const currentHour = currentTime.getHours();
+      setCurrentClass(
+        currentHour >= 18 || currentHour < 6 ? "main-night" : "main"
+      );
+    };
+
+    checkTime();
+    const intervalId = setInterval(checkTime, 1000 * 60); // Check every minute
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <>
-      <div className="main">
+      <div className={currentClass}>
         {weather && <Header weather={weather} currentTime={currentTime} />}
         <Sidebar />
         <Paperclip />
