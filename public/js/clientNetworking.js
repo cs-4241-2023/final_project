@@ -1,26 +1,3 @@
-// Socket Initialization
-const network = io()
-network.on('setID', function(newID) {
-	//this.id = newID
-	//this.emit('movement', {id: newID, msg: SPAWN})
-})
-
-network.on('spawn', (players) => {
-	for (const [id, pos] of Object.entries(players)) {
-		spawnRemotePlayer(id, pos)
-	}
-})
-
-network.on('setPositions', (players) => {
-	for (const [id, pos] of Object.entries(players)) {
-		setRemotePosition(id, pos)
-	}
-})
-
-network.on('remoteMovement', (movement) => moveRemotePlayer(movement.id, movement.pos))
-network.on('kill', (id) => removeRemotePlayer(id))
-
-
 // Public Functions
 
 /**
@@ -29,17 +6,58 @@ network.on('kill', (id) => removeRemotePlayer(id))
   * @param {object} object The object that will be send to clients.
   */
 const sendNetworkMessage = function(messageName, object) {
+	switch( messageName ) {
+		case "changeScene":
+			currentScene = object
+			break
+		
+		case "movement":
+			currentScene.pos = object
+			break
+	}
 	network.emit(messageName, object)
 }
 
+export default sendNetworkMessage
+
+
+// Socket Initialization
+const network = io("/", {forceNew: true})
+
+network.on("spawn", (players) => {
+	for (const [id, pos] of Object.entries(players)) {
+		spawnRemotePlayer(id, pos)
+	}
+})
+
+network.on("remoteMovement", (movement) => moveRemotePlayer(movement.id, movement.pos))
+network.on("kill", (id) => removeRemotePlayer(id))
+
+const remotePlayers = {}
+let currentScene = { scene: "", pos: {} }
+network.on("connect", () => {
+	if(currentScene.scene === "") {
+		return
+	}
+
+	for (const id of Object.keys(remotePlayers)) {
+		removeRemotePlayer(id)
+	}
+
+	network.emit("setScene", currentScene)
+})
 
 
 // Private Functions
 
-const remotePlayers = {}
 const spawnRemotePlayer = function (id, positon) {
 	let x = positon.x //|| SPAWN.x
 	let y = positon.y //|| SPAWN.y
+
+	if(remotePlayers[id]) {
+		destroy(remotePlayers[id])
+	}
+
 	remotePlayers[id] = add([
 		sprite("puffle-red"),
 		pos(x, y),
@@ -49,7 +67,6 @@ const spawnRemotePlayer = function (id, positon) {
 }
 
 const removeRemotePlayer = function (id) {
-	console.log('Deleting:', id)
 	destroy(remotePlayers[id]) // removes player from kaboom
 	delete remotePlayers[id] // removes player from map
 }
@@ -57,5 +74,3 @@ const removeRemotePlayer = function (id) {
 const moveRemotePlayer = function (id, vector) {
 	remotePlayers[id].moveTo(vector.x, vector.y)
 }
-
-export default sendNetworkMessage
