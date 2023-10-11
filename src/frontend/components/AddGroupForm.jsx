@@ -24,6 +24,7 @@ function AddGroupForm({ addGroup, onCancel }) {
                 <input
                     name="groupName"
                     type="text"
+                    autoComplete={"off"}
                     placeholder="group name"
                     value={formData.groupName}
                     onChange={handleChange}
@@ -31,6 +32,7 @@ function AddGroupForm({ addGroup, onCancel }) {
                 <input
                     name="groupDescription"
                     type="text"
+                    autoComplete={"off"}
                     placeholder="group description"
                     value={formData.groupDescription}
                     onChange={handleChange}
@@ -38,6 +40,7 @@ function AddGroupForm({ addGroup, onCancel }) {
                 <input
                     name="groupUsers"
                     type="text"
+                    autoComplete={"off"}
                     placeholder="group users (separate each user with a comma)"
                     value={formData.groupUsers}
                     onChange={handleChange}
