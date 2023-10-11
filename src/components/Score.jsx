@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Scoreboard = () => {
+const Score = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
 
@@ -53,4 +53,4 @@ const Scoreboard = () => {
   );
 };
 
-export default Scoreboard;
+export default Score;

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { HexGrid, Layout, Hexagon, Text, Pattern, Path, Hex } from 'react-hexgrid';
 // https://github.com/Hellenic/react-hexgrid
 
-const GameBoard = ({ lettersArray }) => {
+const GameBoard = ({ lettersArray, addGuessedWord }) => {
   const [word, setWord] = useState('');
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -12,24 +12,32 @@ const GameBoard = ({ lettersArray }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let isValid = false
     //check if guess is valid
-    validGuess(word)
-
+    isValid = validGuess(word)
+    //if valid add to guessList
+    if(isValid){
+      addGuessedWord(word)
+    }
   }
 
   //checks word length and valid characters
   const validGuess = (word) => {
-    checkWordLength(word);
-    checkWordLetters(word);
+    let isValid = false
+    if(checkWordLength(word) && checkWordLetters(word)){
+      isValid = true
+    }
+    return isValid
   }
 
   const checkWordLetters = (word) => {
     for (const char of word) { 
       if(!isValidCharacter(char)){
         alert(`${char} is not a valid letter`)
-        return
-      } 
+        return false
+      }
   }
+  return true
   }
 
   //return true if valid character
@@ -48,7 +56,10 @@ const isValidCharacter = (char) => {
   const checkWordLength = (word) => {
     if(word.length < 4){
       alert('word is too short: Must be a word with 4 or more letters')
-      return
+      return false
+    }
+    else{
+      return true
     }
   }
 
