@@ -44,7 +44,7 @@ function Homepage() {
   const [date, setDate] = useState("");
   const [reason, setReason] = useState("");
   const [submissions, setSubmissions] = useState([]);
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(true);
   const [content, setContent] = useState("Edit");
   //gets data from the server on load
   useEffect(() => {

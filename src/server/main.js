@@ -226,6 +226,10 @@ app.post("/updateProfile", async (req, res) => {
       {
         $set: {
           name: item.name,
+          pronouns: item.pronouns,
+          bio: item.bio,
+          email: item.email,
+          iqp_term: item.iqp_term,
         },
       }
     );

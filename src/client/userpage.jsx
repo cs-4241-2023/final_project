@@ -40,9 +40,6 @@ class hourEntry {
 }
 
 function UserPage() {
-  const [hours, setHours] = useState("");
-  const [date, setDate] = useState("");
-  const [reason, setReason] = useState("");
   const [user, setUser] = useState([]);
   const [editable, setEditable] = useState(false);
   const [content, setContent] = useState("Edit");
@@ -104,6 +101,8 @@ function UserPage() {
       setContent("Submit Edits");
     } else {
       console.log("Gonna update");
+
+      let test = JSON.stringify(user);
       const response = await fetch("/updateProfile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -126,7 +125,7 @@ function UserPage() {
     const value = evt.value;
     const rowID = evt.parentElement.parentElement.dataset.internal_id;
     const edited = user.map((item) =>
-      item._id === entryID && name ? { ...item, [name]: value } : item
+      item.user_id === entryID && name ? { ...item, [name]: value } : item
     );
     setUser(edited);
   };
@@ -177,29 +176,25 @@ function UserPage() {
         </Col>
 
         <Col
-          style={{ marginLeft: "20px", marginTop: "50px", maxWidth: "700px" }}
+          style={{ marginLeft: "20px", marginTop: "50px", maxWidth: "500px" }}
         >
 
           
           
           <div>
-            <Table striped hover bordered id="submissionTable">
+            <Table striped hover bordered id="Name">
               <thead>
                 <tr>
-                  <th style={{ width: "200px" }}>Number of Hours</th>
-                  <th style={{ width: "200px" }}>Date</th>
-                  <th style={{ width: "200px" }}>Reason</th>
-                  <th style={{ width: "100px" }}>Delete</th>
+                  <th style={{ width: "200px" }}>Name</th>
                 </tr>
               </thead>
-              <tbody id="dataRepresentation">
+              <tbody id="dataName">
                 {user.map((entry) => {
-                  //totalHours += parseInt(entry.numHours);
                   return (
                     <tr key={entry.user_id} data-internal_id={entry.user_id}>
-                      <td key="numHours">
+                      <td key="name">
                         <input
-                          name="numHours"
+                          name="name"
                           required
                           value={entry.name}
                           type="text"
@@ -213,9 +208,25 @@ function UserPage() {
                           onChange={(e) => onChangeInput(e, entry.user_id)}
                         ></input>
                       </td>
-                      <td key="numHours">
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+
+            <Table striped hover bordered id="pronouns">
+              <thead>
+                <tr>
+                  <th style={{ width: "200px" }}>Pronouns</th>
+                </tr>
+              </thead>
+              <tbody id="dataRepresentation">
+                {user.map((entry) => {
+                  return (
+                    <tr key={entry.user_id} data-internal_id={entry.user_id}>
+                      <td key="pronouns">
                         <input
-                          name="numHours"
+                          name="pronouns"
                           required
                           value={entry.pronouns}
                           type="text"
@@ -229,30 +240,111 @@ function UserPage() {
                           onChange={(e) => onChangeInput(e, entry.user_id)}
                         ></input>
                       </td>
-                      
-                      
                     </tr>
                   );
                 })}
               </tbody>
             </Table>
+
+            <Table striped hover bordered id="email">
+              <thead>
+                <tr>
+                  <th style={{ width: "200px" }}>Email</th>
+                </tr>
+              </thead>
+              <tbody id="dataRepresentation">
+                {user.map((entry) => {
+                  return (
+                    <tr key={entry.user_id} data-internal_id={entry.user_id}>
+                      <td key="email">
+                        <input
+                          name="email"
+                          required
+                          value={entry.email}
+                          type="text"
+                          plaintext="true"
+                          readOnly={editable}
+                          style={{
+                            border: "none", // Remove border
+                            boxShadow: "none", // Remove box shadow
+                            background: "transparent", // Make background transparent
+                          }}
+                          onChange={(e) => onChangeInput(e, entry.user_id)}
+                        ></input>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+
+            <Table striped hover bordered id="bio">
+              <thead>
+                <tr>
+                  <th style={{ width: "200px" }}>Bio</th>
+                </tr>
+              </thead>
+              <tbody id="dataRepresentation">
+                {user.map((entry) => {
+                  return (
+                    <tr key={entry.user_id} data-internal_id={entry.user_id}>
+                      <td key="bio">
+                        <input
+                          name="bio"
+                          required
+                          value={entry.bio}
+                          type="text"
+                          plaintext="true"
+                          readOnly={editable}
+                          style={{
+                            border: "none", // Remove border
+                            boxShadow: "none", // Remove box shadow
+                            background: "transparent", // Make background transparent
+                          }}
+                          onChange={(e) => onChangeInput(e, entry.user_id)}
+                        ></input>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+
+            <Table striped hover bordered id="iqp_term">
+              <thead>
+                <tr>
+                  <th style={{ width: "200px" }}>IQP Term</th>
+                </tr>
+              </thead>
+              <tbody id="dataRepresentation">
+                {user.map((entry) => {
+                  return (
+                    <tr key={entry.user_id} data-internal_id={entry.user_id}>
+                      <td key="iqp_term">
+                        <input
+                          name="iqp_term"
+                          required
+                          value={entry.iqp_term}
+                          type="text"
+                          plaintext="true"
+                          readOnly={editable}
+                          style={{
+                            border: "none", // Remove border
+                            boxShadow: "none", // Remove box shadow
+                            background: "transparent", // Make background transparent
+                          }}
+                          onChange={(e) => onChangeInput(e, entry.user_id)}
+                        ></input>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+
             <Button className="btn-primary" onClick={controlEdit}>
               {content}
             </Button>
-            <hr />
-            <Table
-              striped
-              bordered
-              id="totalHoursTable"
-              style={{ width: "250px" }}
-            >
-              <thead>
-                <tr>
-                  <th style={{ width: "150px" }}>Total Hours:</th>
-                  <th>{totalHours}</th>
-                </tr>
-              </thead>
-            </Table>
           </div>
         </Col>
       </Row>
