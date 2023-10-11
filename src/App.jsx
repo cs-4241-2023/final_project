@@ -8,7 +8,7 @@ import Scoreboard from "./components/ScoreBoard";
 function App() {
   let [lettersArray, setLettersArray] = useState(["A", "B", "C", "D", "E","F", "G"]);
   let [guessList, setGuessList] = useState([])
-  let [scores, setScores] = useState([{username: 'randy',highScore: 20}, {username: 'yuh', highScore: 69}])
+  let [scores, setScores] = useState([{username: 'randy', highScore: 20}, {username: 'yuh', highScore: 69}])
 
   //adds word to guess list
   const addGuessedWord = (word) => {
