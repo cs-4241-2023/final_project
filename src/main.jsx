@@ -48,4 +48,3 @@ async function submitWord(submittedWord, puzzleID) {
   }
 }
 
-submitWord("amp", 1);
