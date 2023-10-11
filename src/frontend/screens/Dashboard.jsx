@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import "../css/Dashboard.css"
 import GroupPage from "./GroupPage.jsx";
 import GroupList from "../components/GroupList.jsx";
 import AddGroupForm from "../components/AddGroupForm.jsx";
