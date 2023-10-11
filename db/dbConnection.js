@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // MongoDB connection setup
-const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
+const uri = `mongodb+srv://user0:${process.env.PASS}@${process.env.HOST}`;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
