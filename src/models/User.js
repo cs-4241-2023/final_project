@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   email: { type: String, unique: true, regex: "(w+)@.w+", sparse: true },
   user_id: { type: String, sparse: true },
   iqp_term: { type: String },
-  admin: { type: Boolean, required: true },
+  admin: { type: Boolean, required: false },
 });
 
 export default mongoose.model("User", UserSchema);

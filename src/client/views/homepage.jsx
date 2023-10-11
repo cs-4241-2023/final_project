@@ -1,5 +1,4 @@
 import "../css/theming.css";
-import "../css/sidebar.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Stack, Modal } from "react-bootstrap";

@@ -70,6 +70,7 @@ const Layout = ({ children }) => {
             className="btn-dark"
             fixed="bottom"
           >
+            <NavDropdown.Item href="/userpage">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="/signout" disabled>
               Sign out
