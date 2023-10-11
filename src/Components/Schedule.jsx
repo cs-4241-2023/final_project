@@ -1,10 +1,37 @@
 import ScheduleItem from "./ScheduleItem";
 
 function Schedule(props) {
+
+  // Sort the schedule based on the time
+  function sortSchedule() {
+    const sortedSchedule = props.ScheduleList.sort((a, b) => {
+      const aTime = a.time.split(":");
+      const bTime = b.time.split(":");
+      const aHour = parseInt(aTime[0]);
+      const bHour = parseInt(bTime[0]);
+      const aMinute = parseInt(aTime[1]);
+      const bMinute = parseInt(bTime[1]);
+      if (aHour < bHour) {
+        return -1;
+      } else if (aHour > bHour) {
+        return 1;
+      } else {
+        if (aMinute < bMinute) {
+          return -1;
+        } else if (aMinute > bMinute) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    });
+    return sortedSchedule;
+  }
+
   return (
     <div className="Schedule">
       <div className="ScheduleHeading">
-        <h1>To Do</h1>
+        <h1>Schedule</h1>
         <button onClick={(e) => props.onAdd({"subject": "Test", "time": "3:30pm"})}>
           <svg
             width="21"
@@ -33,7 +60,8 @@ function Schedule(props) {
         </button>
       </div>
       <ul>
-        {props.ScheduleList.map((item, index) => (
+        <li id="addForm" className="hidden"></li>
+        {sortSchedule(props.ScheduleList).map((item, index) => (
           <ScheduleItem subject={item.subject} time={item.time}/>
         ))}
       </ul>

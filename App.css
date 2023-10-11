@@ -301,3 +301,7 @@ body {
 .ScheduleHeading button:hover {
   color: #ff0000;
 }
+
+.hidden {
+  display: none;
+}
