@@ -24,4 +24,27 @@ const SignUp = async (req, res) => {
   return res.status(201).json({ message: "User registered successfully" });
 };
 
-export { SignUp };
+const Login = async (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    // username or password is missing
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
+  }
+  const db = await getConnection();
+  const user = await db.collection("users").findOne({ username, password });
+  if (!user) {
+    // user with the given username and password not found
+    return res.status(401).json({ message: "Invalid username or password" });
+  }
+  // user authentication successful
+  const token = createSecretToken(user._id);
+  res.cookie("token", token, {
+    withCredentials: true,
+    httpOnly: false,
+  });
+  return res.status(200).json({ message: "User authenticated successfully" });
+};
+
+export { SignUp, Login };

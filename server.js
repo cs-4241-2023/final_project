@@ -37,6 +37,7 @@ app.use(cookieParser());
 // parses JSON bodies
 app.use(express.json());
 
+// authnetication routes
 app.use("/", authRoute);
 
 // all other routes and middleware below
