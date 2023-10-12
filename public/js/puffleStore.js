@@ -15,7 +15,7 @@ let layers = {
 }
 
 scene("puffle_store", async () => {
-    const getResponse = await fetch('/user/admin')
+    const getResponse = await fetch('/user')
     const userInfo = await getResponse.json()
 
     //Load Background
@@ -127,6 +127,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             const body = JSON.stringify({ username: 'admin', puffleName: puffleName })
             const postRespone = await fetch('/equip', {
                 method: 'POST',
+                headers: {'Content-Type': "application/json"},
                 body
             })
 
@@ -137,6 +138,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             const body = JSON.stringify({ username: 'admin', puffleName: "" })
             const postRespone = await fetch('/equip', {
                 method: 'POST',
+                headers: {'Content-Type': "application/json"},
                 body
             })
 
@@ -146,11 +148,11 @@ function addPuffleViewer(puffleName, price, userInfo) {
             const body = JSON.stringify({ username: "admin", puffleName: puffleName, price: price })
             const postResponse = await fetch('/purchase', {
                 method: 'POST',
+                headers: {'Content-Type': "application/json"},
                 body
             })
 
-            const text = await postResponse.text()
-            const result = JSON.parse(text)
+            const result = await postResponse.json()
             if (result.status === 1) {
                 priceTag.text = "Equip"
                 coinLabel.text = `Coins: ${result.coinsRemaining}`
