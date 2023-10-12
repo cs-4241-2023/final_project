@@ -126,8 +126,9 @@ function Dashboard() {
     return (
         <div className="dashboard">
             <Header />
+            <SoloGrid days={days} availability={availability} setAvailability={setAvailability} />
+
             <main className="dashboard--container">
-                <SoloGrid days={days} availability={availability} setAvailability={setAvailability} />
 
                 {selectedGroupPage ? (
                     <div className="">
