@@ -1,14 +1,23 @@
-export let opponentId
+export let opponentId = undefined
+let myCard = undefined
+let opponentCard = undefined
 
-let myCard
-let opponentCard
+export function setOpponentID(id) {
+	opponentId = id
+}
 
 export function setMyCard(cardInfo) {
 	myCard = cardInfo
+	if((myCard !== undefined) && (opponentCard !== undefined)) {
+		compareCards()
+	}
 }
 
 export function setOpponentCard(cardInfo) {
 	opponentCard = cardInfo
+	if((myCard !== undefined) && (opponentCard !== undefined)) {
+		compareCards()
+	}
 }
 
 function compareCards() {

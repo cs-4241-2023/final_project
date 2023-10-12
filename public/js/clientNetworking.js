@@ -1,3 +1,5 @@
+import { setOpponentCard } from "./cardGameHelper.js"
+
 // Public Functions
 
 /**
@@ -36,6 +38,7 @@ network.on("joinGame", (opponent) => {
 	go("card")
 	network.emit("joinSubScene", { scene: "card" })
 })
+network.on("setOpponentCard", (cardInfo) => setOpponentCard(cardInfo))
 
 const remotePlayers = {}
 let currentScene = { scene: "", pos: {} }

@@ -1,4 +1,5 @@
 import sendNetworkMessage from "./clientNetworking.js"
+import { setMyCard, opponentId } from "./cardGameHelper.js"
 import { global } from "./global.js"
 
 
@@ -7,12 +8,6 @@ const CARDSLOTS = [
 	new Vec2(500, 600),
 	new Vec2(720, 600)
 ]
-
-let myCard
-let opponentCard
-
-let youWin
-let tie
 
 
 loadSprite("backgroundBlank", "../background/blank.png")
@@ -48,19 +43,19 @@ scene("card", () => {
 	// Play Cards
 	onClick("Cards", (card) => {
 		// Send card type & value to server so opponent can see card
-		myCard = {
+		const myCard = {
 			type: card.cardType,
-			value: card.cardVal
+			value: card.cardVal,
+			i: card.i
 		}
 
-		//card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
-		console.log(myCard.type)
-		console.log(myCard.value)
+		setMyCard(myCard)
+		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
 
-		//compareCards()
+		card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
 	})
 
-	
+
 	const shiftDistance = 40
 	onHover("Cards", (card) => card.moveTo(card.pos.x, card.pos.y - shiftDistance))
 	onHoverEnd("Cards", (card) => card.moveTo(card.pos.x, card.pos.y + shiftDistance))
@@ -81,11 +76,11 @@ function beginHand() {
 	]
 
 	// Begin game with 3 cards
-	CARDSLOTS.forEach(slotPos => {
+	for(let i = 0; i < CARDSLOTS.length; i++) {
 		const randIndex = Math.floor(Math.random() * deck.length)
-		createCard(deck[randIndex], slotPos)
+		createCard(deck[randIndex], CARDSLOTS[i], i)
 		deck.splice(randIndex, 1)
-	})
+	}
 
 	// Create Opponent Cards
 	CARDSLOTS.forEach(slotPos => {
@@ -99,8 +94,8 @@ function beginHand() {
 	})
 }
 
-function createCard(cardObj, position) {
-	const card = add([
+function createCard(cardObj, position, i) {
+	add([
 		sprite(cardObj.spriteName),
 		pos(position),
 		"Cards",
@@ -109,7 +104,8 @@ function createCard(cardObj, position) {
 		scale(0.35),
 		{
 			cardType: cardObj.cardType,
-			cardVal: cardObj.cardVal
+			cardVal: cardObj.cardVal,
+			i
 		}
 	])
 }

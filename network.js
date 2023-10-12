@@ -109,6 +109,8 @@ const onConnection = function(socket) {
 		console.log(`${socket.id}:`, 'setting scene to', sceneObj)
 	})
 
+	socket.on("selectCard", (info) => io.in(info.opponentId).emit("setOpponentCard", info.cardInfo))
+
 
 	connectedPlayers[socket.id] = { room: '', pos: {} }
 
