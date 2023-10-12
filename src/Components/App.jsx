@@ -80,11 +80,10 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const addSchedule = async add => {
+  const addSchedule = add => {
     const newSchedule = [...schedule, add];
     setSchedule(newSchedule);
-    console.log(newSchedule);
-  };
+  }
 
   return (
     <>

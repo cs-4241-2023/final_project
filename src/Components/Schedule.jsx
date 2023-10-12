@@ -28,8 +28,30 @@ function Schedule(props) {
     return sortedSchedule;
   }
 
+  function convertTime(time) {
+    const timeArray = time.split(":");
+    const hour = parseInt(timeArray[0]);
+    const minute = parseInt(timeArray[1]);
+    const amPm = hour >= 12 ? "PM" : "AM";
+    const convertedHour = hour % 12 || 12;
+    const convertedMinute = String(minute).padStart(2, "0");
+    return `${convertedHour}:${convertedMinute} ${amPm}`;
+  }
+
   function showAddForm() {
     document.getElementById("addForm").classList.remove("hidden");
+  }
+
+  function submitAddForm(e) {
+    document.getElementById("addForm").classList.add("hidden");
+    e.preventDefault();
+    const subject = document.getElementById("subject").value;
+    const time = document.getElementById("time").value;
+    props.onAdd({ "subject": subject, "time": time });
+  }
+
+  function closeAddForm() {
+    document.getElementById("addForm").classList.add("hidden");
   }
 
   return (
@@ -64,20 +86,26 @@ function Schedule(props) {
         </button>
       </div>
       <ul>
-        <li id="addForm" className="hidden ScheduleItem">
-          <form action={(e) => props.onAdd(this)}>
+        <li id="addForm" className="hidden ScheduleForm">
+          <form>
             <div id="addFormItems" className="AddFormInputs">
-              <input type="text" name="subject" placeholder="Event" />
-              <input type="time" name="time" placeholder="Time" />
+              <div>
+                <label for="subject">Event</label>
+                <input type="text" id="subject" />
+              </div>
+              <div>
+                <label for="time">Time</label>
+                <input type="time" id="time" placeholder="Time" />
+              </div>
             </div>
             <div className="AddFormButtons">
-              <button type="submit">Add</button>
-              <button type="cancel">Cancel</button>
+              <button type="submit" onClick={submitAddForm}>Add</button>
+              <button onClick={closeAddForm}>Cancel</button>
             </div>
           </form>
         </li>
         {sortSchedule(props.ScheduleList).map((item, index) => (
-          <ScheduleItem subject={item.subject} time={item.time}/>
+          <ScheduleItem subject={item.subject} time={convertTime(item.time)}/>
         ))}
       </ul>
     </div>
