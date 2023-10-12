@@ -1,38 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
   Button,
   Table,
 } from "react-bootstrap";
 
-class hourEntry {
-  constructor(date, num, reasoning) {
-    this.date = date;
-    this.numHours = num;
-    this.reason = reasoning;
-  }
-  setDate(date) {
-    this.date = date;
-  }
-  setNumHours(num) {
-    this.numHours = num;
-  }
-
-  setReason(reason) {
-    this.reason = reason;
-  }
-
-  setID(id) {
-    this.id = id;
-  }
-}
 
 function UserPage() {
   const [user, setUser] = useState([]);
@@ -51,36 +23,6 @@ function UserPage() {
       });
   }, []);
 
-  // const submitData = async function (event) {
-  //   event.preventDefault();
-  //   let newSubmission = new hourEntry(date, hours, reason);
-  //   const body = JSON.stringify(newSubmission);
-  //   console.log("New submission: ", body);
-  //   const response = await fetch("/add", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: body,
-  //   });
-
-  //   const text = await response.text();
-  //   const data = JSON.parse(text);
-  //   setSubmissions(data);
-  //   console.log("gonna print data:", data);
-  // };
-
-  // const deleteEntry = async (event) => {
-  //   const elemID =
-  //     event.currentTarget.parentElement.parentElement.dataset.internal_id;
-  //   console.log("target to delete id: ", elemID);
-  //   const response = await fetch("/delete", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ submissionID: elemID }),
-  //   });
-  //   const text = await response.text();
-  //   const newData = JSON.parse(text);
-  //   setSubmissions(newData);
-  // };
 
   const controlEdit = async () => {
     console.log(editable);
@@ -290,6 +232,10 @@ function UserPage() {
 
       <Button className="btn-primary" onClick={controlEdit}>
         {content}
+      </Button>
+
+      <Button className="btn-primary" href="/admin_page">
+        Admin
       </Button>
     </div>
   );
