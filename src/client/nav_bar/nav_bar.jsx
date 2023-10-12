@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 
 function Navbar() {
   return (
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top has-background-white-ter" role="navigation" aria-label="main navigation">
       <div class="navbar-menu">
         <div>
           <Link class="navbar-item" to="/">
@@ -22,7 +22,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

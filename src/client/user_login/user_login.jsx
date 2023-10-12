@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react"; //useRef provides references to component instances.
-import { useNavigate } from "react-router-dom";
-import "bulma/css/bulma.min.css";
+import React, { useState, useEffect, useRef } from "react" //useRef provides references to component instances.
+import { useNavigate } from "react-router-dom"
+import "bulma/css/bulma.min.css"
 
 function userLogin() {
   //The state object is where you store property values that belong to the component.
   //When the state object changes, the component re-renders.
-  const [userLoginFeedbackText, setUserLoginFeedbackText] = useState("");
-  const navigate = useNavigate();
-  const usernameInputRef = useRef();
-  const passwordInputRef = useRef();
+  const [userLoginFeedbackText, setUserLoginFeedbackText] = useState("")
+  const navigate = useNavigate()
+  const usernameInputRef = useRef()
+  const passwordInputRef = useRef()
 
   //Use fetch await for form validation
   //Use bcrypt client-side before sending data to server
@@ -37,7 +37,7 @@ function userLogin() {
 
     if (message === "SuccessfulUserAuthentication.") {
       //Redirect to page with main functionality.
-      navigate("/music_tour_builder");
+      navigate("/music_tour_builder")
     } else {
       if (message === "MissingInformation") {
         setUserLoginFeedbackText(
@@ -48,9 +48,9 @@ function userLogin() {
           "The login information you submitted is invalid. Both the username and password cannot contain any whitespace."
         );
       } else if (message === "UserNotFound") {
-        setUserLoginFeedbackText("User not found.");
+        setUserLoginFeedbackText("User not found.")
       } else if (message === "IncorrectPassword") {
-        setUserLoginFeedbackText("Incorrect password entered.");
+        setUserLoginFeedbackText("Incorrect password entered.")
       } else if (message === "InternalServerError") {
         setUserLoginFeedbackText(
           "There was an internal server error that prevented successful login."
@@ -58,7 +58,7 @@ function userLogin() {
       }
     }
 
-    console.log(message);
+    console.log(message)
   }
 
   return (
@@ -67,7 +67,10 @@ function userLogin() {
         <div class="column is-one-fifth">
           <form>
             <div class="field">
-              <label class="label has-text-centered" htmlFor="un">
+              <label
+                class="label has-text-centered is-family-monospace"
+                htmlFor="un"
+              >
                 Username
               </label>
               <input
@@ -79,7 +82,10 @@ function userLogin() {
               />
             </div>
             <div class="field">
-              <label class="label has-text-centered" htmlFor="pw">
+              <label
+                class="label has-text-centered is-family-monospace"
+                htmlFor="pw"
+              >
                 Password
               </label>
               <input
@@ -90,13 +96,18 @@ function userLogin() {
                 name="password"
               />
             </div>
-            <button class="button is-info" onClick={handleLoginSubmit}>
+            <button
+              class="button is-info is-family-code"
+              onClick={handleLoginSubmit}
+            >
               Login
             </button>
           </form>
         </div>
       </div>
-      <p class="mb-3">{userLoginFeedbackText}</p>
+      <p class="mb-3 is-family-monospace is-size-5 has-text-danger">
+        {userLoginFeedbackText}
+      </p>
     </div>
   );
 }

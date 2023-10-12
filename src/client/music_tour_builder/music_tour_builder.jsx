@@ -1,103 +1,103 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 
 function musicTourBuilder() {
   //Important Note; Objects and arrays cannot be stored in state in React. Primitive values need to be picked out from the object and stored in state.
 
-  const [musicTourName, setMusicTourName] = useState("");
-  const [musicTourDuration, setMusicTourDuration] = useState(0);
-  const [musicTourContinent, setMusicContinent] = useState("");
+  const [musicTourName, setMusicTourName] = useState("")
+  const [musicTourDuration, setMusicTourDuration] = useState(0)
+  const [musicTourContinent, setMusicContinent] = useState("")
   const [musicTourTargetAudienceAgeRange, setMusicTourTargetAudienceAgeRange] =
-    useState("");
+    useState("")
   const [musicTourHeadliningArtist, setMusicTourHeadliningArtist] =
-    useState("");
+    useState("")
   const [musicTourDirectSupportArtist, setMusicTourDirectSupportArtist] =
-    useState("");
+    useState("")
   const [fieldModificationFeedback, setFieldModificationFeedback] =
-    useState("");
+    useState("")
   const [tourDurationUserInputFeedback, setTourDurationUserInputFeedback] =
-    useState("");
+    useState("")
   const [
     targetAudienceAgeRangeUserInputFeedback,
     setTargetAudienceAgeRangeUserInputFeedback,
-  ] = useState("");
+  ] = useState("")
 
   useEffect(() => {
     async function getMusicTourName() {
       const response = await fetch("/getMusicTourName", {
         method: "GET",
-      });
+      })
 
-      const tourName = await response.text();
-      setMusicTourName(tourName);
+      const tourName = await response.text()
+      setMusicTourName(tourName)
     }
-    getMusicTourName();
-  }, []);
+    getMusicTourName()
+  }, [])
 
   useEffect(() => {
     async function getMusicTourDuration() {
       const response = await fetch("/getMusicTourDuration", {
         method: "GET",
-      });
+      })
 
-      const tourDuration = await response.text();
-      setMusicTourDuration(tourDuration);
+      const tourDuration = await response.text()
+      setMusicTourDuration(tourDuration)
     }
-    getMusicTourDuration();
+    getMusicTourDuration()
   }, []);
 
   useEffect(() => {
     async function getMusicTourContinent() {
       const response = await fetch("/getMusicTourContinent", {
         method: "GET",
-      });
+      })
 
-      const tourContinent = await response.text();
-      setMusicContinent(tourContinent);
+      const tourContinent = await response.text()
+      setMusicContinent(tourContinent)
     }
-    getMusicTourContinent();
+    getMusicTourContinent()
   }, []);
 
   useEffect(() => {
     async function getMusicTourTargetAudienceAgeRange() {
       const response = await fetch("/getMusicTourTargetAudienceAgeRange", {
         method: "GET",
-      });
+      })
 
-      const targetAudienceAgeRange = await response.text();
-      setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange);
+      const targetAudienceAgeRange = await response.text()
+      setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange)
     }
-    getMusicTourTargetAudienceAgeRange();
-  }, []);
+    getMusicTourTargetAudienceAgeRange()
+  }, [])
 
   useEffect(() => {
     async function getMusicTourHeadliningArtist() {
       const response = await fetch("/getMusicTourHeadliningArtist", {
         method: "GET",
-      });
+      })
 
-      const headliningArtist = await response.text();
-      setMusicTourHeadliningArtist(headliningArtist);
+      const headliningArtist = await response.text()
+      setMusicTourHeadliningArtist(headliningArtist)
     }
-    getMusicTourHeadliningArtist();
-  }, []);
+    getMusicTourHeadliningArtist()
+  }, [])
 
   useEffect(() => {
     async function getMusicTourDirectSupportArtist() {
       const response = await fetch("/getMusicTourDirectSupportArtist", {
         method: "GET",
-      });
+      })
 
-      const directSupportArtist = await response.text();
-      setMusicTourDirectSupportArtist(directSupportArtist);
+      const directSupportArtist = await response.text()
+      setMusicTourDirectSupportArtist(directSupportArtist)
     }
-    getMusicTourDirectSupportArtist();
+    getMusicTourDirectSupportArtist()
   }, []);
 
   useEffect(() => {
-    const musicTourNameButton = document.getElementById("submitMusicTourName");
+    const musicTourNameButton = document.getElementById("submitMusicTourName")
     musicTourNameButton.addEventListener("click", async function () {
-      const tourName = document.getElementById("tourname").textContent;
-      setMusicTourName(tourName);
+      const tourName = document.getElementById("tourname").textContent
+      setMusicTourName(tourName)
 
       const response = await fetch("/modifyTourName", {
         method: "PUT",
@@ -107,23 +107,23 @@ function musicTourBuilder() {
         }),
       });
 
-      const modificationFeedback = await response.text();
-      setFieldModificationFeedback(modificationFeedback);
+      const modificationFeedback = await response.text()
+      setFieldModificationFeedback(modificationFeedback)
     });
   });
 
   useEffect(() => {
-    const tourDurationButton = document.getElementById("submitTourDuration");
+    const tourDurationButton = document.getElementById("submitTourDuration")
     tourDurationButton.addEventListener("click", async function () {
-      const tourDuration = document.getElementById("tourduration").textContent;
+      const tourDuration = document.getElementById("tourduration").textContent
 
       if (parseInt(tourDuration) < 0) {
         setTourDurationUserInputFeedback(
           "Entered tour duration needs to be greater than or equal to 0 days."
-        );
+        )
       } else {
-        setTourDurationUserInputFeedback("");
-        setMusicTourDuration(tourDuration);
+        setTourDurationUserInputFeedback("")
+        setMusicTourDuration(tourDuration)
 
         const response = await fetch("/modifyTourDuration", {
           method: "PUT",
@@ -131,10 +131,10 @@ function musicTourBuilder() {
           body: JSON.stringify({
             tourduration: tourDuration,
           }),
-        });
+        })
 
-        const modificationFeedback = await response.text();
-        setFieldModificationFeedback(modificationFeedback);
+        const modificationFeedback = await response.text()
+        setFieldModificationFeedback(modificationFeedback)
       }
     });
   });
@@ -143,8 +143,8 @@ function musicTourBuilder() {
     const tourContinentButton = document.getElementById("submitTourContinent");
     tourContinentButton.addEventListener("click", async function () {
       const tourContinent =
-        document.getElementById("tourcontinent").textContent;
-      setMusicContinent(tourContinent);
+        document.getElementById("tourcontinent").textContent
+      setMusicContinent(tourContinent)
 
       const response = await fetch("/modifyTourContinent", {
         method: "PUT",
@@ -152,25 +152,25 @@ function musicTourBuilder() {
         body: JSON.stringify({
           tourcontinent: tourContinent,
         }),
-      });
+      })
 
-      const modificationFeedback = await response.text();
-      setFieldModificationFeedback(modificationFeedback);
+      const modificationFeedback = await response.text()
+      setFieldModificationFeedback(modificationFeedback)
     });
   });
 
   useEffect(() => {
     const targetAudienceAgeRangeButton = document.getElementById(
       "submitTargetAudienceAgeRange"
-    );
+    )
     targetAudienceAgeRangeButton.addEventListener("click", async function () {
       const targetAudienceAgeRange = document.getElementById(
         "targetaudienceagerange"
-      ).textContent;
+      ).textContent
 
       function getFirstIndexOfStringWhiteSpace(inputString) {
         //The indexOf() method returns the position of the first occurrence of a value in a string.
-        return inputString.indexOf(" ");
+        return inputString.indexOf(" ")
       }
 
       function countOccurrencesOfNonConvertableCharacterInUserInputString(
@@ -180,11 +180,11 @@ function musicTourBuilder() {
 
         inputString.split("").forEach((c) => {
           if (isNaN(parseInt(c))) {
-            nonConvertableCharacterCounter++;
+            nonConvertableCharacterCounter++
           }
         });
 
-        return nonConvertableCharacterCounter;
+        return nonConvertableCharacterCounter
       }
 
       if (getFirstIndexOfStringWhiteSpace(targetAudienceAgeRange) >= 0) {
@@ -194,7 +194,7 @@ function musicTourBuilder() {
       } else if (!targetAudienceAgeRange.includes("-")) {
         setTargetAudienceAgeRangeUserInputFeedback(
           "Entered Target Audience Age Range needs to include a dash (-)."
-        );
+        )
       } else {
         const ageStorageArray = targetAudienceAgeRange.split("-");
 
@@ -224,10 +224,10 @@ function musicTourBuilder() {
         ) {
           setTargetAudienceAgeRangeUserInputFeedback(
             "Entered target audience age on the left needs to be less than the entered target audience age on the right."
-          );
+          )
         } else {
-          setTargetAudienceAgeRangeUserInputFeedback("");
-          setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange);
+          setTargetAudienceAgeRangeUserInputFeedback("")
+          setMusicTourTargetAudienceAgeRange(targetAudienceAgeRange)
 
           const response = await fetch("/modifyTargetAudienceAgeRange", {
             method: "PUT",
@@ -235,10 +235,10 @@ function musicTourBuilder() {
             body: JSON.stringify({
               targetaudienceagerange: targetAudienceAgeRange,
             }),
-          });
+          })
 
-          const modificationFeedback = await response.text();
-          setFieldModificationFeedback(modificationFeedback);
+          const modificationFeedback = await response.text()
+          setFieldModificationFeedback(modificationFeedback)
         }
       }
     });
@@ -250,8 +250,8 @@ function musicTourBuilder() {
     );
     headliningArtistButton.addEventListener("click", async function () {
       const headliningArtist =
-        document.getElementById("headliningartist").textContent;
-      setMusicTourHeadliningArtist(headliningArtist);
+        document.getElementById("headliningartist").textContent
+      setMusicTourHeadliningArtist(headliningArtist)
 
       const response = await fetch("/modifyHeadliningArtist", {
         method: "PUT",
@@ -259,22 +259,22 @@ function musicTourBuilder() {
         body: JSON.stringify({
           headliningartist: headliningArtist,
         }),
-      });
+      })
 
-      const modificationFeedback = await response.text();
-      setFieldModificationFeedback(modificationFeedback);
-    });
-  });
+      const modificationFeedback = await response.text()
+      setFieldModificationFeedback(modificationFeedback)
+    })
+  })
 
   useEffect(() => {
     const directSupportArtistButton = document.getElementById(
       "submitDirectSupportArtist"
-    );
+    )
     directSupportArtistButton.addEventListener("click", async function () {
       const directSupportArtist = document.getElementById(
         "directsupportingartist"
       ).textContent;
-      setMusicTourDirectSupportArtist(directSupportArtist);
+      setMusicTourDirectSupportArtist(directSupportArtist)
 
       const response = await fetch("/modifyDirectSupportArtist", {
         method: "PUT",
@@ -282,40 +282,40 @@ function musicTourBuilder() {
         body: JSON.stringify({
           directsupportartist: directSupportArtist,
         }),
-      });
+      })
 
-      const modificationFeedback = await response.text();
-      setFieldModificationFeedback(modificationFeedback);
-    });
-  });
+      const modificationFeedback = await response.text()
+      setFieldModificationFeedback(modificationFeedback)
+    })
+  })
 
   return (
     <div>
-      <div class="content ">
-        <h2>Build a Fantasy Music Tour</h2>
-        <blockquote>
-          The Fantasy Music Tour Text Editor below provides a high-level format
+      <h2 class="mt-3 has-text-centered is-family-secondary has-text-weight-bold is-size-3">Build a Fantasy Music Tour</h2>
+      <div class="content">  
+        <div class="card mt-3 ml-6 mr-6">
+            <p class = "is-family-sans-serif pt-2 pb-2 pl-2 pr-2">The Fantasy Music Tour Text Editor below provides a high-level format
           for building a fantasy music tour. To complete a fantasy music tour,
           information must be entered for the Tour Name, Tour Duration, Tour
           Continent, Target Audience Age Range, Headlining Artist, and Direct
           Support Artist. To enter information for those fields, edit the text
           for each item in the Fantasy Music Tour Text Editor below. Then,
           submit the entered information to your account using the corresponding
-          button.
-        </blockquote>
+          button.</p>
+        </div>
         <strong>
-          <p>Important details for entering information into the editor:</p>
+          <p class="pt-2 pb-2 mt-3 ml-6 mr-6 is-family-sans-serif">Important details for entering information into the editor:</p>
         </strong>
-        <div class="card">
+        <div class="card mt-3 ml-6 mr-6">
           <ul>
             <li>
-              <p>
+              <p class = "is-family-sans-serif pt-2 pb-2 pl-2 pr-2">
                 For the Tour Duration field, enter a number using digits. The
                 duration of a tour must be greater than or equal to 0 days.
               </p>
             </li>
             <li>
-              <p>
+              <p class = "is-family-sans-serif pt-2 pb-2 pl-2 pr-2">
                 For the Target Audience Age Range field, enter the age range in
                 the following format: #...-#... where # is a number written in
                 digits. 15-25 is an example of a valid age range entry. A given
@@ -324,161 +324,153 @@ function musicTourBuilder() {
               </p>
             </li>
             <li>
-              <p>
-                A confirmation message will appear below the Fantasy Music Text
+              <p class = "is-family-sans-serif pt-2 pb-2 pl-2 pr-2">
+                A confirmation message will appear below the Fantasy Music Tour Text
                 Editor when the edited field has been successfully saved to your
                 account.
               </p>
             </li>
           </ul>
         </div>
-        <h3 class="has-text-centered">Fantasy Music Tour Text Editor</h3>
       </div>
+      <h3 class="has-text-centered is-family-sans-serif has-text-weight-semibold is-size-5 mb-3">Fantasy Music Tour Text Editor</h3>
       <div class="columns is-mobile is-centered">
-        <ul>
-          <div class="box has-text-centered">
-            <li>
-              <div class="field">
-                <strong>
-                  <p>Tour Name</p>
-                </strong>
-                <p
-                  class="input is-info is-rounded"
-                  id="tourname"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
+          <div class="column is-two-thirds">
+            <div class="box has-text-centered">
+                <div class="field">
+                  <strong>
+                    <p class="mb-2 is-family-monospace">Tour Name</p>
+                  </strong>
+                  <p
+                    class="input is-info is-rounded is-family-code"
+                    id="tourname"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                  >
+                    {musicTourName}
+                  </p>
+                </div>
+                <button
+                  class="button is-info is-outlined is-family-code"
+                  id="submitMusicTourName"
                 >
-                  {musicTourName}
-                </p>
-              </div>
-              <button
-                class="button is-info is-outlined"
-                id="submitMusicTourName"
-              >
-                Submit Tour Name
-              </button>
-            </li>
-          </div>
-          <div class="box has-text-centered">
-            <li>
-              <div class="field">
-                <strong>
-                  <p>Tour Duration (Number of Days)</p>
-                </strong>
-                <p
-                  class="input is-info is-rounded"
-                  id="tourduration"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
+                  Submit Tour Name
+                </button>
+            </div>
+            <div class="box has-text-centered">
+                <div class="field">
+                  <strong>
+                    <p class = "mb-2 is-family-monospace">Tour Duration (Number of Days)</p>
+                  </strong>
+                  <p
+                    class="input is-info is-rounded is-family-code"
+                    id="tourduration"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                  >
+                    {musicTourDuration}
+                  </p>
+                </div>
+                <button
+                  class="button is-info is-outlined is-family-code"
+                  id="submitTourDuration"
                 >
-                  {musicTourDuration}
+                  Submit Tour Duration
+                </button>
+                <p class="is-family-monospace is-size-6 has-text-danger mt-2">
+                  {tourDurationUserInputFeedback}
                 </p>
-              </div>
-              <button
-                class="button is-info is-outlined"
-                id="submitTourDuration"
-              >
-                Submit Tour Duration
-              </button>
-              <p>{tourDurationUserInputFeedback}</p>
-            </li>
-          </div>
-          <div class="box has-text-centered">
-            <li>
-              <div class="field">
-                <strong>
-                  <p>Tour Continent</p>
-                </strong>
-                <p
-                  class="input is-info is-rounded"
-                  id="tourcontinent"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
+            </div>
+            <div class="box has-text-centered">
+                <div class="field">
+                  <strong>
+                    <p class = "mb-2 is-family-monospace">Tour Continent</p>
+                  </strong>
+                  <p
+                    class="input is-info is-rounded is-family-code"
+                    id="tourcontinent"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                  >
+                    {musicTourContinent}
+                  </p>
+                </div>
+                <button
+                  class="button is-info is-outlined is-family-code"
+                  id="submitTourContinent"
                 >
-                  {musicTourContinent}
-                </p>
-              </div>
-              <button
-                class="button is-info is-outlined"
-                id="submitTourContinent"
-              >
-                Submit Tour Continent
-              </button>
-            </li>
-          </div>
-          <div class="box has-text-centered">
-            <li>
-              <div class="field">
-                <strong>
-                  <p>Target Audience Age Range (#-#)</p>
-                </strong>
-                <p
-                  class="input is-info is-rounded"
-                  id="targetaudienceagerange"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
+                  Submit Tour Continent
+                </button>
+            </div>
+            <div class="box has-text-centered">
+                <div class="field">
+                  <strong>
+                    <p class = "mb-2 is-family-monospace">Target Audience Age Range (#-#)</p>
+                  </strong>
+                  <p
+                    class="input is-info is-rounded is-family-code"
+                    id="targetaudienceagerange"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                  >
+                    {musicTourTargetAudienceAgeRange}
+                  </p>
+                </div>
+                <button
+                  class="button is-info is-outlined is-family-code"
+                  id="submitTargetAudienceAgeRange"
                 >
-                  {musicTourTargetAudienceAgeRange}
+                  Submit Target Audience Age Range
+                </button>
+                <p class="is-family-monospace is-size-6 has-text-danger mt-2">
+                  {targetAudienceAgeRangeUserInputFeedback}
                 </p>
-              </div>
-              <button
-                class="button is-info is-outlined"
-                id="submitTargetAudienceAgeRange"
-              >
-                Submit Target Audience Age Range
-              </button>
-              <p>{targetAudienceAgeRangeUserInputFeedback}</p>
-            </li>
-          </div>
-          <div class="box has-text-centered">
-            <li>
-              <div class="field">
-                <strong>
-                  <p>Headlining Artist</p>
-                </strong>
-                <p
-                  class="input is-info is-rounded"
-                  id="headliningartist"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
+            </div>
+            <div class="box has-text-centered">
+                <div class="field">
+                  <strong>
+                    <p class = "mb-2 is-family-monospace">Headlining Artist</p>
+                  </strong>
+                  <p
+                    class="input is-info is-rounded is-family-code"
+                    id="headliningartist"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                  >
+                    {musicTourHeadliningArtist}
+                  </p>
+                </div>
+                <button
+                  class="button is-info is-outlined is-family-code"
+                  id="submitHeadliningArtist"
                 >
-                  {musicTourHeadliningArtist}
-                </p>
-              </div>
-              <button
-                class="button is-info is-outlined"
-                id="submitHeadliningArtist"
-              >
-                Submit Headlining Artist
-              </button>
-            </li>
-          </div>
-          <div class="box has-text-centered">
-            <li>
-              <div class="field">
-                <strong>
-                  <p>Direct Supporting Artist</p>
-                </strong>
-                <p
-                  class="input is-info is-rounded"
-                  id="directsupportingartist"
-                  contentEditable="true"
-                  suppressContentEditableWarning={true}
+                  Submit Headlining Artist
+                </button>
+            </div>
+            <div class="box has-text-centered">
+                <div class="field">
+                  <strong>
+                    <p class = "mb-2 is-family-monospace">Direct Supporting Artist</p>
+                  </strong>
+                  <p
+                    class="input is-info is-rounded is-family-code"
+                    id="directsupportingartist"
+                    contentEditable="true"
+                    suppressContentEditableWarning={true}
+                  >
+                    {musicTourDirectSupportArtist}
+                  </p>
+                </div>
+                <button
+                  class="button is-info is-outlined is-family-code"
+                  id="submitDirectSupportArtist"
                 >
-                  {musicTourDirectSupportArtist}
-                </p>
-              </div>
-              <button
-                class="button is-info is-outlined"
-                id="submitDirectSupportArtist"
-              >
-                Submit Direct Supporting Artist
-              </button>
-            </li>
+                  Submit Direct Supporting Artist
+                </button>
+            </div>
           </div>
-        </ul>
       </div>
-      <p>{fieldModificationFeedback}</p>
+      <p class="has-text-centered is-size-4 has-text-success">{fieldModificationFeedback}</p>
     </div>
   );
 }
