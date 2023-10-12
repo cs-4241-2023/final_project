@@ -157,7 +157,7 @@ puzzleRouter.get("/:puzzleID", (req, res) => {
     },
     {
         "id" : "8",
-        "word" : "healthy"
+        "word" : "another"
     },
     {
         "id" : "9",

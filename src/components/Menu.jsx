@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InfoButton from './Directions';
 
-const PuzzleMenu = ({changePuzzle, setPuzzleNumber, getPuzzleLeaderboard, setScores}) => {
+const PuzzleMenu = ({changePuzzle, setPuzzleNumber, getPuzzleLeaderboard, setScores, getHighScoreForPuzzle}) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [selectedPuzzle, setSelectedPuzzle] = useState(null);
 
@@ -77,6 +77,7 @@ const PuzzleMenu = ({changePuzzle, setPuzzleNumber, getPuzzleLeaderboard, setSco
               }).catch((error) => {
                 console.error('Error:', error);
               });
+              // getHighScoreForPuzzle(index + 1);
             }
           }
           >

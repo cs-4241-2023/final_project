@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Score = ({score, highScore, submitScore, puzzleNumber, setHighScore }) => {
+const Score = ({score, highScore, submitScore, puzzleNumber, setHighScore, getHighScoreForPuzzle }) => {
+  useEffect(() => {
+    getHighScoreForPuzzle();
+  }, []);
 
   // Function to update the high score when needed
   const updateHighScore = () => {

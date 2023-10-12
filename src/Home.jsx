@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./App.css";
-import { get } from "lodash";
+import { get, set } from "lodash";
 
 function Home() {
   //function declarations
@@ -107,6 +107,24 @@ function Home() {
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
 
+const getHighScoreForPuzzle = async () => {
+  fetch(`puzzles/${puzzleNumber}/high-score`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      "x-access-token": cookies.token,
+    },
+    credentials: 'include',
+  }).then((res) => {
+    return res.json();
+  }).then((res) => {
+    res.score ? setHighScore(res.score) : setHighScore(0);
+  })
+  .catch(err => {
+    console.error(err);
+  })
+} 
+
   //actual page content below
   const [lettersArray, setLettersArray] = useState([]);
   const [guessList, setGuessList] = useState([]);
@@ -133,6 +151,10 @@ const selectPuzzle = (puzzleNumber) => {
     setCurrentScore(0);
   });
 }
+
+useEffect(() => {
+  getHighScoreForPuzzle();
+}, [puzzleNumber])
 
 const checkGuess = (word) => {
   //check if word is in guessList
@@ -183,14 +205,16 @@ const checkGuess = (word) => {
         setPuzzleNumber={setPuzzleNumber} 
         changePuzzle={selectPuzzle} 
         getPuzzleLeaderboard={getPuzzleLeaderboard}
-        setScores={setScores}>
+        setScores={setScores}
+        getHighScoreForPuzzle={getHighScoreForPuzzle}
+        setHighScore={setHighScore}>
       </PuzzleMenu>
       <Score 
         score={currentScore} 
         highScore={highScore}
         submitScore={submitScore}
         puzzleNumber={puzzleNumber}
-        setHighScore={setHighScore}>
+        getHighScoreForPuzzle={getHighScoreForPuzzle}>
       </Score>
       <GuessList guesses={guessList}></GuessList>
       <h1>Spelling Goat</h1>
