@@ -45,27 +45,23 @@ scene("card", () => {
 
 	// Play Cards
 	onClick("Cards", (card) => {
-		if(myCard == undefined) {
-			// Send card type & value to server so opponent can see card
-			const myCardInfo = {
-				type: card.cardType,
-				value: card.cardVal,
-				i: card.i
-			}
-
-			setMyCard(myCardInfo)
-			sendNetworkMessage("selectCard", { opponentId, cardInfo: myCardInfo })
-
-			card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
-
+		if (myCard !== undefined) {
+			return
 		}
+
+		// Send card type & value to server so opponent can see card
+		const result = setMyCard({
+			type: card.cardType,
+			value: card.cardVal,
+			i: card.i
+		})
 
 		card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
 		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
-		const result = setMyCard(myCard)
+		
 
 		let backButton
-		switch(result) {
+		switch (result) {
 			case "win":
 				backButton = displayText("You Win!")
 				break
@@ -92,12 +88,12 @@ scene("card", () => {
 
 	const shiftDistance = 40
 	onHover("Cards", (card) => {
-		if(myCard == undefined) {
+		if (myCard == undefined) {
 			card.moveTo(card.pos.x, card.pos.y - shiftDistance)
 		}
 	})
 	onHoverEnd("Cards", (card) => {
-		if(myCard == undefined) {
+		if (myCard == undefined) {
 			card.moveTo(card.pos.x, card.pos.y + shiftDistance)
 		}
 	})
@@ -118,7 +114,7 @@ function beginHand() {
 	]
 
 	// Begin game with 3 cards
-	for(let i = 0; i < CARDSLOTS.length; i++) {
+	for (let i = 0; i < CARDSLOTS.length; i++) {
 		const randIndex = Math.floor(Math.random() * deck.length)
 		createCard(deck[randIndex], CARDSLOTS[i], i)
 		deck.splice(randIndex, 1)
