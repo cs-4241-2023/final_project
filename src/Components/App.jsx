@@ -11,6 +11,7 @@ function App() {
   const [search, setSearch] = useState("New York");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
+<<<<<<< HEAD
   const [schedule, setSchedule] = useState([ ]);
   const [settingsForm, setSettingsForm] = useState({
     firstName: "",
@@ -22,8 +23,11 @@ function App() {
     bitcoinLink: "",
     stocksLink: "",
   });
+=======
+  const [schedule, setSchedule] = useState([]);
+>>>>>>> e486cad2e3b5269285f2c6b92520c4bc7a7319e5
 
-  const fetchWeather = async (search) => {
+  const fetchWeather = async search => {
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=d1bfed572118495ea1d193651231407&q=${search}`,
@@ -79,15 +83,15 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const addSchedule = async (add) => {
+  const addSchedule = async add => {
     const newSchedule = [...schedule, add];
     setSchedule(newSchedule);
     console.log(newSchedule);
-  }
+  };
 
   return (
     <>
-      <div className="main">
+      <div className={currentClass}>
         {weather && <Header weather={weather} currentTime={currentTime} />}
         <Sidebar settingsForm={settingsForm}/>
         <Paperclip />

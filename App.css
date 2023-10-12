@@ -152,6 +152,9 @@ root {
   background-image: url(/public/assets/WindowsXPBG-Night.png);
   height: 100vh;
   width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  grid-template-rows: 1fr 5fr;
 }
 
 body {
@@ -265,7 +268,7 @@ body {
 
 .ScheduleItem {
   border-radius: 15px;
-  background: #FFF740;
+  background: #fff740;
   display: flex;
   width: auto;
   align-items: top;
@@ -310,16 +313,15 @@ body {
 }
 
 .FormDivider {
-    display: block;
-    height: 1px;
-    width: 80%;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-    text-align: center;
+  display: block;
+  height: 1px;
+  width: 80%;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+  text-align: center;
 }
-
 
 .hidden {
   display: none;
@@ -345,7 +347,7 @@ body {
 }
 
 .AddFormButtons button {
-  background-color: #FFF210;
+  background-color: #fff210;
   border-radius: 5px;
   color: #000;
   border-color: #000;
@@ -360,7 +362,6 @@ body {
   background-color: #c2b90d;
   color: #000;
 }
-
 
 /* Sidebar Styles */
 
@@ -447,7 +448,7 @@ body {
   color: #0073e6; /* Blue text color */
 }
 
-.settings-input{
+.settings-input {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
@@ -468,12 +469,13 @@ body {
   background-color: #0055aa; /* Darker blue on hover */
 }
 
+<<<<<<< HEAD
 .icon-space {
   margin-bottom: 500px;
 }
 
+=======
+>>>>>>> e486cad2e3b5269285f2c6b92520c4bc7a7319e5
 .hidden {
   display: none;
 }
-
-
