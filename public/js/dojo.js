@@ -24,6 +24,8 @@ loadSprite("dojoDoor", "../background_interactables/dojoDoor.png")
 loadSprite("dojoMatHighlight", "/background_interactables/highlight/matHighlight.png")
 loadSprite("dojoDoorHighlight", "/background_interactables/highlight/dojoDoorHighlight.png")
 
+let player
+let waitingAt
 
 scene("dojo", () => {
 	//add background
@@ -32,8 +34,9 @@ scene("dojo", () => {
 		pos(0, 0),
 		z(layers.bg)
 	])
-
-	const player = add([
+	
+	waitingAt = -1
+	player = add([
 		sprite("puffle-red"),
 		pos(global.DOJO_SPAWN.x, global.DOJO_SPAWN.y),
 		z(layers.game),
@@ -52,16 +55,10 @@ scene("dojo", () => {
 		}
 
 		if (mousePos().y > MAX_HEIGHT) {
-			curTween = tween(player.pos, mousePos(), global.SPEED, (p) => {
-				player.pos = p
-				sendNetworkMessage("movement", player.pos)
-			}, easings.easeOutSine)
+			curTween = moveToLocation(mousePos())
 		}
 		else {
-			curTween = tween(player.pos, new Vec2(mousePos().x, MAX_HEIGHT), global.SPEED, (p) => {
-				player.pos = p
-				sendNetworkMessage("movement", player.pos)
-			}, easings.easeOutSine)
+			curTween = moveToLocation(new Vec2(mousePos().x, MAX_HEIGHT))
 		}
 	})
 
@@ -71,11 +68,7 @@ scene("dojo", () => {
 			curTween.cancel()
 		}
 
-		curTween = tween(player.pos, mousePos(), global.SPEED, (p) => {
-			player.pos = p
-			sendNetworkMessage("movement", player.pos)
-		}, easings.easeOutSine)
-		.then(() => {
+		curTween = moveToLocation(mousePos()).then(() => {
 			go("lobby")
 			sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
 		})
@@ -86,13 +79,8 @@ scene("dojo", () => {
 			curTween.cancel()
 		}
 
-		curTween = tween(player.pos, mousePos(), global.SPEED, (p) => {
-			player.pos = p
-			sendNetworkMessage("movement", player.pos)
-		}, easings.easeOutSine)
-		.then(() => {
-			//go("lobby")
-			//sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
+		curTween = moveToLocation(mousePos()).then(() => {
+			waitingAt = mat.matNum
 			sendNetworkMessage("waitAtMat", mat.matNum)
 		})
 	})
@@ -134,4 +122,16 @@ function spawMats() {
 		mat.onHover(() => highlight(mat, "dojoMatHighlight"))
 		mat.onHoverEnd(() => unHighlight(mat, "dojoMat"))
 	}
+}
+
+function moveToLocation(destination) {
+	if ( waitingAt !== -1) {
+		sendNetworkMessage("endWait", waitingAt)
+		waitingAt = -1
+	}
+
+	return tween(player.pos, destination, global.SPEED, (p) => {
+		player.pos = p
+		sendNetworkMessage("movement", player.pos)
+	}, easings.easeOutSine)
 }

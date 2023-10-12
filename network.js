@@ -73,6 +73,10 @@ const onConnection = function(socket) {
 		}
 	})
 
+	socket.on("endWait", (matNum) => {
+		matWaiting[matNum] = null
+	})
+
 	socket.on("joinSubScene", (sceneObj) => {
 		socket.leave(connectedPlayers[socket.id].room)
 		connectedPlayers[socket.id] = { room: sceneObj.scene }
