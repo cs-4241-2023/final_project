@@ -116,12 +116,18 @@ const getHighScoreForPuzzle = async () => {
     },
     credentials: 'include',
   }).then((res) => {
-    return res.json();
-  }).then((res) => {
+    if (res.status === 200) {
+      return res.json();
+    } else if(res.status === 404) {
+      console.log("no high exists for the user");
+      return res.json();
+    }
+  }
+  ).then((res) => {
     res.score ? setHighScore(res.score) : setHighScore(0);
   })
   .catch(err => {
-    console.error(err);
+    console.log(err);
   })
 } 
 
@@ -212,6 +218,7 @@ const checkGuess = (word) => {
       <Score 
         score={currentScore} 
         highScore={highScore}
+        setHighScore={setHighScore}
         submitScore={submitScore}
         puzzleNumber={puzzleNumber}
         getHighScoreForPuzzle={getHighScoreForPuzzle}>
