@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express'),
 	{ MongoClient, ObjectId } = require("mongodb"),
+	cookie = require('cookie-session'),
 	app = express(),
 	server = require('http').createServer(app),
 	SocketServer = require('./network.js'),
@@ -19,6 +20,7 @@ async function run() {
 	await client.connect();
 	user_collection = client.db("club_pigeon").collection("users")
 }
+
 run()
 
 app.use((req, res, next) => {
@@ -27,6 +29,44 @@ app.use((req, res, next) => {
 	} else {
 		res.status(503).send()
 	}
+})
+
+app.use(express.urlencoded({ extended: true }))
+app.use(cookie({
+	name: 'session',
+	keys: ['key1', 'key2']
+  }))
+
+app.get('/', (req, res) => {
+	res.sendFile(__dirname + '/public/index.html')
+})
+
+app.post('/login', async(req, res) => {
+	const user = await user_collection.findOne({username: req.body.username})
+	console.log(user)
+
+	if(user){
+		req.session.login = true
+		res.redirect('/game')
+	}
+	else{
+		res.redirect('/authFail')
+	}
+})
+
+app.get('/authFail', (req, res) => {
+	res.sendFile(__dirname + '/public/loginFail.html')
+})
+
+app.use( function( req,res,next) {
+	if( req.session.login === true )
+	  next()
+	else
+	  res.redirect('/')
+  })
+
+app.get('/game', (req, res) => {
+	res.sendFile(__dirname + '/public/game.html')
 })
 
 app.get('/user/:username', async (req, res) => {
