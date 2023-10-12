@@ -2,6 +2,7 @@ const {Server} = require('socket.io')
 
 let io = undefined
 const connectedPlayers = {}
+const matWaiting = [null, null, null, null]
 
 class SocketServer {
 
@@ -60,6 +61,21 @@ const onConnection = function(socket) {
 		const socketEntry = connectedPlayers[socket.id]
 		socket.broadcast.in(socketEntry.room).emit('remoteMovement', { id: socket.id, pos })
 		socketEntry.pos = pos
+	})
+
+	socket.on("waitAtMat", (matNum) => {
+		if(matWaiting[matNum] !== null) {
+			socket.emit("joinGame", matWaiting[matNum])
+			io.to(matWaiting[matNum]).emit("joinGame", socket.id)
+			matWaiting[matNum] = null
+		} else {
+			matWaiting[matNum] = socket.id
+		}
+	})
+
+	socket.on("joinSubScene", (sceneObj) => {
+		socket.leave(connectedPlayers[socket.id].room)
+		connectedPlayers[socket.id] = { room: sceneObj.scene }
 	})
 
 	socket.on('disconnect', (reason) => {

@@ -32,6 +32,10 @@ network.on("spawn", (players) => {
 
 network.on("remoteMovement", (movement) => moveRemotePlayer(movement.id, movement.pos))
 network.on("kill", (id) => removeRemotePlayer(id))
+network.on("joinGame", (opponent) => {
+	go("card")
+	network.emit("joinSubScene", { scene: "card" })
+})
 
 const remotePlayers = {}
 let currentScene = { scene: "", pos: {} }
@@ -46,7 +50,6 @@ network.on("connect", () => {
 
 	network.emit("setScene", currentScene)
 })
-
 
 // Private Functions
 

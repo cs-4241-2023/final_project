@@ -80,6 +80,22 @@ scene("dojo", () => {
 			sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
 		})
 	})
+
+	onClick("mat", (mat) => {
+		if (curTween) {
+			curTween.cancel()
+		}
+
+		curTween = tween(player.pos, mousePos(), global.SPEED, (p) => {
+			player.pos = p
+			sendNetworkMessage("movement", player.pos)
+		}, easings.easeOutSine)
+		.then(() => {
+			//go("lobby")
+			//sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
+			sendNetworkMessage("waitAtMat", mat.matNum)
+		})
+	})
 })
 
 function spawnInteractables() {
@@ -109,7 +125,10 @@ function spawMats() {
 			"mat",
 			z(layers["bg-obj"]),
 			anchor("center"),
-			area()
+			area(),
+			{
+				matNum: i
+			}
 		])
 
 		mat.onHover(() => highlight(mat, "dojoMatHighlight"))

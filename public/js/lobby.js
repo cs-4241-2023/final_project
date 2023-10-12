@@ -122,4 +122,3 @@ function spawnBuildings() {
 	puffleShop.onHover(() => highlight(puffleShop, "puffleShopHighlight"))
 	puffleShop.onHoverEnd(() => unHighlight(puffleShop, "puffleShop"))
 }
-
