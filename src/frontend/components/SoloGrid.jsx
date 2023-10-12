@@ -10,9 +10,7 @@ const SoloGrid = ({ user, days }) => {
         const sendAvailability = setTimeout(() => {
             fetch("/send-availability", {
                 method: "POST",
-                headers: {
-                    "Content-Type": 
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(availability)
             })
         }, 500)
