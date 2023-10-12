@@ -105,6 +105,7 @@ function spawnBuildings() {
 		anchor("center"),
 		area(),
 		"dojoBuilding",
+		scale(0.25)
 	])
 
 	add([
@@ -117,7 +118,7 @@ function spawnBuildings() {
 	])
 
 	dojoBuilding.onHover(() => highlight(dojoBuilding, "dojoHighlight"))
-	dojoBuilding.onHoverEnd(() => unHighlight(dojoBuilding, "dojo"))
+	dojoBuilding.onHoverEnd(() => unHighlight(dojoBuilding, "dojo", 0.25))
 
 	puffleShop.onHover(() => highlight(puffleShop, "puffleShopHighlight"))
 	puffleShop.onHoverEnd(() => unHighlight(puffleShop, "puffleShop"))
