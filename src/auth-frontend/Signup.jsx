@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import "./Login.css"
 
 function Signup() {
   const navigate = useNavigate();
@@ -37,9 +38,10 @@ function Signup() {
   };
   return (
     <>
-      <h1>Sign Up Page</h1>
+      <h1>Sign-Up Page</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
+      <div className="form-row">
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
           name="username"
@@ -48,7 +50,9 @@ function Signup() {
             setUserData({ ...userdata, username: e.target.value })
           }
         />
-        <label htmlFor="password">Password</label>
+      </div>
+      <div className="form-row">
+      <label htmlFor="password">Password:</label>
         <input
           type="password"
           name="password"
@@ -57,15 +61,26 @@ function Signup() {
             setUserData({ ...userdata, password: e.target.value })
           }
         />
-        <button type="submit">Submit</button>
+      </div>
+        <button style={inputButtonStyle} type="submit">Sign Up</button>
         <br />
         <span>
-          Already have an account? <Link to={"/login"}>Login</Link>
+          Already have an account? <Link to={"/login"}>Log in</Link>
         </span>
         <ToastContainer />
       </form>
     </>
   );
+}
+
+const inputButtonStyle = {
+  backgroundColor: '#ac2b37',
+  color: 'white',
+  padding: '10px',
+  margin: '5px',
+  border: 'none',
+  cursor: 'pointer',
+  borderRadius: '10px',
 }
 
 export default Signup;
