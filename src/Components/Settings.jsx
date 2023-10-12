@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Settings(props) {
-  const [settingsForm, setSettingsForm] = useState({
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     location: "",
@@ -9,31 +9,31 @@ function Settings(props) {
     calendarLink: "",
     newsLink: "",
     bitcoinLink: "",
-    stocksLink: "",
+    stocksLink: ""
   });
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSettingsForm({ ...settingsForm, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = () => {
-    // Update user settings with the new values from settingsForm
-    updateUserSettings(settingsForm);
-    window.location.href = "/";
+  const handleSubmit = (e) => {
+  e.preventDefault();
+  props.setSettingsForm(formData);
+  document.querySelector(".settings-card").classList.toggle("hidden");    
+  console.log(formData);
   };
 
   return (
     <div className="settings-card hidden">
       <h2 className="h2">Settings</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
+      <form className="form">
+      <div className="form-group">
           <label className="settings-label">First Name:</label>
           <input
             className="settings-input"
             type="text"
             name="firstName"
-            value={settingsForm.firstName}
             onChange={handleChange}
           />
         </div>
@@ -43,7 +43,6 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="lastName"
-            value={settingsForm.lastName}
             onChange={handleChange}
           />
         </div>
@@ -53,7 +52,6 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="location"
-            value={settingsForm.location}
             onChange={handleChange}
           />
         </div>
@@ -63,7 +61,6 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="emailLink"
-            value={settingsForm.emailLink}
             onChange={handleChange}
           />
         </div>
@@ -73,7 +70,6 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="calendarLink"
-            value={settingsForm.calendarLink}
             onChange={handleChange}
           />
         </div>
@@ -83,7 +79,6 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="newsLink"
-            value={settingsForm.newsLink}
             onChange={handleChange}
           />
         </div>
@@ -93,7 +88,6 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="bitcoinLink"
-            value={settingsForm.bitcoinLink}
             onChange={handleChange}
           />
         </div>
@@ -103,11 +97,10 @@ function Settings(props) {
           className="settings-input"
             type="text"
             name="stocksLink"
-            value={settingsForm.stocksLink}
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="settings-button">Save</button>
+        <button type="submit" onClick={handleSubmit} className="settings-button">Save</button>
       </form>
     </div>
   );

@@ -12,6 +12,16 @@ function App() {
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
   const [schedule, setSchedule] = useState([ ]);
+  const [settingsForm, setSettingsForm] = useState({
+    firstName: "",
+    lastName: "",
+    location: "",
+    emailLink: "",
+    calendarLink: "",
+    newsLink: "",
+    bitcoinLink: "",
+    stocksLink: "",
+  });
 
   const fetchWeather = async (search) => {
     try {
@@ -79,10 +89,10 @@ function App() {
     <>
       <div className="main">
         {weather && <Header weather={weather} currentTime={currentTime} />}
-        <Sidebar />
+        <Sidebar settingsForm={settingsForm}/>
         <Paperclip />
         <Schedule onAdd={addSchedule} ScheduleList={schedule} />
-        <Settings />
+        <Settings setSettingsForm={setSettingsForm} settingsForm={settingsForm}/>
       </div>
     </>
   );
