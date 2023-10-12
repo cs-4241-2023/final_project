@@ -14,7 +14,7 @@ class eventEntry {
     this.title = title;
   }
 
-  setPassword(password){
+  setPassword(password) {
     this.password = password;
   }
   setDate(date) {
@@ -68,7 +68,6 @@ function AdminPage() {
     setEvents(data);
     console.log("gonna print data:", data);
   };
-
 
   //probably not gonna work at first
   const deleteEntry = async (event) => {
@@ -127,8 +126,8 @@ function AdminPage() {
   };
 
   return (
-    <div style={{ maxWidth: "700px" }}>
-        <h1>Events</h1>
+    <div style={{ maxWidth: "800px" }}>
+      <h1>Admin</h1>
       <br />
       <h2>Add Event</h2>
       <Form
@@ -139,11 +138,8 @@ function AdminPage() {
           maxWidth: "600px",
         }}
       >
-        
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="titleSubmission">
-            Event to Add
-          </Form.Label>
+          <Form.Label htmlFor="titleSubmission">Event to Add</Form.Label>
           <Form.Control
             type="textarea"
             id="titleSubmission"
@@ -205,8 +201,8 @@ function AdminPage() {
         <Table striped hover bordered id="submissionTable">
           <thead>
             <tr>
-              <th style={{ width: "100px" }}>Title</th>
-              <th style={{ width: "100px" }}>Password</th>
+              <th style={{ width: "150px" }}>Title</th>
+              <th style={{ width: "150px" }}>Password</th>
               <th style={{ width: "100px" }}>Date</th>
               <th style={{ width: "200px" }}>Description</th>
               <th style={{ width: "100px" }}>Delete</th>

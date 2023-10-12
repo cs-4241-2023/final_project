@@ -5,36 +5,38 @@ import { determineEventType } from "../../Theming/site_control";
 function Homepage() {
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    const tempEvent = {
-      title: "GBM",
-      date: new Date("2/2/2023"),
-      description:
-        "Yippee! This is a giant blob of text that is going to test how many lines can be handled by the modal",
-    };
-    const tempEventTwo = {
-      title: "Colloquium",
-      date: new Date("2/3/2023"),
-      description: "Robots go brrr!",
-    };
-    const tempEventThree = {
-      title: "Colloquium",
-      date: new Date("2/3/2023"),
-      description: "Robots go brrr!",
-    };
-    const tempEventFour = {
-      title: "Event asdasd",
-      date: new Date("2/3/2023"),
-      description: "Robots go brrr again!",
-    };
-    setEvents([tempEvent, tempEventTwo, tempEventThree, tempEventFour]);
-    return;
-    fetch("/get", {
+    // const tempEvent = {
+    //   title: "GBM",
+    //   date: new Date("2/2/2023"),
+    //   description:
+    //     "Yippee! This is a giant blob of text that is going to test how many lines can be handled by the modal",
+    // };
+    // const tempEventTwo = {
+    //   title: "Colloquium",
+    //   date: new Date("2/3/2023"),
+    //   description: "Robots go brrr!",
+    // };
+    // const tempEventThree = {
+    //   title: "Colloquium",
+    //   date: new Date("2/3/2023"),
+    //   description: "Robots go brrr!",
+    // };
+    // const tempEventFour = {
+    //   title: "Event asdasd",
+    //   date: new Date("2/3/2023"),
+    //   description: "Robots go brrr again!",
+    // };
+    // setEvents([tempEvent, tempEventTwo, tempEventThree, tempEventFour]);
+
+    fetch("/getEvents", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log("recieved data: ", data);
+        data = data.filter((a) => new Date(a.date) >= Date.now());
+        data.sort((a, b) => new Date(a.date) - new Date(b.date));
         setEvents(data);
       });
   }, []);
@@ -74,7 +76,7 @@ function Homepage() {
                     </Modal.Body>
 
                     <Modal.Footer>
-                      {"Date: " + event.date.toDateString()}
+                      {"Date: " + new Date(event.date).toDateString()}
                     </Modal.Footer>
                   </Modal.Dialog>
                 </div>
