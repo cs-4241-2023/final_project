@@ -19,6 +19,8 @@ const GameBoard = ({ lettersArray, addGuessedWord }) => {
     if(isValid){
       addGuessedWord(word)
     }
+    // clear input at the end
+    setWord('');
   }
 
   //checks word length and valid characters
@@ -86,7 +88,7 @@ const isValidCharacter = (char) => {
   return (
     <>
        <form onSubmit={handleSubmit}>
-        <input style={inputStyle} placeholder='guess' onChange={handleChange} type="text" name="name" />
+        <input style={inputStyle} placeholder='guess' value={word} onChange={handleChange} type="text" name="name" />
         <input style={inputButtonStyle} type="submit" value="Submit" />
       </form>
       <HexGrid width={600} height={600} viewBox="-6 -30 10 70"

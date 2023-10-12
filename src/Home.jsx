@@ -39,6 +39,7 @@ function Home() {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     const verifyCookie = async () => {
@@ -66,8 +67,14 @@ function Home() {
           }
         })
         .then((data) => {
-          console.log("data", data);
+          // console.log("data", data);
           setUsername(data.user);
+          // show welcome message
+          setShowWelcome(true);
+          // toggle it back to false after 3 seconds
+          setTimeout(() => {
+            setShowWelcome(false);
+          }, 3000);
         })
         .catch((err) => {
           console.log("cookie authentication failed: ", err);
@@ -164,6 +171,7 @@ const checkGuess = (word) => {
       </Score>
       <GuessList guesses={guessList}></GuessList>
       <h1>Spelling Goat</h1>
+      {showWelcome ? <h3>Welcome, {username}</h3> : null}
       <GameBoard lettersArray={lettersArray} addGuessedWord={checkGuess}/>
       <Scoreboard scores={scores}></Scoreboard>
     </>
