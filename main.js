@@ -114,7 +114,7 @@ app.post('/userCreation', async (req, res) => {
       const salt = await bcrypt.genSalt(10) //A salt is a random data that is used as an additional input to a one-way function that hashes data
       const hashedPassword = await bcrypt.hash(req.body.password, salt)
     
-      await collection.insertOne({usern: req.body.username, passw: hashedPassword}) 
+      await collection.insertOne({usern: req.body.username, passw: hashedPassword, fantasymusictour: {tourname: "", tourduration: 0, tourcontinent: "", targetaudienceagerange: "0-100", headliningartist: "", directsupportartist: ""}}) 
       return res.status(201).end("SuccessfulUserCreation")
     } catch {
       return res.end("ServerError")

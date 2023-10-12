@@ -43,7 +43,7 @@ function userCreation() {
       )
     } else if (message === "SuccessfulUserCreation") {
       setUserCreationFeedbackText(
-        "Your account has been successfully created. Now login with your new username and password to access Fantasy Music Tour Builder functionality."
+        "Your account has been successfully created. Now login with your new username and password to access Fantasy Music Tour Builder features."
       )
     } else if (message === "UsernameAlreadyExists") {
       setUserCreationFeedbackText(
