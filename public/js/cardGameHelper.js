@@ -38,14 +38,14 @@ export function resetFields() {
 export function displayText(message) {
 	let backButton = add([
 		sprite("back-button"),
-		pos(0, 0),
+		pos(10, 10),
 		"backButton",
 		area(),
-		scale(0.3)
+		scale(0.35)
 	])
 
-	backButton.onHover(() => highlight(backButton, "back-button-highlight", 0.35))
-	backButton.onHoverEnd(() => unHighlight(backButton, "back-button", 0.3))
+	backButton.onHover(() => highlight(backButton, "back-button-highlight", 0.4))
+	backButton.onHoverEnd(() => unHighlight(backButton, "back-button", 0.35))
 
 	return backButton
 }
