@@ -11,7 +11,7 @@ function App() {
   const [search, setSearch] = useState("New York");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
-  const [schedule, setSchedule] = useState([{ subject: "Math", time: "10:00" }, { subject: "Science", time: "11:00" }]);
+  const [schedule, setSchedule] = useState([ ]);
   const [settingsForm, setSettingsForm] = useState({
     firstName: "",
     lastName: "",
@@ -80,7 +80,7 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const addSchedule = async add => {
+  const addSchedule = add => {
     const newSchedule = [...schedule, add];
     setSchedule(newSchedule);
   }

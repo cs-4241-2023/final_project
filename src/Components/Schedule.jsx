@@ -28,15 +28,26 @@ function Schedule(props) {
     return sortedSchedule;
   }
 
+  function convertTime(time) {
+    const timeArray = time.split(":");
+    const hour = parseInt(timeArray[0]);
+    const minute = parseInt(timeArray[1]);
+    const amPm = hour >= 12 ? "PM" : "AM";
+    const convertedHour = hour % 12 || 12;
+    const convertedMinute = String(minute).padStart(2, "0");
+    return `${convertedHour}:${convertedMinute} ${amPm}`;
+  }
+
   function showAddForm() {
     document.getElementById("addForm").classList.remove("hidden");
   }
 
-  function submitAddForm() {
+  function submitAddForm(e) {
     document.getElementById("addForm").classList.add("hidden");
+    e.preventDefault();
     const subject = document.getElementById("subject").value;
     const time = document.getElementById("time").value;
-    props.onAdd({ "subject": subject, "time": time });
+    props.onAdd({ "subject": subject, "time": convertTime(time) });
   }
 
   function closeAddForm() {
@@ -88,7 +99,7 @@ function Schedule(props) {
               </div>
             </div>
             <div className="AddFormButtons">
-              <button onClick={submitAddForm}>Add</button>
+              <button type="submit" onClick={submitAddForm}>Add</button>
               <button onClick={closeAddForm}>Cancel</button>
             </div>
           </form>
