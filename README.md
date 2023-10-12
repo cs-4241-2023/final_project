@@ -2,6 +2,7 @@ DailyDive
 =========
 
 https://dailydive-80188849a5ca.herokuapp.com/
+Video: https://www.youtube.com/watch?v=vdfbnKZRWn4&ab_channel=Ansel
 
 By Ansel Chang, Sharon Wu, Kristine Guan
 
