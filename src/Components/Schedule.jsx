@@ -43,14 +43,17 @@ function Schedule(props) {
   }
 
   function submitAddForm(e) {
-    document.getElementById("addForm").classList.add("hidden");
     e.preventDefault();
+    document.getElementById("addForm").classList.add("hidden");
     const subject = document.getElementById("subject").value;
     const time = document.getElementById("time").value;
     props.onAdd({ "subject": subject, "time": time });
   }
 
-  function closeAddForm() {
+  function closeAddForm(e) {
+    e.preventDefault();
+    document.getElementById("subject").value = "";
+    document.getElementById("time").value = "";
     document.getElementById("addForm").classList.add("hidden");
   }
 
