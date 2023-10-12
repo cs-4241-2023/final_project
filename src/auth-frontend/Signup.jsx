@@ -39,7 +39,7 @@ function Signup() {
   return (
     <>
       <h1>Sign-Up Page</h1>
-      <form class="auth-form" onSubmit={handleSubmit}>
+      <form className="auth-form" onSubmit={handleSubmit}>
       <div className="auth-form-row">
         <label htmlFor="username">Username:</label>
         <input
