@@ -51,7 +51,7 @@ function beginHand() {
 
 	// Begin game with 3 cards
 	CARDSLOTS.forEach(slotPos => {
-		randIndex = Math.floor(Math.random() * deck.length)
+		const randIndex = Math.floor(Math.random() * deck.length)
 		createCard(deck[randIndex], slotPos)
 		deck.splice(randIndex, 1)
 	})
