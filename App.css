@@ -275,8 +275,12 @@ body {
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 25px;
+  font-size: 30px;
   margin-top: 10px;
+}
+
+.ScheduleItem h2 {
+  margin: 25px
 }
 
 .ScheduleHeading {
