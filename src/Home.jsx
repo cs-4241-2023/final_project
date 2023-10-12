@@ -143,10 +143,11 @@ const checkGuess = (word) => {
     })
   .then((response) => {
     if (response.status === 200) {
+      // console.log("response.json: ", response.json())
       return response.json();
     } else {
       alert("word is invalid")
-      console.log("word is invalid")
+      return Promise.reject("Word is invalid");
     }
   })
   .then((wordScores) => {
