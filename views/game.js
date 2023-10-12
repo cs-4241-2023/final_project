@@ -1,4 +1,4 @@
-var score = 500;
+var score = 0;
 var rate = 0;
 var scoretext;
 var ratetext;
@@ -7,12 +7,11 @@ var emitter_count = 0;
 let upgradeIcons = []
 let upgradeCosts = [50, 300]
 let upgradeRates = [5, 20]
-
 let frames = 120
 let currentFrame = 120;
+let postTimer = null;
 class Example extends Phaser.Scene {
-
-    preload() {
+    async preload() {
         this.load.image('f1blue', 'assets/f1blue.png')
         this.load.image('f1green', 'assets/f1green.png')
         this.load.image('f1red', 'assets/f1red.png')
@@ -23,6 +22,34 @@ class Example extends Phaser.Scene {
         this.load.spritesheet('green_idle', 'assets/animations/spritesheet_green.png', { frameWidth: 400, frameHeight: 360 });
         this.load.spritesheet('red_idle', 'assets/animations/spritesheet_red.png', { frameWidth: 400, frameHeight: 360 });
 
+        const response = await fetch('/loadUserInfo', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        if (response.status === 400) {
+            window.location.replace('/');
+        }
+
+        const json = await response.json();
+        const data = json[0];
+        score = data["score"];
+        rate = data["rate"];
+        postTimer = this.time.addEvent({
+            callback: this.postUpdate,
+            callbackScope: this,
+            delay: 10000, // 10 seconds
+            loop: true
+        });
+
+    }
+
+    async postUpdate() {
+        let json = { score: score, rate: rate };
+        const response = await fetch('/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json)
+        });
     }
 
     create() {
@@ -51,11 +78,8 @@ class Example extends Phaser.Scene {
         });
 
         icon.play('blue_idle');
+        icon.on('pointerdown', this.onClick);
 
-        icon.on('pointerdown', this.onClick)
-            // icon.setVelocity(0, 0);
-            // icon.setBounce(1, 1);
-            // icon.setCollideWorldBounds(true);
         icon.setScale(0.7, 0.7);
         this.add.text(50, 550, `Upgrade Shop:`, { fontSize: 30 });
 
@@ -74,6 +98,13 @@ class Example extends Phaser.Scene {
 
         this.add.text(200, 700, `Cost: ${upgradeCosts[1]}`);
         this.add.text(200, 720, `Rate: +${upgradeRates[1]}`);
+        const logout = this.add.text(700, 0, 'Save & Quit', { fill: '#b4f8ff', fontSize: 30 });
+        logout.setInteractive();
+        logout.on('pointerdown', () => { this.logout() });
+        const reset = this.add.text(700, 700, 'Reset Score', { fill: '#ff0000', fontSize: 30 });
+        reset.setInteractive();
+        reset.on('pointerdown', () => { this.reset() })
+
     }
     update() {
         for (var i = 0; i < upgradeCosts.length; i++) {
@@ -94,15 +125,8 @@ class Example extends Phaser.Scene {
     }
     onClick() {
         score++;
-        spawned = this.add.sprite(400, 360, 'f1blue');
-
-        // const particles = this.add.particles(500, 400, 'f1blue', {
-        //     speed: 100,
-        //     scale: { start: 0.75, end: 0 },
-        // });
     }
     onUpgrade(index) {
-        console.log(rate);
         if (emitter_count === 0 && index === 0) {
             this.add.particles(500, 400, 'star_green', {
                 x: { random: [-250, 250] },
@@ -136,6 +160,29 @@ class Example extends Phaser.Scene {
         }
         score -= cost;
         rate += addToRate;
+    }
+    async logout() {
+        console.log("Logged out");
+        let json = { score: score, rate: rate };
+        const response = await fetch('/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json)
+        });
+        await fetch('/logout', { method: 'POST' });
+        window.location.replace('/');
+
+    }
+    async reset() {
+        let json = { score: 0, rate: 0 };
+        const response = await fetch('/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json)
+        });
+        score = 0;
+        rate = 0;
+        icon.play('blue_idle');
     }
 }
 
