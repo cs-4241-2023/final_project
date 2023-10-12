@@ -41,6 +41,12 @@ function Home() {
   const [username, setUsername] = useState("");
   const [showWelcome, setShowWelcome] = useState(false);
 
+   // logout function
+    const logout = () => {
+      removeCookie("token");
+      navigate("/login");
+    };
+
   useEffect(() => {
     const verifyCookie = async () => {
       //first check if cookie exists
@@ -162,6 +168,16 @@ const checkGuess = (word) => {
 }
   return (
     <>
+      <button onClick={logout} style={{backgroundColor: '#ac2b37',
+        color: 'white',
+        padding: '10px',
+        margin: '10px',
+        border: 'none',
+        cursor: 'pointer',
+        position: 'absolute',
+        top: '20px', 
+        left: '330px',
+        }}><h3>Logout</h3></button>
       <PuzzleMenu changePuzzle={selectPuzzle}></PuzzleMenu>
       <Score 
         score={currentScore} 
