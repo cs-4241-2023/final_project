@@ -5,6 +5,7 @@ import DisplayNavBar from "./nav_bar/display_nav_bar.jsx"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom" //Router provides a roter for use in web broswers and provides clean URL paths.
 import MusicTourBuilder from "./music_tour_builder/music_tour_builder.jsx"
 import MusicTrendsInformation from "./music_trends_information/music_trends_information.jsx"
+import "bulma/css/bulma.min.css"
 
 //JSX converts HTML into React elements
 //Files grouped by feature

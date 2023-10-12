@@ -109,7 +109,7 @@ function userLogin() {
         {userLoginFeedbackText}
       </p>
     </div>
-  );
+  )
 }
 
 export default userLogin;

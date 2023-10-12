@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import "bulma/css/bulma.min.css"
 
 function musicTourBuilder() {
   //Important Note; Objects and arrays cannot be stored in state in React. Primitive values need to be picked out from the object and stored in state.

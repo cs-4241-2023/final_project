@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react" //useRef provides references to component instances.
+import "bulma/css/bulma.min.css"
 
 function userCreation() {
   const [userCreationFeedbackText, setUserCreationFeedbackText] = useState("")

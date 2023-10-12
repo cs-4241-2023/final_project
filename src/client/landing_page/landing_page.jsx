@@ -1,6 +1,7 @@
 import React from "react"
 import UserLogin from "../user_login/user_login.jsx"
 import UserCreation from "../user_creation/user_creation.jsx"
+import "bulma/css/bulma.min.css"
 
 function landingPage() {
   return (
