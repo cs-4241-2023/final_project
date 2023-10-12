@@ -50,6 +50,7 @@ body {
 button {
     color: white;
     background-color: #bb86f3;
+    border-radius: 5px;
 }
 
 button:hover {
@@ -131,6 +132,11 @@ button:hover {
     justify-content: space-between;
 }
 
+button.dashboard--logout {
+    color: white;
+    background-color: #bb86f3;
+}
+
 hr {
     width: 100%;
     margin: 0;
@@ -139,6 +145,7 @@ hr {
 
 .dashboard--new-group {
     margin-left: auto;
+    border-radius: 5px;
 }
 
 /* Group list styling */

@@ -19,7 +19,7 @@ function GroupList({ groups, selectGroup, deleteGroup }) {
                             type="submit"
                             onClick={() => selectGroup(group._id)}
                         >
-                            Go To Group Page
+                            Show Details
                         </button>
                         <button
                             className="group-delete interactable"

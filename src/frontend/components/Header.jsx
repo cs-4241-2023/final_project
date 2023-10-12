@@ -4,9 +4,9 @@ function Header() {
     return (
         <header className="dashboard--header">
             <div className="dashboard--header-text">
-                <h1>RendezView Dashboard</h1>
+                <h1>RendezView</h1>
                 <p>
-                    Welcome to RendezView. Please select an existing group or
+                    Welcome to RendezView. Please select a group or
                     create a new one.
                 </p>
             </div>
