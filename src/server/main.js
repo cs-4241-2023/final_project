@@ -2,7 +2,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Submission from "../models/HourSubmission.js";
-import Events from "../models/Event.js";
+import Event from "../models/Event.js";
 import express from "express";
 import session from "express-session";
 import ViteExpress from "vite-express";
@@ -229,7 +229,7 @@ app.get("/getProfile", async (req, res) => {
 });
 
 app.get("/getEvents", async (req, res) => {
-  const result = await Events.find();
+  const result = await Event.find();
 
   let body = JSON.stringify(result);
   console.log("gotten data: ", result);
@@ -251,11 +251,33 @@ app.post("/add", async (req, res) => {
   console.log("saved an entry");
 });
 
+app.post("/addEvent", async (req, res) => {
+  let data = req.body;
+  debugger;
+  console.log("addition data: ", data);
+  let submission = new Event({
+    title: data.title,
+    password: data.password,
+    date: data.date,
+    description: data.description,
+  });
+  await submission.save();
+  res.redirect("/getEvents");
+  console.log("saved an entry");
+});
+
 app.post("/delete", async (req, res) => {
   let data = req.body;
   console.log("deletion data: ", data);
   await Submission.findByIdAndDelete(data.submissionID);
   res.redirect("/getData");
+});
+
+app.post("/deleteEvent", async (req, res) => {
+  let data = req.body;
+  console.log("deletion data: ", data);
+  const temp = await Event.findByIdAndDelete(data.submissionID);
+  res.redirect("/getEvents"); 
 });
 
 app.post("/update", async (req, res) => {
@@ -298,6 +320,27 @@ app.post("/updateProfile", async (req, res) => {
   });
   console.log("should have updated");
   res.redirect("/getProfile");
+});
+
+app.post("/updateEvents", async (req, res) => {
+  let data = req.body;
+  console.log("edited data: ", data);
+  data.map(async (item) => {
+    const result = await Event.updateOne(
+      { _id: item._id },
+      {
+        $set: {
+          title: item.title,
+          password: item.password,
+          date: item.date,
+          description: item.description,
+        },
+      }
+    );
+    console.log("result:", result);
+  });
+  console.log("should have updated");
+  res.redirect("/getEvents");
 });
 
 const logger = (req, res, next) => {
