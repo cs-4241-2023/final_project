@@ -174,9 +174,9 @@ const checkGuess = (word) => {
         border: 'none',
         cursor: 'pointer',
         position: 'absolute',
-        top: '23px', 
+        top: '20px', 
         left: '330px',
-        }}>Logout</button>
+        }}><h3>Logout</h3></button>
       <PuzzleMenu changePuzzle={selectPuzzle}></PuzzleMenu>
       <Score 
         score={currentScore} 
