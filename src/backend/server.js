@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import loginRoutes from "./routes/loginRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import gridRoutes from "./routes/gridRoute.js"
 
 const app = express();
 env.config();
@@ -42,5 +43,6 @@ app.use((req, res, next) => {
 
 app.use("/", loginRoutes);
 app.use("/", dashboardRoutes);
+app.use("/", gridRoutes)
 
 ViteExpress.listen(app, parseInt(process.env.PORT));

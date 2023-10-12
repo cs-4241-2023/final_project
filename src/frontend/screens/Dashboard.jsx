@@ -120,13 +120,9 @@ function Dashboard() {
         setGroupPage(groupPageComp);
     }
 
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const [availability, setAvailability] = useState({});
-
     return (
         <div className="dashboard">
             <Header />
-            <SoloGrid days={days} availability={availability} setAvailability={setAvailability} />
 
             <main className="dashboard--container">
 
