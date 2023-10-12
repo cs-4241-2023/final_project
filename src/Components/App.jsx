@@ -11,7 +11,6 @@ function App() {
   const [search, setSearch] = useState("New York");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
-<<<<<<< HEAD
   const [schedule, setSchedule] = useState([ ]);
   const [settingsForm, setSettingsForm] = useState({
     firstName: "",
@@ -23,9 +22,7 @@ function App() {
     bitcoinLink: "",
     stocksLink: "",
   });
-=======
-  const [schedule, setSchedule] = useState([]);
->>>>>>> e486cad2e3b5269285f2c6b92520c4bc7a7319e5
+
 
   const fetchWeather = async search => {
     try {
