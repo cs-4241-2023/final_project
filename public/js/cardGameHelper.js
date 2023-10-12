@@ -1,9 +1,15 @@
-import { highlight, unHighlight } from "./global.js"
+import { highlight, unHighlight, global } from "./global.js"
 
+const spriteDict = {
+	"GoldCard": ["gold1", "gold2", "gold3"],
+	"SoilCard": ["soil1", "soil2", "soil3"],
+	"WaterCard": ["water1", "water2", "water3"],
+}
 
 export let opponentId = undefined
 export let myCard = undefined
 let opponentCard = undefined
+let opponentCardSprite = undefined
 
 export function setOpponentID(id) {
 	opponentId = id
@@ -11,8 +17,8 @@ export function setOpponentID(id) {
 
 export function setMyCard(cardInfo) {
 	myCard = cardInfo
-	console.log("myCard:", myCard, opponentCard)
-	if ((myCard !== undefined) && (opponentCard !== undefined)) {
+	if (opponentCard !== undefined) {
+		makeOpponentCard(spriteDict[opponentCard.type][opponentCard.value - 1])
 		return compareCards()
 	} else {
 		return null
@@ -21,10 +27,11 @@ export function setMyCard(cardInfo) {
 
 export function setOpponentCard(cardInfo) {
 	opponentCard = cardInfo
-	console.log("opponentCard", myCard, opponentCard)
-	if ((myCard !== undefined) && (opponentCard !== undefined)) {
+	if (myCard !== undefined) {
+		makeOpponentCard(spriteDict[opponentCard.type][opponentCard.value - 1])
 		return compareCards()
 	} else {
+		makeOpponentCard("card-back")
 		return null
 	}
 }
@@ -33,6 +40,7 @@ export function resetFields() {
 	opponentId = undefined
 	myCard = undefined
 	opponentCard = undefined
+	opponentCardSprite = undefined
 }
 
 export function displayText(message) {
@@ -48,6 +56,19 @@ export function displayText(message) {
 	backButton.onHoverEnd(() => unHighlight(backButton, "back-button", 0.35))
 
 	return backButton
+}
+
+function makeOpponentCard(spriteName) {
+	if(opponentCardSprite !== undefined) {
+		destroy(opponentCardSprite)
+	}
+
+	opponentCardSprite = add([
+		sprite(spriteName),
+		pos(3 * global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50),
+		anchor("center"),
+		scale(0.35)
+	])
 }
 
 function compareCards() {

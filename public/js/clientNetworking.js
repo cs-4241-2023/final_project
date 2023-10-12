@@ -39,6 +39,7 @@ network.on("joinGame", (opponent) => {
 	go("card")
 	setOpponentID(opponent)
 	network.emit("joinSubScene", { scene: "card" })
+	currentScene = { scene: "card" }
 })
 network.on("setOpponentCard", (cardInfo) => {
 	const result = setOpponentCard(cardInfo)
