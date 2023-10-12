@@ -47,7 +47,7 @@ function Schedule(props) {
     e.preventDefault();
     const subject = document.getElementById("subject").value;
     const time = document.getElementById("time").value;
-    props.onAdd({ "subject": subject, "time": convertTime(time) });
+    props.onAdd({ "subject": subject, "time": time });
   }
 
   function closeAddForm() {
@@ -105,7 +105,7 @@ function Schedule(props) {
           </form>
         </li>
         {sortSchedule(props.ScheduleList).map((item, index) => (
-          <ScheduleItem subject={item.subject} time={item.time}/>
+          <ScheduleItem subject={item.subject} time={convertTime(item.time)}/>
         ))}
       </ul>
     </div>
