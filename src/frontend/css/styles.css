@@ -8,9 +8,9 @@ body {
 
 /* Login Styling */
 .login {
-    width: 15vw;
+    width: 20%;
     height: 45vh;
-    margin: 25vh 0 0 37.5vw;
+    margin: 5% 40%;
     color: black;
     display: flex;
     flex-direction: column;
