@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-const Score = ({score, highScore}) => {
+const Score = ({score, highScore, submitScore, puzzleNumber, setHighScore }) => {
 
   // Function to update the high score when needed
   const updateHighScore = () => {
-    if (currentScore > highScore) {
-      setHighScore(currentScore);
+    if (score > highScore) {
+      setHighScore(score);
+      submitScore(puzzleNumber, score);
     }
   };
 
@@ -46,7 +47,9 @@ const Score = ({score, highScore}) => {
         <h3>High Score: {highScore}</h3>
       </div>
     </div>
-    <button style={btnStyle}><h3>Submit Score</h3></button>
+    <button onClick={()=> {
+      updateHighScore();
+    }} style={btnStyle}><h3>Submit Score</h3></button>
     </>
   );
 };

@@ -57,7 +57,7 @@ app.get("/testdb", userVerificationWithNext, async (req, res) => {
 });
 
 // Puzzles route
-app.use("/puzzles", puzzleRouter);
+app.use("/puzzles", userVerificationWithNext, puzzleRouter);
 
 const port = 3000;
 ViteExpress.listen(app, port, () => {

@@ -9,11 +9,32 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./App.css";
 
-function App() {
-  
-}
-
 function Home() {
+  //function declarations
+  async function submitScore(puzzleID, scoreToSubmit) {
+    console.log(`Submitting score for puzzle ${puzzleID}`);
+    const payload = {score: scoreToSubmit};
+      console.log(`Requested puzzle id: ${puzzleID}`);
+      try {
+        const response = await fetch(`/puzzles/${puzzleID}/submit-score`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+             "x-access-token": cookies.token,
+          },
+          body: JSON.stringify(payload),
+          credentials: "include",
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.text();
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
   //auth stuff
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
@@ -134,7 +155,13 @@ const checkGuess = (word) => {
   return (
     <>
       <PuzzleMenu changePuzzle={selectPuzzle}></PuzzleMenu>
-      <Score score={currentScore} highScore={highScore}></Score>
+      <Score 
+        score={currentScore} 
+        highScore={highScore}
+        submitScore={submitScore}
+        puzzleNumber={puzzleNumber}
+        setHighScore={setHighScore}>
+      </Score>
       <GuessList guesses={guessList}></GuessList>
       <h1>Spelling Goat</h1>
       <GameBoard lettersArray={lettersArray} addGuessedWord={checkGuess}/>

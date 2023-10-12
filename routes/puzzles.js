@@ -72,6 +72,8 @@ puzzleRouter.get("/:puzzleID", (req, res) => {
         `Puzzle with ID of ${requestedID} not found`)
     } else {
         const payload = req.body
+        // addition of username to payload from req.user added by userVerificationWithNext middleware
+        payload.username = req.user.username
         if (payload !== undefined && payload.username !== undefined && payload.score !== undefined) {
             const db = await getConnection();
             const doc = {
