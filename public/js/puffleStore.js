@@ -124,7 +124,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
 
     puffleBuy.adoptPuffle = async function () {
         if (priceTag.text === "Equip") {
-            const body = JSON.stringify({ username: 'admin', puffleName: puffleName })
+            const body = JSON.stringify({ username: userInfo.username, puffleName: puffleName })
             const postRespone = await fetch('/equip', {
                 method: 'POST',
                 headers: {'Content-Type': "application/json"},
@@ -135,7 +135,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             updateViewers(puffleBuy.id)
         }
         else if (priceTag.text === "Unequip") {
-            const body = JSON.stringify({ username: 'admin', puffleName: "" })
+            const body = JSON.stringify({ username: userInfo.username, puffleName: "" })
             const postRespone = await fetch('/equip', {
                 method: 'POST',
                 headers: {'Content-Type': "application/json"},
@@ -145,7 +145,7 @@ function addPuffleViewer(puffleName, price, userInfo) {
             priceTag.text = "Equip"
         }
         else {
-            const body = JSON.stringify({ username: "admin", puffleName: puffleName, price: price })
+            const body = JSON.stringify({ username: userInfo.username, puffleName: puffleName, price: price })
             const postResponse = await fetch('/purchase', {
                 method: 'POST',
                 headers: {'Content-Type': "application/json"},
