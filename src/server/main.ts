@@ -1,14 +1,12 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import mongoose from "mongoose";
-import morgan from "morgan";
 import { Day, HabitOutcome, Outcome, UserHabit, UserInfo } from "../../models";
 import { Authentication } from "./authentication";
 import { Database } from "./database";
 
 const app = express();
 
-app.use(morgan('dev')); // log every request to the console
 app.use(express.json()); // requests with json data
 
 require('dotenv').config({ path: __dirname+'/.env' });
