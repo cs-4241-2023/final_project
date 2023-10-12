@@ -39,8 +39,8 @@ function Signup() {
   return (
     <>
       <h1>Sign-Up Page</h1>
-      <form onSubmit={handleSubmit}>
-      <div className="form-row">
+      <form class="auth-form" onSubmit={handleSubmit}>
+      <div className="auth-form-row">
         <label htmlFor="username">Username:</label>
         <input
           type="text"
@@ -51,7 +51,7 @@ function Signup() {
           }
         />
       </div>
-      <div className="form-row">
+      <div className="auth-form-row">
       <label htmlFor="password">Password:</label>
         <input
           type="password"
