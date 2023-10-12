@@ -55,13 +55,14 @@ function InfoButton() {
             &times;
           </span>
           <h2>Instructions</h2>
-          <p> 1.Every puzzle contains a unique set of letters. You must exclusively use the letters provided in the puzzle.</p>
+          <p>1. Every puzzle contains a unique set of letters. You must exclusively use the letters provided in the puzzle.</p>
           <p>2. You have the freedom to repeat any letter as many times as you like.</p>
-          <p>3. You will earn extra points for guessing less common words.</p>
-          <p>4. Utilizing all the letters in the puzzle will grant you bonus points.</p>
-          <p>5. Only English words are considered valid in this game.</p>
-          <p>6. Proper nouns are permissible for use.</p>
-          <p>7. When you've finished, press the "Submit Score" button.</p>
+          <p>3. A guess must be between 4 and 10 letters in length.</p>
+          <p>4. You will earn extra points for guessing less common words.</p>
+          <p>5. Utilizing all the letters in the puzzle will grant you bonus points.</p>
+          <p>6. Only English words are considered valid in this game.</p>
+          <p>7. Proper nouns are permissible for use.</p>
+          <p>8. When you've finished, press the "Submit Score" button.</p>
         </div>
       </div>
     </>

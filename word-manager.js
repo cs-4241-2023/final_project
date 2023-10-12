@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-const minWordLength = 3
+const minWordLength = 4
 const maxWordLength = 10
 const maxRarityScore = 9
 const wordLengthMultiplier = 100
@@ -17,7 +17,7 @@ export async function calculateScore(submittedWord, puzzleWord) {
 
   const wordsAPIData = await isValidWord(submittedWord, puzzleWord)
   console.log('WORDS API DATA: ',wordsAPIData)
-  if (wordsAPIData.success === false) {
+  if (wordsAPIData === false || wordsAPIData.success === false) {
     return null
   }
 
