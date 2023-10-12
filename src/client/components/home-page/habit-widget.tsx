@@ -70,7 +70,11 @@ height: 30px;
 
 const DeleteButtonStyle = styled.button
 `
-background-color: ${COLOR_THEME.SUBSECTION};
+background-color: ${COLOR_THEME.SECTION};
+
+&:hover {
+  background-color: ${COLOR_THEME.SECTION}
+}
 `
 
 const HabitStreakStyle = styled.img
@@ -171,7 +175,7 @@ function HabitWidget({ habit, setUpdate, deleteHabitClientSide }: HabitWidgetPro
             <PercentTextStyle>{habit.percentSuccessLifetime}%</PercentTextStyle>
           </ThreeWidgetStyle>
 
-          <DeleteButtonStyle className="btn btn-primary border-0" onClick={onDelete}>
+          <DeleteButtonStyle className="btn border-0" onClick={onDelete}>
             <DeleteButtonImgStyle src="/trash.png"></DeleteButtonImgStyle>
           </DeleteButtonStyle>
 
