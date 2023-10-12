@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-const minWordLength = 3
+const minWordLength = 4
 const maxWordLength = 10
 const maxRarityScore = 9
 const wordLengthMultiplier = 100
