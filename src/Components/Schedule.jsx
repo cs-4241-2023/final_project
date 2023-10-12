@@ -94,7 +94,7 @@ function Schedule(props) {
             <div id="addFormItems" className="AddFormInputs">
               <div>
                 <label for="subject">Event</label>
-                <input type="text" id="subject" />
+                <input type="text" id="subject" className="ScheduleInputEvent" />
               </div>
               <div>
                 <label for="time">Time</label>
