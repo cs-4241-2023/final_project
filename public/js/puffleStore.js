@@ -15,7 +15,7 @@ let layers = {
 }
 
 scene("puffle_store", async () => {
-    const getResponse = await fetch('/user/admin')
+    const getResponse = await fetch('/user')
     const userInfo = await getResponse.json()
 
     //Load Background

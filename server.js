@@ -47,6 +47,7 @@ app.post('/login', async(req, res) => {
 
 	if(user){
 		req.session.login = true
+		req.session.username = req.body.username
 		res.redirect('/game')
 	}
 	else{
@@ -69,8 +70,8 @@ app.get('/game', (req, res) => {
 	res.sendFile(__dirname + '/public/game.html')
 })
 
-app.get('/user/:username', async (req, res) => {
-	const username = req.params.username;
+app.get('/user', async (req, res) => {
+	const username = req.session.username;
 	const user = await user_collection.findOne({ username: username })
 
 	res.json(user)
