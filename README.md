@@ -1,6 +1,8 @@
 DailyDive
 =========
 
+https://dailydive-80188849a5ca.herokuapp.com/
+
 By Ansel Chang, Sharon Wu, Kristine Guan
 
 Do you struggle in finding motivation to succeed at your goals? *DailyDive* gamifies building habits by tracking your daily successes and failures in achieving your daily habit goal. Users can create and manage an unlimited number of Habits, where red and green color-coded calendars show how well you’re doing! The satisfying click to turn the day’s square green breaks down impossible goals into daily progress, while progress bars and statistics remind you how far you’ve come since creating your Habit.
