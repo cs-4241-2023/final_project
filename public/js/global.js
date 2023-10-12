@@ -13,5 +13,5 @@ export const global = {
 	SPEED: 2,
 	DOJO_SPAWN: { x: 380, y: 415 },
 	LOBBY_SPAWN: { x: 520, y: 400 },
-	SCREEN_SIZE: { width: 1024, height: 640 }
+	SCREEN_SIZE: { width: 1024, height: 640 },
 }
