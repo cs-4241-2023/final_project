@@ -99,4 +99,4 @@ async function getHighScoreForPuzzle(puzzleID) {
   }
 }
 
-getHighScoreForPuzzle(1)
+//getHighScoreForPuzzle(1)
