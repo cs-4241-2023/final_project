@@ -8,9 +8,24 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./App.css";
+import { get } from "lodash";
 
 function Home() {
   //function declarations
+  async function getPuzzleLeaderboard(puzzleID) {
+    console.log(`Leaderboard requested for puzzle ${puzzleID}`);
+    try {
+      const response = await fetch(`/puzzles/${puzzleID}/leaderboard`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.text();
+      return JSON.parse(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async function submitScore(puzzleID, scoreToSubmit) {
     console.log(`Submitting score for puzzle ${puzzleID}`);
     const payload = {score: scoreToSubmit};
@@ -30,6 +45,7 @@ function Home() {
         }
         const data = await response.text();
         console.log(data);
+        getPuzzleLeaderboard(puzzleID).then((res) => {setScores(res)}).catch((err) => {console.error(err);});
       } catch (error) {
         console.error(error);
       }
@@ -102,21 +118,6 @@ function Home() {
 //load puzzle on page load
 useEffect(() => {
   selectPuzzle(puzzleNumber);
-
-  async function getPuzzleLeaderboard(puzzleID) {
-    console.log(`Leaderboard requested for puzzle ${puzzleID}`);
-    try {
-      const response = await fetch(`/puzzles/${puzzleID}/leaderboard`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.text();
-      return JSON.parse(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   getPuzzleLeaderboard(puzzleNumber)
   .then((res) => setScores(res));
 }, []);
@@ -177,7 +178,12 @@ const checkGuess = (word) => {
         top: '20px', 
         left: '330px',
         }}><h3>Logout</h3></button>
-      <PuzzleMenu changePuzzle={selectPuzzle}></PuzzleMenu>
+      <PuzzleMenu 
+        setPuzzleNumber={setPuzzleNumber} 
+        changePuzzle={selectPuzzle} 
+        getPuzzleLeaderboard={getPuzzleLeaderboard}
+        setScores={setScores}>
+      </PuzzleMenu>
       <Score 
         score={currentScore} 
         highScore={highScore}

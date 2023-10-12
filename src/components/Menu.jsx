@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InfoButton from './Directions';
 
-const PuzzleMenu = ({changePuzzle}) => {
+const PuzzleMenu = ({changePuzzle, setPuzzleNumber, getPuzzleLeaderboard, setScores}) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [selectedPuzzle, setSelectedPuzzle] = useState(null);
 
@@ -67,10 +67,19 @@ const PuzzleMenu = ({changePuzzle}) => {
         <div style={dropdownContentStyle}>
           {puzzles.map((puzzle, index) => (
             <a
-              key={index}
-              style={linkStyle}
-              onClick={() => changePuzzle(index + 1)}
-            >
+            key={index}
+            style={linkStyle}
+            onClick={() => {
+              changePuzzle(index + 1)
+              setPuzzleNumber(index + 1)
+              getPuzzleLeaderboard(index + 1).then((res) => {
+                setScores(res);
+              }).catch((error) => {
+                console.error('Error:', error);
+              });
+            }
+          }
+          >
               {puzzle}
             </a>
           ))}
