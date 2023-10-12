@@ -9,7 +9,7 @@ const AttendanceSchema = new Schema({
   reason: { type: String, required: false },
 });
 
-HourSchema.virtual("url").get(function () {
+AttendanceSchema.virtual("url").get(function () {
   return "/";
 });
 

@@ -1,5 +1,6 @@
 import "../Theming/theming.css";
 import Logo from "../Theming/Logo.png";
+import { organizationName } from "../Theming/site_control";
 import "./css/sidebar.css";
 import React from "react";
 import { useLocation } from "react-router-dom";
@@ -7,19 +8,6 @@ import { Container, Row, Col, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
 
 const Layout = ({ children }) => {
-  //gets data from the server on load
-  // useEffect(() => {
-  //   fetch("/getData", {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("recieved data: ", data);
-  //       setSubmissions(data);
-  //     });
-  // }, []);
-
   let location = useLocation();
   return (
     <Container fluid>
@@ -34,7 +22,7 @@ const Layout = ({ children }) => {
             className="d-flex align-items-center mb-3 mb-md-0 text-decoration-none"
           >
             <img src={Logo} alt="Rho Beta Epsilon Logo" width="100px" />
-            <span className="fs-4">Rho Beta Epsilon</span>
+            <span className="fs-4">{organizationName}</span>
           </Navbar.Brand>
           <hr />
           <Nav

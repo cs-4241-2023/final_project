@@ -1,5 +1,6 @@
 import "../Theming/theming.css";
 import Logo from "../Theming/Logo.png";
+import { organizationName } from "../Theming/site_control";
 import React from "react";
 import { useState } from "react";
 import { Image, Form, Button, Navbar } from "react-bootstrap";
@@ -45,14 +46,9 @@ function Login() {
         fixed="top"
       >
         <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-          <Image
-            src={Logo}
-            alt="Rho Beta Epsilon Logo"
-            width="100px"
-            height="116px"
-          />
+          <Image src={Logo} alt="Logo" width="100px" height="116px" />
           <div className="fs-1" style={{ color: "white" }}>
-            Rho Beta Epsilon Member Portal
+            {organizationName} Member Portal
           </div>
         </div>
       </Navbar>

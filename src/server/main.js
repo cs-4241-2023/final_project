@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import User from "../models/User.js";
 import Submission from "../models/HourSubmission.js";
 import Event from "../models/Event.js";
+import Attendance from "../models/Attendance.js";
 import express from "express";
 import session from "express-session";
 import ViteExpress from "vite-express";
@@ -83,36 +84,38 @@ passport.use(
   )
 );
 
-passport.use(new GoogleStrategy({
-    clientID:     process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/google/callback",
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:8080/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const user = await User.findOne({ user_id: profile.id });
+        console.log("google user: ", user);
+        if (user != null) {
+          console.log("found the user");
+          return done(null, user);
+        } else {
+          const newUser = new User({
+            email: profile.email,
+            name: profile.displayName,
+            password: "auto",
+            user_id: profile.id,
+          });
 
-  },
-  async(accessToken, refreshToken, profile, done) => {
-    try {
-      const user = await User.findOne({ user_id: profile.id });
-      console.log("google user: ", user);
-      if (user != null) {
-        console.log("found the user");
-        return done(null, user);
-      } else {
-        const newUser = new User({
-          email: profile.email,
-          name: profile.displayName,
-          password: "auto",
-          user_id: profile.id,
-        });
-
-        const savedUser = await newUser.save();
-        console.log("Saved a new user");
-        return done(null, savedUser);
+          const savedUser = await newUser.save();
+          console.log("Saved a new user");
+          return done(null, savedUser);
+        }
+      } catch (error) {
+        return done(error);
       }
-    } catch (error) {
-      return done(error);
     }
-  }
-));
+  )
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -138,15 +141,15 @@ app.get(
 //Google OAuth2 login route
 
 app.get(
-  '/auth/google',
-  passport.authenticate('google', { scope:['email', 'profile'] })
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 //Google OAuth2 Callback
 
 app.get(
-  '/auth/google/callback',
-  passport.authenticate( 'google', { failureRedirect: '/', session:true}),
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/", session: true }),
   async function (req, res) {
     req.session.user = await User.findById(req.session.passport.user._id);
     console.log(req.session);
@@ -277,7 +280,7 @@ app.post("/deleteEvent", async (req, res) => {
   let data = req.body;
   console.log("deletion data: ", data);
   const temp = await Event.findByIdAndDelete(data.submissionID);
-  res.redirect("/getEvents"); 
+  res.redirect("/getEvents");
 });
 
 app.post("/update", async (req, res) => {
@@ -341,6 +344,32 @@ app.post("/updateEvents", async (req, res) => {
   });
   console.log("should have updated");
   res.redirect("/getEvents");
+});
+
+app.post("/addAttendance", async (req, res) => {
+  let data = req.body;
+  console.log("attendance: ", data);
+  let attendance = new Attendance({
+    date: data.date,
+    person: req.session.user_id,
+    excused: data.excused,
+    reason: data.reason,
+  });
+  await Attendance.save(attendance);
+  console.log("submitted attendance");
+});
+
+app.post("/addExcused ", async (req, res) => {
+  let data = req.body;
+  console.log("attendance: ", data);
+  let attendance = new Attendance({
+    date: data.date,
+    person: req.session.user_id,
+    excused: data.excused,
+    reason: data.reason,
+  });
+  await Attendance.save(attendance);
+  console.log("submitted attendance");
 });
 
 const logger = (req, res, next) => {

@@ -5,29 +5,6 @@ import { determineEventType } from "../../Theming/site_control";
 function Homepage() {
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    // const tempEvent = {
-    //   title: "GBM",
-    //   date: new Date("2/2/2023"),
-    //   description:
-    //     "Yippee! This is a giant blob of text that is going to test how many lines can be handled by the modal",
-    // };
-    // const tempEventTwo = {
-    //   title: "Colloquium",
-    //   date: new Date("2/3/2023"),
-    //   description: "Robots go brrr!",
-    // };
-    // const tempEventThree = {
-    //   title: "Colloquium",
-    //   date: new Date("2/3/2023"),
-    //   description: "Robots go brrr!",
-    // };
-    // const tempEventFour = {
-    //   title: "Event asdasd",
-    //   date: new Date("2/3/2023"),
-    //   description: "Robots go brrr again!",
-    // };
-    // setEvents([tempEvent, tempEventTwo, tempEventThree, tempEventFour]);
-
     fetch("/getEvents", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -90,36 +67,33 @@ function Homepage() {
           <h4>
             <ul>
               <li>
-                <a href="https://canvas.wpi.edu/courses/11710" target="_blank">
-                  RBE Canvas
+                <a href="https://www.wpi.edu/" target="_blank">
+                  Link 1
                 </a>
               </li>
               <li>
-                <a href="https://canvas.wpi.edu/courses/11899" target="_blank">
-                  RBE Advising Canvas
+                <a href="https://hub.wpi.edu/" target="_blank">
+                  Link 2
                 </a>
               </li>
               <li>
-                <a href="" target="_blank">
-                  Official Website
+                <a href="/home" target="_blank">
+                  Link 3
                 </a>
               </li>
               <li>
-                <a href="" target="_blank">
-                  GBM Slides and Minutes
+                <a href="/home" target="_blank">
+                  Link 4
                 </a>
               </li>
               <li>
-                <a
-                  href="https://wiki.wpi.edu/robotics/Main_Page"
-                  target="_blank"
-                >
-                  Robotics Wiki
+                <a href="/home" target="_blank">
+                  Link 5
                 </a>
               </li>
               <li>
-                <a href="" target="_blank">
-                  Instagram
+                <a href="/home" target="_blank">
+                  Link 6
                 </a>
               </li>
             </ul>

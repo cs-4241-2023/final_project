@@ -1,5 +1,7 @@
 const eventTypes = ["colloquium", "event"];
 
+const organizationName = "Organization";
+
 function determineEventType(title) {
   console.log(title);
   let className = "defaultEvent";
@@ -15,4 +17,4 @@ function determineEventType(title) {
   return { style: className };
 }
 
-export { determineEventType };
+export { determineEventType, organizationName };
