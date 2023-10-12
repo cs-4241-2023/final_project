@@ -154,7 +154,7 @@ function AdminPage() {
 
         <Form.Group className="mb-3">
           <Form.Label htmlFor="passwordSubmission">
-            Event to Add
+            Password - Optional
           </Form.Label>
           <Form.Control
             type="textarea"
