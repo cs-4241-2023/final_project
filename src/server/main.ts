@@ -269,7 +269,8 @@ app.get("/outcomes", async (req, res) => {
 
 });
 
+const PORT = parseInt(process.env.PORT as string, 10) || 3000;
 
 database.connect(username!, password!, () => 
-  ViteExpress.listen(app, 3000, () => console.log("Server is listening on port 3000..."))
+  ViteExpress.listen(app, PORT, () => console.log("Server is listening on port", PORT))
 );
