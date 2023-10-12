@@ -26,6 +26,10 @@ loadSprite("gold1", "../cards/gold-1.png")
 loadSprite("gold2", "../cards/gold-2.png")
 loadSprite("gold3", "../cards/gold-3.png")
 
+loadSprite("win", "../sprites/win.png")
+loadSprite("lose", "../sprites/lose.png")
+loadSprite("tie", "../sprites/tie.png")
+
 
 // Card Game Code
 scene("card", () => {
@@ -59,25 +63,11 @@ scene("card", () => {
 		card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
 		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
 		
-
-		let backButton
-		switch (result) {
-			case "win":
-				backButton = displayText("You Win!")
-				break
-
-			case "lose":
-				backButton = displayText("You Lose...")
-				break
-
-			case "tie":
-				backButton = displayText("It's a Tie")
-				break
-
-			default:
-				return
+		if(result === null) {
+			return
 		}
 
+		const backButton = displayText(result)
 		backButton.onClick(() => {
 			resetFields()
 			go("dojo")

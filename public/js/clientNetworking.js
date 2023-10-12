@@ -44,23 +44,16 @@ network.on("joinGame", (opponent) => {
 network.on("setOpponentCard", (cardInfo) => {
 	const result = setOpponentCard(cardInfo)
 
-	let backButton
-	switch (result) {
-		case "win":
-			backButton = displayText("You Win!")
-			break
-
-		case "lose":
-			backButton = displayText("You Lose...")
-			break
-
-		case "tie":
-			backButton = displayText("It's a Tie")
-			break
-
-		default:
-			return
+	if (result === null) {
+		return
 	}
+
+	const backButton = displayText(result)
+	backButton.onClick(() => {
+		resetFields()
+		go("dojo")
+		sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
+	})
 
 	backButton.onClick(() => {
 		resetFields()

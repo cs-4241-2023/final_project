@@ -44,6 +44,13 @@ export function resetFields() {
 }
 
 export function displayText(message) {
+	add([
+		sprite(message),
+		pos(global.SCREEN_SIZE.width / 2, global.SCREEN_SIZE.height / 2 - 30),
+		scale(2),
+		anchor("center")
+	])
+
 	let backButton = add([
 		sprite("back-button"),
 		pos(10, 10),
@@ -59,7 +66,7 @@ export function displayText(message) {
 }
 
 function makeOpponentCard(spriteName) {
-	if(opponentCardSprite !== undefined) {
+	if (opponentCardSprite !== undefined) {
 		destroy(opponentCardSprite)
 	}
 
