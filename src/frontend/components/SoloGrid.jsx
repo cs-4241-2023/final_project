@@ -1,10 +1,26 @@
 import { set } from 'mongoose';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { send } from 'vite';
 
 const timeSlots = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM'];
 
 // SoloGrid Component
 const SoloGrid = ({ user, days }) => {
+    useEffect(() => {
+        const sendAvailability = setTimeout(() => {
+            fetch("/send-availability", {
+                method: "POST",
+                headers: {
+                    "Content-Type": 
+                },
+                body: JSON.stringify(availability)
+            })
+        }, 500)
+
+        return clearTimeout(sendAvailability)
+    }, [availability]) 
+
+
     const initialAvailability = days.reduce((acc, day) => {
         acc[day] = {};
         timeSlots.forEach((timeSlot) => {
