@@ -11,9 +11,9 @@ function App() {
   const [search, setSearch] = useState("New York");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
-  const [schedule, setSchedule] = useState([ ]);
+  const [schedule, setSchedule] = useState([]);
 
-  const fetchWeather = async (search) => {
+  const fetchWeather = async search => {
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=d1bfed572118495ea1d193651231407&q=${search}`,
@@ -69,15 +69,15 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const addSchedule = async (add) => {
+  const addSchedule = async add => {
     const newSchedule = [...schedule, add];
     setSchedule(newSchedule);
     console.log(newSchedule);
-  }
+  };
 
   return (
     <>
-      <div className="main">
+      <div className={currentClass}>
         {weather && <Header weather={weather} currentTime={currentTime} />}
         <Sidebar />
         <Paperclip />
