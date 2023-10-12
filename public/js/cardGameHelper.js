@@ -1,5 +1,5 @@
 export let opponentId = undefined
-let myCard = undefined
+export let myCard = undefined
 let opponentCard = undefined
 
 export function setOpponentID(id) {

@@ -1,5 +1,5 @@
 import sendNetworkMessage from "./clientNetworking.js"
-import { setMyCard, opponentId } from "./cardGameHelper.js"
+import { setMyCard, opponentId, myCard } from "./cardGameHelper.js"
 import { global } from "./global.js"
 
 
@@ -42,23 +42,34 @@ scene("card", () => {
 
 	// Play Cards
 	onClick("Cards", (card) => {
-		// Send card type & value to server so opponent can see card
-		const myCard = {
-			type: card.cardType,
-			value: card.cardVal,
-			i: card.i
+		if(myCard == undefined) {
+			// Send card type & value to server so opponent can see card
+			const myCardInfo = {
+				type: card.cardType,
+				value: card.cardVal,
+				i: card.i
+			}
+
+			setMyCard(myCardInfo)
+			sendNetworkMessage("selectCard", { opponentId, cardInfo: myCardInfo })
+
+			card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
+
 		}
-
-		setMyCard(myCard)
-		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
-
-		card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
 	})
 
 
 	const shiftDistance = 40
-	onHover("Cards", (card) => card.moveTo(card.pos.x, card.pos.y - shiftDistance))
-	onHoverEnd("Cards", (card) => card.moveTo(card.pos.x, card.pos.y + shiftDistance))
+	onHover("Cards", (card) => {
+		if(myCard == undefined) {
+			card.moveTo(card.pos.x, card.pos.y - shiftDistance)
+		}
+	})
+	onHoverEnd("Cards", (card) => {
+		if(myCard == undefined) {
+			card.moveTo(card.pos.x, card.pos.y + shiftDistance)
+		}
+	})
 })
 
 

@@ -17,6 +17,6 @@ loadSprite("puffle-green", "../sprites/puffle-green.png")
 loadSprite("puffle-black", "../sprites/puffle-black.png")
 
 window.onload = () => {
-	go("lobby")
-	sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
+	go("card")
+	sendNetworkMessage("changeScene", { scene: "card", pos: global.LOBBY_SPAWN })
 }
