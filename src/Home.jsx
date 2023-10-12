@@ -60,17 +60,31 @@ function Home() {
   //actual page content below
   const [lettersArray, setLettersArray] = useState([]);
   const [guessList, setGuessList] = useState([]);
-  const [scores, setScores] = useState([
-    { username: "randy", highScore: 20 },
-    { username: "yuh", highScore: 69 },
-  ]);
+  const [scores, setScores] = useState([]);
   const [puzzleNumber, setPuzzleNumber] = useState(1);
   //scores
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
 //load puzzle on page load
-  useEffect(() => {
-    selectPuzzle(puzzleNumber);
+useEffect(() => {
+  selectPuzzle(puzzleNumber);
+
+  async function getPuzzleLeaderboard(puzzleID) {
+    console.log(`Leaderboard requested for puzzle ${puzzleID}`);
+    try {
+      const response = await fetch(`/puzzles/${puzzleID}/leaderboard`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.text();
+      return JSON.parse(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getPuzzleLeaderboard(puzzleNumber)
+  .then((res) => setScores(res));
 }, []);
 // load selected puzzle
 const selectPuzzle = (puzzleNumber) => {

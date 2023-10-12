@@ -33,7 +33,7 @@ const Scoreboard = ({ scores }) => {
       <tbody>
         {scores.map((score, index) => (
           <tr key={index}>
-            <td style={cellStyle}>{score.username}</td>
+            <td style={cellStyle}>{score._id}</td>
             <td style={cellStyle}>{score.highScore}</td>
           </tr>
         ))}
