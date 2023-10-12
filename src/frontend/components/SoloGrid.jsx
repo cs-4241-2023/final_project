@@ -9,7 +9,7 @@ const timeSlots =
         '8:00 PM'];
 
 // SoloGrid Component
-const SoloGrid = ({ user, days }) => {
+const SoloGrid = ({ user, days, currentGroupID }) => {
 
     const initialAvailability = days.reduce((acc, day) => {
         acc[day] = {};
@@ -22,10 +22,11 @@ const SoloGrid = ({ user, days }) => {
     const [availability, setAvailability] = useState(initialAvailability);
 
     useEffect(() => {
+        console.log(currentGroupID)
         fetch("/send-availability", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(availability)
+                body: JSON.stringify({groupID: currentGroupID, availability: availability})
         }).then(() => console.log("Sent availability to server"));
     }, [availability])
 

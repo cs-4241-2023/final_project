@@ -3,7 +3,6 @@ import GroupPage from "./GroupPage.jsx";
 import GroupList from "../components/GroupList.jsx";
 import AddGroupForm from "../components/AddGroupForm.jsx";
 import Header from "../components/Header.jsx";
-import SoloGrid from "../components/SoloGrid.jsx";
 
 function Dashboard() {
     const [groups, setGroups] = useState([]);
@@ -114,6 +113,7 @@ function Dashboard() {
                 group={groupObj}
                 selectGroup={handleSelectGroup}
                 deleteGroup={deleteGroup}
+                currentGroupID={groupId}
             />
         );
 
