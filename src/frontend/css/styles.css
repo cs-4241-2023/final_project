@@ -168,7 +168,10 @@ hr {
 /* SoloGrid.css */
 
 .solo-grid {
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .grid {
@@ -177,8 +180,8 @@ hr {
     /* Adjust column width as needed */
     grid-template-rows: repeat(6, 40px);
     /* Adjust row height as needed */
-    grid-gap: 2px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
+    margin: auto;
     padding: 8px;
 }
 
@@ -200,7 +203,6 @@ hr {
 .availability-cell {
     border: 1px solid #ccc;
     padding: 8px;
-    cursor: pointer;
 }
 
 .available {

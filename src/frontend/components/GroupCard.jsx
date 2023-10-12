@@ -10,7 +10,7 @@ function GroupCard({ group, selectGroup, deleteGroup }) {
                     <li key={index}>{user}</li>
                 ))}
             </ul>
-            <p>Possible Group Meeting Times: {group.meetingTimes}</p>
+            <p>Available group meeting times: {group.meetingTimes}</p>
         </div>
     );
 }

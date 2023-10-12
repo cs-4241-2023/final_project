@@ -144,7 +144,7 @@ function Dashboard() {
                 ) : (
                     <div className="dashboard--main">
                         <div className="dashboard--main-header">
-                            <h2>Tracked Groups</h2>
+                            <h2>Your Groups</h2>
                             <div>
                                 <button
                                     className="dashboard--new-group interactable"
