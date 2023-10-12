@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react" //useRef provides references to component instances.
-import { useNavigate } from "react-router-dom"
-import "bulma/css/bulma.min.css"
+import React, { useState, useEffect, useRef } from "react"; //useRef provides references to component instances.
+import { useNavigate } from "react-router-dom";
+import "bulma/css/bulma.min.css";
 
 function userLogin() {
   //The state object is where you store property values that belong to the component.
   //When the state object changes, the component re-renders.
-  const [userLoginFeedbackText, setUserLoginFeedbackText] = useState("")
-  const navigate = useNavigate()
-  const usernameInputRef = useRef()
-  const passwordInputRef = useRef()
+  const [userLoginFeedbackText, setUserLoginFeedbackText] = useState("");
+  const navigate = useNavigate();
+  const usernameInputRef = useRef();
+  const passwordInputRef = useRef();
 
   //Use fetch await for form validation
   //Use bcrypt client-side before sending data to server
@@ -98,7 +98,7 @@ function userLogin() {
       </div>
       <p class="mb-3">{userLoginFeedbackText}</p>
     </div>
-  )
+  );
 }
 
 export default userLogin;
