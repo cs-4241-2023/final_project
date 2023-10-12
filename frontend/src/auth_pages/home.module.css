@@ -1,0 +1,175 @@
+body {
+    background-color: #121212;
+
+}
+
+.App {
+    text-align: center;
+    background-color: #121212;
+    color: #fff;
+}
+
+h1 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+h2{
+    margin: 20px 0;
+}
+
+.home_body label {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.home_body input[type="text"] {
+    font-size: 18px;
+    padding: 5px 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.home_body button {
+    font-size: 18px;
+    padding: 5px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.home_body button:hover {
+    background-color: #0056b3;
+}
+
+.home_body p {
+    font-size: 18px;
+    color: #fff;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: inherit;
+}
+
+.dayCard {
+    background-color: #333;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.daySummary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+}
+
+.hourlyForecastContainer {
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-top: 10px;
+}
+
+.hourlyForecast {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.hourlyForecastItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.hourlyForecastItem img {
+    margin-right: 10px;
+}
+
+.hourlyTemp {
+    display: flex;
+    align-items: center;
+}
+
+.hourlyTemp img {
+    margin-right: 10px;
+}
+
+p {
+    margin: 15px 0;
+}
+
+
+.favoriteLocations {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.favoriteLocationsList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.favoriteLocationItem {
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%; 
+}
+
+.favoriteLocationInfo {
+    text-align: center;
+}
+
+.removeButton {
+    background-color: #ff4545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.removeButton:hover {
+    background-color: #ff0000;
+}
+
+.weatherInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+    color: #fff;
+    padding-bottom: 50px;
+}
+
+.weatherDescription {
+    font-weight: bold;
+}

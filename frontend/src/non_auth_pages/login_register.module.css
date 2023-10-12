@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 410px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    /* Added shadow */
+    border-radius: 10px;
+    /* Added border radius */
+    display: flex;
+    flex-direction: column;
+}
+
+
+input[type="checkbox"] {
+    display: none;
+}
+
+.container .text {
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.container form .data {
+    height: 45px;
+    width: 100%;
+    margin: 40px 0;
+}
+
+#email-container {
+    margin-top: 0px;
+}
+
+form .data label {
+    font-size: 18px;
+}
+
+form .data input {
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 17px;
+    border: 1px solid silver;
+}
+
+form .data input:focus {
+    border-color: #3498db;
+    border-bottom-width: 2px;
+}
+
+form .forgot_pass {
+    margin-top: -8px;
+}
+
+form .forgot_pass a {
+    color: #256c9b;
+    text-decoration: none;
+}
+
+form .forgot_pass a:hover {
+    text-decoration: underline;
+}
+
+form .btn {
+    margin: 30px 0;
+    height: 45px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: #0077b6;
+}
+
+form .btn:hover {
+    background-color: #35abeb;
+    cursor: pointer;
+}
+
+form .btn button {
+    height: 100%;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+#submitbutton {
+    width: 100%;
+}
+
+#submitbutton:active {
+    padding: 8px 13px 6px;
+}
+
+.signup_link {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.signup_link a {
+    color: #256c9b;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.signup_link a:hover {
+    text-decoration: underline;
+}
+
+.test_img {
+    width: 55px;
+    height: 55px;
+    aspect-ratio: auto 569 / 569;
+    /* height: 40px; */
+}
+
+#github_button {
+    background: rgb(144, 66, 222);
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    width: 300px;
+    height: 45px;
+}
+
+#github_button:hover {
+    background: rgb(192, 108, 240);
+}
+
+.error {
+    text-align: center;
+    color: red;
+    margin-top: 15px;
+}
+
+/* .img-container {
+    width: 40px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+} */
+
+.container_two {
+    margin-top: -20px;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#username-container {
+    margin-top: 0;
+}
