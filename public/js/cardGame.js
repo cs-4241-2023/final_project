@@ -15,8 +15,23 @@ let youWin
 let tie
 
 
+loadSprite("backgroundDojo", "../background/dojo.png")
+loadSprite("backgroundBlank", "../background/blank.png")
+
 // Card Game Code
 scene("card", () => {
+	//add background
+	add([
+		sprite("backgroundDojo"),
+		pos(0, 0)
+	])
+	add([
+		sprite("backgroundBlank"),
+		pos(0, 0),
+		opacity(0.7)
+	])
+
+
 	beginHand()
 
 	// Play Cards
