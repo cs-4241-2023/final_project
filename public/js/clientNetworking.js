@@ -1,4 +1,5 @@
-import { setOpponentCard } from "./cardGameHelper.js"
+import { setOpponentCard, setOpponentID, displayText, resetFields } from "./cardGameHelper.js"
+import { global } from "./global.js"
 
 // Public Functions
 
@@ -7,12 +8,12 @@ import { setOpponentCard } from "./cardGameHelper.js"
   * @param {string} messageName The name of this message. This serves as a simple indicator about the type of message that you are sending.
   * @param {object} object The object that will be send to clients.
   */
-const sendNetworkMessage = function(messageName, object) {
-	switch( messageName ) {
+const sendNetworkMessage = function (messageName, object) {
+	switch (messageName) {
 		case "changeScene":
 			currentScene = object
 			break
-		
+
 		case "movement":
 			currentScene.pos = object
 			break
@@ -24,7 +25,7 @@ export default sendNetworkMessage
 
 
 // Socket Initialization
-const network = io("/", {forceNew: true})
+const network = io("/", { forceNew: true })
 
 network.on("spawn", (players) => {
 	for (const [id, pos] of Object.entries(players)) {
@@ -36,14 +37,41 @@ network.on("remoteMovement", (movement) => moveRemotePlayer(movement.id, movemen
 network.on("kill", (id) => removeRemotePlayer(id))
 network.on("joinGame", (opponent) => {
 	go("card")
+	setOpponentID(opponent)
 	network.emit("joinSubScene", { scene: "card" })
 })
-network.on("setOpponentCard", (cardInfo) => setOpponentCard(cardInfo))
+network.on("setOpponentCard", (cardInfo) => {
+	const result = setOpponentCard(cardInfo)
+
+	let backButton
+	switch (result) {
+		case "win":
+			backButton = displayText("You Win!")
+			break
+
+		case "lose":
+			backButton = displayText("You Lose...")
+			break
+
+		case "tie":
+			backButton = displayText("It's a Tie")
+			break
+
+		default:
+			return
+	}
+
+	backButton.onClick(() => {
+		resetFields()
+		go("dojo")
+		sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
+	})
+})
 
 const remotePlayers = {}
 let currentScene = { scene: "", pos: {} }
 network.on("connect", () => {
-	if(currentScene.scene === "") {
+	if (currentScene.scene === "") {
 		return
 	}
 
@@ -60,7 +88,7 @@ const spawnRemotePlayer = function (id, positon) {
 	let x = positon.x //|| SPAWN.x
 	let y = positon.y //|| SPAWN.y
 
-	if(remotePlayers[id]) {
+	if (remotePlayers[id]) {
 		destroy(remotePlayers[id])
 	}
 

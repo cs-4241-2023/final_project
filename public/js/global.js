@@ -1,12 +1,12 @@
 /*Utility Functions*/
-export function highlight(obj, spriteName){
+export function highlight(obj, spriteName, scaleVal = 1.05){
 	obj.use(sprite(spriteName))
-	obj.use(scale(1.05))
+	obj.use(scale(scaleVal))
 }
 
-export function unHighlight(obj, spriteName){
+export function unHighlight(obj, spriteName, scaleVal = 1){
 	obj.use(sprite(spriteName))
-	obj.use(scale(1))
+	obj.use(scale(scaleVal))
 }
 
 export const global = {

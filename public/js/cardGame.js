@@ -1,5 +1,5 @@
 import sendNetworkMessage from "./clientNetworking.js"
-import { setMyCard, opponentId } from "./cardGameHelper.js"
+import { setMyCard, opponentId, displayText, resetFields } from "./cardGameHelper.js"
 import { global } from "./global.js"
 
 
@@ -11,6 +11,9 @@ const CARDSLOTS = [
 
 
 loadSprite("backgroundBlank", "../background/blank.png")
+
+loadSprite("back-button", "../background_interactables/backButton.png")
+loadSprite("back-button-highlight", "../background_interactables/highlight/backButtonHighlight.png")
 
 loadSprite("card-back", "../cards/card-back.png")
 loadSprite("water1", "../cards/water-1.png")
@@ -49,10 +52,33 @@ scene("card", () => {
 			i: card.i
 		}
 
-		setMyCard(myCard)
-		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
-
 		card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
+		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
+		const result = setMyCard(myCard)
+
+		let backButton
+		switch(result) {
+			case "win":
+				backButton = displayText("You Win!")
+				break
+
+			case "lose":
+				backButton = displayText("You Lose...")
+				break
+
+			case "tie":
+				backButton = displayText("It's a Tie")
+				break
+
+			default:
+				return
+		}
+
+		backButton.onClick(() => {
+			resetFields()
+			go("dojo")
+			sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
+		})
 	})
 
 
