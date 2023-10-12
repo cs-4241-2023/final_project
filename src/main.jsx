@@ -85,4 +85,18 @@ async function submitScore(puzzleID, user, scoreToSubmit) {
   }
 }
 
-//submitScore(1, "testUser3", "1500")
+async function getHighScoreForPuzzle(puzzleID) {
+  console.log(`Requested puzzle id: ${puzzleID}`);
+  try {
+    const response = await fetch(`/puzzles/${puzzleID}/high-score`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.text();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+//getHighScoreForPuzzle(1)

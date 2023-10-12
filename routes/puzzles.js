@@ -64,6 +64,35 @@ puzzleRouter.get("/:puzzleID", (req, res) => {
     }
   })
 
+  puzzleRouter.get("/:puzzleID/high-score", async (req, res) => {
+    const requestedID = req.params.puzzleID
+    console.log(`Client requesting high score data for puzzle ${requestedID} for user ${req.user.username}`);
+    const puzzle = puzzleList.find(t=>t.id === `${requestedID}`)
+    if (puzzle === undefined) {
+      res.status(404).send(
+        `Puzzle with ID of ${requestedID} not found`)
+    } else {
+      const db = await getConnection();
+      const dbQuery = {
+        puzzle: requestedID,
+        username: req.user.username
+      }
+      const getHighestScoreForPuzzle = {
+        sort: {score: -1},
+        limit: 1
+      };
+      const highestUserScoreForPuzzle = await db.collection("scores").findOne(dbQuery, getHighestScoreForPuzzle);
+      if (highestUserScoreForPuzzle) {
+        console.log(`Highest score for user ${req.user.username} on puzzle ${requestedID}:`, highestUserScoreForPuzzle);
+        console.log(highestUserScoreForPuzzle.score)
+        res.send({score: highestUserScoreForPuzzle.score})
+      } else {
+        console.log(`No scores found for user ${req.user.username} on puzzle ${requestedID}.`);
+        res.status(404).json({message: `No scores found for user ${req.user.username} on puzzle ${requestedID}.`})
+      }
+    }
+  })
+
   puzzleRouter.post("/:puzzleID/submit-score", async (req, res) => {
     const requestedID = req.params.puzzleID
     const puzzle = puzzleList.find(t=>t.id === `${requestedID}`)
