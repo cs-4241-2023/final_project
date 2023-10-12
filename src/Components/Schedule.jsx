@@ -32,6 +32,17 @@ function Schedule(props) {
     document.getElementById("addForm").classList.remove("hidden");
   }
 
+  function submitAddForm() {
+    document.getElementById("addForm").classList.add("hidden");
+    const subject = document.getElementById("subject").value;
+    const time = document.getElementById("time").value;
+    props.onAdd({ "subject": subject, "time": time });
+  }
+
+  function closeAddForm() {
+    document.getElementById("addForm").classList.add("hidden");
+  }
+
   return (
     <div className="Schedule">
       <div className="ScheduleHeading">
@@ -64,15 +75,21 @@ function Schedule(props) {
         </button>
       </div>
       <ul>
-        <li id="addForm" className="hidden ScheduleItem">
-          <form action={(e) => props.onAdd(this)}>
+        <li id="addForm" className="hidden ScheduleForm">
+          <form>
             <div id="addFormItems" className="AddFormInputs">
-              <input type="text" name="subject" placeholder="Event" />
-              <input type="time" name="time" placeholder="Time" />
+              <div>
+                <label for="subject">Event</label>
+                <input type="text" id="subject" />
+              </div>
+              <div>
+                <label for="time">Time</label>
+                <input type="time" id="time" placeholder="Time" />
+              </div>
             </div>
             <div className="AddFormButtons">
-              <button type="submit">Add</button>
-              <button type="cancel">Cancel</button>
+              <button onClick={submitAddForm}>Add</button>
+              <button onClick={closeAddForm}>Cancel</button>
             </div>
           </form>
         </li>
