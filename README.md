@@ -62,3 +62,12 @@ The calendar page is a place where users can eaisily visualize the deals that ar
 4. Challenges we faced: 
 - One of the main challenges we faced during this project was getting it set up. We had originally planned to implement the NextJS framework into this project. However, our group faced many roadblocks focused around page routing and creating a database connection. Our group spent multiple days trying to resolve these issues and eventually decided to scrap the Next framework and just use pure React.
 - Another challenge our group faced was in the designing of the calendar page. We had originally designed it to have some visual display for each day that a deal was active, but due to time constraints, we were unable to implement that.
+##Ethan Catania - 
+Added Get function and mongoose schema for deal.
+Created Deal and Deal Page Components. 
+Styled Popup pages
+Deal styling
+Button for switching between deal and login
+inputs for adding deals.
+Error handling for
+Deal Page add and delete functions.
