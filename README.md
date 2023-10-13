@@ -71,14 +71,14 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
 ## Group Contributions
 
 ### Ethan Catania - 
-Added Get function and mongoose schema for deal.
-Created Deal and Deal Page Components. 
-Styled Popup pages
-Deal styling
-Button for switching between deal and login
-inputs for adding deals.
-Error handling for
-Deal Page add and delete functions.
+- Added Get function and mongoose schema for deal.
+- Created Deal and Deal Page Components. 
+- Styled Popup pages
+- Deal styling
+- Button for switching between deal and login
+- inputs for adding deals.
+- Error handling for
+- Deal Page add and delete functions.
 
 ### Tucker Raymond
 - Created initial connection to MongoDB using Mongoose
