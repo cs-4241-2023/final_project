@@ -30,12 +30,12 @@ class Popup extends Component {
           <div className="popup">
             <div className="popup-content">
               <button className="closeButton" onClick={this.togglePopup}>X</button>
-              <h2>Deal for {this.restaurant}</h2>
+              <h2 className = "Restaurant">Deal for {this.restaurant}</h2>
+              <br>
+              </br>
               <p>{this.info}</p>
-              <p>{this.value}$</p>
+              <p id = "Value"> {this.value}$</p>
               <p>Deal ends on {this.end}</p>
-              
-              
             </div>
           </div>
         )}
