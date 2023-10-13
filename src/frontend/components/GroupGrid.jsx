@@ -5,11 +5,12 @@ const GroupGrid = ({ days, times, setGroupAvailability, groupAvailability }) => 
 
     async function getGroupAvailability() {
         try {
-            const response = await fetch(`/groups/${id}/availability`, {
+            const response = await fetch(`/groups/${id}/userAvailabilities`, {
                 method: "GET",
             });
             if (!response.ok) console.log("404: Availability Not Found");
             const data = await response.json();
+            console.log("data", data)
             return data;
         } catch (e) {
             console.error(e)
