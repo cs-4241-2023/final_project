@@ -44,8 +44,8 @@ For some reason, our Vite-express scaffolded application was very difficult to h
 For our project, we wanted to come up with a game board design that would be unique to our game. Our first instinct was to have the board styled with some sort of goat theme. This proved to be trickier than we first anticipated. When displaying the letters in a grid-like pattern, we found that it may be too easy to guess certain words. If the letters were displayed in a grid-like fashion and the code did not scramble the words effectively, it had the possibility to ‘spell out’ words. In order to get around this issue, we followed the same game board format as Spelling Bee. We found that the hex grid fashion worked best for resolving this issue.
 
 ## Group Member Work Breakdown
-Tim: Worked on server-side routing and communication with the client for the puzzle data, validating words using WordsAPI, computing the score for a given word, and styling the sign-in and login pages.
-Randy: Worked on the UI for the gameboard. Worked on the game logic for the frontend. Used the hexgrid library to create the game board. Integrated some backend routing with the frontend code. 
-Mahir: Worked primarily on the signup / login route handling on the backend, adding new users, authenticating credentials using the database, and sending the encrypted cookie containing relevant identifying info to the client, protecting restricted routes, and some debugging. 
+- Tim: Worked on server-side routing and communication with the client for the puzzle data, validating words using WordsAPI, computing the score for a given word, and styling the sign-in and login pages.
+- Randy: Worked on the UI for the gameboard. Worked on the game logic for the frontend. Used the hexgrid library to create the game board. Integrated some backend routing with the frontend code. 
+- Mahir: Worked primarily on the signup / login route handling on the backend, adding new users, authenticating credentials using the database, and sending the encrypted cookie containing relevant identifying info to the client, protecting restricted routes, and some debugging. 
 
 ## [Link to Project Video](https://youtu.be/eo0zA9iNv8Y)
