@@ -2,10 +2,10 @@
     background-color: grey;
     border: solid black 4px;
     position: absolute;
-    bottom:30%;
+    left: 33%;
+    bottom: 33%;
     min-width: 30%;
     min-height: 30%;
-    left: 30%;
 }
 
 .popupDiv:hover{

@@ -7,7 +7,7 @@ export default class CalendarDeal extends React.Component{
     constructor(props){
         super(props)
         this.restaurant = props.restaurant
-        this.deal = props.deal
+        this.value = props.value
         this.info = props.info
         this.startDate = props.startDate;
         this.endDate = props.endDate;
@@ -22,7 +22,7 @@ export default class CalendarDeal extends React.Component{
         if(this.endDate){
         return( 
             <div className="dealContainer" onClick={() => this.openPopup()}>
-                <Popup info={this.info} restaurant={this.restaurant} end={this.endDate} value={this.deal} id='popup' />
+                <Popup info={this.info} restaurant={this.restaurant} end={this.endDate} value={this.value} id='popup' />
             </div>
         )
         }else{
