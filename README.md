@@ -17,17 +17,17 @@ In order to access the game, you must first create a user and log in. Click the 
 ## Technologies
 
 Here are the technologies we used in our app and how:
-React: We used React as the main library for our frontend development. It helped us build a responsive and maintainable web application, especially when used alongside Vite and Vite-express.
-Node: We used Node as the runtime environment for our server.
-Express: We used Express to handle routing on the backend of our application. Express was especially useful for authentication, since we could use authentication middleware with our routes to ensure that only authorized users can access particular routes and the corresponding data.
-WordsAPI: We used WordsAPI to validate whether or not a guess that the client submitted to the server was actually a real word. WordsAPI also supplied us with the commonality of the given word, which we then used to award more points for rarer words.
-React hex grid library(https://github.com/Hellenic/react-hexgrid): React components to build interactive hexagon grids. This library uses SVG and allows you to create fully customizable and scalable interactive hexagon grids with a simple api.
-JSON Web Tokens (JWT): This was the primary node library used to encrypt the user login/authentication details and store the information as a cookie on the client. This allows the client access to restricted routes, which would be prohibited without the authentication cookie. This also allowed us to query for user-specific information from the backend server in an efficient manner by always including the cookie to any request that was being sent from the client.
-react-router-dom: npm package to handle frontend routing in React
-react-cookie: npm package that was used to parse the authentication cookie on the frontend. 
-Vite: We used Vite in order to initialize the React project.
-Vite-express: We used this library in order to serve both the frontend React app and handle backend requests for different data from the express server from the same server and port. 
-MongoDB: We used MongoDB to store our account data for users as well as the user scores for particular puzzles.
+- React: We used React as the main library for our frontend development. It helped us build a responsive and maintainable web application, especially when used alongside Vite and - Vite-express.
+- Node: We used Node as the runtime environment for our server.
+- Express: We used Express to handle routing on the backend of our application. Express was especially useful for authentication, since we could use authentication middleware with our routes to ensure that only authorized users can access particular routes and the corresponding data.
+- WordsAPI: We used WordsAPI to validate whether or not a guess that the client submitted to the server was actually a real word. WordsAPI also supplied us with the commonality of the given word, which we then used to award more points for rarer words.
+- React hex grid library(https://github.com/Hellenic/react-hexgrid): React components to build interactive hexagon grids. This library uses SVG and allows you to create fully customizable and scalable interactive hexagon grids with a simple api.
+- JSON Web Tokens (JWT): This was the primary node library used to encrypt the user login/authentication details and store the information as a cookie on the client. This allows the client access to restricted routes, which would be prohibited without the authentication cookie. This also allowed us to query for user-specific information from the backend server in an efficient manner by always including the cookie to any request that was being sent from the client.
+- react-router-dom: npm package to handle frontend routing in React
+- react-cookie: npm package that was used to parse the authentication cookie on the frontend. 
+- Vite: We used Vite in order to initialize the React project.
+- Vite-express: We used this library in order to serve both the frontend React app and handle backend requests for different data from the express server from the same server and port. 
+- MongoDB: We used MongoDB to store our account data for users as well as the user scores for particular puzzles.
 
 ## Challenges we Faced
 
