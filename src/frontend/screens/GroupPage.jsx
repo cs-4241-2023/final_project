@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import GroupCard from '../components/GroupCard.jsx';
 import SoloGrid from "../components/SoloGrid.jsx";
 
-const GroupPage = ({ group, selectGroup, deleteGroup, currentGroupID}) => {
+const GroupPage = ({ group, selectGroup, deleteGroup, currentGroupID, user}) => {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     const [availability, setAvailability] = useState({});
     return (
@@ -12,7 +12,7 @@ const GroupPage = ({ group, selectGroup, deleteGroup, currentGroupID}) => {
                 selectGroup={selectGroup}
                 deleteGroup={deleteGroup}
             />
-            <SoloGrid days={days} availability={availability} setAvailability={setAvailability} currentGroupID={currentGroupID}/>
+            <SoloGrid user={user} days={days} availability={availability} setAvailability={setAvailability} currentGroupID={currentGroupID}/>
         </div>
     );
 };

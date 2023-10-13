@@ -26,7 +26,7 @@ const SoloGrid = ({ user, days, currentGroupID }) => {
         fetch("/send-availability", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({groupID: currentGroupID, availability: availability})
+                body: JSON.stringify({user: user, groupID: currentGroupID, availability: availability})
         }).then(() => console.log("Sent availability to server"));
     }, [availability])
 

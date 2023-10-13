@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
             ref: "Group"
         }   
     ],
+    userAvailability: {
+        type: [Object],
+        default: []
+    }
 });
 
 const User = mongoose.model("User", userSchema, "Users");

@@ -110,6 +110,7 @@ function Dashboard() {
 
         const groupPageComp = (
             <GroupPage
+                user={currentUser}
                 group={groupObj}
                 selectGroup={handleSelectGroup}
                 deleteGroup={deleteGroup}

@@ -14,7 +14,7 @@ export const updateAvailability = async (request, response) => {
                     returnedAvailibility[day][hour] = newAvailability[day][hour] || currentAvailability[day][hour];
             });
     });
-    console.log(returnedAvailibility)
+    console.log(request.body.user)
     await group.updateOne({currentAvailibility: returnedAvailibility});
     response.status(200).end();
 }
