@@ -68,7 +68,7 @@ scene("lobby", () => {
 				sendNetworkMessage("movement", player.pos)
 			}, easings.easeOutSine).then(() => {
 				go("puffle_store")
-				sendNetworkMessage("changeScene", { scene: "puffle_store", pos: {} })
+				sendNetworkMessage("joinSubScene", { scene: "puffle_store" })
 			})
 	})
 

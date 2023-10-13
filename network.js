@@ -79,6 +79,7 @@ const onConnection = function(socket) {
 
 	socket.on("joinSubScene", (sceneObj) => {
 		socket.leave(connectedPlayers[socket.id].room)
+		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
 		connectedPlayers[socket.id] = { room: sceneObj.scene }
 	})
 
