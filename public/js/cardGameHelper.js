@@ -28,11 +28,45 @@ export function setMyCard(cardInfo) {
 export function setOpponentCard(cardInfo) {
 	opponentCard = cardInfo
 	if (myCard !== undefined) {
+		// Remove the card from opponent deck
+		moveOpponentCard(opponentCard.i)
 		makeOpponentCard(spriteDict[opponentCard.type][opponentCard.value - 1])
 		return compareCards()
 	} else {
+		// Remove the card from opponent deck
+		moveOpponentCard(opponentCard.i)
 		makeOpponentCard("card-back")
 		return null
+	}
+}
+
+function moveOpponentCard(index){
+	destroyAll("OpponentCards")
+	const SLOTS = [
+		new Vec2(280, 600),
+		new Vec2(500, 600),
+		new Vec2(720, 600)
+	]
+	for(let i = 0; i < SLOTS.length; i++){
+		if(i === ((SLOTS.length - 1) - index)){
+			add([
+				sprite("card-back"),
+				pos(3 * global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50),
+				anchor("center"),
+				scale(0.35),
+				rotate(180),
+				"OpponentCards"
+			])
+		}else{
+			add([
+				sprite("card-back"),
+				pos(new Vec2(SLOTS[i].x, -20)),
+				anchor("center"),
+				scale(0.35),
+				rotate(180),
+				"OpponentCards"
+			])
+		}
 	}
 }
 

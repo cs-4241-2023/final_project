@@ -60,6 +60,7 @@ scene("card", () => {
 			i: card.i
 		})
 
+		// Move your card
 		card.moveTo(global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50)
 		sendNetworkMessage("selectCard", { opponentId, cardInfo: myCard })
 		
@@ -117,7 +118,8 @@ function beginHand() {
 			pos(new Vec2(slotPos.x, -20)),
 			anchor("center"),
 			scale(0.35),
-			rotate(180)
+			rotate(180),
+			"OpponentCards"
 		])
 	})
 }
