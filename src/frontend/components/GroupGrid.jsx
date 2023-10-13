@@ -25,9 +25,10 @@ const GroupGrid = ({ days, times, setGroupAvailabilities, groupAvailabilities })
                         } else {
                             tempOverlap[day][time] += 1
                         }
-                    } else {
+                    }
+                     else {
                         // If any user is not available, remove the time slot from tempOverlap
-                        if (tempOverlap[day] && tempOverlap[day][time] > 0) {
+                        if (tempOverlap[day] && tempOverlap[day][time] > 1) {
                             tempOverlap[day][time] -= 1;
                             if (tempOverlap[day][time] === 0) {
                                 delete tempOverlap[day][time];

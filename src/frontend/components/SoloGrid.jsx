@@ -1,7 +1,12 @@
-import { get, set } from 'mongoose';
-import React, { useEffect, useState } from 'react';
+import { get, set } from "mongoose";
+import React, { useEffect, useState } from "react";
 
-const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) => {
+const SoloGrid = ({
+    days,
+    times,
+    groupAvailabilities,
+    setGroupAvailabilities,
+}) => {
     const id = localStorage.getItem("id");
     const username = localStorage.getItem("username");
     const groupId = localStorage.getItem("selectedGroupPage");
@@ -11,10 +16,10 @@ const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) 
     let selectedCells = []; // Track selected cells
 
     useEffect(() => {
-        getInitialAvailability().then(data => {
-            setAvailability(data)
+        getInitialAvailability().then((data) => {
+            setAvailability(data);
         });
-    }, [])
+    }, []);
 
     async function getInitialAvailability() {
         try {
@@ -23,7 +28,7 @@ const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) 
             const data = await response.json();
             return data;
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
     }
 
@@ -32,39 +37,43 @@ const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) 
             const response = await fetch(`/users/${id}/availability`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ newAvailability: availability })
+                body: JSON.stringify({ newAvailability: availability }),
             });
-            if (!response.ok) console.log("Solo Update Failed")
+            if (!response.ok) console.log("Solo Update Failed");
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
     }
 
     function updateAvailability() {
         const updatedAvailability = { ...availability };
-        console.log('updated solo', updatedAvailability)
+        // console.log("updated solo", updatedAvailability);
 
         selectedCells.forEach(({ day, hour }) => {
             updatedAvailability[day][hour] = !updatedAvailability[day][hour];
         });
 
         setAvailability(updatedAvailability);
-        updateSoloAvailabilityDB() 
+        updateSoloAvailabilityDB();
     }
 
     async function updateGroup() {
-        const tempAvailabilities = { ...groupAvailabilities }
-        tempAvailabilities[username] = availability
-        setGroupAvailabilities(tempAvailabilities)
+        const tempAvailabilities = { ...groupAvailabilities };
+        tempAvailabilities[username] = availability;
+        console.log("tempAv", tempAvailabilities);
+        setGroupAvailabilities(tempAvailabilities);
         try {
-            const response = await fetch(`/groups/${groupId}/userAvailabilities/${username}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ newAvailability: availability })
-            });
-            if (!response.ok) console.log("Group Update Failed")
+            const response = await fetch(
+                `/groups/${groupId}/userAvailabilities/${username}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ newAvailability: availability }),
+                }
+            );
+            if (!response.ok) console.log("Group Update Failed");
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
     }
 
@@ -72,34 +81,33 @@ const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) 
         const updatedAvailability = { ...availability };
         updatedAvailability[day][hour] = !updatedAvailability[day][hour];
         setAvailability(updatedAvailability);
-        updateAvailability()
-        updateGroup()
-    }
+        updateAvailability();
+        updateGroup();
+    };
 
     function handleMouseDown() {
-        setSelecting(true)
+        setSelecting(true);
         selectedCells = []; // Reset selected cells when starting a new selection
     }
 
     function handleMouseUp() {
-        setSelecting(false)
-        updateSoloAvailabilityDB()
-        updateGroup()
+        setSelecting(false);
+        updateSoloAvailabilityDB();
+        updateGroup();
     }
 
     function handleMouseOver(event) {
         if (!isSelecting) return; // Only update when selecting
 
         const cell = event.target;
-        console.log("cell", cell)
-        const [day, hour] = event.target.id.split('-');
+        // console.log("cell", cell);
+        const [day, hour] = event.target.id.split("-");
 
         selectedCells.push({ day, hour }); // Add the cell to selected cells
-        console.log("selectedCells", selectedCells)
+        // console.log("selectedCells", selectedCells);
 
         updateAvailability();
     }
-
 
     return (
         <div className="timegrid">
@@ -118,7 +126,11 @@ const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) 
                             <div
                                 key={`${day}-${hour}`}
                                 id={`${day}-${hour}`}
-                                className={`availability-cell ${availability[day]?.[hour] ? 'available' : 'unavailable'}`}
+                                className={`availability-cell ${
+                                    availability[day]?.[hour]
+                                        ? "available"
+                                        : "unavailable"
+                                }`}
                                 onClick={() => handleSlotClick(day, hour)}
                                 onMouseDown={handleMouseDown} // Start selection on mouse down
                                 onMouseUp={handleMouseUp} // End selection on mouse up
