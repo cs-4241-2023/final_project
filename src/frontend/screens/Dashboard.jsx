@@ -67,7 +67,6 @@ function Dashboard() {
                 name: groupForm.name,
                 description: groupForm.description,
                 users: groupUsers,
-                meetingTimes: "TBD",
             });
 
             const groupResponse = await (await fetch("/groups", {

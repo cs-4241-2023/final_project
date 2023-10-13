@@ -23,11 +23,7 @@ const groupSchema = new mongoose.Schema({
     userAvailabilities: {
         type: Object,
         default: {}
-    },
-    meetingTimes: {
-        type: String,
-        default: "TBD",
-    },
+    }
 });
 
 const Group = mongoose.model("Group", groupSchema, "Groups");

@@ -5,7 +5,6 @@ export const getSoloAvailability = async (request, response) => {
     const id = request.params.id;
     const user = await User.findOne({ _id: id });
     const availability = user.availability;
-    console.log(availability)
     response.status(200).json(availability);
 }
 
@@ -27,7 +26,6 @@ export const updateSoloAvailability = async (request, response) => {
 export const getGroupUserAvailabilities = async (request, response) => {
     const groupId = request.params.id;
     const group = await Group.findOne({ _id: groupId });
-    console.log(group)
     const userAvails = group.userAvailabilities;
     response.status(200).json(userAvails);
 }

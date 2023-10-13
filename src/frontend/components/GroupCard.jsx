@@ -7,7 +7,7 @@ function GroupCard({ group }) {
                 {group.users.map((user, index) => (
                     <li key={index}>{user}</li>
                 ))}
-            </ul><p>Available group meeting times: {group.meetingTimes}</p>
+            </ul>
         </div>
     );
 }
