@@ -49,11 +49,14 @@ scene("lobby", () => {
 			curTween.cancel()
 		}
 
-		curTween = tween(player.pos, mousePos(), global.SPEED,
-			(p) => {
-				player.pos = p
-				sendNetworkMessage("movement", player.pos)
-			}, easings.easeOutSine)
+		let tweenTime = Math.sqrt(Math.pow(player.pos.x - mousePos().x, 2) + Math.pow(player.pos.y - mousePos().y, 2)) / global.SPEED
+
+		console.log(tweenTime)
+
+		curTween = tween(player.pos, mousePos(), tweenTime, (p) => {
+			player.pos = p
+			sendNetworkMessage("movement", player.pos)
+		}, easings.easeOutSine)
 	})
 
 	//interact
@@ -62,11 +65,12 @@ scene("lobby", () => {
 			curTween.cancel()
 		}
 
-		curTween = tween(player.pos, mousePos(), global.SPEED,
-			(p) => {
-				player.pos = p
-				sendNetworkMessage("movement", player.pos)
-			}, easings.easeOutSine).then(() => {
+		let tweenTime = Math.sqrt(Math.pow(player.pos.x - mousePos().x, 2) + Math.pow(player.pos.y - mousePos().y, 2)) / global.SPEED
+
+		curTween = tween(player.pos, mousePos(), tweenTime, (p) => {
+			player.pos = p
+			sendNetworkMessage("movement", player.pos)
+		}, easings.easeOutSine).then(() => {
 				go("puffle_store")
 				sendNetworkMessage("joinSubScene", { scene: "puffle_store" })
 			})
@@ -77,11 +81,12 @@ scene("lobby", () => {
 			curTween.cancel()
 		}
 
-		curTween = tween(player.pos, mousePos(), global.SPEED,
-			(p) => {
-				player.pos = p
-				sendNetworkMessage("movement", player.pos)
-			}, easings.easeOutSine).then(() => {
+		let tweenTime = Math.sqrt(Math.pow(player.pos.x - mousePos().x, 2) + Math.pow(player.pos.y - mousePos().y, 2)) / global.SPEED
+
+		curTween = tween(player.pos, mousePos(), tweenTime, (p) => {
+			player.pos = p
+			sendNetworkMessage("movement", player.pos)
+		}, easings.easeOutSine).then(() => {
 				go("dojo")
 				sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN, puffle: global.CURRENT_PUFFLE })
 			})

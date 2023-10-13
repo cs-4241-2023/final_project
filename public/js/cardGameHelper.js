@@ -40,15 +40,15 @@ export function setOpponentCard(cardInfo) {
 	}
 }
 
-function moveOpponentCard(index){
+function moveOpponentCard(index) {
 	destroyAll("OpponentCards")
 	const SLOTS = [
 		new Vec2(280, 600),
 		new Vec2(500, 600),
 		new Vec2(720, 600)
 	]
-	for(let i = 0; i < SLOTS.length; i++){
-		if(i === ((SLOTS.length - 1) - index)){
+	for (let i = 0; i < SLOTS.length; i++) {
+		if (i === ((SLOTS.length - 1) - index)) {
 			add([
 				sprite("card-back"),
 				pos(3 * global.SCREEN_SIZE.width / 4, (global.SCREEN_SIZE.height / 2) - 50),
@@ -57,7 +57,7 @@ function moveOpponentCard(index){
 				rotate(180),
 				"OpponentCards"
 			])
-		}else{
+		} else {
 			add([
 				sprite("card-back"),
 				pos(new Vec2(SLOTS[i].x, -20)),
@@ -84,6 +84,36 @@ export function displayText(message) {
 		scale(2),
 		anchor("center")
 	])
+
+	let coins = 0
+
+	if (message === 'win') {
+		coins = 50
+		//Load coin reward label
+		add([
+			text(`+50 Coins`, 12),
+			pos(global.SCREEN_SIZE.width / 2, global.SCREEN_SIZE.height / 2 + 30),
+			color(0, 0, 0),
+			anchor("center")
+		])
+	}
+
+	if (message === 'tie') {
+		coins = 10
+		//Load coin reward label
+		add([
+			text(`+10 Coins`, 12),
+			pos(global.SCREEN_SIZE.width / 2, global.SCREEN_SIZE.height / 2 + 30),
+			color(0, 0, 0),
+			anchor("center")
+		])
+	}
+
+	fetch('/addCoins', {
+		method: "POST",
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({coins})
+	})
 
 	let backButton = add([
 		sprite("back-button"),

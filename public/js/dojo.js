@@ -244,7 +244,9 @@ function moveToLocation(destination) {
 		waitingAt = -1
 	}
 
-	return tween(player.pos, destination, global.SPEED, (p) => {
+	let tweenTime = Math.sqrt(Math.pow(player.pos.x - destination.x, 2) + Math.pow(player.pos.y - destination.y, 2)) / global.SPEED
+
+	return tween(player.pos, destination, tweenTime, (p) => {
 		player.pos = p
 		sendNetworkMessage("movement", player.pos)
 	}, easings.easeOutSine)

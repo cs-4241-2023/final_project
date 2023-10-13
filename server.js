@@ -154,6 +154,11 @@ app.post('/equip', async (req, res) => {
 	res.json({ result: "Done" })
 })
 
+app.post('/addCoins', (req, res) => {
+	let coin = req.body.coins
+	user_collection.updateOne({ username: req.session.username }, { $inc: { coins: coin } })
+})
+
 
 server.listen(port, function () {
 	console.log(`Express listening on port ${port}`)
