@@ -8,6 +8,15 @@ export const getUserAvailability = async (request, response) => {
     response.status(200).json(availability);
 }
 
+export const updateUserAvailability = async (request, response) => {
+    const userId = request.params.id;
+    const newAvailability = request.body.newAvailability;
+    console.log("newAvailability", newAvailability)
+    const user = await User.findOne({ _id: userId });
+    await user.updateOne({ availability: newAvailability });
+    response.status(200).end();
+}
+
 export const updateAvailability = async (request, response) => {
     let newAvailability = request.body.availability;
     let groupID = request.body.groupID;

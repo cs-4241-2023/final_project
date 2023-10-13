@@ -38,6 +38,19 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
         }
     }
 
+    async function updateUserAvailability() {
+        try {
+            const response = await fetch(`/users/${id}/availability`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newAvailability: availability })
+            });
+            if (!response.ok) console.log("Update Failed")
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     const handleSlotClick = (day, timeSlot) => {
         const updatedAvailability = { ...availability };
         updatedAvailability[day][timeSlot] = !updatedAvailability[day][timeSlot];
@@ -52,6 +65,7 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
 
     function handleMouseUp() {
         setSelecting(false)
+        updateUserAvailability()
     }
 
     function handleMouseOver(event) {
