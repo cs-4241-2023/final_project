@@ -67,3 +67,15 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
 - Another challenge our group faced was in the designing of the calendar page. We had originally designed it to have some visual display for each day that a deal was active, but due to time constraints, we were unable to implement that. 
 - Our group faced challenges in parsing data sent from the backend server. It took us multiple hours after getting the server set up properly to get the data from our backend server successfully loaded and rendered on the page.
 - Our group also had a challenging time figuring out how to have elements change their value when the corresponding variable in the program changes. We eventually learned that the componentDidMount() function runs a function and updates all elements in the Virtual DOM when the this.setState method is called within it.
+
+## Group Contributions
+### Tucker Raymond
+- Created initial connection to MongoDB using Mongoose
+- Created initial login page and implemented user login verification agains valid users existing on the server
+- Implemented page routing functionality using the React BrowserRouter
+- Created basic calendar component structure consisting of CalendarPage, Calendar, CalendarDay, and CalendarDeal.
+- Added functionality to add and delete deals from the deal collection within the backend server
+- Added popup functionality for entries on the calendar, as well as the form to submit a new deal to the database.
+- Added button to delete deals from the database in the deal page and make the deals scrollable
+- Allow multiple deals to appear on the same day in the calendar page
+- Some button styling
