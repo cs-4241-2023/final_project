@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema({
         }   
     ],
     userAvailability: {
-        type: [Object],
-        default: []
+        type: mongoose.Schema.Types.Map,
+        default: new Map()
     }
 });
 
