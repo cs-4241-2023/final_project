@@ -47,3 +47,18 @@ Think of 1,3, and 4 in particular in a similar vein to the design / tech achieve
 ## FAQs
 
 - **Can I use XYZ framework?** You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript.
+
+Project: WhatsTheDeal
+Contributors: Ethan Catania, Nandita Kumar, Tucker Raymond
+
+1. What we created: Our group created an application which can be used to view current deals for restaurants close to them. On the login page, users can either create a new user and submit it to the database containing users, or input correct credentials and login to the deal page of the application. The deal page contains a list of "deal" components which are rendered based on the contents of the database containing the deal information, as well as a "delete" button to remove the deal from the page and the database. To add a deal to the database, the user must click on the div containing the "Add Deal" text and the plus sign image to make a popup form appear for users to input and submit data.
+
+The calendar page is a place where users can eaisily visualize the deals that are contained within the database. When the calendar page is rendered, it queries the database for any entries contained within the Mongo collection containing deals, and places each deal on the calendar based on the state date of the deal. when an entry in the calendar is clicked on, a popup appears on the screen, displaying the information about the selected deal.
+
+2. Additional instructions to run the app: (May change because we haven't put it on Glitch yet so we will DEIFINELTY NEED TO CHANGE THIS AT SOME POINT INT THEFUTURE) To run the backend server, navigate to the "/backend" directory within the root project, and run "node index.js" to spin up the server in a localhost and have it listen for requests from the frontend on port 2048. To run the frontend applciation, open a terminal in the root directord and run "npm start" and the webpage should be hosted on http://localhost:3000.
+
+3. Technologies we used: We used the ReactJS framework in the frontend and a NodeJS server to query the persistent NoSQL Mongo database in the backend to store user and deal data. Our backend server connects to a single database and accesses two collections, one to store data about users, and one to store data about deals. We utilized the component-based structure of the React framework to abstract information about deals into components, making it easy to reuse and edit them as the server data changes. This can be observed on the calendar and deal pages.
+
+4. Challenges we faced: 
+- One of the main challenges we faced during this project was getting it set up. We had originally planned to implement the NextJS framework into this project. However, our group faced many roadblocks focused around page routing and creating a database connection. Our group spent multiple days trying to resolve these issues and eventually decided to scrap the Next framework and just use pure React.
+- Another challenge our group faced was in the designing of the calendar page. We had originally designed it to have some visual display for each day that a deal was active, but due to time constraints, we were unable to implement that.

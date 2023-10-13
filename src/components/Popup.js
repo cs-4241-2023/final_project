@@ -36,7 +36,7 @@ class Popup extends Component {
               <p>{this.value}$</p>
               <p>Deal ends on {this.end}</p>
               
-              <button onClick={this.togglePopup}>Close</button>
+              <button className="closeButton" onClick={this.togglePopup}>Close</button>
             </div>
           </div>
         )}

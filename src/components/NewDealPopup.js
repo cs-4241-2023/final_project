@@ -62,7 +62,7 @@ class NewDealPopup extends Component {
             <input onChange={(c) => this.setState({info: c.target.value})} type="text" id="addInfo" placeholder="Enter Description"></input>
             <button id="submitButton" onClick={() => this.addDeal()}>Submit</button>
               
-            <button id="closeButton" onClick={this.togglePopup}>Close</button>
+            <button className="closeButton" onClick={this.togglePopup}>Close</button>
             </div>
           </div>
         )}
