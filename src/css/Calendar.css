@@ -66,7 +66,7 @@ html {
 
 /*Calendar Deal*/
 .dealContainer{
-    background-color: rgba(128, 138, 158, .20);
+    background-color: #2b3d61;   
     
 }
 
@@ -75,11 +75,11 @@ html {
     font-size: 2.5vh;
     margin-bottom: 0vh;
     padding-top: 0vh;
-    color: #B8BDC8;
+    color: yellow;
 }
 
 .dealContainer h2{ /*deal value*/
-    font-weight: bold;
+    font-weight: normal;
     font-size: 2vh;
     margin:0vh;
 }
