@@ -19,7 +19,7 @@ code {
   border-bottom: solid grey 3px;
 }
 
-input[type='text'], input[type='password']{
+input[type='text'], input[type='password'], input[type = 'number']{
  
   font-size: 2vh;
   border-radius: 3%;

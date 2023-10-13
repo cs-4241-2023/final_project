@@ -23,13 +23,28 @@ class NewDealPopup extends Component {
   };
 
   async addDeal(){
+    let Filled = false;
+    let errorMessage = document.getElementById("Error");
     let deal = {start: this.state.start, location: this.state.location, restaurant: this.state.restaurant, info: this.state.info, end: this.state.end, value: this.state.value};
+    if(this.state.value !=="" && this.state.start !== "" && this.state.location !=="" &&
+     this.state.end !=="" && this.state.restaurant !==""){
+    Filled = true;
+    }
     const res = await fetch(`${domain}/addDeal`, {
         method: 'post',
         body: JSON.stringify(deal),
         headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}
     }).then(() => {
-        window.location.replace("/dealPage")
+      if(Filled){
+        errorMessage.style.color = "white";
+        window.location.replace("/dealPage");
+      } else{
+       
+        errorMessage.textContent = "Please Fill Out All Required Fields (*)";
+        errorMessage.style.color = "red";
+      }
+
+        
     })
   }
 
@@ -43,27 +58,26 @@ class NewDealPopup extends Component {
         {this.state.showPopup && (
           <div className="dealPopup">
             <div className="dealPopup-content">
-            <label htmlFor = "addRestaurant" >Restaurant:  </label> 
-            <input onChange={(c) => this.setState({restaurant: c.target.value})} type="text" id="addRestaurant" placeholder="Enter Restaurant" required></input>
+            <label htmlFor = "addRestaurant" >Restaurant*:  </label> 
+            <input onChange={(c) => this.setState({restaurant: c.target.value})} type="text" id="addRestaurant" placeholder="Enter Restaurant"></input>
             <br></br>
-            <label htmlFor = "addLocation" >Location:  </label> 
-            <input onChange={(c) => this.setState({location: c.target.value})} type="text" id="addLocation" placeholder="Enter Location" required></input>
+            <label htmlFor = "addLocation" >Location*:  </label> 
+            <input onChange={(c) => this.setState({location: c.target.value})} type="text" id="addLocation" placeholder="Enter Location"></input>
             <br></br>
-            <label htmlFor = "addValue" >Value:  </label> 
-            <input onChange={(c) => this.setState({value: c.target.value})} type="text" id="addValue" placeholder="Enter Value" required></input>
+            <label htmlFor = "addValue" >Value*:  </label> 
+            <input onChange={(c) => this.setState({value: c.target.value})} type="number" id="addValue" placeholder="Enter Value"></input>
             <br></br>
-            <label htmlFor = "addStart" >Start Date:  </label> 
-            <input onChange={(c) => this.setState({start: c.target.value})} type="text" id="addStart" placeholder="Enter Start Date" required></input>
+            <label htmlFor = "addStart" >Start Date*:  </label> 
+            <input onChange={(c) => this.setState({start: c.target.value})} type="text" id="addStart" placeholder="MM/DD/YYYY"></input>
             <br></br>
-            <label htmlFor = "addEnd" >End Date:  </label> 
-            <input onChange={(c) => this.setState({end: c.target.value})} type="text" id="addEnd" placeholder="Enter End Date" required></input>
+            <label htmlFor = "addEnd" >End Date*:  </label> 
+            <input onChange={(c) => this.setState({end: c.target.value})} type="text" id="addEnd" placeholder="MM/DD/YYYY"></input>
             <br></br>
-            
             <label htmlFor = "addInfo" >Description:  </label> 
             <input onChange={(c) => this.setState({info: c.target.value})} type="text" id="addInfo" placeholder="Enter Description"></input>
             <button id="submitButton" onClick={() => this.addDeal()}>Submit</button>
-              
             <button className="closeButton" onClick={this.togglePopup}>Close</button>
+            <p id = "Error" >Fields Marked With "*" are Required </p>
             </div>
           </div>
         )}
