@@ -54,12 +54,6 @@ network.on("setOpponentCard", (cardInfo) => {
 		go("dojo")
 		sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
 	})
-
-	backButton.onClick(() => {
-		resetFields()
-		go("dojo")
-		sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
-	})
 })
 
 const remotePlayers = {}

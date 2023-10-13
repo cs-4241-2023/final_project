@@ -70,8 +70,9 @@ app.get('/game', (req, res) => {
 
 // Client requests user information
 app.get('/user', async (req, res) => {
-	const username = req.session.username;
+	const username = req.session.username
 	const user = await user_collection.findOne({ username: username })
+	//console.log(user)
 
 	res.json(user)
 })
@@ -79,23 +80,24 @@ app.get('/user', async (req, res) => {
 app.post('/purchase', async (req, res) => {
 	let info = req.body
 
-	const user = await user_collection.findOne({ username: info.username }); //Find user
+	const user = await user_collection.findOne({ username: req.session.username }) //Find user
 	const purchaseResult = {}
 
 	//Determine if transaction is possible
 	if (user.coins >= info.price && !user.purchasedPuffles.includes(info.puffleName)) {
 		user.coins -= info.price
-		user.purchasedPuffles.push(info.puffleName);
+		user.purchasedPuffles.push(info.puffleName)
 
-		const result = await user_collection.updateOne(
-			{ username: info.username },
+		user_collection.updateOne(
+			{ username: req.session.username },
 			{ $set: { coins: user.coins, purchasedPuffles: user.purchasedPuffles } }
 		)
-		purchaseResult.status = 1 //Successful purchase
+		purchaseResult.success = true //Successful purchase
 	}
 	else {
-		purchaseResult.status = -1 //Unsuccessful purchase
+		purchaseResult.success = false //Unsuccessful purchase
 	}
+
 	purchaseResult.coinsRemaining = user.coins
 
 	res.json(purchaseResult)
@@ -104,13 +106,14 @@ app.post('/purchase', async (req, res) => {
 app.post('/equip', async (req, res) => {
 	let info = req.body
 
-	const user = await user_collection.findOne({ username: info.username })
+	const user = await user_collection.findOne({ username: req.session.username })
+	//console.log(user, req.session.username)
 
 	if (user.purchasedPuffles.includes(info.puffleName)) {
-		user_collection.updateOne({ username: info.username }, { $set: { equippedPuffle: info.puffleName } })
+		user_collection.updateOne({ username: req.session.username }, { $set: { equippedPuffle: info.puffleName } })
 	}
 	else {
-		user_collection.updateOne({ username: info.username }, { $set: { equippedPuffle: "" } })
+		user_collection.updateOne({ username: req.session.username }, { $set: { equippedPuffle: "" } })
 	}
 
 	res.json({ result: "Done" })

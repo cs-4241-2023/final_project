@@ -81,6 +81,7 @@ const onConnection = function(socket) {
 		socket.leave(connectedPlayers[socket.id].room)
 		socket.broadcast.in(connectedPlayers[socket.id].room).emit('kill', socket.id)
 		connectedPlayers[socket.id] = { room: sceneObj.scene }
+		console.log(`${socket.id}:`, 'joining subscene', sceneObj)
 	})
 
 	socket.on('disconnect', (reason) => {
