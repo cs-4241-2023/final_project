@@ -1,49 +1,38 @@
-# Final Project
-*Due October 13th (final day of the term)*
+# Word Slice
+link: https://word-slice.glitch.me/
 
-For your final project, you'll implement a web application that exhibits understanding of the course materials. 
-This project should provide an opportunity to both be creative and to pursue individual research and learning goals.
+## Description
+Word Slice is a game based on the hit sensation game Fruit Ninja. It is aimed for people with nostalgia for Fruit Ninja, as well as users who enjoy simple yet fun online games. The game uses a persistent database, so users are given the option to play as a guest, or log in and save their progress. There is also a high score board to display the high score as well as the top 10 scores and users.
 
-## General description
-Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material:
+In the game, words are tossed in the air randomly and the user must "slice" the words with their cursor, or lose the game. Each play of the game gives the user 3 lives. For each missed word, the user loses one life. If the user slices a "bomb" (the word bomb), they automatically lose all lives. If the user slices "money" (the word money), they gain $20. Money can be used in the shop to buy cool blades. A quest feature gives users goals to achieve while playing the game, such as "Slice Bread". Money is earned for completing quests, which can be used in the shop.
 
-- Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
-- Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
-- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation. 
-- A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) The video should be posted on YouTube or some other accessible video hosting service. Make sure your video is less than five minutes, but long enough to successfully  explain your project and show it in action. There is no minimum video length.
+## Additional Instructions
 
-## Project ideation
-Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have impact, either artistically, politically, or in terms of productivity. 
+Pre-existing Account Login Info:
+Username: testBlades
+Password: test
 
-### Deliverables
+## Technologies Used
+1. JavaScript - language for development
+2. MongoDB - persistent database
+3. Node.js - used for server-side development
+4. express - library used for server-side development
+5. Matter.js - physics library for game mechanics
+6. Canvas - library used for the generation of word sprite images and blade display.
 
-#### Form Team (due 9/25)
-Students are will work in teams of 3-5 students for the project; teams of two can be approved with the permission of the instructor. Working in teams should help enable you to build a good project in a limited amount of time.  Use the `#project-logistics` channel in Discord to pitch ideas for final projects and/or find fellow team members as needed.
+## Challenges
+Matter.js as a physics library is helpful, however for graphics library has much room for improvement. Figuring out layering the Matter.js canvas with the rest of our interface took a lot of trial, error, and time. Many bugs such as one object causing multiple collisions or invisible projectiles were difficult to find and solve as well. Matter.js also has poor documentation that involves minimal examples, so figuring out proper implementation what challenging. Error handling on the server-side, especially when referencing the database was very time-consuming, and getting cookies functional so that users will stay logged in was also difficult. Overall, the hardest part of development was integration between our separate branches: game functionality, UI, and server-side.
 
-Teams must be in place by end of day on Sunday, September 25th. If you have not identified a team at this point, you will be assigned a team. You will be given some class time on Monday to work on your proposal, but please plan on reserving additional time outside of class as needed.
+## Responsibilities
 
-#### Proposal (due 9/27) 
-Provide an outline of your project direction and the names of associated team members. 
-The outline should have enough detail so that staff can determine if it meets the minimum expectations, or if it goes too far to be reasonable by the deadline. Please include a general description of a project, and list of key technologies/libraries you plan on using (e.g. React, Three.js, Svelte, TypeScript etc.). Two to four paragraps should provide enough level of detail. Name the file proposal.md and submit a pull request by Tuesday, September 27th at 11:59 PM (end of day). Only one pull request is required per team.
+### Thea Caplan
+Worked on game functionality, implementing the Matter.js library to create the trajectories of the words. Implemented collision events for "slicing" words, money, and bombs. Implemented base blade designs and functionality. Implemented the randomized projectile launching. Implemented quest functionality.
 
-There are no other scheduled checkpoints for your project. 
+### Jade Logan
+Worked on menu interfaces and styling. Handled integrating the canvas elements with menus so that menu functionality is not impeded by the canvas and menu buttons and displays can interact with the game. Implemented functions to update different pages using user data. Implemented shop functionality.
 
-#### Turning in Your Project
-Submit a second PR on the final project repo to turn in your app and code. Again, only one pull request per team.
+### Brendan Mannion
+Worked on database and login functionality. Used MongoDB database to store tables for various parts of game such as logins, highscores, bladesOwned, and currency. Wrote the backend functions using NodeJS and helped connect them to front end. Also set up cookie-sessions to make sure users can stay logged in upon refresh or rejoining page.
 
-Deploy your app, in the form of a webpage, to Glitch/Heroku/Digital Ocean or some other service; it is critical that the application functions correctly wherever you post it.
-
-The README for your second pull request doesn’t need to be a formal report, but it should contain:
-
-1. A brief description of what you created, and a link to the project itself (two paragraphs of text)
-2. Any additional instructions that might be needed to fully use your project (login information etc.)
-3. An outline of the technologies you used and how you used them.
-4. What challenges you faced in completing the project.
-5. What each group member was responsible for designing / developing.
-6. A link to your project video.
-
-Think of 1,3, and 4 in particular in a similar vein to the design / tech achievements for A1—A4… make a case for why what you did was challenging and why your implementation deserves a grade of 100%.
-
-## FAQs
-
-- **Can I use XYZ framework?** You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript.
+## Project Video
+https://drive.google.com/file/d/1FVamZEz5-_DgfwHt2ZKbecVwq_R7SutQ/view?usp=sharing
