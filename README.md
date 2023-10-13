@@ -96,3 +96,7 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
     - Login page
     - Calendar page
     - Popups
+
+## Link to Application Video
+
+https://youtu.be/hYbzGkr2S50
