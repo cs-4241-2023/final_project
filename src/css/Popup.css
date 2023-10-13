@@ -31,7 +31,7 @@
     font-size: 30px;
 }
 
-.popupContent .closeButton {
+.closeButton {
     display:flex;
     align-self: flex-end;
     justify-content: center;

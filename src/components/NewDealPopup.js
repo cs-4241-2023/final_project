@@ -58,6 +58,7 @@ class NewDealPopup extends Component {
         {this.state.showPopup && (
           <div className="dealPopup">
             <div className="dealPopup-content">
+            <button className="closeButton" onClick={this.togglePopup}>X</button>
             <label htmlFor = "addRestaurant" >Restaurant*:  </label> 
             <input onChange={(c) => this.setState({restaurant: c.target.value})} type="text" id="addRestaurant" placeholder="Enter Restaurant"></input>
             <br></br>
@@ -76,7 +77,6 @@ class NewDealPopup extends Component {
             <label htmlFor = "addInfo" >Description:  </label> 
             <input onChange={(c) => this.setState({info: c.target.value})} type="text" id="addInfo" placeholder="Enter Description"></input>
             <button id="submitButton" onClick={() => this.addDeal()}>Submit</button>
-            <button className="closeButton" onClick={this.togglePopup}>Close</button>
             <p id = "Error" >Fields Marked With "*" are Required </p>
             </div>
           </div>
