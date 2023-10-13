@@ -2,8 +2,6 @@ import React from "react";
 import GroupCard from "./GroupCard.jsx";
 
 function GroupList({ groups, selectGroup, deleteGroup }) {
-    const handleDelete = (e) => {};
-
     return (
         <div className={"dashboard--group-list"}>
             {groups.map((group, index) => (
@@ -33,7 +31,8 @@ function GroupList({ groups, selectGroup, deleteGroup }) {
                         </button>
                     </div>
                 </div>
-            ))}
+            ))
+            }
         </div>
     );
 }

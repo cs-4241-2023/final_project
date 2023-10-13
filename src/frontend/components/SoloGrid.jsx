@@ -1,7 +1,7 @@
 import { get, set } from 'mongoose';
 import React, { useEffect, useState } from 'react';
 
-const SoloGrid = ({ days, times, groupAvailability, setGroupAvailability }) => {
+const SoloGrid = ({ days, times, groupAvailabilities, setGroupAvailabilities }) => {
     const id = localStorage.getItem("id");
     const username = localStorage.getItem("username");
     const groupId = localStorage.getItem("selectedGroupPage");
@@ -34,7 +34,35 @@ const SoloGrid = ({ days, times, groupAvailability, setGroupAvailability }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ newAvailability: availability })
             });
-            if (!response.ok) console.log("Update Failed")
+            if (!response.ok) console.log("Solo Update Failed")
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    function updateAvailability() {
+        const updatedAvailability = { ...availability };
+        console.log('updated solo', updatedAvailability)
+
+        selectedCells.forEach(({ day, hour }) => {
+            updatedAvailability[day][hour] = !updatedAvailability[day][hour];
+        });
+
+        setAvailability(updatedAvailability);
+        updateSoloAvailabilityDB() 
+    }
+
+    async function updateGroup() {
+        const tempAvailabilities = { ...groupAvailabilities }
+        tempAvailabilities[username] = availability
+        setGroupAvailabilities(tempAvailabilities)
+        try {
+            const response = await fetch(`/groups/${groupId}/userAvailabilities/${username}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newAvailability: availability })
+            });
+            if (!response.ok) console.log("Group Update Failed")
         } catch (e) {
             console.error(e)
         }
@@ -46,20 +74,6 @@ const SoloGrid = ({ days, times, groupAvailability, setGroupAvailability }) => {
         setAvailability(updatedAvailability);
         updateAvailability()
         updateGroup()
-    }
-
-    async function updateGroup () {
-        setGroupAvailability(availability)
-        try {
-            const response = await fetch(`/groups/${groupId}/availability`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ newAvailability: availability })
-            });
-            if (!response.ok) console.log("Update Failed")
-        } catch (e) {
-            console.error(e)
-        }
     }
 
     function handleMouseDown() {
@@ -86,17 +100,6 @@ const SoloGrid = ({ days, times, groupAvailability, setGroupAvailability }) => {
         updateAvailability();
     }
 
-    function updateAvailability() {
-        const updatedAvailability = { ...availability };
-        console.log('updated', updatedAvailability)
-
-        selectedCells.forEach(({ day, hour }) => {
-            updatedAvailability[day][hour] = !updatedAvailability[day][hour];
-        });
-
-        setAvailability(updatedAvailability);
-        updateSoloAvailabilityDB()
-    }
 
     return (
         <div className="timegrid">

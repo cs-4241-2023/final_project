@@ -12,8 +12,9 @@ function Dashboard() {
     const currUser = localStorage.getItem("username");
 
     useEffect(() => {
-        getGroupList().then(data => setGroups(data));
-        console.log('groups', groups)
+        getGroupList().then(data => {
+            setGroups(data)
+        });
     }, [hasDataChanged]);
 
     useEffect(() => {
@@ -48,8 +49,8 @@ function Dashboard() {
             alert("One or more fields are empty");
         } else {
             let groupUsers = groupForm.users.split(",").map(user => user.trim());
-            
-            if (JSON.stringify(groupUsers) === JSON.stringify([""])) groupUsers = []          
+            if (JSON.stringify(groupUsers) === JSON.stringify([""])) groupUsers = []
+
             if (groupUsers.indexOf(currUser) === -1) {
                 groupUsers.push(currUser);
             }
@@ -69,7 +70,7 @@ function Dashboard() {
                 meetingTimes: "TBD",
             });
 
-            const res = await (await fetch("/groups", {
+            const groupResponse = await (await fetch("/groups", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
@@ -79,7 +80,7 @@ function Dashboard() {
                 //attach availability to group
                 const availabilityRes = await fetch(`/users/${username}/availability`)
                 const availability = await availabilityRes.json();
-                await fetch(`/groups/${res._id}/availabilities`, {
+                await fetch(`/groups/${groupResponse._id}/userAvailabilities`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username: username, availability: availability })
@@ -89,7 +90,7 @@ function Dashboard() {
                 await fetch(`/users/${username}/groups`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ groupId: res._id })
+                    body: JSON.stringify({ groupId: groupResponse._id })
                 });
             }
 

@@ -10,7 +10,7 @@ const GroupPage = ({ group, selectGroup, deleteGroup, currentGroupID, user }) =>
         '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
     ];
 
-    const [groupAvailability, setGroupAvailability] = useState({});
+    const [groupAvailabilities, setGroupAvailabilities] = useState({});
 
     return (
         <div>
@@ -23,14 +23,14 @@ const GroupPage = ({ group, selectGroup, deleteGroup, currentGroupID, user }) =>
                 <SoloGrid
                     times={times}
                     days={days}
-                    groupAvailability={groupAvailability}
-                    setGroupAvailability={setGroupAvailability}
+                    groupAvailabilities={groupAvailabilities}
+                    setGroupAvailabilities={setGroupAvailabilities}
                 />
                 <GroupGrid
                     days={days}
                     times={times}
-                    groupAvailability={groupAvailability}
-                    setGroupAvailability={setGroupAvailability}
+                    groupAvailabilities={groupAvailabilities}
+                    setGroupAvailabilities={setGroupAvailabilities}
                 />
             </div>
         </div>

@@ -27,15 +27,29 @@ export const updateSoloAvailability = async (request, response) => {
 export const getGroupUserAvailabilities = async (request, response) => {
     const groupId = request.params.id;
     const group = await Group.findOne({ _id: groupId });
+    console.log(group)
     const userAvails = group.userAvailabilities;
-    console.log(userAvails)
     response.status(200).json(userAvails);
+}
+
+export const attachGroupUserAvailabilities = async (request, response) => {
+    const groupId = request.params.id;
+    const username = request.body.username;
+    const availability = request.body.availability;
+    const group = await Group.findOne({ _id: groupId });
+    const userAvails = group.userAvailabilities;
+    userAvails[username] = availability;
+    await group.updateOne({ userAvailabilities: userAvails });
+    response.status(200).end();
 }
 
 export const updateGroupUserAvailabilities = async (request, response) => {
     const groupId = request.params.id;
+    const username = request.params.username;
     const newAvailability = request.body.newAvailability;
     const group = await Group.findOne({ _id: groupId });
-    await group.updateOne({ availability: newAvailability });
+    const userAvails = group.userAvailabilities;
+    userAvails[username] = newAvailability;
+    await group.updateOne({ userAvailabilities: userAvails });
     response.status(200).end();
 }
