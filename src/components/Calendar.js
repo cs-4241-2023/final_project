@@ -58,23 +58,28 @@ export default class Calendar extends React.Component{
                     break;
 
             }
-            let element = <CalendarDay weekLabel={label} key={"w"+i} />
+            let element = <CalendarDay weekLabel={label} key={"w"+i} deals={[]} />
             list.push(element);
         }
         let flag = false;
         for(let i = 0; i < this.days; i++){
-
             flag = false;
+            let dayDeals = [];
             for(let j = 0; j < deals.length; j++){
                 if(dayList[j] === (i+1).toString()){
-                    let element = <CalendarDay key={i} isDeal="true" dayOfMonth={i+1} restaurant={deals[j].restaurant} value={deals[j].value} endDate={deals[j].end} info={deals[j].info} />
-                    list.push(element);
+                    let d = {restaurant: deals[j].restaurant, value: deals[j].value, endDate: deals[j].end, info: deals[j].info};
+                    dayDeals.push(d);
                     flag = true;
                 }
+                
             }
             if(!flag){
-                let e = <CalendarDay key={i} dayOfMonth={i+1} />
+                let e = <CalendarDay key={i} dayOfMonth={i+1} deals={[]} />
                 list.push(e)
+            }
+            else{
+                let element = <CalendarDay key={i} isDeal="true" dayOfMonth={i+1} deals={dayDeals} />
+                list.push(element)
             }
         }
         this.setState({deals : list})

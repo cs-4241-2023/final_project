@@ -23,20 +23,19 @@ class Popup extends Component {
       <div>
         <div className="popupDiv" onClick={this.togglePopup}>
           <h1>{this.restaurant}</h1>
-          <h2>{this.value}$</h2>
-          <h3>{this.info}</h3>
-          <p>Valid through {this.end} </p>
+          <p>Valid through <b>{this.end}</b></p>
 
         </div>
         {this.state.showPopup && (
           <div className="popup">
             <div className="popup-content">
+              <button className="closeButton" onClick={this.togglePopup}>X</button>
               <h2>Deal for {this.restaurant}</h2>
               <p>{this.info}</p>
               <p>{this.value}$</p>
               <p>Deal ends on {this.end}</p>
               
-              <button className="closeButton" onClick={this.togglePopup}>Close</button>
+              
             </div>
           </div>
         )}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import '../css/Calendar.css'
 import CalendarDeal from './CalendarDeal'
 
@@ -7,19 +7,30 @@ export default class CalendarDay extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            //set state
+            calDeals: []
         }
-        this.restaurant = props.restaurant
-        this.endDate = props.endDate
-        this.value = props.value
-        this.info = props.info
+        this.deals = props.deals
         this.isDeal = props.isDeal
         this.weekLabel = props.weekLabel
         this.dayOfMonth = props.dayOfMonth;
     }
 
+    componentDidMount(){
+        this.loadDayDeals()
+    }
+
+    loadDayDeals(){
+        let list = [];
+        for(let i = 0; i < this.deals.length; i++){
+            let cDeal = <CalendarDeal restaurant={this.deals[i].restaurant} value={this.deals[i].value} endDate={this.deals[i].endDate} info={this.deals[i].info} key={i} />
+            list.push(cDeal);
+        }
+        this.setState({calDeals: list});
+    }
+
     render() {
 
+        let div = React.createElement('div', {className: "dayDealContainer"}, this.state.calDeals)
         if(this.weekLabel){
             return(
                 <div className="dayLabelContainer">
@@ -31,7 +42,7 @@ export default class CalendarDay extends React.Component{
             return(
                 <div className="dayContainer">
                     <p className="dayOfMonth">{this.dayOfMonth}</p>
-                    <CalendarDeal restaurant={this.restaurant} deal={this.value} endDate={this.endDate} info={this.info}/>
+                    {div}
                 </div>
             )
         }
