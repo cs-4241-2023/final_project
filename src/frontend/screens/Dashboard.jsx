@@ -44,13 +44,16 @@ function Dashboard() {
     }
 
     async function createGroup(groupForm) {
-        if (!groupForm.name || !groupForm.description || !groupForm.users) {
+        if (!groupForm.name) {
             alert("One or more fields are empty");
         } else {
-            const groupUsers = groupForm.users.split(",").map(user => user.trim());
+            let groupUsers = groupForm.users.split(",").map(user => user.trim());
+            
+            if (JSON.stringify(groupUsers) === JSON.stringify([""])) groupUsers = []          
             if (groupUsers.indexOf(currUser) === -1) {
                 groupUsers.push(currUser);
             }
+
             for (const username of groupUsers) {
                 let res = await fetch(`/users/${username}`);
                 if (res.status === 404) {
@@ -72,11 +75,21 @@ function Dashboard() {
                 body: groupJSON
             })).json();
 
-            for (const user of groupUsers) {
-                await fetch("/addUserGroup", {
+            for (const username of groupUsers) {
+                //attach availability to group
+                const availabilityRes = await fetch(`/users/${username}/availability`)
+                const availability = await availabilityRes.json();
+                await fetch(`/groups/${res._id}/availabilities`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ user: user, groupID: res._id })
+                    body: JSON.stringify({ username: username, availability: availability })
+                });
+
+                //attach group to user
+                await fetch(`/users/${username}/groups`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ groupId: res._id })
                 });
             }
 

@@ -1,8 +1,10 @@
 import { get, set } from 'mongoose';
 import React, { useEffect, useState } from 'react';
 
-const SoloGrid = ({ username, days, times, currentGroupID }) => {
+const SoloGrid = ({ days, times, groupAvailability, setGroupAvailability }) => {
     const id = localStorage.getItem("id");
+    const username = localStorage.getItem("username");
+    const groupId = localStorage.getItem("selectedGroupPage");
 
     const [availability, setAvailability] = useState({});
     const [isSelecting, setSelecting] = useState(false); // Track whether selecting
@@ -16,9 +18,7 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
 
     async function getInitialAvailability() {
         try {
-            const response = await fetch(`/users/${id}/availability`, {
-                method: "GET",
-            });
+            const response = await fetch(`/users/${username}/availability`);
             if (!response.ok) console.error("404: Availability Not Found");
             const data = await response.json();
             return data;
@@ -27,7 +27,7 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
         }
     }
 
-    async function updateUserAvailability() {
+    async function updateSoloAvailabilityDB() {
         try {
             const response = await fetch(`/users/${id}/availability`, {
                 method: "PUT",
@@ -44,6 +44,22 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
         const updatedAvailability = { ...availability };
         updatedAvailability[day][hour] = !updatedAvailability[day][hour];
         setAvailability(updatedAvailability);
+        updateAvailability()
+        updateGroup()
+    }
+
+    async function updateGroup () {
+        setGroupAvailability(availability)
+        try {
+            const response = await fetch(`/groups/${groupId}/availability`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newAvailability: availability })
+            });
+            if (!response.ok) console.log("Update Failed")
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     function handleMouseDown() {
@@ -53,7 +69,8 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
 
     function handleMouseUp() {
         setSelecting(false)
-        updateUserAvailability()
+        updateSoloAvailabilityDB()
+        updateGroup()
     }
 
     function handleMouseOver(event) {
@@ -63,22 +80,22 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
         console.log("cell", cell)
         const [day, hour] = event.target.id.split('-');
 
-        // Toggle availability
         selectedCells.push({ day, hour }); // Add the cell to selected cells
         console.log("selectedCells", selectedCells)
 
-        updateAvailability(selectedCells);
+        updateAvailability();
     }
 
-    function updateAvailability(selectedCells) {
+    function updateAvailability() {
         const updatedAvailability = { ...availability };
         console.log('updated', updatedAvailability)
-        // Toggle availability for selected cells
+
         selectedCells.forEach(({ day, hour }) => {
             updatedAvailability[day][hour] = !updatedAvailability[day][hour];
         });
 
         setAvailability(updatedAvailability);
+        updateSoloAvailabilityDB()
     }
 
     return (

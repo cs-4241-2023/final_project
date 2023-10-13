@@ -1,30 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const GroupGrid = ({ days, times }) => {
-    
-    const availability = days.reduce((availability, day) => {
-        availability[day] = {};
-        
-        times.forEach((time) => {
-            availability[day][time] = false; // Initialize to false for each day and time slot
-        });
-        
-        return availability;
-    }, {});
-    
-    // const id = groupId;
-    // async function getGroupAvailability() {
-    //     try {
-    //         const response = await fetch(`/groups/${id}/availability`, {
-    //             method: "GET",
-    //         });
-    //         if (!response.ok) console.log("404: Availability Not Found");
-    //         const data = await response.json();
-    //         return data;
-    //     } catch (e) {
-    //         console.error(e)
-    //     }
-    // }
+const GroupGrid = ({ days, times, setGroupAvailability, groupAvailability }) => {
+    const id = localStorage.getItem('selectedGroupPage');
+
+    async function getGroupAvailability() {
+        try {
+            const response = await fetch(`/groups/${id}/availability`, {
+                method: "GET",
+            });
+            if (!response.ok) console.log("404: Availability Not Found");
+            const data = await response.json();
+            return data;
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        getGroupAvailability().then(data => setGroupAvailability(data))
+    }, [])
 
     return (
         <div className="group-grid timegrid">
@@ -43,7 +37,7 @@ const GroupGrid = ({ days, times }) => {
                             <div
                                 key={`${day}-${hour}`}
                                 id={`${day}-${hour}`}
-                                className={`availability-cell ${availability[day]?.[hour] ? 'available' : 'unavailable'}`}
+                                className={`availability-cell ${groupAvailability[day]?.[hour] ? 'available' : 'unavailable'}`}
                             />
                         ))}
                     </React.Fragment>

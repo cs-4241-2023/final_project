@@ -3,10 +3,12 @@ import {
     getSoloAvailability,
     updateSoloAvailability,
     getGroupAvailability,
-    updateGroupAvailability
+    updateGroupAvailability,
+    getSoloAvailabilityByUsername
 } from "../controllers/gridController.js";
 const router = express.Router();
 
+router.get("/users/:username/availability", getSoloAvailabilityByUsername);
 router.get("/users/:id/availability", getSoloAvailability);
 router.put("/users/:id/availability", updateSoloAvailability);
 router.get("/groups/:id/availability", getGroupAvailability);

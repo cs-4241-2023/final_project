@@ -20,10 +20,18 @@ const groupSchema = new mongoose.Schema({
         type: [String],
         default: [],
     },
-    availability: {
-        type: Object,
-        default: defaultAvailability
-    },
+    userAvailabilities: [
+        {
+            user: String,
+            availability: {
+                type: Map,
+                of: {
+                    type: Map,
+                    of: Boolean,
+                },
+            },
+        }
+    ],
     meetingTimes: {
         type: String,
         default: "TBD",

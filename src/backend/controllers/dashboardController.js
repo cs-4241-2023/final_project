@@ -24,16 +24,15 @@ export const createGroup = async (request, response) => {
     const { name, description, users } = request.body;
 
     try {
-        // Create a new group using Mongoose model
         const newGroup = new Group({
             name,
             description,
             users
         });
 
-        let r = await newGroup.save();
+        let res = await newGroup.save();
 
-        response.status(200).end(JSON.stringify({ _id: r._id }));
+        response.status(200).end(JSON.stringify({ _id: res._id }));
     } catch (error) {
         console.error("An error occurred while adding a group:", error);
         response.status(500).end();
@@ -70,14 +69,44 @@ export const getUserByUsername = async (request, response) => {
     }
 };
 
-export const userGroupRef = async (request, response) => {
-    let username = request.body.user;
-    let groupRef = request.body.groupID;
+export const attachAvailability = async (request, response) => {
+    const groupId = request.params.id;
+    const username = request.body.user;
+    const availability = request.body.availability;
 
-    const user = await User.findOne({ username: username });
+    try {
+        const updatedGroup = await Group.findByIdAndUpdate(
+            groupId,
+            {
+                $push: {
+                    userAvailabilities: {
+                        user: username,
+                        availability: availability,
+                    },
+                },
+            },
+            { new: true }
+        );
+
+        if (!updatedGroup) {
+            response.status(404).json({ message: "Group not found" });
+        }
+
+        response.status(200).end();
+    } catch (e) {
+        // console.error("An error occurred while attaching availability:", e);
+        response.status(500).end();
+    }
+}
+
+export const attachGroupToUser = async (request, response) => {
+    let username = request.params.username;
+    let groupID = request.body.groupId;
+
+    const user = await User.findOne({username: username});
     let userGroups = user.groups;
-    userGroups.push(new ObjectId(groupRef));
-    await user.updateOne({ groups: userGroups });
+    userGroups.push(new ObjectId(groupID));
+    await user.updateOne({groups: userGroups})
 
     response.status(200).end();
-};
+}

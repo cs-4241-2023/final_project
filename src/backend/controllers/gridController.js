@@ -2,8 +2,16 @@ import Group from "../models/Group.js";
 import User from "../models/User.js";
 
 export const getSoloAvailability = async (request, response) => {
-    const userId = request.params.id;
-    const user = await User.findOne({ _id: userId });
+    const id = request.params.id;
+    const user = await User.findOne({ _id: id });
+    const availability = user.availability;
+    console.log(availability)
+    response.status(200).json(availability);
+}
+
+export const getSoloAvailabilityByUsername = async (request, response) => {
+    const username = request.params.username;
+    const user = await User.findOne({ username: username });
     const availability = user.availability;
     response.status(200).json(availability);
 }
