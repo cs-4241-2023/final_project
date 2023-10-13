@@ -28,24 +28,23 @@ class NewDealPopup extends Component {
     let deal = {start: this.state.start, location: this.state.location, restaurant: this.state.restaurant, info: this.state.info, end: this.state.end, value: this.state.value};
     if(this.state.value !=="" && this.state.start !== "" && this.state.location !=="" &&
      this.state.end !=="" && this.state.restaurant !==""){
-    Filled = true;
+      Filled = true;
     }
-    const res = await fetch(`${domain}/addDeal`, {
-        method: 'post',
-        body: JSON.stringify(deal),
-        headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}
-    }).then(() => {
-      if(Filled){
+
+    if(Filled){
+      const res = await fetch(`${domain}/addDeal`, {
+          method: 'post',
+          body: JSON.stringify(deal),
+          headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}
+      }).then(() => {
         errorMessage.style.color = "white";
         window.location.replace("/dealPage");
-      } else{
-       
-        errorMessage.textContent = "Please Fill Out All Required Fields (*)";
-        errorMessage.style.color = "red";
-      }
-
-        
-    })
+      }) 
+    }
+    else{
+    errorMessage.textContent = "Please Fill Out All Required Fields (*)";
+    errorMessage.style.color = "red";
+    } 
   }
 
   render() {
