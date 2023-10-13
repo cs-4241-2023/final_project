@@ -1,0 +1,18 @@
+.container {
+    position: relative; /* This allows absolute positioning of child elements */
+    height: 50px; /* You can adjust this based on your needs */
+    width: 100%; /* Taking the full width */
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -26px); /* Centers both vertically and horizontally */
+}
+
+.right {
+    position: absolute;
+    right: 10px;
+    transform: translateY(16px); /* Centers vertically */
+}
