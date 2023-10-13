@@ -14,7 +14,7 @@ kaboom({
 loadSprite("puffle-red", "../sprites/puffle-red.png")
 loadSprite("puffle-blue", "../sprites/puffle-blue.png")
 loadSprite("puffle-green", "../sprites/puffle-green.png")
-loadSprite("puffle-black", "../sprites/puffle-black.png")
+loadSprite("puffle-purple", "../sprites/puffle-purple.png")
 
 window.onload = () => {
 	go("lobby")

@@ -48,7 +48,7 @@ scene("puffle_store", async () => {
         { sprite: "puffle-red.png", price: 100 },
         { sprite: "puffle-green.png", price: 200 },
         { sprite: "puffle-blue.png", price: 300 },
-        { sprite: "puffle-black.png", price: 400 }
+        { sprite: "puffle-purple.png", price: 400 }
     ]
 
     for (let i = 0; i < puffleSprites.length; i++) {
