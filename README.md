@@ -63,11 +63,20 @@ The calendar page is a place where users can eaisily visualize the deals that ar
 We used the ReactJS framework in the frontend and a NodeJS server to query the persistent NoSQL Mongo database in the backend to store user and deal data. Our backend server connects to a single database and accesses two collections, one to store data about users, and one to store data about deals. We utilized the component-based structure of the React framework to abstract information about deals into components, making it easy to reuse and edit them as the server data changes. This can be observed on the calendar and deal pages.
 
 ## Challenges we Faced: 
-- One of the main challenges we faced during this project was getting it set up. We had originally planned to implement the NextJS framework into this project. However, our group faced many roadblocks focused around page routing and creating a database connection. Our group spent multiple days trying to resolve these issues and eventually decided to scrap the Next framework and just use pure React.
-- Another challenge our group faced was in the designing of the calendar page. We had originally designed it to have some visual display for each day that a deal was active, but due to time constraints, we were unable to implement that. 
+- One of the main challenges we faced during this project was getting it set up. We had originally planned to implement the NextJS framework into this project. However, our group faced many roadblocks focused around page routing and creating a database connection. Our group spent multiple days trying to resolve these issues and eventually decided to scrap the Next framework and just use pure React.- Another challenge our group faced was in the designing of the calendar page. We had originally designed it to have some visual display for each day that a deal was active, but due to time constraints, we were unable to implement that. 
+
 - Our group faced challenges in parsing data sent from the backend server. It took us multiple hours after getting the server set up properly to get the data from our backend server successfully loaded and rendered on the page.
 - Our group also had a challenging time figuring out how to have elements change their value when the corresponding variable in the program changes. We eventually learned that the componentDidMount() function runs a function and updates all elements in the Virtual DOM when the this.setState method is called within it.
 
+##Ethan Catania - 
+Added Get function and mongoose schema for deal.
+Created Deal and Deal Page Components. 
+Styled Popup pages
+Deal styling
+Button for switching between deal and login
+inputs for adding deals.
+Error handling for
+Deal Page add and delete functions.
 ## Group Contributions
 ### Tucker Raymond
 - Created initial connection to MongoDB using Mongoose

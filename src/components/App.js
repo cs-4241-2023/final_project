@@ -21,9 +21,13 @@ function App() {
       method: "post",
       headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
       body: JSON.stringify(user)
+      
       })
+      
       if(result.status === 400){
         setEr("This user already exists");
+      } else{
+        setEr(`New User ${user.username}`);
       }
     }
     resetInputs()
