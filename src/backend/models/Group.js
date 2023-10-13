@@ -1,5 +1,83 @@
 import mongoose from "mongoose";
 
+export const defaultAvailibility = {
+    Monday: {
+        '8:00 AM': false,
+        '9:00 AM': false,
+        '10:00 AM': false,
+        '11:00 AM': false,
+        '12:00 PM': false,
+        '1:00 PM': false,
+        '2:000 PM': false,
+        '3:00 PM': false,
+        '4:00 PM': false,
+        '5:00 PM': false,
+        '6:00 PM': false,
+        '7:00 PM': false,
+        '8:00 PM': false
+    },
+    Tuesday: {
+        '8:00 AM': false,
+        '9:00 AM': false,
+        '10:00 AM': false,
+        '11:00 AM': false,
+        '12:00 PM': false,
+        '1:00 PM': false,
+        '2:000 PM': false,
+        '3:00 PM': false,
+        '4:00 PM': false,
+        '5:00 PM': false,
+        '6:00 PM': false,
+        '7:00 PM': false,
+        '8:00 PM': false
+    },
+    Wednesday: {
+        '8:00 AM': false,
+        '9:00 AM': false,
+        '10:00 AM': false,
+        '11:00 AM': false,
+        '12:00 PM': false,
+        '1:00 PM': false,
+        '2:000 PM': false,
+        '3:00 PM': false,
+        '4:00 PM': false,
+        '5:00 PM': false,
+        '6:00 PM': false,
+        '7:00 PM': false,
+        '8:00 PM': false
+    },
+    Thursday: {
+        '8:00 AM': false,
+        '9:00 AM': false,
+        '10:00 AM': false,
+        '11:00 AM': false,
+        '12:00 PM': false,
+        '1:00 PM': false,
+        '2:000 PM': false,
+        '3:00 PM': false,
+        '4:00 PM': false,
+        '5:00 PM': false,
+        '6:00 PM': false,
+        '7:00 PM': false,
+        '8:00 PM': false
+    },
+    Friday: {
+        '8:00 AM': false,
+        '9:00 AM': false,
+        '10:00 AM': false,
+        '11:00 AM': false,
+        '12:00 PM': false,
+        '1:00 PM': false,
+        '2:000 PM': false,
+        '3:00 PM': false,
+        '4:00 PM': false,
+        '5:00 PM': false,
+        '6:00 PM': false,
+        '7:00 PM': false,
+        '8:00 PM': false
+    }
+}
+
 const groupSchema = new mongoose.Schema({
     groupName: {
         type: String,
@@ -14,84 +92,7 @@ const groupSchema = new mongoose.Schema({
     },
     currentAvailibility: {
         type: Object,
-        default: {
-            Monday: {
-                '8:00 AM': true,
-                '9:00 AM': true,
-                '10:00 AM': true,
-                '11:00 AM': true,
-                '12:00 PM': true,
-                '1:00 PM': true,
-                '2:000 PM': true,
-                '3:00 PM': true,
-                '4:00 PM': true,
-                '5:00 PM': true,
-                '6:00 PM': true,
-                '7:00 PM': true,
-                '8:00 PM': true
-            },
-            Tuesday: {
-                '8:00 AM': true,
-                '9:00 AM': true,
-                '10:00 AM': true,
-                '11:00 AM': true,
-                '12:00 PM': true,
-                '1:00 PM': true,
-                '2:000 PM': true,
-                '3:00 PM': true,
-                '4:00 PM': true,
-                '5:00 PM': true,
-                '6:00 PM': true,
-                '7:00 PM': true,
-                '8:00 PM': true
-            },
-            Wednesday: {
-                '8:00 AM': true,
-                '9:00 AM': true,
-                '10:00 AM': true,
-                '11:00 AM': true,
-                '12:00 PM': true,
-                '1:00 PM': true,
-                '2:000 PM': true,
-                '3:00 PM': true,
-                '4:00 PM': true,
-                '5:00 PM': true,
-                '6:00 PM': true,
-                '7:00 PM': true,
-                '8:00 PM': true
-            },
-            Thursday: {
-                '8:00 AM': true,
-                '9:00 AM': true,
-                '10:00 AM': true,
-                '11:00 AM': true,
-                '12:00 PM': true,
-                '1:00 PM': true,
-                '2:000 PM': true,
-                '3:00 PM': true,
-                '4:00 PM': true,
-                '5:00 PM': true,
-                '6:00 PM': true,
-                '7:00 PM': true,
-                '8:00 PM': true
-            },
-            Friday: {
-                '8:00 AM': true,
-                '9:00 AM': true,
-                '10:00 AM': true,
-                '11:00 AM': true,
-                '12:00 PM': true,
-                '1:00 PM': true,
-                '2:000 PM': true,
-                '3:00 PM': true,
-                '4:00 PM': true,
-                '5:00 PM': true,
-                '6:00 PM': true,
-                '7:00 PM': true,
-                '8:00 PM': true
-            }
-        }
-
+        default: defaultAvailibility
     },
     meetingTimes: {
         type: String,
@@ -99,5 +100,6 @@ const groupSchema = new mongoose.Schema({
 });
 
 const Group = mongoose.model("Group", groupSchema, "Groups");
-
 export default Group;
+
+
