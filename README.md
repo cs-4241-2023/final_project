@@ -46,7 +46,11 @@ to share data. This required us to add a field to the `User` collection that was
 references to the groups that they were in. When a group is created, all specified users will gain a reference
 to the newly created group. When the dashboard is rendered, only groups with the ids specified in the current user's
 document are actually rendered to the screen. This implementation required lot of trial and error to get working. 
-- **Implementing the time grid:** TODO
+- **Implementing the time grid:** The time grid was a challenge to implement because of the amount of state that was 
+needed to overlap multiple time grids. When a group was created, we had to store each and every different grid in
+the database then compare them client side. Clientside functionality works where it shows all times that any user 
+within a group was available. This could extend into showing different colored cells depending on how many users 
+are free at a certain time. 
 
 ## Group Member Contributions
 ### Samuel Karkache: Dashboard implementation, database, availability
@@ -55,4 +59,4 @@ document are actually rendered to the screen. This implementation required lot o
 ### Sameer Desai: Dashboard, Login, CSS Styling
 
 ## Project Video
-_link_
+https://youtu.be/liwq66um0gs?si=xdtLVDX97r3x6gPs

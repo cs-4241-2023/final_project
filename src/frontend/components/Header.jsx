@@ -15,6 +15,7 @@ function Header() {
                 type={"submit"}
                 onClick={(e) => {
                     e.preventDefault();
+                    localStorage.removeItem("currentGroupPage")
                     fetch("/unAuth", {
                         method: "POST",
                         headers: {
