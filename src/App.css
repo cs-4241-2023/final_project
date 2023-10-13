@@ -1,0 +1,19 @@
+.chat {
+  width: 50%;
+  gap: 10px 10px;
+  grid-template-columns: auto auto;
+}
+
+.chat_name {
+  grid-column: 1;
+  margin: 5px;
+}
+
+.close_button {
+  margin: 5px;
+  grid-column: 2;
+}
+
+.chat_elem {
+  grid-column: 1 / span 2;
+}
