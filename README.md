@@ -1,49 +1,40 @@
-# Final Project
-*Due October 13th (final day of the term)*
+<h1>
+   CS4241 Final Project: Lookout
+</h1>
+Aashi Mehta, Sophia Silkaitis, Emre Sabaz
 
-For your final project, you'll implement a web application that exhibits understanding of the course materials. 
-This project should provide an opportunity to both be creative and to pursue individual research and learning goals.
+## Video Link
 
-## General description
-Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material:
+[Watch our project video here](https://youtu.be/36YBfp1Xlbg)
 
-- Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
-- Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
-- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation. 
-- A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) The video should be posted on YouTube or some other accessible video hosting service. Make sure your video is less than five minutes, but long enough to successfully  explain your project and show it in action. There is no minimum video length.
+## Project Link
 
-## Project ideation
-Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have impact, either artistically, politically, or in terms of productivity. 
+[Lookout Project](https://lookout-project.glitch.me)
 
-### Deliverables
+https://lookout-project.glitch.me 
+This project is a MERN (MongoDB, Express, React, Node.js) stack web application designed to replicate the functionality of Outlook calendar. 
+Users can either log in with their existing credentials or create a new account if they don't already have one. 
+User passwords are hashed using the bcrypt library. 
+All user-related data, including usernames, hashed passwords, and calendar events, are stored in a MongoDB database.
+Users can modify their events by clicking the "Modify" button and then making changes directly from the submission box.
+ One of the primary challenges revolved around ensuring that changes made in the frontend were consistently reflected in the backend. This required careful synchronization and communication between the frontend and backend components of the application.
 
-#### Form Team (due 9/25)
-Students are will work in teams of 3-5 students for the project; teams of two can be approved with the permission of the instructor. Working in teams should help enable you to build a good project in a limited amount of time.  Use the `#project-logistics` channel in Discord to pitch ideas for final projects and/or find fellow team members as needed.
+A main difficulty in the front end was implementing the calendar using react-big-calendar import. It's a huge import and the docs for it can be a bit confusing. It was challenging figuring out how to implement it and which each part of it meant. 
+After learning, we also had to figure it out and undertand it enough to make our own code to add, modify, and delete that would still update the calendar. It was really helpful for future projects to learn how to take existing structures and learn how to properly understand them to adjust and add to them. 
+One specific area where we faced difficulties involved deleting items from the server. We had multiple sources for entry, as well as we all had differences in how we write code. We had to combine and learn each others' coding styles, and that's where a lot of the issues with the deleting from the server came in. We fiddled with ids and obejcts and different remove methods between sending just an id to the server and also an object. We also implemented cookies at one point (which is what caused it to crash when we tried to present in class) but ultimately found the issue after a couple of hours worth of debugging.
+With deleting items, our debugger just would not work for this project. Sophia used it a lot in A3 and had experience and so we tried it multiple times and could not access any information in the backend. We had to debug any backend issues with guess and check and also to logically think through all possible issues until we finally got a solution.
+Discord OAuth2.0. Given the time frame and the other challenges we faced ensuring that the frontend was making proper requests to the backend, 
+we were unable to implement this. 
 
-Teams must be in place by end of day on Sunday, September 25th. If you have not identified a team at this point, you will be assigned a team. You will be given some class time on Monday to work on your proposal, but please plan on reserving additional time outside of class as needed.
+As of the evening of 10/12, the project was fully functional. However, when the team met to create the assignment recording, the Glitch project had been suspended.
+We were able to download the code and reupload it, however, some of the functionalities broke in this process. We troubleshooted them and solved them, to our knowledge. 
+We have attached a Glitch screenshot as proof of this issue, but if there are some issues with the project, then it is likely due to having to download and reupload it to Glitch.
 
-#### Proposal (due 9/27) 
-Provide an outline of your project direction and the names of associated team members. 
-The outline should have enough detail so that staff can determine if it meets the minimum expectations, or if it goes too far to be reasonable by the deadline. Please include a general description of a project, and list of key technologies/libraries you plan on using (e.g. React, Three.js, Svelte, TypeScript etc.). Two to four paragraps should provide enough level of detail. Name the file proposal.md and submit a pull request by Tuesday, September 27th at 11:59 PM (end of day). Only one pull request is required per team.
+What each person was responsible for: 
+- Sophia: frontend (calendar.jsx) and troubleshooting
+- Emre: frontend (login.jsx) and troubleshooting
+- Aashi: backend (server.js) and troubleshooting
 
-There are no other scheduled checkpoints for your project. 
 
-#### Turning in Your Project
-Submit a second PR on the final project repo to turn in your app and code. Again, only one pull request per team.
 
-Deploy your app, in the form of a webpage, to Glitch/Heroku/Digital Ocean or some other service; it is critical that the application functions correctly wherever you post it.
 
-The README for your second pull request doesn’t need to be a formal report, but it should contain:
-
-1. A brief description of what you created, and a link to the project itself (two paragraphs of text)
-2. Any additional instructions that might be needed to fully use your project (login information etc.)
-3. An outline of the technologies you used and how you used them.
-4. What challenges you faced in completing the project.
-5. What each group member was responsible for designing / developing.
-6. A link to your project video.
-
-Think of 1,3, and 4 in particular in a similar vein to the design / tech achievements for A1—A4… make a case for why what you did was challenging and why your implementation deserves a grade of 100%.
-
-## FAQs
-
-- **Can I use XYZ framework?** You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript.

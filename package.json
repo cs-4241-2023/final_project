@@ -1,0 +1,50 @@
+{
+  "name": "Better25Live",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A simple React app built with Vite and React.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:frontend": "vite build",
+    "dev:frontend": "vite",
+    "server": "node server.js"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.0.4",
+    "axios": "^0.x.x",
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.2",
+    "bson": "^5.5.0",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "moment": "^2.29.4",
+    "mongodb": "^5.9.0",
+    "mongoose": "^7.6.1",
+    "react": "^18.2.0",
+    "react-big-calendar": "^1.8.4",
+    "react-bootstrap": "^2.9.0",
+    "react-cookie": "^6.1.1",
+    "react-dom": "^18.2.0",
+    "request": "^2.88.2",
+    "uuid": "^9.0.1",
+    "vite": "^4.4.11",
+    "vite-express": "^0.10.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead"
+  ],
+  "engines": {
+    "node": "14.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/glitch-blank-react"
+  },
+  "glitch": {
+    "projectType": "generated_static"
+  }
+}
