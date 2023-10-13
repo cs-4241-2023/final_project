@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="task,date,deadline,creation,project,planning,todo">
+	<meta name="viewport" content="task,date,deadline,creation,project,planning,todo,width=device-width,initial-scale=1" >
+	<link rel="shortcut icon" href="#">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+	<script src="login.js" defer></script>
+	<title>Login</title>
+</head>
+<body>
+<div class="login">
+	<h1>Login</h1>
+	<form action='/login' method='POST'>
+		<label for="Username">Username: </label>
+		<input type='text' placeholder="Username" id='Username' name='Username' required="required">
+		<label for="Password">Password: </label>
+		<input type='password' placeholder="Password" id='Password' name='Password' required="required">
+		<button class="login-button">Login</button>
+	</form>
+	<button class="sign-up" onclick="GoToPage('createAccount.html')">Create an Account</button>
+</div>
+</body>
+</html>
