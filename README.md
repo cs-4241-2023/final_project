@@ -70,7 +70,7 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
 
 ## Group Contributions
 
-### Ethan Catania - 
+### Ethan Catania
 - Added Get function and mongoose schema for deal.
 - Created Deal and Deal Page Components. 
 - Styled Popup pages
@@ -90,3 +90,9 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
 - Added button to delete deals from the database in the deal page and make the deals scrollable
 - Allow multiple deals to appear on the same day in the calendar page
 - Some button styling
+
+### Nandita Kumar
+- Misc. styling and formatting of 
+    - Login page
+    - Calendar page
+    - Popups
