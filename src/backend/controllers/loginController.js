@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import User from "../models/User.js";
 
 // Login controller
@@ -10,7 +9,10 @@ export const loginUser = async (req, res) => {
         if ((user && password === user.password) || req.session.isLoggedIn) {
             req.session.user = username;
             req.session.isLoggedIn = true;
-            res.status(200).end();
+
+            const id = { userID: user._id.toString() };
+
+            res.status(200).json(id);
         } else {
             req.session.user = undefined;
             req.session.isLoggedIn = false;
@@ -29,7 +31,6 @@ export const signupUser = async (req, res) => {
         const existingUser = await User.findOne({ username });
 
         if (!existingUser) {
-            // const hashedPassword = bcrypt.hashSync(password, 10);
             const newUser = new User({
                 username,
                 password,
@@ -49,7 +50,7 @@ export const signupUser = async (req, res) => {
 };
 
 export const authStatus = (req, res) => {
-    if(req.session.isLoggedIn) {
+    if (req.session.isLoggedIn) {
         res.status(200).end();
     } else {
         res.status(401).end();

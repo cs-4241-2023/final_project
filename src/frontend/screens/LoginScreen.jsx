@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Signup from "../components/Signup";
 import Login from "../components/Login";
 
-function LoginScreen(props) {
-    const { setLoggedIn } = props;
+function LoginScreen({ setLoggedIn }) {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [signUp, setSignUp] = useState(false);
     const [headerMessage, setHeaderMessage] = useState("Login To RendezView");
 
-    React.useEffect(() => {
+    useEffect(() => {
         fetch("/auth", {
             method: "GET",
             headers: {

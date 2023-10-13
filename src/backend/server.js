@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import loginRoutes from "./routes/loginRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import gridRoutes from "./routes/gridRoutes.js"
 
 const app = express();
 env.config();
@@ -14,8 +15,8 @@ const MONGO_USER = process.env.MONGO_USER;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 
 mongoose.connect(
-    `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}`, {dbName: 'RendezViewDatabase'}
-).then(r => console.log("Mongoose Connected"));
+    `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}`, { dbName: 'RendezViewDatabase' }
+)
 
 const db = mongoose.connection;
 
@@ -26,6 +27,7 @@ db.on("error", (error) => {
 db.once("open", () => {
     console.log("Connected to MongoDB:", mongoose.connection.db.databaseName);
 });
+
 
 app.use(express.json());
 app.use(
@@ -42,5 +44,6 @@ app.use((req, res, next) => {
 
 app.use("/", loginRoutes);
 app.use("/", dashboardRoutes);
+app.use("/", gridRoutes)
 
 ViteExpress.listen(app, parseInt(process.env.PORT));

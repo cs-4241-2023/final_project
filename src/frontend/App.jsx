@@ -7,7 +7,12 @@ function App() {
 
     return (
         <>
-            {!loggedIn ? <LoginScreen setLoggedIn={setLoggedIn} /> : <Dashboard setLoggedIn={setLoggedIn} />}
+            {!loggedIn
+                ?
+                <LoginScreen setLoggedIn={setLoggedIn} />
+                :
+                <Dashboard setLoggedIn={setLoggedIn} />
+            }
         </>
     );
 }

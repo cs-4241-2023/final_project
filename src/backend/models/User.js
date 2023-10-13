@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { defaultAvailability } from "./Group.js";
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -16,6 +17,10 @@ const userSchema = new mongoose.Schema({
             ref: "Group"
         }   
     ],
+    availability: {
+        type: Object,
+        default: defaultAvailability
+    }
 });
 
 const User = mongoose.model("User", userSchema, "Users");

@@ -9,19 +9,21 @@ function Dashboard() {
     const [selectedGroupPage, setGroupPage] = useState(null);
     const [isGroupFormVisible, setGroupFormVisiblity] = useState(false);
     const [hasDataChanged, setDataChanged] = useState(false);
-    const [currentUser, setCurrentUser] = useState("");
+    const currUser = localStorage.getItem("username");
 
     useEffect(() => {
-        getGroupList().then(data => setGroups(data));
-        getCurrentUserInfo().then(res => setCurrentUser(res.user));
+        getGroupList().then(data => {
+            setGroups(data)
+        });
     }, [hasDataChanged]);
 
-    async function getCurrentUserInfo() {
-        let res = await fetch("/user", {
-            method: "GET"
-        });
-        return await res.json();
-    }
+    useEffect(() => {
+        const selectedGroupPage = localStorage.getItem('selectedGroupPage');
+        if (selectedGroupPage && groups.length > 0) {
+            handleSelectGroup(selectedGroupPage);
+        }
+    }, [groups])
+
 
     async function getGroupList() {
         try {
@@ -42,42 +44,52 @@ function Dashboard() {
         setGroupFormVisiblity(true);
     }
 
-    async function addGroup(form) {
-        if (!form.groupName || !form.groupDescription || !form.groupUsers) {
+    async function createGroup(groupForm) {
+        if (!groupForm.name) {
             alert("One or more fields are empty");
         } else {
-            const groupUsers = form.groupUsers.split(",").map(user => user.trim());
-            if(groupUsers.indexOf(currentUser) === -1) {
-                groupUsers.push(currentUser);
+            let groupUsers = groupForm.users.split(",").map(user => user.trim());
+            if (JSON.stringify(groupUsers) === JSON.stringify([""])) groupUsers = []
+
+            if (groupUsers.indexOf(currUser) === -1) {
+                groupUsers.push(currUser);
             }
-            for (const user of groupUsers) {
-                let res = await fetch("/users", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username: user }),
-                });
+
+            for (const username of groupUsers) {
+                let res = await fetch(`/users/${username}`);
                 if (res.status === 404) {
                     alert("One or more users could not be found");
                     return;
                 }
             }
-            let groupJSON = JSON.stringify({
-                groupName: form.groupName,
-                groupDescription: form.groupDescription,
-                groupUsers: groupUsers,
-                meetingTimes: "TBD",
+
+            const groupJSON = JSON.stringify({
+                name: groupForm.name,
+                description: groupForm.description,
+                users: groupUsers,
             });
-            let res = await(await fetch("/groups", {
+
+            const groupResponse = await (await fetch("/groups", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
             })).json();
 
-            for (const user of groupUsers) {
-                await fetch("/addUserGroup", {
+            for (const username of groupUsers) {
+                //attach availability to group
+                const availabilityRes = await fetch(`/users/${username}/availability`)
+                const availability = await availabilityRes.json();
+                await fetch(`/groups/${groupResponse._id}/userAvailabilities`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({user: user, groupID: res._id})
+                    body: JSON.stringify({ username: username, availability: availability })
+                });
+
+                //attach group to user
+                await fetch(`/users/${username}/groups`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ groupId: groupResponse._id })
                 });
             }
 
@@ -97,7 +109,6 @@ function Dashboard() {
                 const errorData = await response.json();
                 console.error(`Error deleting document: ${errorData.message}`);
             } else {
-                console.log("Document deleted successfully");
                 setDataChanged(!hasDataChanged);
             }
         } catch (error) {
@@ -106,38 +117,45 @@ function Dashboard() {
     }
 
     const handleSelectGroup = (groupId) => {
-        const groupObj = groups.find((group) => group._id === groupId);
-
+        const groupObj = groups.find(group => group._id === groupId);
         const groupPageComp = (
             <GroupPage
+                user={currUser}
                 group={groupObj}
                 selectGroup={handleSelectGroup}
                 deleteGroup={deleteGroup}
+                currentGroupID={groupId}
             />
         );
 
         setGroupPage(groupPageComp);
-    };
+        localStorage.setItem('selectedGroupPage', groupId);
+    }
 
     return (
         <div className="dashboard">
             <Header />
+
             <main className="dashboard--container">
+
                 {selectedGroupPage ? (
                     <div className="">
-                        {selectedGroupPage}
                         <button
                             className="back-btn interactable"
                             type="submit"
-                            onClick={() => setGroupPage(null)}
+                            onClick={() => {
+                                setGroupPage(null)
+                                localStorage.removeItem('selectedGroupPage');
+                            }}
                         >
                             Back
                         </button>
+                        {selectedGroupPage}
                     </div>
                 ) : (
                     <div className="dashboard--main">
                         <div className="dashboard--main-header">
-                            <h2>Tracked Groups</h2>
+                            <h2>Your Groups</h2>
                             <div>
                                 <button
                                     className="dashboard--new-group interactable"
@@ -151,7 +169,7 @@ function Dashboard() {
                         <hr />
                         {isGroupFormVisible && (
                             <AddGroupForm
-                                addGroup={addGroup}
+                                addGroup={createGroup}
                                 onCancel={() => setGroupFormVisiblity(false)}
                             />
                         )}
