@@ -51,8 +51,6 @@ scene("lobby", () => {
 
 		let tweenTime = Math.sqrt(Math.pow(player.pos.x - mousePos().x, 2) + Math.pow(player.pos.y - mousePos().y, 2)) / global.SPEED
 
-		console.log(tweenTime)
-
 		curTween = tween(player.pos, mousePos(), tweenTime, (p) => {
 			player.pos = p
 			sendNetworkMessage("movement", player.pos)
