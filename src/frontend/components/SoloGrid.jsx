@@ -40,9 +40,9 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
         }
     }
 
-    const handleSlotClick = (day, timeSlot) => {
+    const handleSlotClick = (day, hour) => {
         const updatedAvailability = { ...availability };
-        updatedAvailability[day][timeSlot] = !updatedAvailability[day][timeSlot];
+        updatedAvailability[day][hour] = !updatedAvailability[day][hour];
         setAvailability(updatedAvailability);
     }
 
@@ -61,10 +61,10 @@ const SoloGrid = ({ username, days, times, currentGroupID }) => {
 
         const cell = event.target;
         console.log("cell", cell)
-        const [day, timeSlot] = event.target.id.split('-');
+        const [day, hour] = event.target.id.split('-');
 
         // Toggle availability
-        selectedCells.push({ day, timeSlot }); // Add the cell to selected cells
+        selectedCells.push({ day, hour }); // Add the cell to selected cells
         console.log("selectedCells", selectedCells)
 
         updateAvailability(selectedCells);
