@@ -1,35 +1,42 @@
-import { set } from 'mongoose';
+import { get, set } from 'mongoose';
 import React, { useEffect, useState } from 'react';
 
-const timeSlots =
-        ['8:00 AM', '9:00 AM', '10:00 AM',
-        '11:00 AM', '12:00 PM', '1:00 PM',
-        '2:00 PM', '3:00 PM', '4:00 PM',
-        '5:00 PM', '6:00 PM', '7:00 PM',
-        '8:00 PM'];
+const timeSlots = [
+    '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM',
+    '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM'
+];
 
-// SoloGrid Component
-const SoloGrid = ({ user, days, currentGroupID }) => {
+const SoloGrid = ({ username, days, currentGroupID }) => {
+    const id = localStorage.getItem("id");
 
-    const initialAvailability = days.reduce((acc, day) => {
-        acc[day] = {};
-        timeSlots.forEach((timeSlot) => {
-            acc[day][timeSlot] = false;
-        });
-        return acc;
-    }, {});
-
-    const [availability, setAvailability] = useState(initialAvailability);
+    const [availability, setAvailability] = useState({});
+    const [isSelecting, setSelecting] = useState(false); // Track whether selecting
+    let selectedCells = []; // Track selected cells
 
     useEffect(() => {
-        console.log(currentGroupID)
-        fetch("/send-availability", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({user: user, groupID: currentGroupID, availability: availability})
-        }).then(() => console.log("Sent availability to server"));
-    }, [availability])
+        // console.log("currentGroupID", currentGroupID)
+        // fetch("/send-availability", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ user: username, groupID: currentGroupID, availability: availability })
+        // }).then(() => console.log("Sent availability to server"));
+        getInitialAvailability().then(data => {
+            setAvailability(data)
+        });
+    }, [])
 
+    async function getInitialAvailability() {
+        try {
+            const response = await fetch(`/users/${id}/availability`, {
+                method: "GET",
+            });
+            if (!response.ok) console.log("404: Availability Not Found");
+            const data = await response.json();
+            return data;
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     const handleSlotClick = (day, timeSlot) => {
         const updatedAvailability = { ...availability };
@@ -37,8 +44,6 @@ const SoloGrid = ({ user, days, currentGroupID }) => {
         setAvailability(updatedAvailability);
     };
 
-    const [isSelecting, setSelecting] = useState(false); // Track whether selecting
-    let selectedCells = []; // Track selected cells
 
     function handleMouseDown() {
         setSelecting(true)
@@ -53,11 +58,13 @@ const SoloGrid = ({ user, days, currentGroupID }) => {
         if (!isSelecting) return; // Only update when selecting
 
         const cell = event.target;
-        console.log(cell)
+        console.log("cell", cell)
         const [day, timeSlot] = event.target.id.split('-');
 
         // Toggle availability
         selectedCells.push({ day, timeSlot }); // Add the cell to selected cells
+        console.log("selectedCells", selectedCells)
+
         updateAvailability(selectedCells);
     }
 

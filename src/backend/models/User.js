@@ -16,9 +16,9 @@ const userSchema = new mongoose.Schema({
             ref: "Group"
         }   
     ],
-    userAvailability: {
-        type: mongoose.Schema.Types.Map,
-        default: new Map()
+    availability: {
+        type: Object,
+        required: true
     }
 });
 

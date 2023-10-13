@@ -9,19 +9,12 @@ function Dashboard() {
     const [selectedGroupPage, setGroupPage] = useState(null);
     const [isGroupFormVisible, setGroupFormVisiblity] = useState(false);
     const [hasDataChanged, setDataChanged] = useState(false);
-    const [currentUser, setCurrentUser] = useState("");
+    const currUser = localStorage.getItem("username");
 
     useEffect(() => {
         getGroupList().then(data => setGroups(data));
-        getCurrentUserInfo().then(res => setCurrentUser(res.user));
     }, [hasDataChanged]);
 
-    async function getCurrentUserInfo() {
-        let res = await fetch("/user", {
-            method: "GET"
-        });
-        return await res.json();
-    }
 
     async function getGroupList() {
         try {
@@ -47,8 +40,8 @@ function Dashboard() {
             alert("One or more fields are empty");
         } else {
             const groupUsers = form.groupUsers.split(",").map(user => user.trim());
-            if (groupUsers.indexOf(currentUser) === -1) {
-                groupUsers.push(currentUser);
+            if (groupUsers.indexOf(currUser) === -1) {
+                groupUsers.push(currUser);
             }
             for (const user of groupUsers) {
                 let res = await fetch("/users", {
@@ -110,7 +103,7 @@ function Dashboard() {
 
         const groupPageComp = (
             <GroupPage
-                user={currentUser}
+                user={currUser}
                 group={groupObj}
                 selectGroup={handleSelectGroup}
                 deleteGroup={deleteGroup}
@@ -129,7 +122,6 @@ function Dashboard() {
 
                 {selectedGroupPage ? (
                     <div className="">
-                        {selectedGroupPage}
                         <button
                             className="back-btn interactable"
                             type="submit"
@@ -137,6 +129,7 @@ function Dashboard() {
                         >
                             Back
                         </button>
+                        {selectedGroupPage}
                     </div>
                 ) : (
                     <div className="dashboard--main">

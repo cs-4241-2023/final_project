@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 import loginRoutes from "./routes/loginRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
-import gridRoutes from "./routes/gridRoute.js"
+import gridRoutes from "./routes/gridRoutes.js"
 
 const app = express();
 env.config();

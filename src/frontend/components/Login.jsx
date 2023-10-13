@@ -39,7 +39,7 @@ export default function Login(props) {
                         setErrorMessage("");
                     }}
                 >
-                    Don&rsquo;t have an account? Click Here!
+                    Don't have an account? Click Here!
                 </button>
             </form>
         </>
@@ -64,7 +64,12 @@ export default function Login(props) {
             body: JSON.stringify({ username, password }),
         }).then((response) => {
             if (response.status === 200) {
-                setLoggedIn(true);
+                response.json().then(data => {
+                    const userId = data.userID; // Assuming the user ID is sent as 'userID' in the JSON response
+                    localStorage.setItem("username", username);
+                    localStorage.setItem("id", userId);
+                    setLoggedIn(true);
+                })
             } else if (response.status === 401) {
                 setErrorMessage("Invalid password.");
             } else if (response.status === 404) {

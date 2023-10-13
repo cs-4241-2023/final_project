@@ -1,5 +1,16 @@
-import bcrypt from "bcrypt";
 import User from "../models/User.js";
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const times = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM']
+const initialAvailability = days.reduce((availability, day) => {
+    availability[day] = {};
+
+    times.forEach((time) => {
+        availability[day][time] = false; // Initialize to false for each day and time slot
+    });
+
+    return availability;
+}, {});
 
 // Login controller
 export const loginUser = async (req, res) => {
@@ -10,7 +21,10 @@ export const loginUser = async (req, res) => {
         if ((user && password === user.password) || req.session.isLoggedIn) {
             req.session.user = username;
             req.session.isLoggedIn = true;
-            res.status(200).end();
+
+            const id = { userID: user._id.toString() };
+
+            res.status(200).json(id);
         } else {
             req.session.user = undefined;
             req.session.isLoggedIn = false;
@@ -29,11 +43,11 @@ export const signupUser = async (req, res) => {
         const existingUser = await User.findOne({ username });
 
         if (!existingUser) {
-            // const hashedPassword = bcrypt.hashSync(password, 10);
             const newUser = new User({
                 username,
                 password,
-                groups: []
+                groups: [],
+                availability: initialAvailability
             });
 
             await newUser.save();
@@ -49,7 +63,7 @@ export const signupUser = async (req, res) => {
 };
 
 export const authStatus = (req, res) => {
-    if(req.session.isLoggedIn) {
+    if (req.session.isLoggedIn) {
         res.status(200).end();
     } else {
         res.status(401).end();

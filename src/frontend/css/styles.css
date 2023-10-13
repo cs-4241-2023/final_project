@@ -183,9 +183,9 @@ hr {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(6, 100px);
+    grid-template-columns: repeat(6, 90px);
     /* Adjust column width as needed */
-    grid-template-rows: repeat(6, 40px);
+    grid-template-rows: repeat(15, 30px);
     /* Adjust row height as needed */
     /* border: 1px solid #ccc; */
     margin: auto;
