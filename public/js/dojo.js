@@ -3,6 +3,7 @@ import { global, highlight, unHighlight } from "./global.js"
 
 //initialize layers
 const layers = {
+	"hidden": -2,
 	"bg": -1,
 	"bg-obj": 0,
 	"game": 1,
@@ -23,9 +24,16 @@ loadSprite("backgroundDojo", "../background/dojo.png")
 loadSprite("dojoDoor", "../background_interactables/dojoDoor.png")
 loadSprite("dojoMatHighlight", "/background_interactables/highlight/matHighlight.png")
 loadSprite("dojoDoorHighlight", "/background_interactables/highlight/dojoDoorHighlight.png")
+loadSprite("dojoArches", "../background_interactables/arches.png")
+loadSprite("dojoArchesHighlight", "/background_interactables/highlight/archesHighlight.png")
+loadSprite("dojoRules", "/sprites/rules2.png")
+loadSprite("backgroundBlank", "../background/blank.png")
+loadSprite("back-button", "../background_interactables/backButton.png")
+loadSprite("back-button-highlight", "../background_interactables/highlight/backButtonHighlight.png")
 
 let player
 let waitingAt
+let rulesShown = false
 
 scene("dojo", () => {
 	//add background
@@ -34,7 +42,7 @@ scene("dojo", () => {
 		pos(0, 0),
 		z(layers.bg)
 	])
-	
+
 	waitingAt = -1
 	player = add([
 		sprite("puffle-red"),
@@ -54,6 +62,11 @@ scene("dojo", () => {
 			curTween.cancel()
 		}
 
+		if(rulesShown){
+			curTween.cancel()
+			return
+		}
+
 		if (mousePos().y > MAX_HEIGHT) {
 			curTween = moveToLocation(mousePos())
 		}
@@ -68,7 +81,12 @@ scene("dojo", () => {
 			curTween.cancel()
 		}
 
-		curTween = moveToLocation(mousePos()).then(() => {
+		if(rulesShown){
+			curTween.cancel()
+			return
+		}
+
+		curTween = moveToLocation(new Vec2(global.DOJO_SPAWN.x, global.DOJO_SPAWN.y)).then(() => {
 			go("lobby")
 			sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
 		})
@@ -79,16 +97,30 @@ scene("dojo", () => {
 			curTween.cancel()
 		}
 
+		if(rulesShown){
+			curTween.cancel()
+			return
+		}
+
 		curTween = moveToLocation(mousePos()).then(() => {
 			waitingAt = mat.matNum
 			sendNetworkMessage("waitAtMat", mat.matNum)
 		})
+	})
+
+	onClick("dojoArches", (arches) => {
+		showRules()
+	})
+
+	onClick("backButtonRules", (button) => {
+		closeRules()
 	})
 })
 
 function spawnInteractables() {
 	spawMats()
 	spawnDoor()
+	spawnArches()
 }
 
 function spawnDoor() {
@@ -101,8 +133,43 @@ function spawnDoor() {
 		area(),
 	])
 
-	door.onHover(() => highlight(door, "dojoDoorHighlight"))
-	door.onHoverEnd(() => unHighlight(door, "dojoDoor"))
+	door.onHover(() => {
+		if(rulesShown){
+			return
+		}
+		highlight(door, "dojoDoorHighlight")
+	})
+	door.onHoverEnd(() => {
+		if(rulesShown){
+			return
+		}
+		unHighlight(door, "dojoDoor")
+	})
+}
+
+function spawnArches(){
+	let arches = add([
+		sprite("dojoArches"),
+		pos(DOOR_LOCATION.x + 250, DOOR_LOCATION.y),
+		"dojoArches",
+		z(layers["bg-obj"]),
+		anchor("center"),
+		area(),
+		scale(0.45)
+	])
+
+	arches.onHover(() => {
+		if(rulesShown){
+			return
+		}
+		highlight(arches, "dojoArchesHighlight", 0.49)
+	})
+	arches.onHoverEnd(() => {
+		if(rulesShown){
+			return
+		}
+		unHighlight(arches, "dojoArches", 0.45)
+	})
 }
 
 function spawMats() {
@@ -119,9 +186,59 @@ function spawMats() {
 			}
 		])
 
-		mat.onHover(() => highlight(mat, "dojoMatHighlight"))
-		mat.onHoverEnd(() => unHighlight(mat, "dojoMat"))
+		mat.onHover(() => {
+			if(rulesShown){
+				return
+			}
+			highlight(mat, "dojoMatHighlight")
+		})
+		mat.onHoverEnd(() => {
+			if(rulesShown){
+				return
+			}
+			unHighlight(mat, "dojoMat")
+		})
 	}
+}
+
+function showRules() {
+	add([
+		sprite("backgroundBlank"),
+		pos(0, 0),
+		opacity(0.7),
+		z(layers.ui),
+		"rules",
+	])
+
+	add([
+		sprite("dojoRules"),
+		pos(new Vec2(global.SCREEN_SIZE.width / 2, global.SCREEN_SIZE.height / 2)),
+		z(layers.ui),
+		"rules",
+		scale(0.5),
+		anchor("center")
+	])
+
+	let backButtonRules = add([
+		sprite("back-button"),
+		pos(10, 10),
+		"backButtonRules",
+		area(),
+		scale(0.35),
+		z(layers.ui)
+	])
+
+	backButtonRules.onHover(() => highlight(backButtonRules, "back-button-highlight", 0.4))
+	backButtonRules.onHoverEnd(() => unHighlight(backButtonRules, "back-button", 0.35))
+
+	rulesShown = true
+}
+
+function closeRules() {
+	destroyAll("rules")
+	destroyAll("backButtonRules")
+
+	rulesShown = false
 }
 
 function moveToLocation(destination) {
