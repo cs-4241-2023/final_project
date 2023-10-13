@@ -10,7 +10,7 @@ export const updateAvailability = async (request, response) => {
     let currentAvailability = group.currentAvailibility;
 
     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].forEach(day => {
-        ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:000 PM',
+        ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM',
             '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM'].forEach(hour => {
                 if(newAvailability[day][hour]) {
                     newAvailability[day][hour] = newAvailability[day][hour] || currentAvailability[day][hour];
