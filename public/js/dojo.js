@@ -165,9 +165,6 @@ function spawnArches(){
 		highlight(arches, "dojoArchesHighlight", 0.49)
 	})
 	arches.onHoverEnd(() => {
-		if(rulesShown){
-			return
-		}
 		unHighlight(arches, "dojoArches", 0.45)
 	})
 }

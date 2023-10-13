@@ -11,6 +11,7 @@
 	<link rel='stylesheet' href='css/customLogin.css'>
 	<link rel='preconnect' href='https://fonts.googleapis.com'>
 	<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+	<script src="js/login.js"></script>
 
 	<!-- get rid of favicon error -->
 	<link rel='icon' href='data:;base64,iVBORw0KGgo='>
@@ -18,12 +19,14 @@
 
 <body>
 	<div id='loginDiv'>
-		<form action='/login' method='POST'>
+		<form id="loginForm" action='/login' method='POST'>
 			<h1>Club Pigeon</h1>
 			<label for='username'>Username</label>
-			<input id='username' type='tex@t' name='username' required>
-			<input type='submit' class="contrast" value="Login">
+			<input id='username' type='text' name='username' required>
+			<input id="submitButton" type='submit' class="contrast" value="Login">
 		</form>
+		<p id="altText"></p>
+        {{{body}}}
 	</div>
 </body>
 

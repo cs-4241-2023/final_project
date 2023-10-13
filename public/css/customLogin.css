@@ -8,3 +8,13 @@
     height: 100vh;
     margin: auto;
 }
+
+#altText {
+    text-decoration: underline;
+    text-decoration-color: lightskyblue;
+    color: lightskyblue;
+}
+
+#loginForm {
+    width: 30%;
+}

@@ -6,8 +6,17 @@ const express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
 	SocketServer = require('./network.js'),
+	handlebars = require('express-handlebars'),
 	network = new SocketServer(server), //used to broadcast a message to all currently connected clients
 	port = process.env.PORT || 3000
+
+app.set('view engine', 'hbs')
+app.engine('hbs', handlebars.engine({
+  layoutsDir: __dirname + '/views/layouts',
+  extname: 'hbs',
+  defaultLayout: 'indexLayout'
+}))
+app.set('views', './views')
 
 app.use(express.static('public'))
 app.use(express.json())
@@ -36,6 +45,10 @@ app.use(cookie({
 	keys: ['key1', 'key2']
 }))
 
+app.get('/', (req, res) => {
+	res.render('index', {layout: 'indexLayout'})
+})
+
 // attempt to login
 app.post('/login', async (req, res) => {
 	const user = await user_collection.findOne({ username: req.body.username })
@@ -50,8 +63,32 @@ app.post('/login', async (req, res) => {
 	}
 })
 
+// attempt to sign in
+app.post('/signup', async (req, res) => {
+	const user = await user_collection.findOne({ username: req.body.username })
+
+	if(!user){
+		const newUser = await user_collection.insertOne({
+			username: req.body.username,
+			coins: 10,
+			purchasedPuffles: ["puffle-red"],
+			equippedPuffle: "puffle-red"
+			})
+		req.session.login = true
+		req.session.username = req.body.username
+		res.redirect('/game')
+	}
+	else{
+		res.redirect('/authFails')
+	}
+})
+
 app.get('/authFail', (req, res) => {
-	res.sendFile(__dirname + '/public/loginFail.html')
+	res.render("loginFail", {layout: "indexLayout"})
+})
+
+app.get('/authFails', (req, res) => {
+	res.render("signupFail", {layout: "indexLayout"})
 })
 
 // redirect to login if not signed in
@@ -64,7 +101,7 @@ app.use(function (req, res, next) {
 
 // client navigates to game page
 app.get('/game', (req, res) => {
-	res.sendFile(__dirname + '/public/game.html')
+	res.sendFile(__dirname + "/public/game.html")
 })
 
 // Client requests user information
