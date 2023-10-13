@@ -38,7 +38,7 @@ const onConnection = function(socket) {
 		const roomPlayers = {}
 		for(const [id, obj] of Object.entries(connectedPlayers)) {
 			if(obj.room === state.scene) {
-				roomPlayers[id] = obj.pos
+				roomPlayers[id] = { pos: obj.pos, puffle: obj.puffle }
 			}
 		}
 		socket.emit('spawn', roomPlayers)
@@ -46,12 +46,13 @@ const onConnection = function(socket) {
 
 		// Spawn player for remote clients in destination scene
 		let newObj = {}
-		newObj[socket.id] = state.pos
+		newObj[socket.id] = { pos: state.pos, puffle: state.puffle }
 		socket.broadcast.in(state.scene).emit('spawn', newObj)
 		
 		// Join new scene
-		socketEntry.room = state.scene
-		socketEntry.pos = state.pos
+		connectedPlayers[socket.id].room = state.scene
+		connectedPlayers[socket.id].pos = state.pos
+		connectedPlayers[socket.id].puffle = state.puffle
 		socket.join(state.scene)
 
 		console.log(`${socket.id}:`, 'changing scene to', state)
@@ -94,18 +95,19 @@ const onConnection = function(socket) {
 		socket.join(sceneObj.scene)
 		connectedPlayers[socket.id].room = sceneObj.scene
 		connectedPlayers[socket.id].pos = sceneObj.pos
+		connectedPlayers[socket.id].puffle = sceneObj.puffle
 
 		// Set all current players in destination scene
 		const roomPlayers = {}
 		for(const [id, obj] of Object.entries(connectedPlayers)) {
 			if((obj.room === sceneObj.scene) && (id !== socket.id)) {
-				roomPlayers[id] = obj.pos
+				roomPlayers[id] = { pos: obj.pos, puffle: obj.puffle }
 			}
 		}
 		socket.emit('spawn', roomPlayers)
 
 		let newObj = {}
-		newObj[socket.id] = sceneObj.pos
+		newObj[socket.id] = { pos: sceneObj.pos, puffle: sceneObj.puffle }
 		socket.broadcast.in(sceneObj.scene).emit('spawn', newObj)
 
 		console.log(`${socket.id}:`, 'setting scene to', sceneObj)

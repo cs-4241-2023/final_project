@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const express = require('express'),
-	{ MongoClient, ObjectId } = require("mongodb"),
+	{ MongoClient } = require("mongodb"),
 	cookie = require('cookie-session'),
 	app = express(),
 	server = require('http').createServer(app),
@@ -17,7 +17,7 @@ const client = new MongoClient(uri)
 
 let user_collection = null
 async function run() {
-	await client.connect();
+	await client.connect()
 	user_collection = client.db("club_pigeon").collection("users")
 }
 run()
@@ -39,8 +39,7 @@ app.use(cookie({
 // attempt to login
 app.post('/login', async (req, res) => {
 	const user = await user_collection.findOne({ username: req.body.username })
-	console.log(user)
-
+	
 	if (user) {
 		req.session.login = true
 		req.session.username = req.body.username
@@ -107,7 +106,6 @@ app.post('/equip', async (req, res) => {
 	let info = req.body
 
 	const user = await user_collection.findOne({ username: req.session.username })
-	//console.log(user, req.session.username)
 
 	if (user.purchasedPuffles.includes(info.puffleName)) {
 		user_collection.updateOne({ username: req.session.username }, { $set: { equippedPuffle: info.puffleName } })

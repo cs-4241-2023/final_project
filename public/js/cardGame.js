@@ -71,7 +71,7 @@ scene("card", () => {
 		backButton.onClick(() => {
 			resetFields()
 			go("dojo")
-			sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
+			sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN, puffle: global.CURRENT_PUFFLE })
 		})
 	})
 

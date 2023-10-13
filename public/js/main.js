@@ -1,5 +1,5 @@
 import sendNetworkMessage from "./clientNetworking.js"
-import { global } from "./global.js"
+import { global, setPuffle } from "./global.js"
 
 
 kaboom({
@@ -16,7 +16,10 @@ loadSprite("puffle-blue", "../sprites/puffle-blue.png")
 loadSprite("puffle-green", "../sprites/puffle-green.png")
 loadSprite("puffle-purple", "../sprites/puffle-purple.png")
 
-window.onload = () => {
+window.onload = async () => {
+	const userInfo = await fetch('/user').then((response) => response.json())
+	setPuffle(userInfo.equippedPuffle)
+
 	go("lobby")
-	sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
+	sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN, puffle: global.CURRENT_PUFFLE })
 }

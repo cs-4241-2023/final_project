@@ -26,7 +26,7 @@ loadSprite("puffleShopHighlight", "/background_interactables/highlight/puffleSho
 scene("lobby", () => {
 	// compose the player game object from multiple components and add it to the game
 	const player = add([
-		sprite("puffle-red"),
+		sprite(global.CURRENT_PUFFLE),
 		pos(global.LOBBY_SPAWN.x, global.LOBBY_SPAWN.y),
 		z(layers.game),
 		scale(0.5, 0.5),
@@ -83,7 +83,7 @@ scene("lobby", () => {
 				sendNetworkMessage("movement", player.pos)
 			}, easings.easeOutSine).then(() => {
 				go("dojo")
-				sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
+				sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN, puffle: global.CURRENT_PUFFLE })
 			})
 	})
 })

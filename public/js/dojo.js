@@ -37,7 +37,7 @@ scene("dojo", () => {
 	
 	waitingAt = -1
 	player = add([
-		sprite("puffle-red"),
+		sprite(global.CURRENT_PUFFLE),
 		pos(global.DOJO_SPAWN.x, global.DOJO_SPAWN.y),
 		z(layers.game),
 		scale(0.5, 0.5),
@@ -70,7 +70,7 @@ scene("dojo", () => {
 
 		curTween = moveToLocation(mousePos()).then(() => {
 			go("lobby")
-			sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
+			sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN, puffle: global.CURRENT_PUFFLE })
 		})
 	})
 

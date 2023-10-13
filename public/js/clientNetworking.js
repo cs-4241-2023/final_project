@@ -28,8 +28,8 @@ export default sendNetworkMessage
 const network = io("/", { forceNew: true })
 
 network.on("spawn", (players) => {
-	for (const [id, pos] of Object.entries(players)) {
-		spawnRemotePlayer(id, pos)
+	for (const [id, state] of Object.entries(players)) {
+		spawnRemotePlayer(id, state.pos, state.puffle)
 	}
 })
 
@@ -52,7 +52,7 @@ network.on("setOpponentCard", (cardInfo) => {
 	backButton.onClick(() => {
 		resetFields()
 		go("dojo")
-		sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN })
+		sendNetworkMessage("changeScene", { scene: "dojo", pos: global.DOJO_SPAWN, puffle: global.CURRENT_PUFFLE })
 	})
 })
 
@@ -72,16 +72,16 @@ network.on("connect", () => {
 
 // Private Functions
 
-const spawnRemotePlayer = function (id, positon) {
-	let x = positon.x //|| SPAWN.x
-	let y = positon.y //|| SPAWN.y
+const spawnRemotePlayer = function (id, positon, puffle) {
+	let x = positon.x
+	let y = positon.y
 
 	if (remotePlayers[id]) {
 		destroy(remotePlayers[id])
 	}
 
 	remotePlayers[id] = add([
-		sprite("puffle-red"),
+		sprite(puffle),
 		pos(x, y),
 		scale(0.5, 0.5),
 		anchor("center"),

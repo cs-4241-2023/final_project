@@ -1,8 +1,7 @@
 import sendNetworkMessage from "./clientNetworking.js"
-import { global, highlight, unHighlight } from "./global.js"
+import { global, highlight, unHighlight, setPuffle } from "./global.js"
 
 let purchasedPuffles = []
-let equippedPuffle
 let coinLabel
 
 // Position variables for puffles & labels (4 puffles total)
@@ -26,11 +25,9 @@ loadSprite("back-button", "../background_interactables/backButton.png")
 loadSprite("back-button-highlight", "../background_interactables/highlight/backButtonHighlight.png")
 
 scene("puffle_store", async () => {
-	const getResponse = await fetch('/user')
-	const userInfo = await getResponse.json()
-
+	const userInfo = await fetch('/user').then((response) => response.json())
 	purchasedPuffles = userInfo.purchasedPuffles
-	equippedPuffle = userInfo.equippedPuffle
+	//setPuffle(userInfo.equippedPuffle)
 
 	//Load Background
 	add([
@@ -55,7 +52,7 @@ scene("puffle_store", async () => {
 	backButton.onHoverEnd(() => unHighlight(backButton, "back-button", 0.35))
 	backButton.onClick(() => {
 		go("lobby")
-		sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN })
+		sendNetworkMessage("changeScene", { scene: "lobby", pos: global.LOBBY_SPAWN, puffle: global.CURRENT_PUFFLE })
 	})
 
 	//Load player coin label
@@ -84,9 +81,9 @@ scene("puffle_store", async () => {
 		puffle.onHoverEnd(() => unHighlight(puffle, puffleName, 0.7))
 
 		let labelText
-		if(!purchasedPuffles.includes(puffleName)) {
+		if (!purchasedPuffles.includes(puffleName)) {
 			labelText = `$${puffleInfo.price}`
-		} else if (equippedPuffle === puffleName) {
+		} else if (global.CURRENT_PUFFLE === puffleName) {
 			labelText = "Equiped"
 		} else {
 			labelText = ""
@@ -105,20 +102,20 @@ scene("puffle_store", async () => {
 })
 
 async function selectPuffle(puffle) {
-	if(!purchasedPuffles.includes(puffle.name)) {
+	if (!purchasedPuffles.includes(puffle.name)) {
 		let body = JSON.stringify({
 			puffleName: puffle.name,
 			price: puffleCosts[puffle.name].price,
 		})
 		let result = await fetch("/purchase", {
 			method: "POST",
-			headers: {"Content-Type": "application/json"},
+			headers: { "Content-Type": "application/json" },
 			body
 		})
 
 		let resultJSON = await result.json()
 
-		if(resultJSON.success) {
+		if (resultJSON.success) {
 			labels[puffle.name].use(text(""), 12)
 			coinLabel.use(text(`Coins: ${resultJSON.coinsRemaining}`, 12))
 			purchasedPuffles.push(puffle.name)
@@ -129,12 +126,12 @@ async function selectPuffle(puffle) {
 
 	fetch("/equip", {
 		method: "POST",
-		headers: {"Content-Type": "application/json"},
+		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({ puffleName: puffle.name })
 	})
 
-	for(let [puffleName, label] of Object.entries(labels)) {
-		if( purchasedPuffles.includes(puffleName) ) {
+	for (let [puffleName, label] of Object.entries(labels)) {
+		if (purchasedPuffles.includes(puffleName)) {
 			label.use(text("", 12))
 		} else {
 			label.use(text(`$${puffleCosts[puffleName].price}`, 12))
@@ -142,5 +139,5 @@ async function selectPuffle(puffle) {
 	}
 
 	labels[puffle.name].use(text("Equiped", 12))
-
+	setPuffle(puffle.name)
 }
