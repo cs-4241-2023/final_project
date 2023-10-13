@@ -68,7 +68,9 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
 - Our group faced challenges in parsing data sent from the backend server. It took us multiple hours after getting the server set up properly to get the data from our backend server successfully loaded and rendered on the page.
 - Our group also had a challenging time figuring out how to have elements change their value when the corresponding variable in the program changes. We eventually learned that the componentDidMount() function runs a function and updates all elements in the Virtual DOM when the this.setState method is called within it.
 
-##Ethan Catania - 
+## Group Contributions
+
+### Ethan Catania - 
 Added Get function and mongoose schema for deal.
 Created Deal and Deal Page Components. 
 Styled Popup pages
@@ -77,7 +79,7 @@ Button for switching between deal and login
 inputs for adding deals.
 Error handling for
 Deal Page add and delete functions.
-## Group Contributions
+
 ### Tucker Raymond
 - Created initial connection to MongoDB using Mongoose
 - Created initial login page and implemented user login verification agains valid users existing on the server
