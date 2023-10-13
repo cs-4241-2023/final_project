@@ -14,12 +14,6 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
     let selectedCells = []; // Track selected cells
 
     useEffect(() => {
-        // console.log("currentGroupID", currentGroupID)
-        // fetch("/send-availability", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({ user: username, groupID: currentGroupID, availability: availability })
-        // }).then(() => console.log("Sent availability to server"));
         getInitialAvailability().then(data => {
             setAvailability(data)
         });

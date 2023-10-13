@@ -1,6 +1,6 @@
 import React from 'react';
 
-function GroupCard({ group, selectGroup, deleteGroup }) {
+function GroupCard({ group }) {
     return (
         <div className="group">
             <h3>{group.groupName}</h3>

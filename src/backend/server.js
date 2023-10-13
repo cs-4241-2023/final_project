@@ -15,7 +15,7 @@ const MONGO_USER = process.env.MONGO_USER;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 
 mongoose.connect(
-    `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}`, {dbName: 'RendezViewDatabase'}
+    `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}`, { dbName: 'RendezViewDatabase' }
 )
 
 const db = mongoose.connection;
@@ -27,6 +27,7 @@ db.on("error", (error) => {
 db.once("open", () => {
     console.log("Connected to MongoDB:", mongoose.connection.db.databaseName);
 });
+
 
 app.use(express.json());
 app.use(

@@ -15,6 +15,14 @@ function Dashboard() {
         getGroupList().then(data => setGroups(data));
     }, [hasDataChanged]);
 
+    useEffect(() => {
+        const selectedGroupPage = localStorage.getItem('selectedGroupPage');
+        if (selectedGroupPage && groups.length > 0) {
+            console.log('groups', groups)
+            handleSelectGroup(selectedGroupPage);
+        }
+    }, [groups])
+
 
     async function getGroupList() {
         try {
@@ -100,7 +108,7 @@ function Dashboard() {
 
     const handleSelectGroup = (groupId) => {
         const groupObj = groups.find((group) => group._id === groupId);
-
+        console.log(groupObj)
         const groupPageComp = (
             <GroupPage
                 user={currUser}
@@ -112,6 +120,7 @@ function Dashboard() {
         );
 
         setGroupPage(groupPageComp);
+        localStorage.setItem('selectedGroupPage', groupId);
     }
 
     return (
