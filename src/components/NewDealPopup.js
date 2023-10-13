@@ -43,11 +43,14 @@ class NewDealPopup extends Component {
         {this.state.showPopup && (
           <div className="dealPopup">
             <div className="dealPopup-content">
-            <label htmlFor = "addValue" >Value:  </label> 
-            <input onChange={(c) => this.setState({value: c.target.value})} type="text" id="addValue" placeholder="Enter Value" required></input>
+            <label htmlFor = "addRestaurant" >Restaurant:  </label> 
+            <input onChange={(c) => this.setState({restaurant: c.target.value})} type="text" id="addRestaurant" placeholder="Enter Restaurant" required></input>
             <br></br>
             <label htmlFor = "addLocation" >Location:  </label> 
             <input onChange={(c) => this.setState({location: c.target.value})} type="text" id="addLocation" placeholder="Enter Location" required></input>
+            <br></br>
+            <label htmlFor = "addValue" >Value:  </label> 
+            <input onChange={(c) => this.setState({value: c.target.value})} type="text" id="addValue" placeholder="Enter Value" required></input>
             <br></br>
             <label htmlFor = "addStart" >Start Date:  </label> 
             <input onChange={(c) => this.setState({start: c.target.value})} type="text" id="addStart" placeholder="Enter Start Date" required></input>
@@ -55,9 +58,7 @@ class NewDealPopup extends Component {
             <label htmlFor = "addEnd" >End Date:  </label> 
             <input onChange={(c) => this.setState({end: c.target.value})} type="text" id="addEnd" placeholder="Enter End Date" required></input>
             <br></br>
-            <label htmlFor = "addRestaurant" >Restaurant:  </label> 
-            <input onChange={(c) => this.setState({restaurant: c.target.value})} type="text" id="addRestaurant" placeholder="Enter Restaurant" required></input>
-            <br></br>
+            
             <label htmlFor = "addInfo" >Description:  </label> 
             <input onChange={(c) => this.setState({info: c.target.value})} type="text" id="addInfo" placeholder="Enter Description"></input>
             <button id="submitButton" onClick={() => this.addDeal()}>Submit</button>
