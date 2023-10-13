@@ -4,7 +4,7 @@
     position: absolute;
     left: 33%;
     bottom: 33%;
-    min-width: 30%;
+    width: 24em;
     min-height: 30%;
 }
 
