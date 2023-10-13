@@ -1,49 +1,33 @@
-# Final Project
-*Due October 13th (final day of the term)*
+# Final Project -- Keaton Mangone, Nathan Sadlier
 
-For your final project, you'll implement a web application that exhibits understanding of the course materials. 
-This project should provide an opportunity to both be creative and to pursue individual research and learning goals.
+Glich Link: https://cs4241-final-project-keaton-mangone-nathaniel-sadlier.glitch.me/
 
-## General description
-Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material:
+Youtube Link: https://youtu.be/T5RxfySlCKg
 
-- Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
-- Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
-- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation. 
-- A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) The video should be posted on YouTube or some other accessible video hosting service. Make sure your video is less than five minutes, but long enough to successfully  explain your project and show it in action. There is no minimum video length.
+# Description
+# ---------------------
+For our final project, we created a clicker game for the purpose of entertainment. Our game, named Bitcoin clicker, is based around the user collecting as many bitcoins as possible, using these bitcoins to purchase upgrades and autoclickers to achieve greater amounts of bitcoins more efficiently. To mine bitcoin, you simply need to click on the button, there is a given rate above the bitcoin image (calculated with a base of .02/click and any upgrades you own). There is a count of the amount of bitcoins you currently own under the title of the webpage so you can keep track of how many you have earned. Currently, we have 2 upgrades and 2 autoclickers set up. However, these are procedurally printed out from an array, and more can easily be added to this array by adding entries. Upgrades incease the amount of bitcoin you get with each click of the image, while autoclickers increase the rate at which you passively gain bitcoin.
+We Implemented a user credential system so that users can keep their progress saved. Currently, at the bottom of the page there is a login/signup area in which the user can log in with existing credentials or can create an account by inputting credentials that are unused and hitting create account. Having this on the same page as the clicker game allows users to play without needing an account. While logged in, there is a manual save button. However, after every purchase the game automatically saves as well to ensure the user does not lose a ton of progress on accident. If the user wants to delete their account they simply need to type in the username and hit delete to ensure that they do not delete their account on accident.
 
-## Project ideation
-Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have impact, either artistically, politically, or in terms of productivity. 
+# Other Info
+Already existing account: admin/password , but TA is able to make their own account if wanted. Also, sound on for audio purposes.
 
-### Deliverables
 
-#### Form Team (due 9/25)
-Students are will work in teams of 3-5 students for the project; teams of two can be approved with the permission of the instructor. Working in teams should help enable you to build a good project in a limited amount of time.  Use the `#project-logistics` channel in Discord to pitch ideas for final projects and/or find fellow team members as needed.
+# TECHNOLOGIES:
 
-Teams must be in place by end of day on Sunday, September 25th. If you have not identified a team at this point, you will be assigned a team. You will be given some class time on Monday to work on your proposal, but please plan on reserving additional time outside of class as needed.
+MongoDB: This allowed us to have an external database where we could store saved game data based on user credentials on a database rather than locally in the browser. This reduces the load on the user, and creates persistent data for the user to continuously come back to.
 
-#### Proposal (due 9/27) 
-Provide an outline of your project direction and the names of associated team members. 
-The outline should have enough detail so that staff can determine if it meets the minimum expectations, or if it goes too far to be reasonable by the deadline. Please include a general description of a project, and list of key technologies/libraries you plan on using (e.g. React, Three.js, Svelte, TypeScript etc.). Two to four paragraps should provide enough level of detail. Name the file proposal.md and submit a pull request by Tuesday, September 27th at 11:59 PM (end of day). Only one pull request is required per team.
+React + Vite: As a clicker game has a lot of moving and changing parts, we knew React was going to be a crucial technology to get our game to work properly. React helped us in realtime updating the amount of bitcoins the user has, handling the update with onclick functions, and even allows us to have our upgrades in an array and be easily updated. Furthermore, vite was necessary for us to be able to build and configure our react project.
 
-There are no other scheduled checkpoints for your project. 
+Node + Express: We used Node + Express to properly communicate between the game and our MongoDB database. These technologies were crucial in allowing us to have a user credential experience as well as to save the data of the game externally in a database rather than locally on the browser.
 
-#### Turning in Your Project
-Submit a second PR on the final project repo to turn in your app and code. Again, only one pull request per team.
+CSS: We wanted to place a heavy emphasis on creating a good looking project. Using CSS we were able to make the website look as we pleased, creating good looking 3d-like buttons, and a good color scheme for the game.
 
-Deploy your app, in the form of a webpage, to Glitch/Heroku/Digital Ocean or some other service; it is critical that the application functions correctly wherever you post it.
 
-The README for your second pull request doesn’t need to be a formal report, but it should contain:
+# Challenges 
+As our team was the last group to form, we faced the challenge of having a further limited timeframe, as well as a limited team size (with there only being 2 of us). With this, we knew we couldn't be outwardly ambitious as we had heavy restraints on us, but were both excited at the thought of creating a clicker game. A clicker game allowed us to create a base game within the alloted time, and left room for us to flesh out the game if we had remaining time for the project after the base game was finished. With this, we focused on user accounts, overall look of the game, and small quality of life updates.
 
-1. A brief description of what you created, and a link to the project itself (two paragraphs of text)
-2. Any additional instructions that might be needed to fully use your project (login information etc.)
-3. An outline of the technologies you used and how you used them.
-4. What challenges you faced in completing the project.
-5. What each group member was responsible for designing / developing.
-6. A link to your project video.
+# Responsibilities
+Keaton: Responsible for Base Game, UI, react elements
 
-Think of 1,3, and 4 in particular in a similar vein to the design / tech achievements for A1—A4… make a case for why what you did was challenging and why your implementation deserves a grade of 100%.
-
-## FAQs
-
-- **Can I use XYZ framework?** You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript.
+Nathaniel: Responsible for MongoDB, user accounts, login area, and QOL adjustments such as "Owned:" under autoclickers and rates appearing above bitcoin image.

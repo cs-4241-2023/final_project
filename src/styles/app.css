@@ -1,0 +1,256 @@
+@import url("https://fonts.googleapis.com/css2?family=Recursive&display=swap");
+
+* {
+  font-family: "Recursive", sans-serif;
+  font-weight: bold;
+  background-color: #3a1d5a;
+  margin: 0;
+  padding: 0;
+}
+
+.center strong,
+li {
+  color: rgb(255, 255, 255);
+}
+
+.center #coinCount {
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+
+.center #stats {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.center #coinImg {
+  margin: 15px;
+  height: 250px;
+  width: 250px;
+  text-align: center;
+  justify-content: center;
+  -webkit-transition: all 0.2s ease-in-out;
+}
+
+.center #coinImg:hover {
+  cursor: pointer;
+}
+
+.center #coinImg:active {
+  -webkit-transform: scale(1.1);
+}
+.center {
+  width: 800;
+  height: auto;
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+}
+
+.center h1 {
+  font-size: 40px;
+  margin-top: 30px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.center h2 {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  margin-bottom: 10px;
+  text-decoration: underline;
+}
+
+.center h3 {
+  font-size: 40px;
+  margin-top: 10px;
+  color: rgb(148, 148, 148);
+  text-align: center;
+}
+
+.center p {
+  margin-top: 20px;
+  font-size: 20px;
+  color: rgb(190, 153, 31);
+}
+
+.center h4 {
+  margin-top: 30px;
+  text-align: center;
+  color: rgb(221, 224, 18);
+}
+
+.center #button {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  justify-content: center;
+  text-align: center;
+  font-size: 30px;
+  background-color: rgb(255, 255, 255);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999999;
+  padding: 15px 32px;
+}
+
+.center #button:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #bonus_buttons {
+  display: inline-grid;
+}
+
+.center #purchaseButton {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  background-color: rgb(255, 243, 131);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(196, 190, 132);
+  padding: 15px 32px;
+}
+
+.center #purchaseButton:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #saveButton {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  background-color: rgb(210 126 10);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(236 174 103);
+  padding: 15px 32px;
+}
+
+.center #saveButton:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #loginButton {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  background-color: rgb(76, 187, 23);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(53, 94, 59);
+  padding: 15px 32px;
+}
+
+.center #loginButton:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #logoutButton {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  background-color: rgb(210, 43, 43);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(136, 8, 8);
+  padding: 15px 32px;
+}
+
+.center #logoutButton:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #createButton {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  background-color: rgb(255, 192, 0);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(218, 165, 32);
+  padding: 15px 32px;
+}
+
+.center #createButton:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #upgradeClicker {
+  margin-left: 5px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  background-color: rgb(210 89 10);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(210, 125, 45);
+  padding: 15px 32px;
+}
+
+.center #upgradeClicker:active {
+  background-color: #d9e4a9;
+  box-shadow: 0 5px #666666;
+  transform: translateY(4px);
+}
+
+.center #username,
+#password,
+#deletePassword {
+  color: rgb(36, 35, 42);
+  margin-bottom:5px;
+  font-size: 16px;
+  line-height: 20px;
+  min-height: 28px;
+  border-radius: 4px;
+  padding: 8px 16px;
+  border: 2px solid black;
+  box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+  background: rgb(251, 251, 251);
+  transition: all 0.1s ease 0s;
+}
+
+.center #login-area-txt{
+  margin-bottom:0px;
+}
+
+.center #deleteArea{
+  margin-top:50px;
+}
