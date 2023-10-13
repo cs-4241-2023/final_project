@@ -1,0 +1,99 @@
+@font-face {
+    font-family: 'WTD font'; /*so don't have to change refs below*/
+    src: url('Advent_Pro/AdventPro-VariableFont_wdth\,wght.ttf');
+}
+
+html {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    justify-content:space-evenly;
+    color: white;
+    font-family: 'WTD font';
+  }
+
+  h1{
+    font-family: 'WTD font';
+    padding-top: 2vh;
+    margin-bottom: 0.5vh;
+    color: #D7DAE0;
+  }
+
+#calendarContainer{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    font-family: 'WTD font';
+    max-width: 95vw;;
+}
+
+/*Calendar Day*/
+.dayContainer{
+    background-color: #434957;
+    border: solid #5F697C 2px;
+    margin: 2px;
+    width: 13%;
+    min-height:10vh;
+}
+
+.dayLabelContainer{
+    text-align: center;
+    background-color: #393E4A;
+    border: solid #5F697C 2px;
+    color: #B8BDC8;
+    margin: 2px;
+    width: 13%;
+    height: 5vh;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.dayLabelContainer p{
+    margin: auto;
+}
+
+.dayOfMonth{ /*day of month*/
+    display: flex;
+    justify-content: flex-end;
+    font-weight: normal;
+    font-size: 2vh;
+    margin-top: 0vh;
+    margin-right: 0.15vw;
+    
+}
+
+/*Calendar Deal*/
+.dealContainer{
+    background-color: rgba(128, 138, 158, .20);
+    
+}
+
+.dealContainer h1{ /*restaurant name*/
+    font-weight: normal;
+    font-size: 2.5vh;
+    margin-bottom: 0vh;
+    padding-top: 0vh;
+    color: #B8BDC8;
+}
+
+.dealContainer h2{ /*deal value*/
+    font-weight: bold;
+    font-size: 2vh;
+    margin:0vh;
+}
+
+.dealContainer h3{ /*deal info*/
+    font-weight: normal;
+    font-size: 1.75vh;
+    margin:0vh;
+}
+
+.dealContainer p{ /*dates*/
+    font-weight: normal;
+    font-size: 1.5vh;
+    margin-top: 0vh;
+    color:#CDD0D8;
+}
+

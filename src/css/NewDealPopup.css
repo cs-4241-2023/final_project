@@ -1,0 +1,44 @@
+.dealPopup{
+    background-color: grey;
+    border: solid black 4px;
+    position: relative;
+    min-width: 30%;
+    min-height: 30%;
+    left:0%
+}
+
+.dealPopupDiv{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dealPopupDiv p {
+    font-size:large;
+}
+
+.dealPopupDiv:hover{
+    cursor: pointer;
+}
+
+.dealPopup-content{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.dealPopup-content p{
+    font-size: 20px;
+}
+
+.dealPopup-content h2{
+    text-align: center;
+    font-size: 30px;
+}
+
+#plus{
+    width: 5%;
+    height: 5%;
+    float: left;
+    margin-left: 3%;
+}
