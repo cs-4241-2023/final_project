@@ -1,9 +1,15 @@
 import express from "express";
-import {updateAvailability, getUserAvailability, updateUserAvailability} from "../controllers/gridController.js";
+import {
+    getSoloAvailability,
+    updateSoloAvailability,
+    getGroupAvailability,
+    updateGroupAvailability
+} from "../controllers/gridController.js";
 const router = express.Router();
 
-router.post("/send-availability", updateAvailability);
-router.get("/users/:id/availability", getUserAvailability);
-router.put("/users/:id/availability", updateUserAvailability);
+router.get("/users/:id/availability", getSoloAvailability);
+router.put("/users/:id/availability", updateSoloAvailability);
+router.get("/groups/:id/availability", getGroupAvailability);
+router.put("/groups/:id/availability", updateGroupAvailability);
 
 export default router;

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { defaultAvailability } from "./Group.js";
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -18,7 +19,7 @@ const userSchema = new mongoose.Schema({
     ],
     availability: {
         type: Object,
-        required: true
+        default: defaultAvailability
     }
 });
 

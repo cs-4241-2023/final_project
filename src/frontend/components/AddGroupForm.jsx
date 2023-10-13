@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 function AddGroupForm({ addGroup, onCancel }) {
     const [formData, setFormData] = useState({
-        groupName: "",
-        groupDescription: "",
-        groupUsers: "",
+        name: "",
+        description: "",
+        users: "",
     });
 
     const handleChange = (e) => {
@@ -22,45 +22,45 @@ function AddGroupForm({ addGroup, onCancel }) {
             <form className="dashboard--group-form" onSubmit={handleSubmit}>
                 <h2>Add a Group</h2>
                 <input
-                    name="groupName"
+                    name="name"
                     className="dashboard--group-name interactable"
                     type="text"
                     autoComplete="off"
                     placeholder="group name"
-                    value={formData.groupName}
+                    value={formData.name}
                     onChange={handleChange}
                 />
                 <input
-                    name="groupDescription"
+                    name="description"
                     className="dashboard--group-description interactable"
                     type="text"
                     autoComplete="off"
                     placeholder="group description"
-                    value={formData.groupDescription}
+                    value={formData.description}
                     onChange={handleChange}
                 />
                 <input
-                    name="groupUsers"
+                    name="users"
                     className="dashboard--group-users interactable"
                     type="text"
                     autoComplete="off"
                     placeholder="group users (separate each user with a comma)"
-                    value={formData.groupUsers}
+                    value={formData.users}
                     onChange={handleChange}
                 />
                 <div className="dashboard--group-buttons">
-                    <button
-                        type="submit"
-                        className="dashboard--group-submit interactable"
-                    >
-                        Submit
-                    </button>
                     <button
                         type="button"
                         onClick={onCancel}
                         className="dashboard--group-cancel interactable"
                     >
                         Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="dashboard--group-submit interactable"
+                    >
+                        Submit
                     </button>
                 </div>
             </form>

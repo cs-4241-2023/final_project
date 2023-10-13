@@ -20,16 +20,15 @@ export const getGroupList = async (request, response) => {
     }
 };
 
-export const addGroup = async (request, response) => {
-    const { groupName, groupDescription, groupUsers } = request.body;
+export const createGroup = async (request, response) => {
+    const { name, description, users } = request.body;
 
     try {
         // Create a new group using Mongoose model
         const newGroup = new Group({
-            groupName,
-            groupDescription,
-            groupUsers,
-            meetingTimes: "TBD",
+            name,
+            description,
+            users
         });
 
         let r = await newGroup.save();
@@ -41,7 +40,6 @@ export const addGroup = async (request, response) => {
     }
 };
 
-// Delete a group controller
 export const deleteGroup = async (request, response) => {
     const groupId = request.params.id;
     try {
@@ -60,8 +58,8 @@ export const deleteGroup = async (request, response) => {
     }
 };
 
-export const lookupUser = async (request, response) => {
-    let user = request.body.username;
+export const getUserByUsername = async (request, response) => {
+    const user = request.params.username;
 
     const foundUser = await User.findOne({ username: user });
 
@@ -82,8 +80,4 @@ export const userGroupRef = async (request, response) => {
     await user.updateOne({ groups: userGroups });
 
     response.status(200).end();
-};
-
-export const getCurrentUser = (request, response) => {
-    response.status(200).end(JSON.stringify({ user: request.session.user }));
 };

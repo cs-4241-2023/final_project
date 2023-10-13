@@ -1,17 +1,5 @@
 import User from "../models/User.js";
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const times = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM']
-const initialAvailability = days.reduce((availability, day) => {
-    availability[day] = {};
-
-    times.forEach((time) => {
-        availability[day][time] = false; // Initialize to false for each day and time slot
-    });
-
-    return availability;
-}, {});
-
 // Login controller
 export const loginUser = async (req, res) => {
     try {
@@ -46,8 +34,7 @@ export const signupUser = async (req, res) => {
             const newUser = new User({
                 username,
                 password,
-                groups: [],
-                availability: initialAvailability
+                groups: []
             });
 
             await newUser.save();

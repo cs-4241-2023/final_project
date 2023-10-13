@@ -1,12 +1,7 @@
 import { get, set } from 'mongoose';
 import React, { useEffect, useState } from 'react';
 
-const timeSlots = [
-    '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM',
-    '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM'
-];
-
-const SoloGrid = ({ username, days, currentGroupID }) => {
+const SoloGrid = ({ username, days, times, currentGroupID }) => {
     const id = localStorage.getItem("id");
 
     const [availability, setAvailability] = useState({});
@@ -24,7 +19,7 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
             const response = await fetch(`/users/${id}/availability`, {
                 method: "GET",
             });
-            if (!response.ok) console.log("404: Availability Not Found");
+            if (!response.ok) console.error("404: Availability Not Found");
             const data = await response.json();
             return data;
         } catch (e) {
@@ -49,8 +44,7 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
         const updatedAvailability = { ...availability };
         updatedAvailability[day][timeSlot] = !updatedAvailability[day][timeSlot];
         setAvailability(updatedAvailability);
-    };
-
+    }
 
     function handleMouseDown() {
         setSelecting(true)
@@ -78,17 +72,17 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
 
     function updateAvailability(selectedCells) {
         const updatedAvailability = { ...availability };
-
+        console.log('updated', updatedAvailability)
         // Toggle availability for selected cells
-        selectedCells.forEach(({ day, timeSlot }) => {
-            updatedAvailability[day][timeSlot] = !updatedAvailability[day][timeSlot];
+        selectedCells.forEach(({ day, hour }) => {
+            updatedAvailability[day][hour] = !updatedAvailability[day][hour];
         });
 
         setAvailability(updatedAvailability);
     }
 
     return (
-        <div className="solo-grid">
+        <div className="timegrid">
             <h3>Your Availability</h3>
             <div className="grid">
                 <div className="empty-cell"></div>
@@ -97,15 +91,15 @@ const SoloGrid = ({ username, days, currentGroupID }) => {
                         {day}
                     </div>
                 ))}
-                {timeSlots.map((timeSlot) => (
-                    <React.Fragment key={timeSlot}>
-                        <div className="time-slot-label">{timeSlot}</div>
+                {times.map((hour) => (
+                    <React.Fragment key={hour}>
+                        <div className="time-slot-label">{hour}</div>
                         {days.map((day) => (
                             <div
-                                key={`${day}-${timeSlot}`}
-                                id={`${day}-${timeSlot}`}
-                                className={`availability-cell ${availability[day]?.[timeSlot] ? 'available' : 'unavailable'}`}
-                                onClick={() => handleSlotClick(day, timeSlot)}
+                                key={`${day}-${hour}`}
+                                id={`${day}-${hour}`}
+                                className={`availability-cell ${availability[day]?.[hour] ? 'available' : 'unavailable'}`}
+                                onClick={() => handleSlotClick(day, hour)}
                                 onMouseDown={handleMouseDown} // Start selection on mouse down
                                 onMouseUp={handleMouseUp} // End selection on mouse up
                                 onMouseOver={handleMouseOver} // Handle cell selection

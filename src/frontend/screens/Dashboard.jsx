@@ -13,12 +13,12 @@ function Dashboard() {
 
     useEffect(() => {
         getGroupList().then(data => setGroups(data));
+        console.log('groups', groups)
     }, [hasDataChanged]);
 
     useEffect(() => {
         const selectedGroupPage = localStorage.getItem('selectedGroupPage');
         if (selectedGroupPage && groups.length > 0) {
-            console.log('groups', groups)
             handleSelectGroup(selectedGroupPage);
         }
     }, [groups])
@@ -43,32 +43,30 @@ function Dashboard() {
         setGroupFormVisiblity(true);
     }
 
-    async function addGroup(form) {
-        if (!form.groupName || !form.groupDescription || !form.groupUsers) {
+    async function createGroup(groupForm) {
+        if (!groupForm.name || !groupForm.description || !groupForm.users) {
             alert("One or more fields are empty");
         } else {
-            const groupUsers = form.groupUsers.split(",").map(user => user.trim());
+            const groupUsers = groupForm.users.split(",").map(user => user.trim());
             if (groupUsers.indexOf(currUser) === -1) {
                 groupUsers.push(currUser);
             }
-            for (const user of groupUsers) {
-                let res = await fetch("/users", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username: user }),
-                });
+            for (const username of groupUsers) {
+                let res = await fetch(`/users/${username}`);
                 if (res.status === 404) {
                     alert("One or more users could not be found");
                     return;
                 }
             }
-            let groupJSON = JSON.stringify({
-                groupName: form.groupName,
-                groupDescription: form.groupDescription,
-                groupUsers: groupUsers,
+
+            const groupJSON = JSON.stringify({
+                name: groupForm.name,
+                description: groupForm.description,
+                users: groupUsers,
                 meetingTimes: "TBD",
             });
-            let res = await (await fetch("/groups", {
+
+            const res = await (await fetch("/groups", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: groupJSON
@@ -98,7 +96,6 @@ function Dashboard() {
                 const errorData = await response.json();
                 console.error(`Error deleting document: ${errorData.message}`);
             } else {
-                console.log("Document deleted successfully");
                 setDataChanged(!hasDataChanged);
             }
         } catch (error) {
@@ -107,8 +104,7 @@ function Dashboard() {
     }
 
     const handleSelectGroup = (groupId) => {
-        const groupObj = groups.find((group) => group._id === groupId);
-        console.log(groupObj)
+        const groupObj = groups.find(group => group._id === groupId);
         const groupPageComp = (
             <GroupPage
                 user={currUser}
@@ -134,7 +130,10 @@ function Dashboard() {
                         <button
                             className="back-btn interactable"
                             type="submit"
-                            onClick={() => setGroupPage(null)}
+                            onClick={() => {
+                                setGroupPage(null)
+                                localStorage.removeItem('selectedGroupPage');
+                            }}
                         >
                             Back
                         </button>
@@ -157,7 +156,7 @@ function Dashboard() {
                         <hr />
                         {isGroupFormVisible && (
                             <AddGroupForm
-                                addGroup={addGroup}
+                                addGroup={createGroup}
                                 onCancel={() => setGroupFormVisiblity(false)}
                             />
                         )}

@@ -4,18 +4,16 @@ const router = express.Router();
 // Import dashboard controller
 import {
     getGroupList,
-    addGroup,
+    createGroup,
     deleteGroup,
-    lookupUser,
+    getUserByUsername,
     userGroupRef,
-    getCurrentUser
 } from "../controllers/dashboardController.js";
 
 router.get("/groups", getGroupList);
-router.post("/groups", addGroup);
+router.post("/groups", createGroup);
 router.delete("/groups/:id", deleteGroup);
-router.post("/users", lookupUser);
+router.get("/users/:username", getUserByUsername);
 router.post("/addUserGroup", userGroupRef);
-router.get("/user", getCurrentUser);
 
 export default router;
