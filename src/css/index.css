@@ -64,7 +64,7 @@ h4{
   justify-content: space-between;
   border: solid 5px white;
   font-size: large;
-
+  max-width: 30em;
 }
 .dealPageTitle{
   border: solid 5px white;
