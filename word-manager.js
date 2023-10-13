@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import fetch from 'node-fetch'
 
 const minWordLength = 4
@@ -51,8 +53,8 @@ async function isInWordsAPI(submittedWord) {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': '4b7a9e4ab2msh81ab5bcc866f2aep15d851jsn52cfcb7a6000',
-        'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
+        'X-RapidAPI-Key': process.env.WORDS_API_KEY,
+        'X-RapidAPI-Host': process.env.WORDS_API_HOST
       }
   };
 
