@@ -77,7 +77,7 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
 - Deal styling
 - Button for switching between deal and login
 - inputs for adding deals.
-- Error handling for
+- Error handling for creating users
 - Deal Page add and delete functions.
 
 ### Tucker Raymond
