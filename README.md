@@ -1,7 +1,7 @@
 # RendezView
 
 ## Project Link: 
-_link_
+https://rendezview.glitch.me/
 
 ## Project Description
 RendezView is an improved version of the popular scheduling app When2Meet.
