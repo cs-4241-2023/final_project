@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="/main.js"></script>
+
+    <title>Cash Click</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row row-cols-1 align-center justify-content-center">
+        <div class="col-12">
+          <div id = "mainHeadingTop">
+            <form method = "GET" action = "/">
+              <button class = "ms-3 mt-2 btn btn-light">
+              Home
+            </button>
+            </form>
+          </div>
+          <div class="text-center">
+            <h1 class="pb-4 text-white" id = "mainHeading">
+              Cash Click
+            </h1>
+          </div>
+          <div>
+            <div class="row g-2 justify-content-center">
+              <div class="col-auto">
+                <h3>Money:</h3>
+              </div>
+              <div class="col-auto">
+                <h3 class="text-success" id="moneyAmount">$0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 justify-content-center">
+            <div class="col-auto">
+              <p class>Earned per second:</p>
+            </div>
+            <div class="col-auto">
+              <p class="text-success" id="moneyPerSecond">$0</p>
+            </div>
+          </div>
+          <div class="row g-2 justify-content-center">
+            <div class="col-auto">
+              <p class>Earned per click:</p>
+            </div>
+            <div class="col-auto">
+              <p class="text-success" id="moneyPerClick">$1</p>
+            </div>
+          </div>
+        </div>
+        <div id="helpDiv" class="col-lg-5">
+          <button class = "btn btn-close" aria-label = "close" onclick = "hideHelp()"></button>
+          <h1>How to Play:</h1>
+
+          <p>Click the green dollar sign and earn money!</p>
+          <div class = "pb-4">
+            <p>
+            <b>Add Autoclicker:</b> +$1/second automatically<br />
+            <b>Increase per Click</b> +$1/click <br />
+            <b>Add Business</b> +$25/second automically<br />
+            <b>Add MegaClick</b> +$25/click
+          </p>
+          </div>
+          
+        </div>
+        <div class="col-12">
+          <div class="text-center">
+            <img
+              src="https://cdn.glitch.global/eb6f2979-8f15-44ae-9241-b8669189d50e/final-project-cs4241-dollar-icon.png?v=1696812645991"
+              alt="dollarSign logo"
+              class="img-fluid mb-4"
+              id="addDollarButtonImg"
+              draggable="false"
+              onclick="addDollar()"
+            />
+          </div>
+          <div class="row g-4 justify-content-center">
+            <div class="col-auto">
+              <button
+                class="btn btn-secondary"
+                id="autoClickerButton"
+                onclick="addAutoClicker()"
+                disabled
+              >$10: Add Autoclicker</button>
+            </div>
+            <div class="col-auto">
+              <button
+                class="btn btn-secondary"
+                id="perClickButton"
+                onclick="increasePerClick()"
+                disabled
+              >$50: Increase per Click</button>
+            </div>
+            <div class="col-auto">
+              <button
+                class="btn btn-secondary"
+                id="addBusinessButton"
+                onclick="addBusiness()"
+                disabled
+              >$300: Add Business</button>
+            </div>
+            <div class="col-auto">
+              <button
+                class="btn btn-secondary mb-3"
+                id="megaClickButton"
+                onclick="addMegaClick()"
+                disabled
+              >$500: Add MegaClick
+              </button>
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <button id = "helpButton" class="btn btn-large border w-50" onclick = "showHelp()">Help</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

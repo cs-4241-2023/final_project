@@ -1,0 +1,43 @@
+/* Color pallete from https://muffingroup.com/blog/green-color-palette/ "Waste Not" */
+
+body {
+  background-color:#faf6ed;
+}
+
+/* Do not let button img be selected or dragged */
+#addDollarButtonImg {
+   user-select: none;
+   -moz-user-select: none;
+   -webkit-user-drag: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+}
+
+#addDollarButtonImg:hover {
+  cursor:grab;
+  
+}
+
+#helpDiv {
+  position:absolute;
+  top:3%;
+  left:50%;
+  text-align:center;
+  transform:translate(-50%, 50%);
+  opacity:97%;
+  background-color:#e6ca51;
+  visibility:hidden;
+}
+
+#mainHeading, #mainHeadingTop {
+  background-color:#0f9015;
+}
+
+#autoClickerButton, #perClickButton, #addBusinessButton, #megaClickButton {
+  background-color:#b25e7e;
+  width:250px;
+}
+
+#helpButton {
+  background-color: #e6ca51;
+}
