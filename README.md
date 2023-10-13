@@ -49,10 +49,10 @@ document are actually rendered to the screen. This implementation required lot o
 - **Implementing the time grid:** TODO
 
 ## Group Member Contributions
-### Samuel Karkache:
-### Brandon Vuong: 
-### Randy Huang: 
-### Sameer Desai
+### Samuel Karkache: Dashboard implementation, database, availability
+### Brandon Vuong: Login page + Signup, CSS styling, Dashboard, user authentication
+### Randy Huang: Full-stack
+### Sameer Desai: Dashboard, Login, CSS Styling
 
 ## Project Video
 _link_
