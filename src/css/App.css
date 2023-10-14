@@ -1,0 +1,58 @@
+
+html{
+  font-family: 'WTD font';
+}
+
+button{
+  background-color: black;
+  font-family: 'WTD font';
+  border: solid white 1px;
+  color: white;
+  border-top-left-radius: 30%;
+}
+
+#logout{
+  float:right;
+}
+
+#submitButton{
+  border-top-left-radius: 0%;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content:space-evenly;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: rgb(174, 174, 174);
+}
+
+label{
+  font-size:20px;
+}
+
+#forms{
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+}

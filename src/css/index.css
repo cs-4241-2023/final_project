@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'WTD font'; /*so don't have to change refs below*/
+  src: url('Advent_Pro/AdventPro-VariableFont_wdth\,wght.ttf');
+}
+
+body {
+  margin: 0;
+  font-family: 'WTD font';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#loginHeader{
+  border-bottom: solid grey 3px;
+}
+
+input[type='text'], input[type='password'], input[type = 'number']{
+ 
+  font-size: 2vh;
+  border-radius: 3%;
+  border: solid grey 1px;
+  margin: 10px;
+}
+
+button{
+  margin: 5px;
+  font-size: 15px;
+}
+
+form{
+  width: 90%;
+}
+
+h4{
+  color: #282c34;
+  font-size: 7.5vh;
+  margin-top:0.5vh;
+  margin-right:1vw;
+  
+}
+
+#headerBox {
+  background-color: #D7DAE0;
+  position:absolute;
+  top: 0vh;
+  left:0vw;
+  width:100vw;
+  height: 10vh;
+  display: flex;
+  justify-content: flex-end;
+
+}
+.dealDiv{
+  background-color: #2b3d61;
+  display: flex;
+  align-items: flex-start;
+  color: white;
+  font-family: 'WTD font';
+  justify-content: space-between;
+  border: solid 5px white;
+  font-size: large;
+  max-width: 30em;
+}
+.dealPageTitle{
+  border: solid 5px white;
+  text-align: center;
+  align-items: center;
+
+}
+#dealContainer{
+  max-height:32em;
+  overflow-y:scroll;
+}
+.restaurant{
+  color: yellow;
+  font-size: larger;
+}
+.AddDeal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: smaller;
+  width: 40vw;
+}
+input{
+  text-align: center;
+}
+#dealPage{
+margin: 90px 0;
+}
+#calander{
+  align-items: center;
+}
+#valueText{
+  color:rgb(104, 173, 104);
+}
+#valueText label{
+  color:white;
+}

@@ -1,0 +1,54 @@
+.popup{
+    background-color: #2b3d61;
+    border: solid black 4px;
+    position: absolute;
+    left: 33%;
+    bottom: 33%;
+    width: 24em;
+    min-height: 30%;
+}
+
+.popupDiv:hover{
+    cursor: pointer;
+}
+
+.popupDiv h2{
+    color: lightgreen;
+}
+
+.popup-content{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-content p{
+    font-size: 20px;
+
+}
+
+.popup-content h2{
+    text-align: center;
+    font-size: 30px;
+    background-color:#434957;;
+    border: solid 2px black;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    
+}
+
+.closeButton {
+    display:flex;
+    align-self: flex-end;
+    justify-content: center;
+    width: 3vh;
+    height: 3vh;
+    font-weight: bold;
+}
+#Value{
+color: green;
+}
+.Restaurant{
+    color: Yellow;
+}
