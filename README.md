@@ -6,9 +6,9 @@ A video of the demo can be viewed here: https://drive.google.com/file/d/1EvzBeSZ
 The working repo can be found here: https://github.com/IainMcE/cs4241-final
 
 Contributions:
-Iain: Dice rolling, making use of three.js for visuals and cannon-es for the physics
-Niralya: Worked on the express server and backend that unfortunately went unused
+Iain: Dice rolling, making use of three.js for visuals and cannon-es for the physics, Attempted work on multiplayer functionality
+Niralya: Worked on the server using node and express and created the API calls for (init, join, roundWinner, challengeRound, Status, rollDice, makeBid, and summary), confirming that they worked using postman
 Josh: 
-Engjell: All 2d UI, Home & instructions pages
+Engjell: Worked on the styling, and front end portion of the website (besides the 3D script) i did the home and instructions page
 
 challenges: express postings not properly getting strings passed through the body was the main crux preventing the implentation of the central server and multiplayer. Without that, there was no updating the states of the game and the player cilents could not be notified to begin rolling dice.
