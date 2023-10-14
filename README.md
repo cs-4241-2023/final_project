@@ -1,49 +1,62 @@
-# Final Project
-*Due October 13th (final day of the term)*
+# RendezView
 
-For your final project, you'll implement a web application that exhibits understanding of the course materials. 
-This project should provide an opportunity to both be creative and to pursue individual research and learning goals.
+## Project Link: 
+https://rendezview.glitch.me/
 
-## General description
-Your project should consist of a complete Web application, exhibiting facets of the three main sections of the course material:
+## Project Description
+RendezView is an improved version of the popular scheduling app When2Meet.
+Our application implements an account-based project scheduling system. A user
+creates and account and once they are logged in, they will be presented a dashboard
+of all project groups that they are a member of. Inside each project group, the 
+user, and all other participants can specify the times in which they are available.
+The application then finds overlapping availabilities and suggests possible meeting times
+when all members are available. 
 
-- Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
-- Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
-- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation. 
-- A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) The video should be posted on YouTube or some other accessible video hosting service. Make sure your video is less than five minutes, but long enough to successfully  explain your project and show it in action. There is no minimum video length.
+## Instructions
+Upon opening RendezView, you will be greeted with a page where you can either
+log into the application or create an account. Creating an account is straightforward,
+click sign up button and specify a username and password. Now you can log in with the 
+newly created credentials. An existing account with the following credentials can also be
+logged into.
+<br />
+`username: admin`<br />
+`password: admin`<br />
+You can create a new group by pressing the _Create New Group_ button. Here you
+can specify the group name, description, and users. Note that you cannot add users
+who do not exist to a group. For demonstration purposes you can add yourself, a user
+named `brandon` and a user named `randy`. Now that the group has been created you can 
+either delete it or go to the group page to specify your availability.
 
-## Project ideation
-Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have impact, either artistically, politically, or in terms of productivity. 
 
-### Deliverables
+## Technologies Used
+- **JavaScript:** We used JavaScript for the front-end and back-end. The usage of JavaScript
+was very straightforward as it was our main development language. 
+- **React w/Vite:** We used React.js with Vite for create the front-end for our application. React
+is the best JavaScript framework for front-end implementations and is much easier to use to 
+develop our application compared to standard HTML/CSS.
+- **Node.js w/Express:** Our back-end used Node.js to handle HTTP routing and functionality. Express.js
+was used with Node.js in order to implement useful middleware for our application. 
+- **MongoDB w/Mongoose:** We used MongoDB with Mongoose for persistent data storage for our 
+application. We felt as though it was the easiest database technology to utilize for an application
+of this scale. We used Mongoose to specify a `User` and `Group` model for the database.
 
-#### Form Team (due 9/25)
-Students are will work in teams of 3-5 students for the project; teams of two can be approved with the permission of the instructor. Working in teams should help enable you to build a good project in a limited amount of time.  Use the `#project-logistics` channel in Discord to pitch ideas for final projects and/or find fellow team members as needed.
+## Development Challenges
+- **Implementing the accounts:** The account system was a challenge to implement since it required some users
+to share data. This required us to add a field to the `User` collection that was essentially a list of 
+references to the groups that they were in. When a group is created, all specified users will gain a reference
+to the newly created group. When the dashboard is rendered, only groups with the ids specified in the current user's
+document are actually rendered to the screen. This implementation required lot of trial and error to get working. 
+- **Implementing the time grid:** The time grid was a challenge to implement because of the amount of state that was 
+needed to overlap multiple time grids. When a group was created, we had to store each and every different grid in
+the database then compare them client side. Clientside functionality works where it shows all times that any user 
+within a group was available. This could extend into showing different colored cells depending on how many users 
+are free at a certain time. 
 
-Teams must be in place by end of day on Sunday, September 25th. If you have not identified a team at this point, you will be assigned a team. You will be given some class time on Monday to work on your proposal, but please plan on reserving additional time outside of class as needed.
+## Group Member Contributions
+### Samuel Karkache: Dashboard implementation, database, availability
+### Brandon Vuong: Login page + Signup, CSS styling, Dashboard, user authentication
+### Randy Huang: Full-stack
+### Sameer Desai: Dashboard, Login, CSS Styling
 
-#### Proposal (due 9/27) 
-Provide an outline of your project direction and the names of associated team members. 
-The outline should have enough detail so that staff can determine if it meets the minimum expectations, or if it goes too far to be reasonable by the deadline. Please include a general description of a project, and list of key technologies/libraries you plan on using (e.g. React, Three.js, Svelte, TypeScript etc.). Two to four paragraps should provide enough level of detail. Name the file proposal.md and submit a pull request by Tuesday, September 27th at 11:59 PM (end of day). Only one pull request is required per team.
-
-There are no other scheduled checkpoints for your project. 
-
-#### Turning in Your Project
-Submit a second PR on the final project repo to turn in your app and code. Again, only one pull request per team.
-
-Deploy your app, in the form of a webpage, to Glitch/Heroku/Digital Ocean or some other service; it is critical that the application functions correctly wherever you post it.
-
-The README for your second pull request doesn’t need to be a formal report, but it should contain:
-
-1. A brief description of what you created, and a link to the project itself (two paragraphs of text)
-2. Any additional instructions that might be needed to fully use your project (login information etc.)
-3. An outline of the technologies you used and how you used them.
-4. What challenges you faced in completing the project.
-5. What each group member was responsible for designing / developing.
-6. A link to your project video.
-
-Think of 1,3, and 4 in particular in a similar vein to the design / tech achievements for A1—A4… make a case for why what you did was challenging and why your implementation deserves a grade of 100%.
-
-## FAQs
-
-- **Can I use XYZ framework?** You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript.
+## Project Video
+https://youtu.be/liwq66um0gs?si=xdtLVDX97r3x6gPs
