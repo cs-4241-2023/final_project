@@ -18,6 +18,9 @@ An account with 2000 coins has already been created and can be used to test shop
 - `MongoDB` was used to store user data relating to purchased character skins and retain the number of coins a player had earned through their games. The database also helped with initailizng player data when a user logged back into the game.
 - `Socket.IO` was used for networked communication where users could see real-time changes/actions made by another user. Socket.IO allowed us to create a player versus player card game and make a lobby where multiple users could see each other.
 - `Kaboom.js` was used to render scenes and game sprites on the client-side. Kaboom also helped with registering user input which could be sent to either Socket.IO, MongoDB, or used to change the visuals.
+- `Express handle-bars` was used for server-side rendering of the login screen.
+- `Pico CSS` framework was used to style the login page.
+- `Cookie session` was used for storing login information on the client-side.
 
 # Challenges
 For Kaboom.js, we faced many challenges surrounding the documentation of this library. Since we were all new to this technology, we often consulted online sources to help with development. However, Kaboom's documentation is very limited and vague and did not help us understand how to apply the functions of the library for the goals of this project. Furthermore, best practices surrounding Kaboom's functions were also very vague, and we were unsure if we were developing our project efficiently and effectively. We also faced some challenges getting the JavaScript modules working.
