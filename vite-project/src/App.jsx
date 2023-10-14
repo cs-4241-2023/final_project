@@ -221,8 +221,7 @@ const handleSubmit = () => {
     },
     body: JSON.stringify(data),
   })
-  .then(response => 
-    response.status === 200 ? alert('Dives submitted successfully!') : alert('Error submitting dives.'));
+  .then(alert('Dives submitted successfully!'));
 }
 
   const filterQualDives = (e) => {
