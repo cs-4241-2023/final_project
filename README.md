@@ -21,6 +21,8 @@ We used the ReactJS framework in the frontend and a NodeJS server to query the p
   
 - Our group also had a challenging time figuring out how to have elements change their value when the corresponding variable in the program changes. We eventually learned that the componentDidMount() function runs a function and updates all elements in the Virtual DOM when the this.setState method is called within it.
 
+- Our group had a very challenging time hosting our application on Glitch. Our application connects to our Mongo database through a Node server using Express. Locally, to run this, the user simply has to run both "node index.js" in the backend directory, and "npm start" in the root directory of the project so that both the application, and the backend server spin up. Glitch only allows each page to access a single port, so we were unable to host both of our servers on a Glitch page, and after spending multiple hours trying to fix this issue, our group did not have enough time to host it on a different website, and were not able to fully implement all of the functionality fully contained within the website. 
+
 ## Group Contributions
 
 ### Ethan Catania
