@@ -1,0 +1,60 @@
+{
+    "dives": [
+      {
+        "code": "101A",
+        "name": "Forward Dive Straight",
+        "difficulty": "2.0"
+      },
+      {
+        "code": "102B",
+        "name": "Forward 1½ Somersaults Pike",
+        "difficulty": "2.2"
+      },
+      {
+        "code": "103C",
+        "name": "Forward 2½ Somersaults Tuck",
+        "difficulty": "2.7"
+      },
+      {
+        "code": "103B",
+        "name": "Forward 2½ Somersaults Pike",
+        "difficulty": "2.7"
+      },
+      {
+        "code": "201A",
+        "name": "Backward Dive Straight",
+        "difficulty": "2.0"
+      },
+      {
+        "code": "202C",
+        "name": "Backward 1 Somersaults Tuck",
+        "difficulty": "2.7"
+      },
+      {
+        "code": "203C",
+        "name": "Backward 1½ Somersaults Tuck",
+        "difficulty": "2.7"
+      },
+      {
+        "code": "301B",
+        "name": "Reverse Dive Pike",
+        "difficulty": "2.3"
+      },
+      {
+        "code": "401B",
+        "name": "Inward Dive Pike",
+        "difficulty": "2.0"
+      },
+      {
+        "code": "5122D",
+        "name": "Foward 1 Somersault 1 Twist Free",
+        "difficulty": "1.9"
+      },
+      {
+        "code": "5223D",
+        "name": "Back 1 Somersault 1½ Twist Free",
+        "difficulty": "2.3"
+      }
+    ]
+}
+  

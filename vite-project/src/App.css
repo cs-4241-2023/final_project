@@ -1,0 +1,103 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+.borderMet {
+  border-width:3px;
+  border-style:solid;
+  border-color: #a8ff90;
+  text-align: center;
+  padding: 4px;
+}
+
+.borderUnmet {
+  border-width:3px;
+  border-style:solid;
+  border-color: #fc5d5d;
+  text-align: center;
+  padding: 4px;
+}
+
+.borderDives {
+  border-width:3px;
+  border-style:solid;
+  border-color: #96cdfc;
+  text-align: center;
+  padding: 4px;
+}
+
+#sideBySide {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  padding: 10px;
+  
+}
+
+#tableSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+table {
+  table-layout:fixed;
+}
+
+th {
+  border: 5px solid black;
+  text-align: center;
+  padding: 10px;
+  border-color:#0e7fff;
+  background-color: #c9c9c8;
+}
+
+td {
+  border: 5px solid black;
+  text-align: center;
+  padding: 10px;
+  border-color:#50a5ff;
+  background-color: #dddddd;
+
+}
