@@ -1,0 +1,14 @@
+body {
+	margin: 0;
+	box-sizing: border-box;
+	min-height: 100vh;
+	min-width: 100vw;
+
+	display: flex;
+	align-items: center;
+}
+
+body > * {
+	margin: auto;
+	border: 1px black solid;
+}
