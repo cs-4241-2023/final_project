@@ -8,7 +8,9 @@ When registering, you will have the option to set your status as either a player
     Overall, this app showed us the challenge of creating a large scale React app without lots of prior experience. It would have been very helpful to know how to use routing, as this would allow us to use multiple pages. This would have eliminated the need for the extensive conditional rendering we do. In the future, we would explore other frontend frameworks that are not single-page oriented like React, or learn the conventions for how to use React for creating large applications.
 
 2. Site Navigation:
-    - You may register as new user 
+    - Login info:
+        - Username: admin
+        - Password: admin
     - Once logged in, a user will be have the option to navigate to one of three pages through our menu bar.
         1. Dive Entry: This is our landing page, and contains a form through which dives can be submitted to the database
         2. Progress: Once here, a user can evaluate their progress towards qualifcation for dive meets at varying levels

@@ -274,7 +274,7 @@ const handleSubmit = () => {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({bio, recruiting: currInfo.recruiting})
     })
-    .then(response => response.status === 200 ? alert('Profile updated successfully!') : alert('Error updating profile.'))
+    .then(alert('Profile updated successfully!'))
     .then(getUserInfo())
     .then(setEditing(false));
   }
