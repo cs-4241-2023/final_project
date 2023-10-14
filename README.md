@@ -36,3 +36,5 @@ Nathan: Worked on the puffle store and MongoDB connection. Nathan was responsibl
 
 # Project Video
 https://youtu.be/JWGFK8vbNx4
+
+[![Club Pigeon Video](https://img.youtube.com/vi/JWGFK8vbNx4/0.jpg)](https://www.youtube.com/watch?v=JWGFK8vbNx4 "Club Pigeon Video")
