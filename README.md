@@ -1,6 +1,6 @@
 # React + Vite
 
-Hosted Project at: https://a3-final-project.glitch.me/
+Hosted Project at: https://shark-app-rwrq8.ondigitalocean.app
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
