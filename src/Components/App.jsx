@@ -40,6 +40,10 @@ function App() {
   };
 
   useEffect(() => {
+    setName(`${settingsForm.firstName} ${settingsForm.lastName}`);
+  }, [settingsForm]);
+
+  useEffect(() => {
     setSearch(settingsForm.location);
   }, [settingsForm]);
 
@@ -92,7 +96,9 @@ function App() {
   return (
     <>
       <div className={currentClass}>
-        {weather && <Header weather={weather} currentTime={currentTime} />}
+        {weather && (
+          <Header weather={weather} currentTime={currentTime} name={name} />
+        )}
         <Sidebar settingsForm={settingsForm} />
         <Paperclip />
         <Schedule onAdd={addSchedule} ScheduleList={schedule} />

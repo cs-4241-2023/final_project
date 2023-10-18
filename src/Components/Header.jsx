@@ -35,7 +35,7 @@ function Header(props) {
     <>
       <div className="header">
         <div className="greeting-card">
-          <div className="greeting-text">Hello, User!</div>
+          <div className="greeting-text">Hello, {props.name}!</div>
           <div className="greeting-info">
             <p>{formattedDateWithSuffix}</p>
             <p>{props.currentTime}</p>
