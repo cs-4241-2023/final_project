@@ -10,4 +10,7 @@ Any additional instructions that might be needed to fully use your project (logi
 An outline of the technologies you used and how you used them.
 What challenges you faced in completing the project.
 What each group member was responsible for designing / developing.
+
+Camilo: Header component, App data logic, Weather API implementation, Settings component.
+
 A link to your project video.
