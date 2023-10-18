@@ -8,7 +8,6 @@ import Settings from "./Settings";
 
 function App() {
   const [weather, setWeather] = useState(null);
-  const [search, setSearch] = useState("Boston");
   const [name, setName] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
@@ -44,12 +43,12 @@ function App() {
   }, [settingsForm]);
 
   useEffect(() => {
-    setSearch(settingsForm.location);
+    if (settingsForm.location) {
+      fetchWeather(settingsForm.location);
+    } else {
+      fetchWeather("Boston");
+    }
   }, [settingsForm]);
-
-  useEffect(() => {
-    fetchWeather(search);
-  }, [search]);
 
   useEffect(() => {
     // Function to update the current time
