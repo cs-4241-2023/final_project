@@ -8,21 +8,21 @@ import Settings from "./Settings";
 
 function App() {
   const [weather, setWeather] = useState(null);
-  const [search, setSearch] = useState("New York");
+  const [search, setSearch] = useState("Boston");
+  const [name, setName] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
-  const [schedule, setSchedule] = useState([ ]);
+  const [schedule, setSchedule] = useState([]);
   const [settingsForm, setSettingsForm] = useState({
     firstName: "",
     lastName: "",
-    location: "",
+    location: "Boston",
     emailLink: "",
     calendarLink: "",
     newsLink: "",
     bitcoinLink: "",
     stocksLink: "",
   });
-
 
   const fetchWeather = async search => {
     try {
@@ -38,6 +38,10 @@ function App() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    setSearch(settingsForm.location);
+  }, [settingsForm]);
 
   useEffect(() => {
     fetchWeather(search);
@@ -83,16 +87,19 @@ function App() {
   const addSchedule = add => {
     const newSchedule = [...schedule, add];
     setSchedule(newSchedule);
-  }
+  };
 
   return (
     <>
       <div className={currentClass}>
         {weather && <Header weather={weather} currentTime={currentTime} />}
-        <Sidebar settingsForm={settingsForm}/>
+        <Sidebar settingsForm={settingsForm} />
         <Paperclip />
         <Schedule onAdd={addSchedule} ScheduleList={schedule} />
-        <Settings setSettingsForm={setSettingsForm} settingsForm={settingsForm}/>
+        <Settings
+          setSettingsForm={setSettingsForm}
+          settingsForm={settingsForm}
+        />
       </div>
     </>
   );
