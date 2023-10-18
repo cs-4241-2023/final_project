@@ -8,10 +8,11 @@ import Settings from "./Settings";
 
 function App() {
   const [weather, setWeather] = useState(null);
+  const [schedule, setSchedule] = useState([]);
   const [name, setName] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [currentClass, setCurrentClass] = useState("main");
-  const [schedule, setSchedule] = useState([]);
+  const [event, setEvent] = useState({ subject: "", time: "" });
   const [settingsForm, setSettingsForm] = useState({
     firstName: "",
     lastName: "",
@@ -40,18 +41,13 @@ function App() {
 
   useEffect(() => {
     setName(`${settingsForm.firstName} ${settingsForm.lastName}`);
+
+    settingsForm.location
+      ? fetchWeather(settingsForm.location)
+      : fetchWeather("Boston");
   }, [settingsForm]);
 
   useEffect(() => {
-    if (settingsForm.location) {
-      fetchWeather(settingsForm.location);
-    } else {
-      fetchWeather("Boston");
-    }
-  }, [settingsForm]);
-
-  useEffect(() => {
-    // Function to update the current time
     function updateClock() {
       const now = new Date();
       const hours = now.getHours() % 12 || 12;
@@ -62,13 +58,10 @@ function App() {
       setCurrentTime(currentTime);
     }
 
-    // Update the clock initially
     updateClock();
 
-    // Set an interval to update the clock every second
     const intervalId = setInterval(updateClock, 1000);
 
-    // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
 
@@ -87,10 +80,24 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const addSchedule = add => {
-    const newSchedule = [...schedule, add];
-    setSchedule(newSchedule);
+  const getEvents = async () => {
+    try {
+      const response = await fetch("/getEvents");
+      if (response.ok) {
+        const events = await response.json();
+        setSchedule(events);
+        console.log(events);
+      } else {
+        console.error("Failed to fetch events");
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
   };
+
+  useEffect(() => {
+    getEvents();
+  }, [event]);
 
   return (
     <>
@@ -100,7 +107,7 @@ function App() {
         )}
         <Sidebar settingsForm={settingsForm} />
         <Paperclip />
-        <Schedule onAdd={addSchedule} ScheduleList={schedule} />
+        {schedule && <Schedule onAdd={setEvent} ScheduleList={schedule} />}
         <Settings
           setSettingsForm={setSettingsForm}
           settingsForm={settingsForm}
