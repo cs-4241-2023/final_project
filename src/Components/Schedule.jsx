@@ -1,7 +1,7 @@
 import ScheduleItem from "./ScheduleItem";
+import React from "react";
 
 function Schedule(props) {
-
   // Sort the schedule based on the time
   function sortSchedule() {
     const sortedSchedule = props.ScheduleList.sort((a, b) => {
@@ -42,13 +42,38 @@ function Schedule(props) {
     document.getElementById("addForm").classList.remove("hidden");
   }
 
-  function submitAddForm(e) {
+  const submitAddForm = async e => {
     e.preventDefault();
     document.getElementById("addForm").classList.add("hidden");
     const subject = document.getElementById("subject").value;
     const time = document.getElementById("time").value;
-    props.onAdd({ "subject": subject, "time": time });
-  }
+
+    try {
+      const eventToAdd = {
+        subject: subject,
+        time: time,
+      };
+
+      console.log(eventToAdd);
+
+      const response = await fetch("/addEvent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventToAdd),
+      });
+
+      if (response.ok) {
+        props.onAdd(eventToAdd);
+        console.log(eventToAdd);
+      } else {
+        console.error("Failed to add event:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding event:", error);
+    }
+  };
 
   function closeAddForm(e) {
     e.preventDefault();
@@ -94,7 +119,11 @@ function Schedule(props) {
             <div id="addFormItems" className="AddFormInputs">
               <div>
                 <label for="subject">Event</label>
-                <input type="text" id="subject" className="ScheduleInputEvent" />
+                <input
+                  type="text"
+                  id="subject"
+                  className="ScheduleInputEvent"
+                />
               </div>
               <div>
                 <label for="time">Time</label>
@@ -102,13 +131,19 @@ function Schedule(props) {
               </div>
             </div>
             <div className="AddFormButtons">
-              <button type="submit" onClick={submitAddForm}>Add</button>
+              <button type="submit" onClick={submitAddForm}>
+                Add
+              </button>
               <button onClick={closeAddForm}>Cancel</button>
             </div>
           </form>
         </li>
         {sortSchedule(props.ScheduleList).map((item, index) => (
-          <ScheduleItem subject={item.subject} time={convertTime(item.time)}/>
+          <ScheduleItem
+            key={index}
+            subject={item.subject}
+            time={convertTime(item.time)}
+          />
         ))}
       </ul>
     </div>
