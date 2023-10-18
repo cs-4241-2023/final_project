@@ -50,7 +50,7 @@ Our initial attempts at hosting presented difficulties, particularly affecting t
 - Day/Night Background Switcher
 - App data logic
 
-#### Camillo Escobar
+#### Camilo Escobar
 
 - Header component
 - App data logic
