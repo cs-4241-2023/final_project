@@ -48,10 +48,14 @@ Our initial attempts at hosting presented difficulties, particularly affecting t
 
 - Microsoft Paperclip
 - Day/Night Background Switcher
+- App data logic
 
 #### Camillo Escobar
 
--
+- Header component
+- App data logic
+- Weather API implementation
+- Settings component
 
 #### Aarsh Z
 
