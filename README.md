@@ -1,6 +1,6 @@
 # Morning Dashboard
 
-Hosted Project at: https://shark-app-rwrq8.ondigitalocean.app
+Hosted Project at: https://https://shark-app-2-7z934.ondigitalocean.app
 
 Our Morning Dashboard application displays the most important information you'll need after waking up. We took inspiration from Windows XP when choosing the background and including Clippy! Once the app opens, Clippy slides into the main view and gives the user a fun CS fact!
 
