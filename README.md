@@ -63,4 +63,6 @@ Our initial attempts at hosting presented difficulties, particularly affecting t
 
 #### Nick Borrello
 
--
+- Sticky with schedule
+- Adding events to schedule
+- Hosting app to Digital Ocean
