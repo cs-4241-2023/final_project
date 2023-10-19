@@ -61,7 +61,7 @@ Selecting the most suitable method for routing to bookmarked websites presented 
 - Weather API implementation
 - Settings component
 
-#### Aarsh Z
+#### Aarsh Zadaphiya
 
 - Side Bar Component
 - Settings Page Component
