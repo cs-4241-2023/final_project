@@ -42,6 +42,10 @@ Implementing a dynamic background that changes from day to night presented some 
 
 Our initial attempts at hosting presented difficulties, particularly affecting the WeatherAPI calls and the Paperclip animation. Properly configuring the hosting environment was crucial to maintaining the functionality and user experience of our application.
 
+### Routing Challenges
+
+Selecting the most suitable method for routing to bookmarked websites presented a significant challenge due to the numerous available options, such as using React Router, hyperlinks, the window.location object, and the window.open() method. Ultimately, we settled on utilizing the window.open() method to fulfill the requirements of the web application.
+
 # Division of Software Components
 
 #### Amitai Erfanian
@@ -59,7 +63,10 @@ Our initial attempts at hosting presented difficulties, particularly affecting t
 
 #### Aarsh Z
 
--
+- Side Bar Component
+- Settings Page Component
+- Bookmark Functionality
+- UI Design and Project planning/management
 
 #### Nick Borrello
 
